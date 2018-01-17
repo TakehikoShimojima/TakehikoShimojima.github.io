@@ -1,0 +1,238 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Electric Imp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>impプロジェクトをはじめましょう - Electric Imp</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h3>Getting Started with the Electric Imp Platform（日本語）</h3>
+                <h1>最初のプログラム: ‘Hello, World’</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>新しい開発デバイスの LED を点灯させ、コアとなるハードウェア動作を見せる、 古典的な ‘Hello, World’ アプリケーション。このセクションではそれをやりたいと思います。お手持ちの Electric Imp impExplorer には WS2812 RGB LED が搭載されていますので、デバイスが “Hello, World!” と存在をアピールするのにそれを使ってみたいと思います。</p>
+
+                <p align="center"><img src="images/gsg_04_00.png" width="594"></p>
+
+                <h2 id="1.-power-up-the-impexplorer">1. impExplorer の電源を入れる</h2>
+
+                <p>お持ちの impExplorer に電源を入れてインターネットに接続します。まだ設定がされていない場合は<a href="blinkup.html">このセクション</a>にやり方が記載されています。</p>
+
+                <h2 id="2.-open-the-ide">2. IDE を開く</h2>
+
+                <p>この Getting Started Guide の前のセクションを終えていれば、IDEがコンピュータ上で表示されているかと思います。もし開いていない場合は <a href="https://ide.electricimp.com/" target="_blank">ide.electricimp.com </a>に接続して、このガイドの<a href="account.html">最初のパート</a>で作成したアカウントを使ってサインインしてください。</p>
+
+                <p><a href="ide.html">前のセクション</a>で作成した “Hello World” モデルを開いてください。‘Models’ タブを開き、マウスポインタを ‘Actions’列にもっていきコードのアイコン (<img src="images/gsg_10_03.png" width="16">) をクリックします。IDEのコード編集画面がワークスペース上に表示されます。</p>
+
+                <h2 id="3.-program-your-device">3. デバイスをプログラムする</h2>
+
+                <p>Squirrel（スクワール）と呼ばれる言語を使って、imp対応デバイスをプログラムします。この言語は C やそこから派生した多くの有名な言語、例えば C++, C# や JavaScript に似ています。Squirrelでアプリケーションを記述する方法を学ぶには<a href="https://electricimp.com/docs/squirrel/squirrelcrib/"> Squirrel Programming Guide</a>（英語）が手助けになるでしょう。</a><a href="https://electricimp.com/docs/">Electric Imp Developer Center</a> には 完全版の <a href="https://electricimp.com/docs/squirrel/">Squirrel リファレンス</a> （英語）があります。</p>
+
+                <p>すべての Squirrel プログラムには、最低でもいくつかの <a href="https://electricimp.com/docs/api/">imp API</a> が必要になります。これらはデバイスや、ボード上のimp、インターネット接続やデバイスに接続されたハードウェアなどをカプセル化するクラス群へのアクセスを提供するものです。</p>
+
+                <h3 id="the-code">コード</h3>
+
+                <p>この例では、我々の方でコードを記述しました。単に1行目から26行目までをワークスペースのデバイスコード画面にコピー＆ペーストしてください。前のセクションで記載済みのコードは削除して構いません。</p>
+
+                <script src="https://gist.github.com/SwitchScienceCode/1a6d4590f438e141655d67a0eed1bc77.js"></script>
+
+                <p>コードを実行するには ‘Run’ ボタンを押してください。この操作で IDE はコードの文法をチェックして、現在のモデルに属する全てのデバイスが受け取れるようにコードをパッケージ化します。そしてデバイスに再起動するように伝えます。imp 対応デバイスがインターネットに接続する都度、インストールすべき新規・更新用アプリケーションコードがないかをチェックします。存在する場合にはすでに持っているコードを置き換え、新しいソフトウェアを実行します。お手元の impExplorer の場合は、いま IDE にペーストしたプログラムが新しいコードになります。</p>
+
+                <p>コードを実行する操作によって、基板上の LED が点滅するだけでなく、IDE のログ画面に以下のようなメッセージがあることがお分かりになるでしょうか。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">[Status] Device Disconnecting
+[Status] Device Booting; 0.73% program storage used</code></pre>
+                </div>
+
+                <h3 id="what-the-code-does">このコードは何をしているのか</h3>
+
+                <p>このコードはとてもシンプルですが、imp対応デバイスがどのように動作するか、いくつか肝となる部分を示しています。2行目は、Electric Impの既製のコードライブラリをどのように呼び出すかを示しています。ここでは impExplorer 上の WS2812 RGB LED のハードウェアドライバがそれになります。ライブラリ群はあなたのコードを拡張するパワフルな手段を提供しますが、これについての詳細は<a href="libraries.html">後のセクション</a>で見ていきます。いまのところは、2行目で RGB LED（のドライバ）を意味するライブラリを組み込んでいる、と理解してください。22行目ではクラスをインスタンス化して、このいくつかのメソッドを13行目で呼び出しています。13行目の Set() では赤、緑、青の値を示す3つの数字の配列で色を指定し、draw() でLEDの色を更新しています。</p>
+
+                <p>クラス？インスタンス？メソッド？これらの用語に不慣れに感じるのであれば、それはあなたがオブジェクト指向プログラミングに触れていないからかもしれません。前に触れたように Squirrel はオブジェクト指向言語です。オブジェクトとは、データ（『プロパティ』と呼びます）とそのデータで機能する関数（『メソッド』と呼びます）を組み合わせたソフトウェアの構成です。クラスはテンプレートとなるオブジェクトで、主に作業用コピー（『インスタンス』）の作成に使用されます。</p>
+
+                <p>最初のオブジェクトは18行目の <a href="https://electricimp.com/docs/api/hardware/"><strong>hardware </strong></a>で、これは imp に接続しているデバイスハードウェアを制御するために使うオブジェクトです。<a href="https://electricimp.com/docs/api/hardware/"><strong>hardware</strong> </a>オブジェクトには imp の全てのピンと標準コンポーネントの通信バスに対するプロパティがあります。ここでは通信バスのプロパティの1つで impExplorer に2つあるSPIバスの片方である<a href="https://electricimp.com/docs/api/hardware/spi/"> <strong>spiAHSR</strong> </a>を使用します。我々は<a href="https://electricimp.com/docs/api/hardware/spi/"> <strong>spiAHSR</strong> </a>が<a href="https://electricimp.com/docs/api/hardware/"> <strong>hardware</strong> </a>プロパティの1つであることを知っています。なぜなら、これらは下記のようにピリオドでつながって示されているからです。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">hardware.spiAHSR</code></pre>
+                </div>
+
+                <p>この文は「<strong>hardware</strong> オブジェクトの <strong>spiAHSR</strong> プロパティをください」という意味になり、この関係を示すピリオドの使い方は『ドット構文』と呼ばれます。実は<a href="https://electricimp.com/docs/api/hardware/spi/"> <strong>spiAHSR</strong> </a>も自身のメソッドとプロパティを持つオブジェクトです。このメソッドの1つは<a href="https://electricimp.com/docs/api/hardware/spi/configure/"> <strong>configure()</strong> </a>で、19行目で SPI バスのパラメータ群を設定するのに使われています。</p>
+
+                <p><a href="https://electricimp.com/docs/api/hardware/spi/configure/"><strong>configure()</strong></a> という名称の後にあるカッコは、そのメソッドを呼び出す（実行する）ようデバイスに指示します。<strong>configure()</strong> メソッドは、デバイスに対しどのようにそのバスを使うかを指示する値を持っています。具体的には特定のモード (<em>MSB_FIRST</em>) で、特定の速度 (6000KB per second) といったように。<a href="https://electricimp.com/docs/api/hardware/spi/configure/"><strong>configure()</strong> </a>メソッドに渡すことができる全ての値の一覧は <a href="https://electricimp.com/docs/api/hardware/spi/configure/">imp API ドキュメント</a>（英語）に記載されています。</p>
+
+                <p>便宜上、我々は変数 <em>spi</em> を使用して <strong>hardware.spiAHSR</strong> オブジェクトを参照しました。しかし、19行目で（変数を使わない）完全なオブジェクトとして書くことも出来ました。23行目では「<strong>hardware</strong> オブジェクトのプロパティである <strong>pinH</strong> オブジェクトを設定しなさい」と実際にやっています。この行で imp004m の pinH を初期値 High (1) の digital output として設定しています。これにより ExplorerKit の power gating system を稼働させ、RGB LED に電源が行くように設定しています。（訳注：ExplorerKit 日本版の pinHには、センサーやLEDへの電源 On/Oﬀ を制御する役割があります。プログラムが必要なときにだけそれらに On することで、省電力を実現しています。）</p>
+
+                <p>5行目から7行目では、Squirrel の <code>&lt;-</code> オペレータを紹介しています。これは変数をグローバル変数としつつ、初期値を設定するのに使われています。グローバル変数に対する以後の値の設定には、18行目にあるような =  オペレータを使います。 <code>&lt;-</code> オペレータはまた、Squirrel の Key-Valueの対を構成するデータ構造である『テーブル』を生成して値を投入するのにも使われます。なぜこれら2つの状況で同じオペレータを使うのでしょうか？ それは、Squirrel がグローバル変数をシステムテーブルに格納するからです。</p>
+
+                <p>ここでは3つのグローバル変数を生成しています。<em>spi</em>, これは <strong>hardware.spiAHSR </strong>をあとで参照しやすくするため。<em>led</em>, これは WS2812 RGB LED を参照するため。そして <em>state</em>, これは LED が点灯しているかどうかを記録するためです。</p>
+
+                <p>14行目もまた重要です。ここでは imp API のメソッド<a href="https://electricimp.com/docs/api/imp/wakeup/"> <strong>imp.wakeup()</strong> </a>を呼び出しています。これはお分かりの通り「imp オブジェクトの <strong>wakeup()</strong> メソッド」を意味します。このメソッドは imp に対して最初のパラメータで定義された秒数が経過したあとで2つめのパラメータにある関数を実行するよう指示しています。 この例の場合、今実行中の flash() 関数をパラメータとして渡しています。</p>
+
+                <p>（カッコなしの）<em>flash</em> は関数への参照ですが、（カッコ付きの）<em>flash()</em> は今すぐにここで実行しなさいという指示となることを思い出してください。 実際26行目でループを開始している際に用いているように。</p>
+
+                <p>これがプログラムが imp ベースのデバイスにおいてループを実装する方法になります。他の組込みシステムと異なり、 imp は自身のオペレーティング・システムを持っており、コードが終わりに来たときや一時停止したときに、impOSは impCloud や IDE にコンタクトすることといった重要なシステムタスクを実行する機会を得ることができます。もし下記のような古典的なディレイでのループを使った場合、</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">local i = 0;
+do {
+    i++
+} while (i &lt; 10000);</code></pre>
+                </div>
+
+                <p>imp の単一実行スレッドを占有（ブロック）してしまい、impOS がループの間ハウスキーピング機能を実行することを妨げてしまいます。これは避けなければなりません。</p>
+
+                <p>このタイマーを使ってプログラムを再度アクティブにするやり方は、Electric Imp プラットフォームの <a href="https://electricimp.com/docs/resources/eventprogramming/">イベント駆動プログラミング手法</a>の一例です。コードはイベントによってトリガーが引かれたときにのみ実行されます。もし impOS</a> が作業を完了し、実行が必要なユーザコードがない場合、デバイスは電力を節約するためスピードを落としたり、スリープ状態に入ることさえあります。このイベント駆動の性質については、次のセクションで詳しく説明します。</p>
+
+                <p>いま入力したコードはインタラクティブではなく、プログラムの実行中に（外部から）LED を制御する方法はありません。次のセクションでは、インターネットを介して LED の状態を遠隔から変更するコードを実装します。</p>
+
+                <p><a href="agents.html">次のセクション </a>に進むか<a href="index.html"> 最初のセクションに戻る</a></p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">Getting Started ガイド（日本語版）</a>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ><a href="account.html">Electric Imp アカウントの作成</a></li>
+                            <li ><a href="blinkup.html">BlinkUp とインターネット接続設定</a></li>
+                            <li ><a href="ide.html">Electric Imp IDE の紹介</a></li>
+                            <li class="active"><a href="helloworld.html">最初のプログラム: ‘Hello, World’</a></li>
+                            <li ><a href="agents.html">エージェントと IoT アプリ</a></li>
+                            <li ><a href="libraries.html">コードライブラリの実行準備</a></li>  
+                            <li ><a href="nextsteps.html">次のステップ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <h5>免責条項:</h5>
+            <p>
+                <ul>
+                    <li>スイッチサイエンス、ソフトバンクおよびElectric Impは、オリジナル文書からの翻訳によるいかなる問題についても責任を負いかねます。</li>
+                    <li>Electric Impのテクノロジーとサービスは、<a href="https://electricimp.com/terms/" class="alert-link" target="_blank">https://electricimp.com/terms/</a> にあるElectric Imp利用規約に基づき利用されるものとします。</li>
+                </ul>
+            </p>
+            <h5>本ページの内容について:</h5>
+            <p>
+                <ul>
+                    <li>Electric Impのサイトにある<a href="https://electricimp.com/docs/gettingstarted/" class="alert-link">Getting Started with the Electric Imp Platform</a>を、Electric Imp社から許可を得て翻訳・掲載しています。</li>
+                    <li>Electric Imp公式の翻訳文章ではありません。</li>
+                    <li>imp004mモジュールに対応させる為、プログラムコードについては一部改変しています。</li>
+                </ul>
+            </p>
+        </div>
+        
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc. &copy; 2017 SoftBank Corp. &copy; 2011-2017 Electric Imp, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+

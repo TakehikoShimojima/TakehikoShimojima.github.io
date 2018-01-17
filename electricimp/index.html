@@ -1,0 +1,188 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Electric Imp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>impプロジェクトをはじめましょう - Electric Imp</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h3>Getting Started with the Electric Imp Platform（日本語）</h3>
+                <h1>impプロジェクトをはじめましょう</h1>
+            </div>
+            
+            <div class="col-sm-9 col-lg-8">
+        
+                <h1 class="visible-xs">impプロジェクトをはじめましょう</h1>
+        
+                <p>Electric Imp の Getting Started ガイドは Electric Imp プラットフォームとその主要な概念、開発環境、それらに加え、お手元の imp 対応開発デバイスの初期設定や、最終製品のユーザがオンライン接続する際に使う、 Electric Imp の特許技術 BlinkUp を理解いただくために作られました。</p>
+
+                <p>本ガイドは一連のセンサーやその他のコンポーネントを実装し、容易に拡張することが可能な Electric Imp の impExplorer Kitをベースに記述しています。このキットはシンプルで単体動作可能なプロジェクトの土台として、また Electric Imp のプラットフォームについて学び評価するための製品として設計されました。もしあなたが GPIO と（SPIなどの）ペリフェラルバスにフルにアクセスしたいのであれば、Breakout ボードをお使いいただく必要があります。</p>
+
+                <p align="center"><img src="images/gsg_01_02.png" width="404" /></p>
+                <p align="center">（訳注：米国版 impExplorer Kitのイラストです）</p>
+
+                <p>本ガイドで記述されている設定手順はElectric Impの全ての開発システムに適用可能ですが、下記製品については個別ガイドが用意されています。</p>
+
+                <ul>
+                    <li>
+                        <a href="https://electricimp.com/docs/hardware/fieldbusgateway/intro/">impAccelerator™ Fieldbus Gateway</a>（日本未発売）
+                    </li>
+                    <li>
+                        <a href="https://electricimp.com/docs/hardware/imp005-ez-eval/intro/">imp005-ez-eval（日本未発売）</a>
+                    </li>
+                    <li>
+                        <a href="https://electricimp.com/docs/gettingstarted/developer/account/">Standard Developer Kit（旧製品）</a>
+                    </li>
+                </ul>
+
+                <p>
+                    本ガイドに加えて、Electric Imp プラットフォームで使用しているプログラミング言語 Squirrel の主要機能について解説したハンディタイプの2ページの小冊子<a href="https://electricimp.com/docs/squirrel/squirrelsheet/"> Cheat Sheet </a>もあります。
+                </p>
+
+                <a href="account.html">Getting Started Guide（日本語版）本文に進む</a>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+
+                    <li class="open"><a href="index.html">Getting Started ガイド（日本語版）</a>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ><a href="account.html">Electric Imp アカウントの作成</a></li>
+                            <li ><a href="blinkup.html">BlinkUp とインターネット接続設定</a></li>
+                            <li ><a href="ide.html">Electric Imp IDE の紹介</a></li>
+                            <li ><a href="helloworld.html">最初のプログラム: ‘Hello, World’</a></li>
+                            <li ><a href="agents.html">エージェントと IoT アプリ</a></li>
+                            <li ><a href="libraries.html">コードライブラリの実行準備</a></li>  
+                            <li ><a href="nextsteps.html">次のステップ</a></li>
+                        </ul>
+                    </li>
+                </ul>                
+            </div>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <h5>免責条項:</h5>
+            <p>
+                <ul>
+                    <li>スイッチサイエンス、ソフトバンクおよびElectric Impは、オリジナル文書からの翻訳によるいかなる問題についても責任を負いかねます。</li>
+                    <li>Electric Impのテクノロジーとサービスは、<a href="https://electricimp.com/terms/" class="alert-link" target="_blank">https://electricimp.com/terms/</a> にあるElectric Imp利用規約に基づき利用されるものとします。</li>
+                </ul>
+            </p>
+            <h5>本ページの内容について:</h5>
+            <p>
+                <ul>
+                    <li>Electric Impのサイトにある<a href="https://electricimp.com/docs/gettingstarted/" class="alert-link">Getting Started with the Electric Imp Platform</a>を、Electric Imp社から許可を得て翻訳・掲載しています。</li>
+                    <li>Electric Imp公式の翻訳文章ではありません。</li>
+                    <li>imp004mモジュールに対応させる為、プログラムコードについては一部改変しています。</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc. &copy; 2017 SoftBank Corp. &copy; 2011-2017 Electric Imp, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+

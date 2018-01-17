@@ -1,0 +1,202 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Electric Imp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>impプロジェクトをはじめましょう - Electric Imp</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h3>Getting Started with the Electric Imp Platform（日本語）</h3>
+                <h1>Electric Imp アカウントを作成する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>あなたが Electric Imp の impExplore Kit をお持ちでない場合、オンラインのサプライヤから購入可能です。（訳注：日本版は<a href="https://plusstyle.jp/shopping/item?id=219" target="_blank"><u>こちら</u></a>から購入できます）。本キットに加えて必要となるアイテムは下記のとおりです。</p>
+
+                <ul>
+                    <li>
+                        開発デバイスを初期設定するための iOS または Android 端末（スマートフォンまたはタブレット）
+                    </li>
+                    <li>
+                        USB <strong>miniB</strong> ケーブルとコンピュータ、または USB ACアダプタ
+                    </li>
+                    <li>
+                        （オプション）単三電池３本 (キットには付属していません)
+                    </li>
+                </ul>
+
+                <p>それでは、次の手順に従って Electric Imp アカウントを作成していきましょう。</p>
+
+                <h2 id="1.-create-a-free-electric-imp-account">1. Electric Impアカウント（無料）の作成</h2>
+
+                <p>お持ちの Electric Imp impExplorer Kit をオンラインにする最初のステップは、Electric Imp アカウントの作成です。このアカウントは無料で取得でき、Electric Imp IDE（統合開発環境）へのアクセスが付与されます。IDE については本ガイドの <a href="ide.html">後のセクション</a>で説明しますが、開発デバイス上で実行するソフトウェアを開発する際に使います。 </p>
+
+                <p>アカウントの作成は最初の一度だけです。あなたのアカウントに複数の impExplorer や他の開発デバイスを追加し、IDE を通じてそれらすべてをプログラムしたりモニタすることが可能です。</p>
+
+                <p align="center">
+                    <img src="images/gsg_01_03.png" width="740" /><br>
+                    <em>Electric Imp IDE のサインインと登録画面</em>
+                </p>
+
+                <p>では、アカウントを作りましょう。<a href="https://ide.electricimp.com/login" target="_blank">登録ページ</a> に進み ‘Sign Up’セクションに Email アドレスを入れてください。ほどなく Email アドレスの確認メールが届きます。下記メール本文の ‘Confirm Your Email Address’ ボタンを押してください。</p>
+
+                <p align="center">
+                    <img src="images/gsg_01_04.png" width="740" /><br>
+                    <em>登録後に受け取る確認メール</em>
+                </p>
+
+                <p>ボタンを押した後、自動的に IDEログイン画面に進み、ユーザネームとパスワードを設定するよう要求されます。パスワードは8文字以上必要です。下記画面の ‘Set’ ボタンをクリックしてください。</p>
+
+                <p align="center" id="01-02">
+                    <img src="images/gsg_01_05.png" width="740" /><br>
+                    <em>アカウント作成画面</em>
+                </p>
+
+                <p>
+                    <a href="blinkup.html">次のセクション</a> では impExplorer のインターネット接続設定を行います。
+                </p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">Getting Started ガイド（日本語版）</a>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active"><a href="account.html">Electric Imp アカウントの作成</a></li>
+                            <li ><a href="blinkup.html">BlinkUp とインターネット接続設定</a></li>
+                            <li ><a href="ide.html">Electric Imp IDE の紹介</a></li>
+                            <li ><a href="helloworld.html">最初のプログラム: ‘Hello, World’</a></li>
+                            <li ><a href="agents.html">エージェントと IoT アプリ</a></li>
+                            <li ><a href="libraries.html">コードライブラリの実行準備</a></li>  
+                            <li ><a href="nextsteps.html">次のステップ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <h5>免責条項:</h5>
+            <p>
+                <ul>
+                    <li>スイッチサイエンス、ソフトバンクおよびElectric Impは、オリジナル文書からの翻訳によるいかなる問題についても責任を負いかねます。</li>
+                    <li>Electric Impのテクノロジーとサービスは、<a href="https://electricimp.com/terms/" class="alert-link" target="_blank">https://electricimp.com/terms/</a> にあるElectric Imp利用規約に基づき利用されるものとします。</li>
+                </ul>
+            </p>
+            <h5>本ページの内容について:</h5>
+            <p>
+                <ul>
+                    <li>Electric Impのサイトにある<a href="https://electricimp.com/docs/gettingstarted/" class="alert-link">Getting Started with the Electric Imp Platform</a>を、Electric Imp社から許可を得て翻訳・掲載しています。</li>
+                    <li>Electric Imp公式の翻訳文章ではありません。</li>
+                    <li>imp004mモジュールに対応させる為、プログラムコードについては一部改変しています。</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc. &copy; 2017 SoftBank Corp. &copy; 2011-2017 Electric Imp, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,238 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Electric Imp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>impプロジェクトをはじめましょう - Electric Imp</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h3>Getting Started with the Electric Imp Platform（日本語）</h3>
+                <h1>BlinkUp を使って impExplorer Kit を接続する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+		
+                <p>Getting Started Guide のこのパートでは、あなたの impExplorer のインターネット接続設定手順について見ていきます。ここから先に進むためには <a href="https://plusstyle.jp/shopping/item?id=219" target="_blank">impExplorer</a> と Electric Imp アカウントが必要です。もしアカウントを作成していなければ、今すぐ行ってください。アカウントの作成手順についてはガイドの<a href="account.html">ここ</a>を参照してください。</p>
+
+                <p>imp 対応開発デバイスの設定にはお使いの LAN への接続とあなたのアカウントへの紐付けが必要です。 Electric Imp の BlinkUpテクノロジーを使うことで両方の作業が同時に完了します。</p>
+
+                <h2 id="what-is-blinkup?">BlinkUp とは?</h2>
+
+                <p>もし今まで BlinkUp を使ったことがなければ、下記のビデオで、光を用いた独自の設定技術について確認することができます。ビデオでは異なるハードウェアを設定していますが、基本原理は impExplorer でも全く同じです。</p>
+
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Kcyqd2i_lvg" frameborder="0" allowfullscreen></iframe>
+                </div>
+
+                <p>BlinkUp がどう動作するか見た後は、早速あなたの impExplorer をオンラインにしましょう。</p>
+
+                <p><strong>※注</strong> 本ガイドは開発デバイスのみに適用されます。商用の imp 対応製品には専用の設定アプリがあり、その製造メーカーのガイドラインに従う必要があります。</p>
+
+                <h2 id="1.-download-the-electric-imp-app">1. Electric Imp アプリのダウンロード</h2>
+
+                <p>お持ちの Developer Kit を Electric Imp の無料アプリで設定します。お持ちの携帯デバイスに合わせ <a href="https://itunes.apple.com/jp/app/electric-imp/id547133856">iTunes App Store</a> か <a href="https://play.google.com/store/apps/details?id=com.electricimp.electricimp&hl=jp">Google Play</a> のいずれかからアプリをダウンロードしてください。</p>
+
+                <p>アプリをダウンロードしたら、早速起動してユーザネームとパスワードでサインインしてください。</p>
+
+                <h2 id="2.-select-your-wifi-network">2. WiFi ネットワークの選択</h2>
+
+                <p>Electric Imp アプリがお持ちの impExplorer の設定手順を案内します。まず、あなたのアカウントにログイン済みである必要があります— まだであればユーザネームとパスワードを入力し ‘Sign In’ をタップしてください。 次に、‘Configure a Device’ をタップしてWiFi ネットワークの詳細を入力します。Network Name (SSID) 欄は、お持ちのスマートフォンが接続しているネットワーク名に設定されているかもしれません。</p>
+
+                <p><strong>ヒント</strong> パスワード欄にある目の形をしたアイコンをタップすると、入力した文字列を見ることができます。</p>
+
+                <p>impExplorer 日本版に搭載されている imp004m WiFi 通信モジュールは <strong>2.4GHz 802.11n 規格を使用します</strong>。また旧規格である 2.4GHz 802.11b/g ネットワークとも互換性があります。もしあなたの 802.11n ネットワークが 5GHz バンドをお使いの場合は imp004m は<strong>接続することができません</strong>。もしあなたのスマートフォンが 5GHz ネットワークに接続していた場合、そのネットワークがアプリ画面に表示されるかもしれません。 この場合はネットワークを 2.4GHz で稼働させるか、ルーターが複数のネットワークをホスト出来る場合には別のゲストネットワークを作成することを検討してください。</p>
+
+                <p>ネットワーク要件の詳細については<a href="https://electricimp.com/docs/troubleshooting/networks/">こちら</a>（英語）をご覧ください。</p>
+
+                <p>impExplorer Kit 搭載の imp004m モジュールは WEP, WPA, WPA2 のセキュリティ規格を WiFi ネットワークが使っているかを判別します。あなたが必要なのは WiFi パスワードを入力することだけです。もしセキュリティのかかっていないネットワークに接続する場合には、パスワード欄を空欄にしてください。</p>
+
+                <p>imp は Enterprise レベルの WiFi 認証をサポートしていません。これは、カスタム SSID 、パスワードと一緒にユーザネームでのログインを要求するためです。もしそのような環境で開発デバイスを設定する場合には、他のコンシューマグレードのネットワークに接続して、ネットワーク名だけを入力するよう設定することもできます。</p>
+
+                <p><strong>ヒント</strong> ネットワーク設定を将来のために保存することもできます。これを呼び出すには、Network Name 欄の横にある三角形（<strong>▼</strong>）をタップして、保存済みネットワークの一覧を表示してください。 そして、使いたいネットワーク名をタップしてください。</p>
+
+                <h2 id="3.-perform-a-blinkup">3. BlinkUp の実行</h2>
+
+                <p>アプリ画面の ‘Next’ を押します。次の画面では impExplorer を mini USB ケーブルに接続します (USB AC アダプタか、コンピュータのUSBポートに接続します)。impExplorer Kit（日本版）では右側中央にステータス LED があり、購入直後は橙色に点滅し、一度使っていれば赤色に点滅します。</p>
+
+                <p align="center"><img src="images/gsg_02_10v2.png" width="640"></p>
+
+                <p>再び ‘Next’ を押し、‘Send BlinkUp’ ボタンをタップします。速やかにスマートフォンの画面を下に向け、impExplorer の表面に対し平行にかざします。この作業を行うまでに、画面上で3秒間のカウントダウンが行われます:</p>
+
+                <p align="center"><img src="images/gsg_02_12.png" width="740"><br>&nbsp;</p>
+
+                <p>BlinkUp は光を使いデータを送信するため、逆に特殊な照明条件、特に直射日光のようなとても明るい照明に影響されます。最も良い条件を得るために、下記のようにすることをおすすめします。</p>
+
+                <ul>
+                    <li>明るい光を遮ったり、日陰でBlinkUpを行う。</li>
+                    <li>この手順の間、デバイスを静止しておく。</li>
+                </ul>
+
+                <p style="color:#ff0000;"><strong>BlinkUp</strong> をするときは、画面を常にあなたとは反対向きにして、設定対象となるデバイスのみに光を向けるようにしてください。特に（光過敏性発作など）ストロボの光の影響を受けやすい医学的症状がある場合、画面を直接見ないでください。<strong>iOS</strong> アプリでは（マナーモード以外では）開始前と終わりに音が鳴るため、その間目をつぶっておくことも出来ます。また <strong>BlinkUp</strong> 完了後はバイブレーションが作動し振動します。</p>
+
+                <h2 id="4.-watch-the-impexplorer-connect">4. impExplorer の接続を見守る</h2>
+
+                <p>impExplorer は BlinkUp で受け取ったデータを使ってオンライン接続し、Electric Imp の impCloud にコンタクトします。その進行状況は impExplorer Kit の LED で表示されます。まず<a href="https://electricimp.com/docs/troubleshooting/blinkup/blinksuccess32/">緑色に3秒間点灯</a>し BlinkUp の成功を伝えます。 次に赤色と橙色が交互に点滅し、 impExplorer が接続中であることを示します。プロセスがうまく進んだら、LED は<a href="https://electricimp.com/docs/troubleshooting/blinkup/serverconnected/"> ゆっくりとした緑色の点滅となり</a>、 接続し利用可能なことを示します。</p>
+
+                <p align="center"><img src="images/gsg_02_11v2.png" width="678"></p>
+
+                <p>impExplorer がオンラインになる進行状況は Electric Imp アプリにも表示されます。設定操作に成功したら、アプリはデバイス固有の IDコード（これは Electric Imp IDE — プラットフォームの開発／デバイス管理コンソール上でリスト表示する際の初期値となります）を表示します。更にアプリはこのデバイスに対応するクラウドのエージェント URL も表示します。エージェントについてはこのガイドの<a href="agents.html">後のセクション</a>でより詳しく学びますが、現時点での次のステップは impExplorer を IDE 上で表示することです。これについては<a href="ide.html">次のセクション</a>で解説します。</p>
+
+                <p>LED が<a href="https://electricimp.com/docs/troubleshooting/blinkup/updatedownloading/">緑色に早く点滅</a>し、その後<a href="https://electricimp.com/docs/troubleshooting/blinkup/updateinstalling/">緑色が点灯</a>したままになることがあります。 これは impOS のアップデートが進行中であることを示します。もしこのプロセスを中断してしまっても気にしないでください。impOS はアップデートが何らかの理由で失敗しても文鎮化（Brick）しないスマートアップグレードプロセスを採用しています。imp004m は普通に起動しつづけ、次回の電源投入時にアップデートを再ダウンロードします。アップデートがインストールされた後、デバイスは再起動します ー LED が赤色に点滅し、次に橙色に、最後に接続したら緑色に点滅します。</p>
+
+                <p>もし LED が緑色に点滅しない場合、デバイス接続に問題が発生していることを示しています。この場合、下記 <a href="blinkup.html#troubleshooting">トラブルシューティング</a>をチェックしてください。</p>
+
+                <p><strong>ヒント</strong> 接続していても未接続でも、一定時間が経過すると電源を節約するため LED が消灯します。これは通常動作であり、デバイスは稼働しています。もし impExplorer を再設定したい場合には電源のオフ／オンを行ってください。LED が点灯している間、impExplorer は BlinkUp に対応可能です。</p>
+
+                <h3 id="troubleshooting">トラブルシューティング</h3>
+
+                <p>impExplorer Kit がインターネット接続に成功したことを LED が示すのと同様、接続がうまくいかなかったことも LED が示します。例えば、<a href="https://electricimp.com/docs/troubleshooting/blinkup/blinkunsuccess/">LED が赤く早く点滅</a>した場合、デバイスが BlinkUp 電文を受け取れなかったことを示します — スマートフォンの画面を離し過ぎたためかもしれません。</p>
+
+                <p>この事象が起こった場合は、再度 BlinkUp を試してください。LED を注視し、問題発生箇所を示す、色とその点滅のパターンを見つけてください。ここに <a href="https://electricimp.com/docs/troubleshooting/blinkup/#codes">imp の LED カラーコード一覧</a>（英語）があります。これで問題の原因を追跡し、接続の手助けとなる更なるアドバイスを得ることができます。また BlinkUp 動作確認済みの<a href="https://electricimp.com/docs/troubleshooting/devices/">モバイルデバイスの一覧</a> （英語）もあります。</p>
+
+                <p><a href="ide.html">次のセクション</a> に進むか <a href="index.html">最初のセクションに戻る</a></p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">Getting Started ガイド（日本語版）</a>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ><a href="account.html">Electric Imp アカウントの作成</a></li>
+                            <li class="active"><a href="blinkup.html">BlinkUp とインターネット接続設定</a></li>
+                            <li ><a href="ide.html">Electric Imp IDE の紹介</a></li>
+                            <li ><a href="helloworld.html">最初のプログラム: ‘Hello, World’</a></li>
+                            <li ><a href="agents.html">エージェントと IoT アプリ</a></li>
+                            <li ><a href="libraries.html">コードライブラリの実行準備</a></li>  
+                            <li ><a href="nextsteps.html">次のステップ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            <h5>免責条項:</h5>
+            <p>
+                <ul>
+                    <li>スイッチサイエンス、ソフトバンクおよびElectric Impは、オリジナル文書からの翻訳によるいかなる問題についても責任を負いかねます。</li>
+                    <li>Electric Impのテクノロジーとサービスは、<a href="https://electricimp.com/terms/" class="alert-link" target="_blank">https://electricimp.com/terms/</a> にあるElectric Imp利用規約に基づき利用されるものとします。</li>
+                </ul>
+            </p>
+            <h5>本ページの内容について:</h5>
+            <p>
+                <ul>
+                    <li>Electric Impのサイトにある<a href="https://electricimp.com/docs/gettingstarted/" class="alert-link">Getting Started with the Electric Imp Platform</a>を、Electric Imp社から許可を得て翻訳・掲載しています。</li>
+                    <li>Electric Imp公式の翻訳文章ではありません。</li>
+                    <li>imp004mモジュールに対応させる為、プログラムコードについては一部改変しています。</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc. &copy; 2017 SoftBank Corp. &copy; 2011-2017 Electric Imp, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+

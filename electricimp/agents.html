@@ -1,0 +1,289 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Electric Imp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>impプロジェクトをはじめましょう - Electric Imp</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h3>Getting Started with the Electric Imp Platform（日本語）</h3>
+                <h1>エージェントと IoT アプリ</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>目の前にあるお持ちのデバイスを制御することはうまくいきました。ですが、Electric Impプラットフォームはそもそも<em><u>コネクテッド</u></em>・デバイスのためのものです。ならば、 どのようにしてデバイスを遠隔制御して、このプラットフォームの利点を享受することができるのでしょうか？そのためには、Electric Imp のエージェント技術を使う必要があります。</p>
+
+                <p>エージェントはデバイスごとに用意されるマイクロサーバーで、デバイスとインターネット接続されたリソースの仲介者（Mediator）として動作します。エージェントを利用して、モバイルアプリから命令を受け取り、その命令をデバイスに中継することができます。この応答として、デバイスはエージェントに天気予報のようなオンライン・サービスからの情報を取得するよう依頼するかもしれません。エージェントは外部へのリクエストを処理し、データが返却されると適切な部分のみをデバイスに送信します。これにより、特定のアイコンが画面に表示されたり、（impExplorer 自身にあるような）RGB LED を特定の色で点灯させるかもしれません。</p>
+
+                <p align="center"><img src="images/gsg_05_02.png" width="740"><br><i>エージェントを使って、ブラウザからデバイスを制御することができます。</i></p>
+
+                <p>エージェントは継続的に実行します。デバイスが持ち主の部屋から別の部屋に移動した時や、バッテリ電源を節約するため省電力モードに入った時など、一時的に切断された場合においてもデバイスをアクセス可能な状態にすることができます。</p>
+
+                <p>エージェントはサーバベースであるため、デバイスよりも高速な処理能力にアクセスすることが可能です。これにより、複雑な計算はエージェントにオフロードさせ、デバイス自身が得意とする能力、すなわち入出力制御にフォーカスさせることができます。これはデバイスがバッテリ駆動のときに特に重要になります。</p>
+
+                <p>最後に、セキュリティについて。エージェントのおかげで、デバイス自身はインターネット上で見える存在である必要がなくなり、その結果攻撃にさらされることが無くなります。実際、LAN 上であってもデバイスと直接通信することは不可能です。すべての通信はエージェント経由でルーティングする必要があります。もしエージェントになにかが起こっても、デバイスは引き続き動作を続けます。エージェント同士は互いに遮断されています。</p>
+
+                <p>もちろん、エージェントとデバイスの一方 がクラウド、他方が家庭内や仕事場といったように離れている場合、両者を互いに通信させる包括的なメッセージングシステムが必要です。このチュートリアルでは、このメカニズムとエージェントの操作方法について説明し、 <a href="helloworld.html">前のセクション</a>の “Hello, World” の LED を遠隔制御することを可能にしてみます。</p>
+
+                <h2 id="1.-power-up-the-impexplorer">1. impExplorer の電源を入れる</h2>
+
+                <p>お持ちの impExplorer に電源を入れてインターネットに接続します。まだ設定がされていない場合は<a href="blinkup.html">このセクション</a>にやり方が記載されています。</p>
+
+                <h2 id="2.-open-the-ide">2. IDE を開く</h2>
+
+                <p>この Getting Started Guide の前のセクションを終えていれば、IDE がコンピュータ上で表示されているかと思います。もし開いていない場合は <a href="https://ide.electricimp.com/" target="_blank">ide.electricimp.com</a> に接続して、このガイドの<a href="account.html">最初のパート</a>で作成したアカウントを使ってサインインしてください。</p>
+
+                <p><a href="ide.html">前のセクション</a>で作成した “Hello World” モデルを開いてください。‘Models’ タブを開き、マウスポインタを‘Actions’ 列にもっていきコードのアイコン (<img src="images/gsg_10_03.png" width="16">) をクリックします。</p>
+
+                <h2 id="3.-program-your-device-and-its-agent">3. デバイスとエージェントのプログラム</h2>
+
+                <p>例を実行するために必要なコードは以下の通りです。今回は2つのパートがあります。前回同様デバイスのためのコードがあり、さらに、エージェントのためのコードもあります。以下2つのコードリストをコピーして、それぞれ IDE ワークスペースの正しいパートに貼り付け、既存のコードを上書きしたことを確認してください。もし IDE のどちらの部分にどちらを貼り付けていいかわからない場合は、<a href="ide.html">IDE のセクション</a>に戻り思い出してください。</p>
+
+                <h3 id="device-code">デバイスコード</h3>
+
+                <script src="https://gist.github.com/SwitchScienceCode/35520c2db15e52170fd7f9546e5e8cbf.js?file=ledapi.device.nut"></script>
+
+                <h3 id="agent-code">エージェントコード</h3>
+                
+                <script src="https://gist.github.com/SwitchScienceCode/35520c2db15e52170fd7f9546e5e8cbf.js?file=ledapi.agent.nut"></script>
+
+                <h3 id="what-the-code-does">このコードは何をしているのか</h3>
+
+                <p>まずはデバイスコードから見ていきましょう。重要な行は最後の1行です。それ以外のコードは<a href="helloworld.html">前のセクション</a>でやったように、単に LED を点灯するかどうかを設定しているだけです。ただ今回は、LED のオン/オフを切り替えるループを実行せずに、エージェントからのメッセージに反応して状態を変更するだけです。コードの最後の行は、エージェントからメッセージ文字列 “set.led” を受け取るたびに、<em>setLedState()</em> 関数に実装されている LED を切り替えるコードを実行するようデバイスに指示しています。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">agent.on(&#34;set.led&#34;, setLedState);</code></pre>
+                </div>
+
+                <p>これは、Electric Imp プラットフォームのイベント駆動型の別のプログラム例になります。デバイスがこのコード行に到達すると、エージェントからの “set.led” メッセージの受診時に <em>setLedState()</em> 関数のトリガーを引く必要があるという事実が記録されます。デバイスは <em>setLedState()</em> 関数を呼び出すためのメッセージが届くまで、それ以上ユーザコードを実行しません。このメソッドは、呼び出される関数への参照を記憶するだけなので、関数名の後ろにはカッコをつけません。（カッコをつけると関数が即座に呼び出され、関数に返された値をメソッドに戻すことになります。）</p>
+
+                <p>これは強力なアプローチです。これにより、プログラマーであるあなたが定常的に着信メッセージをチェックし、メッセージがあった時にそれが関心のあるメッセージかどうかを確認する手間を省きます。impOS があなたのために全てを行い、正しいレスポンスコードを返す作業を上記1行のコードで行います。</p>
+
+                <p>では、どのようにエージェントはデバイスにメッセージを送るのでしょうか？エージェントコードの15行目をご覧ください。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">device.send(&#34;set.led&#34;, ledState);</code></pre>
+                </div>
+
+                <p>この行では “set.led” メッセージ <a href="https://electricimp.com/docs/api/device/send/">（<strong>send()</strong></a> メソッドの最初のパラメータ）をそのエージェントに対応するデバイス（<a href="https://electricimp.com/docs/api/device/"><strong>device</strong></a> オブジェクトとして示されています）に送信し、変数  <em>ledState</em> に格納されたデータ値とともにパッケージ化します。この時どのように <em>ledState</em> に値をセットされるか見てみましょう。まずは impExplorer がこのメッセージにどう対応するかを見てみます。デバイスコードの9行目から12行目を見てください。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">function setLedState(state) {
+    local color = state ? [255,0,0] : [0,0,0];
+    led.set(0, color).draw();
+}</code></pre>
+                </div>
+
+                <p>このコードでは、<em>state</em> 変数（<code>true</code> か <code>false</code> のいずれか）の値によって LED の表示色を設定します。値が <code>true</code> なら RGB の色を配列 255,0,0 に、そうでなければ 0,0,0 にします。11行目では LED の色を <em>color</em> 変数で指定された値にセットして、LED をその色で点灯させます。</p>
+
+                <p><a href="https://electricimp.com/docs/api/device/send/"><strong>device.send()</strong></a> と <a href="https://electricimp.com/docs/api/agent/on/"><strong>agent.on()</strong></a> の組み合わせには、impOS が特定名のメッセージに対し呼び出すように指示される関数に自動転送する単一のデータ変数が含まれます。ここでは、データは <em>setLedState()</em> 関数のローカル変数 <em>state</em> がそれにあたります。</p>
+
+                <p>エージェントコードの27行目には、イベント駆動プログラミングの2つ目の例が示されています。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">http.onrequest(requestHandler);</code></pre>
+                </div>
+
+                <p><a href="https://electricimp.com/docs/api/agent/on/"><strong>agent.on()</strong></a> に似て <a href="https://electricimp.com/docs/api/http/onrequest/"><strong>http.onrequest()</strong></a> は特定のイベントが起こったときにエージェントが呼び出す関数を登録しています。この例では HTTP リクエストが Web ブラウザから届いた場合です。そのようなリクエストがあると、エージェントは関数 <em>requestHandler()</em> を実行します。データはパッケージ化され、関数にパラメータとして渡します。（パラメータの1つは）<a href="https://electricimp.com/docs/api/httprequest/"><strong>httprequest</strong> </a>オブジェクトで、入ってくるリクエストを記録します。（もう1つは）自動生成される<a href="https://electricimp.com/docs/api/httpresponse/"><strong>httpresponse</strong> </a>オブジェクトで、リクエストの到達やエラーが起こった場合は適切な警告（22行目参照）をエージェントが伝えるために使われます。</p>
+
+                <p><a href="https://electricimp.com/docs/api/httprequest/"><strong>httprequest</strong> </a>と<a href="https://electricimp.com/docs/api/httpresponse/"> <strong>httpresponse</strong></a> はともに imp API によって定義されたオブジェクトです。<em>requestHandler()</em> 関数を見ると<a href="https://electricimp.com/docs/api/httprequest/"> <strong>httprequest</strong> </a>の <em>query</em> プロパティを調べ、応答する必要があるかどうかを確認しています。クエリの中に <em>led</em> プロパティが含まれると、コードはその値を読み取りローカル変数 <em>ledState</em> にセットします。そして上で見たとおりデバイスにその値を送ります。より一般的には、  <em>query</em> プロパティには当初の HTTP リクエストの一部として送られる URL エンコードされた Key と値の全てが含まれています。これらの値には、ドット構文を使ったクエリのプロパティとして表現される Key を通じてアクセスします。</p>
+
+                <p>クエリに <em>led</em> が含まれているかに関係なく — 関心があったりなかったりする多くのパラメータが含まれているかもしれませんが — <a href="https://electricimp.com/docs/api/httpresponse/"><strong>httpresponse</strong></a> オブジェクトを使って HTTP 標準のレスポンスコード 200 をブラウザに返します。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">response.send(200, &#34;OK&#34;);</code></pre>
+                </div>
+
+                <h2 id="4.-test-the-application">4. アプリケーションのテスト</h2>
+
+                <p>IDE の ‘Build and Run’ ボタンをクリックします。これによりエージェントコードとデバイスコードを Electric Imp の impCloud に保存して、両方のパートをインストールします。もしコードをペーストせずに、 タイピングを間違えて入力した場合、IDE は誤った構文の問題としてエラーフラグを立てます。もしエラーが実行時に検知された場合は、ログの中で報告されます。</p>
+
+                <p>デバイスが起動すると、ログには下記のような表示がされます。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">[Status] Downloading new code; 0.73% program storage used</code></pre>
+                </div>
+
+                <p>エージェントが起動すると、下記のようなログが記録されます。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">[Agent] Turn LED On: https://agent.electricimp.com/1234abcd?led=1
+[Agent] Turn LED Off: https://agent.electricimp.com/1234abcd?led=0</code></pre>
+                </div>
+
+                <p>これらはエージェントコードの最初の2行に対する応答になります。これらは imp API 関数 <a href="https://electricimp.com/docs/api/http/agenturl/"><strong>http.agenturl()</strong></a> を使ったもので、エージェントのインターネットアドレスを返します。ここのエージェント URL は固有のものなので、上の行の最後の / と ? の間の文字列は異なります。ログ画面から最初の URL をコピーしましょう。下記のような行です。</p>
+
+                <div class="highlight">
+                    <pre><code class="language-text" data-lang="text">https://agent.electricimp.com/1234abcd?led=1</code></pre>
+                </div>
+
+                <p>では、新しいブラウザウィンドウのアドレスフィールドに貼り付けてください。キーボードからリターンキーを押すと、、、LED が点灯するはずです。このガイドからではなく、IDE からコピーしていることを確認ください。</p>
+
+                <p>単純なものですが、imp 対応デバイスをインターネットに接続し、遠隔操作をしました。最後の数字を0にして、リターンキーを押すと、今度は LED が消灯します。この URL を使うと、 職場のコンピュータ、タブレット、携帯電話、インターネットカフェのコンピュータ、他人のデバイスでさえも、 インターネット接続されたブラウザ搭載のデバイスから LED を制御することができます。</p>
+
+                <h2 id="where-next?">次は?</h2>
+
+                <p>今見てきたものは単純な例です。適切なコードを使うと、ディスプレイ、センサー、制御モーターなどのデバイスに関連付けた複数の命令を組み合わせた、より複雑な HTTP リクエストをエージェントに解釈させることができます。モバイルアプリがデバイスとやり取りできるように、エージェントがサービスを提供する複雑な API を書くことができます。</p>
+
+                <p>これで、Electric Imp アプリケーションの基本的な構造を理解しました。あなたが外に出て自身のデバイスを作り、生活の役に立つようなコードを書く準備ができたわけです。IDE のコードライブラリを使うと、すでに書かれた沢山のソフトウェアを活用することができます。<a href="libraries.html">次のセクション</a>で見ていきましょう。</p>
+
+                <h2 id="further-reading">参考文献</h2>
+
+                <ul>
+                    <li>
+                        <a href="https://electricimp.com/docs/resources/eventprogramming/">Event-Driven Programming</a> — imp のソフトウェア開発のアプローチを理解する（英語）
+                    </li>
+                    <li>
+                        <a href="https://electricimp.com/docs/resources/interactive/">The Interactive Imp</a> — モバイルアプリ、エージェントとデバイス間の通信を管理する（英語）
+                    </li>
+                </ul>
+
+                <p><a href="libraries.html">次のセクション</a> に進むか <a href="index.html">最初のセクションに戻る</a></p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">Getting Started ガイド（日本語版）</a>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ><a href="account.html">Electric Imp アカウントの作成</a></li>
+                            <li ><a href="blinkup.html">BlinkUp とインターネット接続設定</a></li>
+                            <li ><a href="ide.html">Electric Imp IDE の紹介</a></li>
+                            <li ><a href="helloworld.html">最初のプログラム: ‘Hello, World’</a></li>
+                            <li class="active"><a href="agents.html">エージェントと IoT アプリ</a></li>
+                            <li ><a href="libraries.html">コードライブラリの実行準備</a></li>  
+                            <li ><a href="nextsteps.html">次のステップ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <h5>免責条項:</h5>
+            <p>
+                <ul>
+                    <li>スイッチサイエンス、ソフトバンクおよびElectric Impは、オリジナル文書からの翻訳によるいかなる問題についても責任を負いかねます。</li>
+                    <li>Electric Impのテクノロジーとサービスは、<a href="https://electricimp.com/terms/" class="alert-link" target="_blank">https://electricimp.com/terms/</a> にあるElectric Imp利用規約に基づき利用されるものとします。</li>
+                </ul>
+            </p>
+            <h5>本ページの内容について:</h5>
+            <p>
+                <ul>
+                    <li>Electric Impのサイトにある<a href="https://electricimp.com/docs/gettingstarted/" class="alert-link">Getting Started with the Electric Imp Platform</a>を、Electric Imp社から許可を得て翻訳・掲載しています。</li>
+                    <li>Electric Imp公式の翻訳文章ではありません。</li>
+                    <li>imp004mモジュールに対応させる為、プログラムコードについては一部改変しています。</li>
+                </ul>
+            </p>
+        </div>
+        
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc. &copy; 2017 SoftBank Corp. &copy; 2011-2017 Electric Imp, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+

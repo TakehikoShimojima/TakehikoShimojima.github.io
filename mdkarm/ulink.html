@@ -1,0 +1,359 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="MDK-ARMアカデミックライセンス">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ULINKについて - スイッチサイエンス</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 20px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>ULINKについて</h1>
+            </div>
+            
+            <div class="col-sm-9 col-lg-8">
+                
+                <p>ULINKデバッグアダプタはパソコンのUSBポートとターゲットシステム（JTAGかそれに類するデバッグインタフェース）を接続し、ターゲットハードウェア上でデバッグやトレース、組込みプログラムの解析のためのプログラムを走らせます。</p>
+
+                <h2 id="matrix">各デバッグアダプタ比較</h2>
+                
+                <div>
+                    <table id="spec" class="table table-bordered" style="font-size:0.9em; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>ULINK<em>pro</em></th>
+                                <th>ULINK<em>pro</em> D</th>
+                                <th>ULINK2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">型番</th>
+                                <td><a href="https://www.switch-science.com/catalog/2913/" target="_blank">ULINK-PRO</a></td>
+                                <td><a href="https://www.switch-science.com/catalog/2914/" target="_blank">ULINKPRO-D</a></td>
+                                <td><a href="https://www.switch-science.com/catalog/2912/" target="_blank">ULINK2</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">RAMブレークポイント</th>
+                                <td>無制限</td>
+                                <td>無制限</td>
+                                <td>無制限</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ROMブレークポイント<br />（ARM7/9）</th>
+                                <td>最大2</td>
+                                <td>最大2</td>
+                                <td>最大2</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ROMブレークポイント<br />（Cortex-M）</th>
+                                <td>最大6</td>
+                                <td>最大6</td>
+                                <td>最大6</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">実行ブレークポイント<br />（実行中に設定）</th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">アクセスブレークポイント<br />（ARM7/9）</th>
+                                <td>最大2<br />（R/Wのみ、値あり）</td>
+                                <td>最大2<br />（R/Wのみ、値あり）</td>
+                                <td>最大2<br />（R/Wのみ、値あり）</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">アクセスブレークポイント<br />（Cortex-M）</th>
+                                <td>最大4<br />（値あり）</td>
+                                <td>最大4<br />（値あり）</td>
+                                <td>最大4<br />（値あり）</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <strong>
+                                        <span style="font-size: 150%;">デバッグサポート</span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">リアルタイムエージェント<br />（ARM7/9）</th>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">シリアルワイヤデバッグ<br />（Cortex-M）</th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">データトレース（Cortex-M with SWO）<br /><span style="font-size: 80%;">（シリアルワイヤビューワ）</span></th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">命令トレース（Cortex-M with ETM）<br /><span style="font-size: 80%;"> （エンベデッドトレースマクロセル - ETM）</span></th>
+                                <td>◯</td>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <strong>
+                                        <span style="font-size: 150%;">性能</span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">JTAGクロック</th>
+                                <td>&le; 50MHz</td>
+                                <td>&le; 50MHz</td>
+                                <td>&le; 10MHz</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">メモリR/W</th>
+                                <td>&asymp; 1MB/s</td>
+                                <td>&asymp; 1MB/s</td>
+                                <td>&asymp; 28KB/s</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">フラッシュR/W</th>
+                                <td>32KB/s</td>
+                                <td>32KB/s</td>
+                                <td>&asymp; 25KB/s</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">データトレースストリーミング</th>
+                                <td>800Mb/s</td>
+                                <td>100Mb/s</td>
+                                <td>1Mb/s</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <strong>
+                                        <span style="font-size: 150%;">コネクタ</span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">10ピン（0.05インチ）<br />
+                                    <span style="font-size: 80%;">（Cortexデバッグコネクタ）</span>
+                                </th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">20ピン（0.10インチ）<br />
+                                    <span style="font-size: 80%;"> （ARM標準JTAGコネクタ）</span>
+                                </th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">20ピン（0.05インチ）<br />
+                                    <span style="font-size: 80%;">（Cortexデバッグ+ETMコネクタ）</span>
+                                </th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>&times;</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">16ピン（0.10インチ）<br />
+                                    <span style="font-size: 80%;">（Infineon OCDSコネクタ）</span>
+                                </th>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">14ピン（0.10インチ）<br />
+                                    <span style="font-size: 80%;">（ST &micro;PSDコネクタ）</span>
+                                </th>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">I/O電圧範囲</th>
+                                <td>1.2V - 3.3V</td>
+                                <td>1.2V - 3.3V</td>
+                                <td>2.7V - 5.5V</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <strong>
+                                        <span style="font-size: 150%;">サポートされているデバイスファミリ</span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">XC800, &micro;PSD,<br />XC166/XE166/XC2000</th>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">LPC950（8051）</th>
+                                <td>&times;</td>
+                                <td>&times;</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ARM7, 9</th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cortex-M</th>
+                                <td>◯</td>
+                                <td>◯</td>
+                                <td>◯</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <div>
+                        <h2>関連商品</h2>
+                        <ul>
+                            <li>
+                                <a href="index.html">MDK-ARM</a>
+                            </li>
+                            <li>
+                                <a href="https://www.switch-science.com/catalog/list/652/" target="_blank">ULINKアクセサリ</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="index.html">MDK-ARMについて</a></li>
+                    <li><a href="edu.html">MDK-ARMアカデミックライセンス</a></li>
+                    <li class="open"><a href="ulink.html">ULINKについて</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2017 Switch Scinece, inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
