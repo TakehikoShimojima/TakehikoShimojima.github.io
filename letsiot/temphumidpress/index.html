@@ -83,28 +83,30 @@
 
                 <h2>全体の構成</h2>
                 <p><img src="../images/temphumidpress/struct.jpg" width="720px"></p>
+                <p>温度、湿度、気圧センサをマイコンで制御し、測定したデータをクラウドに送って記録し、グラフ化してデータが確認できるようにします。</p>
+                <p>センサ端末の要件は用途によって様々です。今回は家や学校、オフィスなどで気象データを測定することを想定し、設置場所の制約の少ないワイアレスなセンサ端末にします。そのために、端末を電池で動作させ、測定データをWi-Fi経由でクラウドに送信するようにします。</p>
+                <p>また、気象データとしての温度や湿度はそれ程急激には変化しないので、データは5分毎に測定することにします。</p>
+                <p>クラウドサービスとしては、簡単にIoTデータの可視化ができる「<a href="https://ambidata.io">Ambient</a>」を使い、データを記録し、グラフ化します。</p>
+
+                <h2>センサ端末のハードウェア</h2>
+                <p>温度、湿度、気圧センサにはいろいろな製品があります。<a href="https://www.switch-science.com/">スイッチサイエンスのサイト</a>で「温度センサ」で検索すると、温度だけを測定するもの、温度と湿度を測定するもの、温度、湿度、気圧を測定するものなど144製品がヒットします。今回は気象データの測定を想定し、温度、湿度、気圧が測定できる「BME280センサモジュール」を使います。</p>
+                <p>センサの制御にはWi-Fiモジュールが搭載されたマイコンボード「ESPr Developer」を使います。Wi-Fiは家やオフィスなどで幅広く使われており、特別なゲートウェイがなくても簡単にデータをクラウドに送信できるところがメリットです。</p>
+                <p>センサ端末に必要な部品をまとめました。</p>
 
                 <div>
-                    <table id="spec" class="table table-bordered" style="font-size:0.9em; width: 100%;">
+                    <table class="table table-bordered" style="font-size:0.9em;">
                         <thead>
                             <tr>
-                                <th width="20%">&nbsp;</th>
-                                <th width="16%">Professional</th>
-                                <th width="16%">Plus</th>
-                                <th width="16%">Essential</th>
-                                <th width="16%">デバイス限定<br /> （Cortex-M限定）</th>
-                                <th width="16%">Lite（評価版）</th>
+                                <th>部品</th><th>個数</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                            <th scope="row">対応プロセッサ</th>
-                            <td>Cortex-Mシリーズ<br />Cortex-R4<br />SecurCore<br />ARM7、ARM9</td>
-                            <td>Cortex-Mシリーズ<br />Cortex-R4<br />ARM7、ARM9</td>
-                            <td>Cortex-Mシリーズ</td>
-                            <td>Spansion版<br /> Toshiba版</td>
-                            <td>Cortex-Mシリーズ<br />Cortex-R4<br />ARM7、ARM9</td>
-                            </tr>
+                                <td><a href="https://www.switch-science.com/catalog/2236/">BME280搭載　温湿度・気圧センサモジュール</a></td><td>1個</td>
+                                <td><a href="https://www.switch-science.com/catalog/2500/">ESPr® Developer (ESP-WROOM-02開発ボード)</a></td><td>1個</td>
+                                <td><a href="https://www.switch-science.com/catalog/1280/">細いピンヘッダ 20P</a></td><td>1個</td>
+                                <td><a href="https://www.switch-science.com/catalog/313/">普通のブレッドボード</a></td><td>1個</td>
+                                <td><a href="https://www.switch-science.com/catalog/314/">固いジャンパワイヤ　(ブレッドボード用)</a></td><td>1個</td>
                         </tbody>
                     </table>
                 </div>
