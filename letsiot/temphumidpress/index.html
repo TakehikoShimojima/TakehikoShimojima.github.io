@@ -108,6 +108,30 @@
                     </table>
                 </div>
 
+                <p>温度・湿度・気圧センサのBME280はI2CとSPIという二つのインタフェースに対応しています。マイコンに接続するのがBME280だけであれば、I2C、SPIのどちらを選択しても構いません。今回はSPIインタフェースで接続することにします。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th colspan="2">ESPr Developer</th><th>BME280モジュール</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>MISO</td><td>IO12</td><td>SDO</td></tr>
+                            <tr><td>CLK</td><td>IO14</td><td>SCK</td></tr>
+                            <tr><td>MOSI</td><td>IO13</td><td>SDI</td></tr>
+                            <tr><td>CS</td><td>IO15</td><td>CSB</td></tr>
+                            <tr><td colspan="2">GND</td><td>GND</td></tr>
+                            <tr><td colspan="2">+3.3V</td><td>Vcore</td></tr>
+                            <tr><td colspan="2">+3.3V</td><td>Vio</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>回路図は次のようになります。</p>
+                <p><img src="../images/temphumidpress/schema.jpg" width="720px"></p>
+                <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュールにはまっすぐなピンヘッダが付属していて、これで問題はありませんが、今回はモジュールをブレッドボードから離して設置したかったので、L字型のピンヘッダを使いました。</p>
+                <p><img src="../images/temphumidpress/hw.jpg" width="720px"></p>
+
             </div>
 
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
