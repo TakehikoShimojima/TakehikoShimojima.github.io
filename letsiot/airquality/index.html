@@ -120,16 +120,16 @@
                 </div>
 
                 <p>空気品質センサCCS811はI2Cインタフェースに対応しています。温度・湿度・気圧センサのBME280はI2CとSPIという二つのインタフェースに対応していますが、今回はCCS811に合わせてBME280もI2Cでアクセスします。I2Cインタフェースで複数のデバイスにアクセスするには、次の図のようにマイコンとデバイスのSCLピン同士、SDAピン同士を接続し、それぞれ数kΩの抵抗でプルアップ(電源に接続)します。</p>
-                <p><img src="../images/airquality/i2c.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/i2c.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>ESPr Developerに搭載されているESP8266は好きなGPIOピンをI2C接続に使えます。今回はIO14をSCLに、IO13をSDAにしました。</p>
 
                 <p>回路図は次のようになります。「CCS811搭載 空気品質センサモジュール」にはI2C通信用にSCL、SDAのプルアップ抵抗が載っているので、外付けのプルアップ抵抗は不要です。</p>
-                <p><img src="../images/airquality/schema.jpg" width="90%" class="img-responsive center-block"></p>
+                <p><img src="./images/schema.jpg" width="90%" class="img-responsive center-block"></p>
 
                 <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュール、CSS811モジュールともにセンサをブレッドボードから離して設置したかったので、L字型のピンヘッダを使っています。</p>
 
-                <p><img src="../images/airquality/hw.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/hw.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h2 id="check">センサ端末の動作確認</h2>
                 <p>まずセンサ端末の動作確認をします。Arduino開発環境の準備とAmbientライブラリのインストールについては前回の記事の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#check">Arduino開発環境の準備</a>」と「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#check">Ambientライブラリとサンプルプログラムのインストール</a>」をご覧ください。</p>
@@ -140,7 +140,7 @@
                 </ul>
 
                 <p>このページ右上の「Clone or download」の「Download ZIP」をクリックしてZIPファイルをダウンロードし、適当なフォルダに展開して使ってください。</p>
-                <p><img src="../images/airquality/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>examples/CCS811_testがセンサ端末の動作確認プログラムです。</p>
                 <p>SparkFunのCSS811ライブラリには主に次の機能があります。</p>
@@ -183,7 +183,7 @@
                 <p>プログラム全体はダウンロードしたファイルをご覧ください。</p>
                 <p>プログラムをビルドして、動かし、次のようにCO2とTVOCの値が表示されればセンサ端末のハードウェアはOKです。</p>
 
-                <p><img src="../images/airquality/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>表示されない場合はESPr DeveloperとCCS811、BME280の接続や、Arduio IDEの設定などを確認してください。</p>
 
@@ -194,7 +194,7 @@
 
                 <p>まず、BME280で温度、湿度、気圧を測定し、BME280で読んだ温度、湿度の値を使ってCCS811でCO2、TVOCの値を測定し、補正しています。最後にAmbientに温度、湿度、気圧、CO2、TVOCの値を送信しています。</p>
                 <p>ssidとpasswordをお使いのWi-Fiルータに合わせて変更し、channelIdとwriteKeyにAmbientで作ったチャネルのIDとライトキーを設定します。プログラムをビルドして動かすと、測定した温度、湿度、気圧、CO2、TVOCの値がAmbientに送信され、次のように表示されます。グラフはカスタマイズしていて、気温と湿度を一つのグラフにまとめて表示しています。</p>
-                <p><img src="../images/airquality/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h2 id="tips">CCS811の使い方のポイント</h2>
                 <h3>モード設定から20分間は値が安定しない</h3>
@@ -235,6 +235,9 @@
 
             </div>
 
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
+                <p><img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block"></p>
+            </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">2.空気品質を測定し、記録する</a></li>
