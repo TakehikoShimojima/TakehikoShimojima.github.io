@@ -148,7 +148,7 @@
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
                         <thead>
-                            <tr><th>関数</th><th>説明</th></tr>
+                            <tr><th style="width: 40%;">関数</th><th>説明</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>status begin(void);</td><td>CSS811を初期化する。この関数の中でCSS811の動作モードの設定などがおこなわれる。</td></tr>
@@ -165,7 +165,7 @@
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
                         <thead>
-                            <tr><th>関数</th><th>説明</th></tr>
+                            <tr><th style="width: 40%;">関数</th><th>説明</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>void ccs811_hw_reset(void);</td><td>CCS811をリセットする。</td></tr>
@@ -220,7 +220,7 @@
                 <p>データシートによると、モードを設定、変更してから測定値が安定するまで20分かかります。つまり、CCS811の初期化関数begin()を呼んでから20分間は値が安定していないので、注意が必要です。</p>
 
                 <h3>ESP8266のDeep Sleepと相性が悪い</h3>
-                <p>ESP8266で周期的にセンサデータを測定するアプリケーションでは、消費電力を減らすために、Deep Sleepが使われることがあります。ESP8266ではWi-Fiモジュールが動いている時は70〜150mA程度の電流を消費しますが、Deep Sleep中は1mA以下になるためです。</p>
+                <p>ESP8266で周期的にセンサデータを測定するアプリケーションでは、消費電力を減らすために、Deep Sleepがよく使われます。ESP8266ではWi-Fiモジュールが動いている時は70〜150mA程度の電流を消費しますが、Deep Sleep中は1mA以下になるためです。</p>
                 <p>ESP8266はDeep Sleepから復帰する時に、CPUにリセットがかかり、プログラムが先頭から実行されます。そこでDeep Sleepを使った周期的なプログラムは次のような構造になります。</p>
                 <script src="https://gist.github.com/TakehikoShimojima/6ac26ddf3dd3f7f981ca8bdece4e8905.js"></script>
 
