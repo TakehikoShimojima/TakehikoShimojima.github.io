@@ -90,7 +90,7 @@
                 <p>今月からシリーズでいろいろなセンサを使ったIoTのサンプルを紹介していきます。第一回は温度、湿度、気圧を測定し、クラウドに送信して記録し、確認する事例です。</p>
 
                 <h2 id="struct">全体の構成</h2>
-                <p><img src="../images/temphumidpress/struct.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/struct.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>温度、湿度、気圧センサをマイコンで制御し、測定したデータをクラウドに送って記録し、グラフ化してデータが確認できるようにします。</p>
                 <p>センサ端末の要件は用途によって様々です。今回は家や学校、オフィスなどで気象データを測定することを想定し、設置場所の制約の少ないワイアレスなセンサ端末にします。そのために、端末を電池で動作させ、測定データをWi-Fi経由でクラウドに送信するようにします。</p>
                 <p>また、気象データとしての温度や湿度はそれ程急激には変化しないので、データは5分毎に測定することにします。</p>
@@ -136,9 +136,9 @@
                 </div>
 
                 <p>回路図は次のようになります。</p>
-                <p><img src="../images/temphumidpress/schema.jpg" width="90%" class="img-responsive center-block"></p>
+                <p><img src="./images/schema.jpg" width="90%" class="img-responsive center-block"></p>
                 <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュールにはまっすぐなピンヘッダが付属していて、これで問題はありませんが、今回はモジュールをブレッドボードから離して設置したかったので、L字型のピンヘッダを使いました。</p>
-                <p><img src="../images/temphumidpress/hw.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/hw.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h2 id="check">センサ端末の動作確認</h2>
                 <h3>Arduino開発環境の準備</h3>
@@ -150,10 +150,10 @@
 
                 <h3>Ambientライブラリとサンプルプログラムのインストール</h3>
                 <p>次にAmbientライブラリをご自分の開発環境にインポートします。 Githubの「<a href="https://github.com/AmbientDataInc/Ambient_ESP8266_lib" target="_blank">Ambient_ESP8266_lib</a>」 に行き、右上の「Clone or download」ボタンを押して出て来る「Download ZIP」をクリックして、 ライブラリを含むZIPファイルをパソコンにダウンロードします。</p>
-                <p><img src="../images/temphumidpress/github1.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/github1.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>Ambient_ESP8266_lib-master.zipというファイルがダウンロードされるので、 適当なディレクトリに置きます(ダウンロードディレクトリーのままでもいいです)。</p>
                 <p>Arduino IDEを立ち上げて、メニューの「スケッチ」→「ライブラリをインクルード」→ 「.ZIP形式のライブラリをインストール…」を選択し、ダウンロードした ライブラリのZIPファイルを選びます。</p>
-                <p><img src="../images/temphumidpress/scsho0.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho0.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>もう一度「スケッチ」→「ライブラリをインクルード」を選択して 「Contributed libraries」に「Ambient ESP8266 lib」が表示されれば、 インストールは成功です。</p>
 
                 <h3>センサ端末の動作確認</h3>
@@ -166,7 +166,7 @@
                 <p>このメインプログラムとBME280ライブラリはAmbientライブラリのサンプルに入れてあります。
                 Arduino IDEの「ファイル」→「スケッチの例」→「Ambient ESP8266 lib」の「Ambient_ESP_BME280_test」を選択すると、プログラムが開発環境にロードできます。</p>
                 <p>プログラムをビルドして、動かし、次のように温度、湿度、気圧が表示されればOKです。</p>
-                <p><img src="../images/temphumidpress/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>表示されない場合はESPr DeveloperとBME280の接続や、Arduio IDEの設定などを確認してください。</p>
                 <p>次に測定したデータを「Ambient」に送信します。</p>
 
@@ -176,7 +176,7 @@
 
                 <h3>チャネル生成</h3>
                 <p>ユーザー登録してログインすると、チャネル一覧ページが現れます。 Ambientではマイコンから送信するデータを「チャネル」という単位で管理します。 データを送る際は「チャネル」を指定して送ります。 最初はチャネルがないので、「チャネルを作る」ボタンがあるだけです。「チャネルを作る」ボタンを押すとチャネルが生成され、 作られたチャネルの情報が表示されます。</p>
-                <p><img src="../images/temphumidpress/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>マイコンからデータを送信するときは、チャネルIDとライトキーを指定しますので、作られたチャネルのIDとライトキーを控えておきます。</p>
 
                 <h2 id="program">センサ端末のプログラム</h2>
@@ -188,9 +188,9 @@
 
                 <p>このプログラムもAmbientライブラリのサンプルにあります。Arduino IDEの「ファイル」→「スケッチの例」→「Ambient ESP8266 lib」の「Ambient_ESP_BME280」がそれです。</p>
                 <p>プログラムをArduino IDEで開き、ssidとpasswordをお使いのWi-Fiルータに合わせて変更し、channelIdとwriteKeyにAmbientで先程作ったチャネルのIDとライトキーを設定します。動作確認のために測定間隔 PERIOD を15(秒)ぐらいに設定し、プログラムをビルドして、動かします。シリアルモニタに次のようなメッセージが出力されているはずです。</p>
-                <p><img src="../images/temphumidpress/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
                 <p>シリアルモニタでメッセージが確認できたら、ブラウザでAmbientのチャネル一覧ページのチャネル部分をクリックして、チャネルページを見てください。次のようにAmbientに送られた温度、湿度、気圧データがグラフで確認できます。</p>
-                <p><img src="../images/temphumidpress/scsho4.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho4.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h2 id="deepsleep">ESPr DeveloperをDeep Sleepさせる</h2>
                 <p>これで基本的なプログラムの動作は確認できました。測定間隔 PERIOD を300(5分)にしてビルドし直せば、5分毎に温度、湿度、気圧を測定し、
@@ -212,7 +212,7 @@
                 <p>Deep Sleepを使ったバージョンもAmbientライブラリのサンプルにあります。Arduino IDEの「ファイル」→「スケッチの例」→「Ambient ESP8266 lib」の「Ambient_ESP_BME280_ds」がそれです。最後に「_ds」がついています。</p>
                 <p>これでdelay()で待つバージョンに比べ、消費電力は数%に抑えることができます。</p>
                 <p>最後にUSBケーブルを外し、電池(単3乾電池 x 3本)を接続すれば電池駆動のセンサ端末が出来上がります。</p>
-                <p><img src="../images/temphumidpress/hw2.jpg" width="60%" class="img-responsive center-block"></p>
+                <p><img src="./images/hw2.jpg" width="60%" class="img-responsive center-block"></p>
 
                 <h2 id="customize">Ambientの表示のカスタマイズ</h2>
                 <p>Ambientはユーザー登録してチャネルを作り、データを送れば、それだけでデータが記録され、グラフで確認できるようになります。初期設定をなるべく簡素にして、簡単に使い始められるようになっています。</p>
@@ -226,7 +226,7 @@
                 </ul>
 
                 <p>今回開発したセンサ端末のデータを送っているチャネルも名前や説明文をつけ、温度と湿度を一つのグラフに表示しました。</p>
-                <p><img src="../images/temphumidpress/scsho5.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/scsho5.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>チャネルは以下のページで公開しました。カスタマイズの様子などが確認できます。</p>
                 <p><a href="https://ambidata.io/ch/channel.html?id=3088" target="_blank">https://ambidata.io/ch/channel.html?id=3088</a></p>
