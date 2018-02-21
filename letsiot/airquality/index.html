@@ -146,7 +146,7 @@
                 <p>SparkFunのCSS811ライブラリには主に次の機能があります。</p>
 
                 <div>
-                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
                         <thead>
                             <tr><th>関数</th><th>説明</th></tr>
                         </thead>
@@ -163,7 +163,7 @@
                 <p>この他に次の三つの関数を作りました。</p>
 
                 <div>
-                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
                         <thead>
                             <tr><th>関数</th><th>説明</th></tr>
                         </thead>
@@ -180,6 +180,7 @@
 
                 <script src="https://gist.github.com/TakehikoShimojima/342b7e068a358e811cf3d7265fd00020.js"></script>
 
+                <p>プログラム全体はダウンロードしたファイルをご覧ください。</p>
                 <p>プログラムをビルドして、動かし、次のようにCO2とTVOCの値が表示されればセンサ端末のハードウェアはOKです。</p>
 
                 <p><img src="../images/airquality/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
@@ -188,10 +189,10 @@
 
                 <h2 id="send2Ambient">データを「<a href="https://ambidata.io" target="_blank">Ambient</a>」に送信する</h2>
                 <p>まず、前回の記事の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#prepare">Ambient側の準備</a>」を参考にして、Ambientのユーザー登録とチャネル生成をしてください。</p>
-                <p>プログラムは先程Githubからダウンロードした中のexamples/Ambient_CCS811_BME280です。</p>
-                <script src="https://gist.github.com/TakehikoShimojima/70eb1d09a180886d27ef46b0f67f7ccc.js"></script>
+                <p>プログラムは先程Githubからダウンロードした中のexamples/Ambient_CCS811_BME280です。loop()処理は次のようになっています。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/ea6f621e8a65f7201e3080ce69b82b91.js"></script>
 
-                <p>BME280で読んだ温度、湿度の値を使ってCCS811のCO2、TVOCの値を補正しています。</p>
+                <p>まず、BME280で温度、湿度、気圧を測定し、BME280で読んだ温度、湿度の値を使ってCCS811でCO2、TVOCの値を測定し、補正しています。最後にAmbientに温度、湿度、気圧、CO2、TVOCの値を送信しています。</p>
                 <p>ssidとpasswordをお使いのWi-Fiルータに合わせて変更し、channelIdとwriteKeyにAmbientで作ったチャネルのIDとライトキーを設定します。プログラムをビルドして動かすと、測定した温度、湿度、気圧、CO2、TVOCの値がAmbientに送信され、次のように表示されます。グラフはカスタマイズしていて、気温と湿度を一つのグラフにまとめて表示しています。</p>
                 <p><img src="../images/airquality/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
 
