@@ -143,11 +143,43 @@
                 <p><img src="../images/airquality/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>examples/CCS811_testがセンサ端末の動作確認プログラムです。</p>
+                <p>SparkFunのCSS811ライブラリには主に次の機能があります。</p>
 
-                <script src="https://gist.github.com/TakehikoShimojima/446b51d0480d11e3b50f9a85c4be0a2d.js"></script>
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>関数</th><th>説明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>status begin(void);</td><td>CSS811を初期化する。この関数の中でCSS811の動作モードの設定などがおこなわれる。</td></tr>
+                            <tr><td>bool dataAvailable(void);</td><td>データが読み出し可能かチェックする。</td></tr>
+                            <tr><td>status readAlgorithmResults(void);</td><td>CO2とTVOC(総揮発性有機化合物)の値をCSS811から読み出す。</td></tr>
+                            <tr><td>uint16_t getCO2(void);</td><td>CO2の値を返す。</td></tr>
+                            <tr><td>uint16_t getTVOC(void);</td><td>TVOCの値を返す。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                <p>readCCS811()という関数でCCS811のCO2とTVOC(総揮発性有機化合物)の値を読んでいます。実際に動かしてみると、データが読み出し可能にならない場合があったので、3秒以上読み出し可能にならない場合はCCS811をリセットして初期化するようにしています。</p>
+                <p>この他に次の三つの関数を作りました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>関数</th><th>説明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>void ccs811_hw_reset(void);</td><td>CCS811をリセットする。</td></tr>
+                            <tr><td>void ccs811_wake(void);</td><td>I2C通信を可能にする。</td></tr>
+                            <tr><td>void ccs811_sleep(void);</td><td>I2C通信を停止する。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>動作確認プログラムでは、readCCS811()という関数でCCS811のCO2とTVOC(総揮発性有機化合物)の値を読んでいます。実際に動かしてみると、データが読み出し可能にならない場合があったので、3秒以上読み出し可能にならない場合はCCS811をリセットして初期化するようにしています。</p>
                 <p>また、<a href="https://cdn.sparkfun.com/assets/learn_tutorials/1/4/3/CCS811_Datasheet-DS000459.pdf" target="_blank">CCS811のデータシート</a>によると、CO2の値は400から8,192の間の値と書かれていますが、これも実際に動かして値を見てみると、この範囲を外れた値が読めることがありました。範囲を外れた値が読めた場合はその値を捨てて、読み直すようにしています。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/342b7e068a358e811cf3d7265fd00020.js"></script>
+
                 <p>プログラムをビルドして、動かし、次のようにCO2とTVOCの値が表示されればセンサ端末のハードウェアはOKです。</p>
 
                 <p><img src="../images/airquality/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
@@ -174,11 +206,11 @@
                             <tr><th>モード</th><th>説明</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>モード0</a></td><td>アイドルモード。低消費電流。</td></tr>
-                            <tr><td>モード1</a></td><td>1秒毎に測定。</td></tr>
-                            <tr><td>モード2</a></td><td>10秒毎に測定。</td></tr>
-                            <tr><td>モード3</a></td><td>60秒毎に測定。</td></tr>
-                            <tr><td>モード4</a></td><td>250m秒毎に測定。</td></tr>
+                            <tr><td>モード0</td><td>アイドルモード。低消費電流。</td></tr>
+                            <tr><td>モード1</td><td>1秒毎に測定。</td></tr>
+                            <tr><td>モード2</td><td>10秒毎に測定。</td></tr>
+                            <tr><td>モード3</td><td>60秒毎に測定。</td></tr>
+                            <tr><td>モード4</td><td>250m秒毎に測定。</td></tr>
                         </tbody>
                     </table>
                 </div>
