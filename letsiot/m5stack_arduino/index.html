@@ -98,11 +98,25 @@
                 MicroPythonで制御する例は「M5Stackでセンサデータを測定し、クラウドに送る (MicroPython編)」をご覧ください。</p>
                 <p><img src="./images/M5Stack_BME280.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <h2 id="struct">全体の構成</h2>
-                <p>オフィスや学校、家などの室内の空気品質を継続的に測定することを想定し、センサ端末はACアダプタで動作させ、測定データをWi-Fi経由でクラウドに送信するようにします。</p>
-                <p><img src="./images/struct.jpg" width="100%" class="img-responsive center-block"></p>
-                <p>センサとして空気品質センサと温度、湿度センサを使います。</p>
-                <p>室内の空気品質は屋外の気温や湿度に比べると短時間に変化すると思われるので、データは1分毎に測定することにします。</p>
+                <h2 id="M5Stack">M5Stack</h2>
+                <p>M5StackはEspressif社のマイコンESP32が搭載されたコンパクトなIoT端末です。</p>
+                <p>ESP32と電池、320 x 240 TFTカラーディスプレイ、microSDカードスロット、スピーカーなどが搭載された<a href="https://www.switch-science.com/catalog/3647/">M5Stack Basic</a>がベースになる製品です。</p>
+                <p>ESP32が搭載されているのでWi-FiとBluetoothで通信でき、SPI、I2Cでセンサなどを制御できます。</p>
+                <p>5.4cm x 5.4cmのコンパクトなケースに入っていて、拡張モジュールを積み重ねることで機能を追加できます。</p>
+
+                Basicの写真
+
+                <p>M5Stack Basicに加速度、ジャイロ、磁気を計測可能な9軸センサ、MPU9250を加えた<a href="https://www.switch-science.com/catalog/3648/">M5Stack  Gray（9軸IMU搭載）</a>という製品や、</p>
+                <p>GPSモジュールやユニバーサル基板モジュールといった拡張モジュールがあります。</p>
+
+                <p>詳細は次のサイトをご覧ください。</p>
+                <ul>
+                    <li><a href="https://www.switch-science.com/catalog/3647/">スイッチサイエンスの販売ページ</a></li>
+                    <li><a href="http://mag.switch-science.com/2018/02/28/getting-started-with-m5stack/">M5Stackであそぼう</a></li>
+                    <li><a href="http://www.m5stack.com/">公式サイト(英語)</a></li>
+                </ul>
+
+
                 <p>クラウドサービスは、簡単にIoTデータの可視化ができる「<a href="https://ambidata.io" target="_blank">Ambient</a>」を使います。</p>
 
                 <h2 id="hardware">センサ端末のハードウェア</h2>
