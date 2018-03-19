@@ -1,0 +1,327 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="AirQuality - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackでセンサデータを測定し、クラウドに送る (Arduino編) - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年2月23日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」の第3回は最近スイッチサイエンスでも取り扱いを始めたM5Stackを使い、
+                    センサデータをクラウドに送信して記録する事例を紹介します。</p>
+
+                <p>M5StackはArduinoとMicroPythonとEspressif社のESP-IDFという開発環境が使えます。</p>
+                <p>ここではArduinoで制御する例を紹介します。
+                MicroPythonで制御する例は「M5Stackでセンサデータを測定し、クラウドに送る (MicroPython編)」をご覧ください。</p>
+
+                <h2 id="struct">全体の構成</h2>
+                <p>オフィスや学校、家などの室内の空気品質を継続的に測定することを想定し、センサ端末はACアダプタで動作させ、測定データをWi-Fi経由でクラウドに送信するようにします。</p>
+                <p><img src="./images/struct.jpg" width="100%" class="img-responsive center-block"></p>
+                <p>センサとして空気品質センサと温度、湿度センサを使います。</p>
+                <p>室内の空気品質は屋外の気温や湿度に比べると短時間に変化すると思われるので、データは1分毎に測定することにします。</p>
+                <p>クラウドサービスは、簡単にIoTデータの可視化ができる「<a href="https://ambidata.io" target="_blank">Ambient</a>」を使います。</p>
+
+                <h2 id="hardware">センサ端末のハードウェア</h2>
+                <p>空気品質センサをスイッチサイエンスのサイトで調べると、4件ヒットします(2018年2月現在)。今回はこの中でCCS811というガスセンサを搭載した「<a href="https://www.switch-science.com/catalog/3298/">CCS811搭載 空気品質センサモジュール</a>」を使うことにします。</p>
+                <p>スイッチサイエンスのサイトによるとCCS811は「二酸化炭素相当物（eCO2） および金属酸化物（MOX）レベルを含む、総揮発性有機化合物（TVOC）を感知するデジタルガスセンサモジュール」とのことです。</p>
+                <p>CCS811は空気品質を測定する際に温度と湿度を使って測定値の補正をおこないます。モジュール上にオプションでサーミスタ(温度によって抵抗値が変化する素子)がつけられるようになっていて、簡単に温度が測定できます。しかし、どうせならある程度精度の高い温度、湿度データも合わせて測定したいので、前回の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/" target="_blank">温度、湿度、気圧を測定し、記録する</a>」で使った温湿度、気圧センサBME280も使うことにします。</p>
+                <p>マイコンは「ESPr Developer」です。Arduinoでプログラミングできて、Wi-Fiモジュールが搭載されているので、センサを制御してクラウドにデータを送信するようなシステムには非常に適しています。</p>
+                <p>センサ端末に必要な部品をまとめました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3298/">CCS811搭載 空気品質センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2236/">BME280搭載　温湿度・気圧センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2500/">ESPr® Developer (ESP-WROOM-02開発ボード)</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1280/">細いピンヘッダ 20P</a></td><td>2個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/313/">普通のブレッドボード</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/314/">固いジャンパワイヤ　(ブレッドボード用)</a></td><td>1個</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>空気品質センサCCS811はI2Cインタフェースに対応しています。温度・湿度・気圧センサのBME280はI2CとSPIという二つのインタフェースに対応していますが、今回はCCS811に合わせてBME280もI2Cでアクセスします。I2Cインタフェースで複数のデバイスにアクセスするには、次の図のようにマイコンとデバイスのSCLピン同士、SDAピン同士を接続し、それぞれ数kΩの抵抗でプルアップ(電源に接続)します。</p>
+                <p><img src="./images/i2c.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>ESPr Developerに搭載されているESP8266は好きなGPIOピンをI2C接続に使えます。今回はIO14をSCLに、IO13をSDAにしました。</p>
+
+                <p>回路図は次のようになります。「CCS811搭載 空気品質センサモジュール」にはI2C通信用にSCL、SDAのプルアップ抵抗が載っているので、外付けのプルアップ抵抗は不要です。</p>
+                <p><img src="./images/schema.jpg" width="90%" class="img-responsive center-block"></p>
+
+                <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュール、CSS811モジュールともにセンサをブレッドボードから離して設置したかったので、L字型のピンヘッダを使っています。</p>
+
+                <p><img src="./images/hw.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <h2 id="check">センサ端末の動作確認</h2>
+                <p>まずセンサ端末の動作確認をします。Arduino開発環境の準備とAmbientライブラリのインストールについては前回の記事の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#check">Arduino開発環境の準備</a>」と「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#check">Ambientライブラリとサンプルプログラムのインストール</a>」をご覧ください。</p>
+                <p>CCS811のライブラリはモジュールを提供しているSparkFun社のものを使いますが、そのままだとESP8266のArduinoでは動かないので、一部修正を加えています。動作確認用のプログラムと合わせてGithubに置きました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/Ambient_AirQuality" target="_blank">Ambient_AirQuality</a></li>
+                </ul>
+
+                <p>このページ右上の「Clone or download」の「Download ZIP」をクリックしてZIPファイルをダウンロードし、適当なフォルダに展開して使ってください。</p>
+                <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>examples/CCS811_testがセンサ端末の動作確認プログラムです。</p>
+                <p>SparkFunのCSS811ライブラリには主に次の機能があります。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
+                        <thead>
+                            <tr><th style="width: 40%;">関数</th><th>説明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>status begin(void);</td><td>CSS811を初期化する。この関数の中でCSS811の動作モードの設定などがおこなわれる。</td></tr>
+                            <tr><td>bool dataAvailable(void);</td><td>データが読み出し可能かチェックする。</td></tr>
+                            <tr><td>status readAlgorithmResults(void);</td><td>CO2とTVOC(総揮発性有機化合物)の値をCSS811から読み出す。</td></tr>
+                            <tr><td>uint16_t getCO2(void);</td><td>CO2の値を返す。</td></tr>
+                            <tr><td>uint16_t getTVOC(void);</td><td>TVOCの値を返す。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>この他に次の三つの関数を作りました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
+                        <thead>
+                            <tr><th style="width: 40%;">関数</th><th>説明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>void ccs811_hw_reset(void);</td><td>CCS811をリセットする。</td></tr>
+                            <tr><td>void ccs811_wake(void);</td><td>I2C通信を可能にする。</td></tr>
+                            <tr><td>void ccs811_sleep(void);</td><td>I2C通信を停止する。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>動作確認プログラムでは、readCCS811()という関数でCCS811のCO2とTVOC(総揮発性有機化合物)の値を読んでいます。実際に動かしてみると、データが読み出し可能にならない場合があったので、3秒以上読み出し可能にならない場合はCCS811をリセットして初期化するようにしています。</p>
+                <p>また、<a href="https://cdn.sparkfun.com/assets/learn_tutorials/1/4/3/CCS811_Datasheet-DS000459.pdf" target="_blank">CCS811のデータシート</a>によると、CO2の値は400から8,192の間の値と書かれていますが、これも実際に動かして値を見てみると、この範囲を外れた値が読めることがありました。範囲を外れた値が読めた場合はその値を捨てて、読み直すようにしています。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/342b7e068a358e811cf3d7265fd00020.js"></script>
+
+                <p>プログラム全体はダウンロードしたファイルをご覧ください。</p>
+                <p>プログラムをビルドして、動かし、次のようにCO2とTVOCの値が表示されればセンサ端末のハードウェアはOKです。</p>
+
+                <p><img src="./images/scsho2.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>表示されない場合はESPr DeveloperとCCS811、BME280の接続や、Arduio IDEの設定などを確認してください。</p>
+
+                <h2 id="send2Ambient">データを「<a href="https://ambidata.io" target="_blank">Ambient</a>」に送信する</h2>
+                <p>まず、前回の記事の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/#prepare">Ambient側の準備</a>」を参考にして、Ambientのユーザー登録とチャネル生成をしてください。</p>
+                <p>プログラムは先程Githubからダウンロードした中のexamples/Ambient_CCS811_BME280です。loop()処理は次のようになっています。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/ea6f621e8a65f7201e3080ce69b82b91.js"></script>
+
+                <p>まず、BME280で温度、湿度、気圧を測定し、BME280で読んだ温度、湿度の値を使ってCCS811でCO2、TVOCの値を測定し、補正しています。最後にAmbientに温度、湿度、気圧、CO2、TVOCの値を送信しています。</p>
+                <p>ssidとpasswordをお使いのWi-Fiルータに合わせて変更し、channelIdとwriteKeyにAmbientで作ったチャネルのIDとライトキーを設定します。プログラムをビルドして動かすと、測定した温度、湿度、気圧、CO2、TVOCの値がAmbientに送信され、次のように表示されます。グラフはカスタマイズしていて、気温と湿度を一つのグラフにまとめて表示しています。</p>
+                <p><img src="./images/scsho3.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <h2 id="tips">CCS811の使い方のポイント</h2>
+                <h3>モード設定から20分間は値が安定しない</h3>
+
+                <p><a href="https://cdn.sparkfun.com/assets/learn_tutorials/1/4/3/CCS811_Datasheet-DS000459.pdf" target="_blank">CCS811のデータシート</a>によると、CCS811には五つの測定モードがあります。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>モード</th><th>説明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>モード0</td><td>アイドルモード。低消費電流。</td></tr>
+                            <tr><td>モード1</td><td>1秒毎に測定。</td></tr>
+                            <tr><td>モード2</td><td>10秒毎に測定。</td></tr>
+                            <tr><td>モード3</td><td>60秒毎に測定。</td></tr>
+                            <tr><td>モード4</td><td>250m秒毎に測定。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>今回のプログラムではセンサはモード1に設定してあり、1秒毎に空気品質を測定しています。モード設定はCCS811ライブラリの初期化関数begin()の中でおこなっています。マイコンは60秒毎にセンサの値を読み出してクラウドに送信しています。</p>
+                <p>データシートによると、モードを設定、変更してから測定値が安定するまで20分かかります。つまり、CCS811の初期化関数begin()を呼んでから20分間は値が安定していないので、注意が必要です。</p>
+                <p>さらに、データシートによると最初に48時間のエージングが推奨されており、設置してから測定値が安定するまでに48時間かかるとのことです。</p>
+
+                <h3>ESP8266のDeep Sleepと相性が悪い</h3>
+                <p>ESP8266で周期的にセンサデータを測定するアプリケーションでは、消費電力を減らすために、Deep Sleepがよく使われます。ESP8266ではWi-Fiモジュールが動いている時は70〜150mA程度の電流を消費しますが、Deep Sleep中は1mA以下になるためです。</p>
+                <p>ESP8266はDeep Sleepから復帰する時に、CPUにリセットがかかり、プログラムが先頭から実行されます。そこでDeep Sleepを使った周期的なプログラムは次のような構造になります。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/6ac26ddf3dd3f7f981ca8bdece4e8905.js"></script>
+
+                <p>ESP8266でDeep Sleepを使った周期的なプログラムでは、毎回センサを初期化してしまいます。CCS811を使う場合、CCS811は毎回初期化され、いつも値が不安定な状態になります。そこで、今回はDeep Sleepを使わず、次のようにsetup()関数の中でCCS811を初期化し、loop()関数の中で周期的にCCS811を読むようにしています。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/92381ca3fd8522c46b30cc2bc8281fad.js"></script>
+
+                <h2 id="summary">まとめ</h2>
+                <p>二酸化炭素などの空気品質データは温度、湿度と合わせてオフィスや住環境の基本データです。集中力など作業効率に影響するといわれています。マイコンもセンサも安価なものが使えるようになったので、オフィスなどであれば複数の場所にセンサ端末を設置し、一年を通して測定、記録することで、場所や季節による環境の差などを定量的に把握し、作業効率の改善に役立てることもできると思います。</p>
+                <p>IoTでは、実際のデータで現状把握することが重要です。データによる現状把握に、この記事がお役に立てたら嬉しい限りです。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">2.空気品質を測定し、記録する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#struct">全体の構成</a></li>
+                        <li><a href="#hardware">センサ端末のハードウェア</a></li>
+                        <li><a href="#check">センサ端末の動作確認</a></li>
+                        <li><a href="#send2Ambient">データを「Ambient」に送信する</a></li>
+                        <li><a href="#tips">CCS811の使い方のポイント</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu">
+                <h4>バックナンバー</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="../temphumidpress/index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
+                    <li><a href="../airquality/index.html">2.空気品質を測定し、記録する</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
