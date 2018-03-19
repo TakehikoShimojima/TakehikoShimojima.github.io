@@ -144,7 +144,7 @@
                 <ul>
                     <li>M5StackをUSBケーブルでPCに接続</li>
                     <li>Arduino IDE メニューの「ツール」→「ボード」で「M5Stack-Core-ESP32」を選択
-                        <p style="margin-top: 10px;"><img src="./images/boardselect.jpg" width="100%" class="img-responsive center-block"></p>
+                        <p style="margin-top: 10px;"><img src="./images/boardselect.jpg" width="80%" class="img-responsive center-block"></p>
                     </li>
                     <li>「ツール」→「シリアルポート」で「/dev/cu.SLAB_USBtoUART」を選択</li>
                     <li>「ファイル」→「スケッチ例」→「M5Stack」→「Basics」→「Hello」を選択</li>
@@ -157,15 +157,40 @@
                 <h2>温湿度・気圧センサBME280を使う</h2>
 
                 <p><img src="./images/M5Stack_back.jpg" width="80%" class="img-responsive center-block"></p>
-                <p></p>
+                <p>M5Stackのケースの底に近い部分にはBUS PORTとI/O PORTと呼ばれるスロットがあります。
+                BUS PORT、I/O PORTとも一方がピン、反対側がソケットで、向かい合うピンとソケットは同じ信号がでています。
+                ジャンパワイヤを使ってセンサなどをつなぐことができます。各ピン/ソケットの意味はシールに書かれています。</p>
+
+                <p>その中にI2C通信で使うSDA、SCLと3.3V、GNDがあるので、BME280モジュールをそこにつなぎます。
+                SDA、SCLは対向する側ではそれぞれ21、22と書かれていますが、同じ信号です。
+                この他にスイッチサイエンスのBME280モジュールにはSDOとCSBというピンがあります。
+                BME280をI2Cインタフェースで使う時はCSBを3.3Vに接続します。
+                SDOはI2Cアドレスを決めるのに使い、GNDに接続することでI2Cアドレスが0x76になります。</p>
 
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
                         <thead>
-                            <tr><th>部品</th><th>個数</th></tr>
+                            <tr><th>M5Stack</th><th>BME280モジュール</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><a href="https://www.switch-science.com/catalog/3298/">CCS811搭載 空気品質センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td>GND</td><td>SDO</td></tr>
+                            <tr><td>SCL(22)</td><td>SCK</td></tr>
+                            <tr><td>SDA(21)</td><td>SDI</td></tr>
+                            <tr><td>3V3</td><td>CSB</td></tr>
+                            <tr><td>GND</td><td>GND</td></tr>
+                            <tr><td>3V3</td><td>Vcore</td></tr>
+                            <tr><td>ー</td><td>Vio</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>M5Stack</th><th>BME280モジュール</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td></td><td></td></tr>
                             <tr><td><a href="https://www.switch-science.com/catalog/2236/">BME280搭載　温湿度・気圧センサモジュール</a></td><td>1個</td></tr>
                             <tr><td><a href="https://www.switch-science.com/catalog/2500/">ESPr® Developer (ESP-WROOM-02開発ボード)</a></td><td>1個</td></tr>
                             <tr><td><a href="https://www.switch-science.com/catalog/1280/">細いピンヘッダ 20P</a></td><td>2個</td></tr>
@@ -174,7 +199,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <p>空気品質センサCCS811はI2Cインタフェースに対応しています。温度・湿度・気圧センサのBME280はI2CとSPIという二つのインタフェースに対応していますが、今回はCCS811に合わせてBME280もI2Cでアクセスします。I2Cインタフェースで複数のデバイスにアクセスするには、次の図のようにマイコンとデバイスのSCLピン同士、SDAピン同士を接続し、それぞれ数kΩの抵抗でプルアップ(電源に接続)します。</p>
                 <p><img src="./images/i2c.jpg" width="100%" class="img-responsive center-block"></p>
 
