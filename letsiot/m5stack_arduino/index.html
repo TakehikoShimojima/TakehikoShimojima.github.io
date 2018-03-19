@@ -113,18 +113,47 @@
                 <ul>
                     <li><a href="https://www.switch-science.com/catalog/3647/">スイッチサイエンスの販売ページ</a></li>
                     <li><a href="http://mag.switch-science.com/2018/02/28/getting-started-with-m5stack/">M5Stackであそぼう</a></li>
-                    <li><a href="http://www.m5stack.com/">公式サイト(英語)</a></li>
+                    <li><a href="http://www.m5stack.com/" target="_blank">公式サイト(英語)</a></li>
                 </ul>
 
+                <h2 id="setup">M5Stackを使うためのArduinoの環境設定</h2>
 
-                <p>クラウドサービスは、簡単にIoTデータの可視化ができる「<a href="https://ambidata.io" target="_blank">Ambient</a>」を使います。</p>
+                <p>公式サイトに<a href="http://www.m5stack.com/assets/docs/index.html#getting-started" target="_blank">Windows/Mac/Linuxでのインストール方法が解説されています。
+                ここでは簡単にMacでのインストールの流れを紹介します。</p>
 
-                <h2 id="hardware">センサ端末のハードウェア</h2>
-                <p>空気品質センサをスイッチサイエンスのサイトで調べると、4件ヒットします(2018年2月現在)。今回はこの中でCCS811というガスセンサを搭載した「<a href="https://www.switch-science.com/catalog/3298/">CCS811搭載 空気品質センサモジュール</a>」を使うことにします。</p>
-                <p>スイッチサイエンスのサイトによるとCCS811は「二酸化炭素相当物（eCO2） および金属酸化物（MOX）レベルを含む、総揮発性有機化合物（TVOC）を感知するデジタルガスセンサモジュール」とのことです。</p>
-                <p>CCS811は空気品質を測定する際に温度と湿度を使って測定値の補正をおこないます。モジュール上にオプションでサーミスタ(温度によって抵抗値が変化する素子)がつけられるようになっていて、簡単に温度が測定できます。しかし、どうせならある程度精度の高い温度、湿度データも合わせて測定したいので、前回の「<a href="http://pages.switch-science.com/letsiot/temphumidpress/" target="_blank">温度、湿度、気圧を測定し、記録する</a>」で使った温湿度、気圧センサBME280も使うことにします。</p>
-                <p>マイコンは「ESPr Developer」です。Arduinoでプログラミングできて、Wi-Fiモジュールが搭載されているので、センサを制御してクラウドにデータを送信するようなシステムには非常に適しています。</p>
-                <p>センサ端末に必要な部品をまとめました。</p>
+                <h3>USBドライバのインストール</h3>
+
+                <p>M5StackとUSBで通信するために、USBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」をダウンロードしてインストールします。</p>
+
+                <h3>ESP32 Arduino Coreのインストール</h3>
+
+                <p><a href="http://www.m5stack.com/assets/docs/index.html#getting-started" target="_blank">公式サイト</a>の説明に従ってESP32 Arduino Coreをインストールします。</p>
+
+                <h3>M5Stackライブラリのダウンロード</h3>
+
+                <p>Arduino IDEのライブラリマネージャーを使うか、Gitを使う方法があります。
+                どちらかの方法でM5Stackライブラリをダウンロードします。</p>
+
+                <p>以上でArduinoの環境設定は終わりです。</p>
+
+                <h3>Arduino環境とM5Stackの動作確認</h3>
+
+                <p>設定したArduino環境とM5Stackの動作確認をします。
+                Arduino IDEを立ち上げて、</p>
+
+                <ul>
+                    <li>M5StackをUSBケーブルでPCに接続</li>
+                    <li>Arduino IDE メニューの「ツール」→「ボード」で「M5Stack-Core-ESP32」を選択
+                        <p><img src="./images/M5Stack_BME280.jpg" width="80%" class="img-responsive center-block"></p>
+                    </li>
+                    <li>「ツール」→「シリアルポート」で「/dev/cu.SLAB_USBtoUART」を選択</li>
+                    <li>「ファイル」→「スケッチ例」→「M5Stack」→「Basics」→「Hello」を選択</li>
+                    <li>ビルドしてマイコンボードに書き込む</li>
+                </ul>
+
+                <p>プログラムがダウンロードされ、M5Stackの画面が消え、「hello world」と出力されれば
+                環境設定はokです。</p>
+
 
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
