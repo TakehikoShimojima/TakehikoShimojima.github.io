@@ -154,7 +154,7 @@
                 <p>プログラムがダウンロードされ、M5Stackの画面が消え、「hello world」と出力されれば
                 環境設定はokです。</p>
 
-                <h2>温湿度・気圧センサBME280を使う</h2>
+                <h2 id="bme280">温湿度・気圧センサBME280を使う</h2>
 
                 <p><img src="./images/M5Stack_back.jpg" width="80%" class="img-responsive center-block"></p>
                 <p>M5Stackのケースの底に近い部分にはBUS PORTとI/O PORTと呼ばれるスロットがあります。
@@ -200,7 +200,7 @@
                     </table>
                 </div>
 
-                <h2>プログラム</h2>
+                <h2 id="program">プログラム</h2>
 
                 <h3>Ambientライブラリのインストール</h3>
 
@@ -255,7 +255,7 @@
 
                 <p><img src="./images/scsho1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <h2>温湿度・気圧・空気品質センサBME680を使う</h2>
+                <h2 id="bme680">温湿度・気圧・空気品質センサBME680を使う</h2>
 
                 <p>温湿度・気圧に加えて、空気品質を測定できる<a href="https://www.switch-science.com/catalog/3570/">BME680</a>というセンサがあります。
                 これもM5Stackにつなげてみます。</p>
@@ -284,7 +284,7 @@
 
                 <p><img src="./images/M5Stack_BME680.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <p>BME680をアクセスするライブラリは<a href="https://github.com/adafruit/Adafruit_BME680">Adafruitのもの</a>を使いました。
+                <p>BME680をアクセスするライブラリは<a href="https://github.com/adafruit/Adafruit_BME680" target="_blank">Adafruitのもの</a>を使いました。
                 そのままだとコンパイルエラーになるので、一部修正を加えています。</p>
                 <p>プログラムはArduino IDEを立ち上げ、
                 「ファイル」→「スケッチ例」→「Ambient ESP8266 lib」→「M5Stack」→「Ambient_BME680」を選択するとロードできます。</p>
@@ -312,13 +312,13 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">3.空気品質を測定し、記録する</a></li>
+                    <li class="open"><a href="index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#struct">全体の構成</a></li>
-                        <li><a href="#hardware">センサ端末のハードウェア</a></li>
-                        <li><a href="#check">センサ端末の動作確認</a></li>
-                        <li><a href="#send2Ambient">データを「Ambient」に送信する</a></li>
-                        <li><a href="#tips">CCS811の使い方のポイント</a></li>
+                        <li><a href="#M5Stack">M5Stack</a></li>
+                        <li><a href="#setup">M5Stackを使うためのArduinoの環境設定</a></li>
+                        <li><a href="#bme280">温湿度・気圧センサBME280を使う</a></li>
+                        <li><a href="#program">プログラム</a></li>
+                        <li><a href="#bme680">温湿度・気圧・空気品質センサBME680を使う</a></li>
                         <li><a href="#summary">まとめ</a></li>
                     </ul>
                 </ul>
@@ -328,6 +328,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="../temphumidpress/index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
                     <li><a href="../airquality/index.html">2.空気品質を測定し、記録する</a></li>
+                    <li><a href="../m5stack_arduino/index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
                 </ul>
             </div>
         </div>
