@@ -207,7 +207,7 @@
 
                 <h3>M5StackにBME280をつなぐ</h3>
 
-                <p><img src="./images/M5Stack_back.jpg" width="60%" class="img-responsive center-block"></p>
+                <p><img src="./images/M5Stack_BME280.jpg" width="60%" class="img-responsive center-block"></p>
 
                 <p>Arduino編と同様にM5Stackに温湿度・気圧センサBME280をつないでみます。
                 詳細は「<a href="https://ambidata.io/samples/m5stack/m5stack-arduino/">M5Stack(Arduino編)</a>」をご覧ください。</p>
@@ -303,59 +303,58 @@
 
                 <p><img src="./images/scsho_upython2.jpg" width="80%" class="img-responsive center-block"></p>
 
+                <h2>温湿度・気圧・空気品質センサBME680を使う</h2>
 
+                <h3>M5StackにBME680をつなぐ</h3>
 
-                # 温湿度・気圧・空気品質センサBME680を使う
+                <p>温湿度・気圧に加えて、空気品質を測定できるBME680というセンサがあります。
+                これもM5Stackにつなげてみます。接続の詳細は「<a href="https://ambidata.io/samples/m5stack/m5stack-arduino/">M5Stack(Arduino編)</a>」をご覧ください。</p>
 
-                ## M5StackにBME680をつなぐ
+                <p><img src="./images/M5Stack_BME680_2.jpg" width="80%" class="img-responsive center-block"></p>
 
-                温湿度・気圧に加えて、空気品質を測定できるBME680というセンサがあります。
-                これもM5Stackにつなげてみます。接続の詳細は「[M5Stack(Arduino編)](https://ambidata.io/samples/m5stack/m5stack-arduino/)」をご覧ください。
+                <h3>M5StackからBME680をアクセスする</h3>
 
-                M5StackとBME680の写真
-
-                ## M5StackからBME680をアクセスする
-
-                BME680をアクセスするPythonライブラリモジュールはBME680モジュールを提供している[Pimoroni社のもの](https://github.com/pimoroni/bme680)を使いました。
-                これを[MicroPythonで動かすためのアダプター](https://github.com/gkluoe/bme680)も使います。
+                <p>BME680をアクセスするPythonライブラリモジュールはBME680モジュールを提供している<a href="https://github.com/pimoroni/bme680" target="_blank">Pimoroni社のもの</a>を使いました。
+                これを<a href="https://github.com/gkluoe/bme680" target="_blank">MicroPythonで動かすためのアダプター</a>も使います。
                 ファイルはBME280をアクセスするプログラムと一緒にGithubに公開してあり、
-                すでにPC上にダウンロードされています。
+                すでにPC上にダウンロードされています。</p>
 
-                次のようにM5Stackの/flashの下にbme680というディレクトリーを作り、必要なファイルを転送します。
+                <p>次のようにM5Stackの/flashの下にbme680というディレクトリーを作り、必要なファイルを転送します。</p>
 
-                BME280のアクセスから続いて操作している場合は、ここでM5Stackをリセットしてください。
+                <p>BME280のアクセスから続いて操作している場合は、ここでM5Stackをリセットしてください。</p>
 
-                ```bash
-                $ ampy mkdir bme680
-                $ ampy put examples/M5_BME680/bme680/__init__.py /flash/bme680/__init__.py
-                $ ampy put examples/M5_BME680/bme680/constants.py /flash/bme680/constants.py
-                $ ampy put examples/M5_BME680/bme680/i2c.py /flash/bme680/i2c.py
-                $ ampy put examples/M5_BME680/main.py
-                ```
+<p><pre>
+    $ ampy mkdir bme680
+    $ ampy put examples/M5_BME680/bme680/__init__.py /flash/bme680/__init__.py
+    $ ampy put examples/M5_BME680/bme680/constants.py /flash/bme680/constants.py
+    $ ampy put examples/M5_BME680/bme680/i2c.py /flash/bme680/i2c.py
+    $ ampy put examples/M5_BME680/main.py
+</pre></p>
 
-                これでM5Stackのファイルシステムは次のようになります。
+                <p>これでM5Stackのファイルシステムは次のようになります。</p>
 
-                /flash
-                +---boot.py
-                    config.json
-                    ambient.py
-                    bme280.py
-                    main.py
-                    bme680
-                    +---__init__.py
-                        constants.py
-                        i2c.py
+<p><pre>
+    /flash
+    +---boot.py
+        config.json
+        ambient.py
+        bme280.py
+        main.py
+        bme680
+        +---__init__.py
+            constants.py
+            i2c.py
+</pre></p>
 
-                M5Stackをリセットすると、今転送したmain.pyが実行され、
-                BME680で取得した温度、湿度、気圧がAmbientに送信されます。
+                <p>M5Stackをリセットすると、今転送したmain.pyが実行され、
+                BME680で取得した温度、湿度、気圧がAmbientに送信されます。</p>
 
 
-                # まとめ
+                <h2>まとめ</h2>
 
-                M5Stackは5.4cm x 5.4cmのコンパクトなケースにESP32、電池、320 x 240 TFTカラーディスプレイなどが搭載されたIoT端末です。拡張モジュールを積み重ねることで機能を拡張していけます。
+                <p>M5Stackは5.4cm x 5.4cmのコンパクトなケースにESP32、電池、320 x 240 TFTカラーディスプレイなどが搭載されたIoT端末です。拡張モジュールを積み重ねることで機能を拡張していけます。
                 MicroPythonで使うと、対話モードでセンサなどの動作を確認しながらプログラムを作っていけるので、
-                プロトタイプ段階で特に便利です。
-
+                プロトタイプ段階で特に便利です。</p>
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
