@@ -203,7 +203,7 @@
     Disconnected.
 </pre></p>
 
-                <h2>温湿度・気圧センサBME280を使う</h2>
+                <h2 id="bme280">温湿度・気圧センサBME280を使う</h2>
 
                 <h3>M5StackにBME280をつなぐ</h3>
 
@@ -267,7 +267,7 @@
                 <h3>BME280のデータをAmbientに送信する</h3>
 
                 <p>センサデータをAmbientに送信するMicroPythonライブラリはESP8266用のものと共通です。
-                BME280のデータをAmbientに送信するプログラムは次のようになります。<p>
+                BME280のデータをAmbientに送信するプログラムは次のようになります。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/91cb688c58df673c0c373af34af9b341.js"></script>
 
@@ -303,7 +303,7 @@
 
                 <p><img src="./images/scsho_upython2.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <h2>温湿度・気圧・空気品質センサBME680を使う</h2>
+                <h2 id="bme680">温湿度・気圧・空気品質センサBME680を使う</h2>
 
                 <h3>M5StackにBME680をつなぐ</h3>
 
@@ -350,7 +350,7 @@
                 BME680で取得した温度、湿度、気圧がAmbientに送信されます。</p>
 
 
-                <h2>まとめ</h2>
+                <h2 id="summary">まとめ</h2>
 
                 <p>M5Stackは5.4cm x 5.4cmのコンパクトなケースにESP32、電池、320 x 240 TFTカラーディスプレイなどが搭載されたIoT端末です。拡張モジュールを積み重ねることで機能を拡張していけます。
                 MicroPythonで使うと、対話モードでセンサなどの動作を確認しながらプログラムを作っていけるので、
@@ -370,24 +370,17 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
+                    <li class="open"><a href="index.html">4.M5Stackでセンサデータを測定し、クラウドに送る (MicroPython編)</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#M5Stack">M5Stack</a></li>
-                        <li><a href="#setup">M5Stackを使うためのArduinoの環境設定</a></li>
+                        <li><a href="#setup">M5Stackを使うためのMicroPythonの環境設定</a></li>
                         <li><a href="#bme280">温湿度・気圧センサBME280を使う</a></li>
-                        <li><a href="#program">プログラム</a></li>
                         <li><a href="#bme680">温湿度・気圧・空気品質センサBME680を使う</a></li>
                         <li><a href="#summary">まとめ</a></li>
                     </ul>
                 </ul>
             </div>
-            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu">
-                <h4>バックナンバー</h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="../temphumidpress/index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
-                    <li><a href="../airquality/index.html">2.空気品質を測定し、記録する</a></li>
-                    <li><a href="../m5stack_arduino/index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
-                </ul>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
             </div>
         </div>
     </div>
@@ -430,6 +423,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+
+</script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
 <script>
