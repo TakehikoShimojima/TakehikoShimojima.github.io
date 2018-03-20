@@ -1,0 +1,430 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="AirQuality - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackでセンサデータを測定し、クラウドに送る (MicroPython編) - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年3月xx日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackでセンサデータを測定し、クラウドに送る (MicroPython編)</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」の第4回は、M5StackとセンサをMicroPythonで制御して、
+                センサデータをクラウドに送信して記録する事例を紹介します。
+                Arduinoで制御する例は「<a href="../m5stack_arduino/index.html">M5Stackでセンサデータを測定し、クラウドに送る (Arcuino編)</a>」をご覧ください。</p>
+
+                <p><img src="./images/pc2m5stack.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <h2 id="M5Stack">M5Stack</h2>
+                <p>M5StackはEspressif社のマイコンESP32が搭載されたコンパクトなIoT端末です。
+                M5Stackについては次のサイトをご覧ください。</p>
+
+                <ul>
+                    <li><a href="https://www.switch-science.com/catalog/3647/">スイッチサイエンスの販売ページ</a></li>
+                    <li><a href="http://mag.switch-science.com/2018/02/28/getting-started-with-m5stack/">M5Stackであそぼう</a></li>
+                    <li><a href="http://www.m5stack.com/" target="_blank">公式サイト(英語)</a></li>
+                </ul>
+
+
+                # M5Stackを使うためのMicroPythonの環境設定
+
+                M5StackのMicroPython開発環境には次の二つがあります。
+
+                * M5Cloud
+                クラウドでソースコードを管理する開発環境。
+                Web上でプログラムを開発し、Wi-Fi経由でプログラムをM5Stackに送り、実行します。
+
+                * オフライン環境
+                ローカルのPCでソースを管理する環境。
+                PCでプログラムを開発し、シリアル回線経由でプログラムをM5Stackに送り、実行します。
+
+                [公式サイト](https://github.com/m5stack/M5Cloud)の説明に沿って環境を設定していくとM5Cloud環境になりますが、
+                M5Cloudは現時点(2018年3月20日)ではβ版で、一度つけたプロジェクト名が変更できないなど、
+                まだ荒削りなところがあります。また、ソースコードのバージョン管理機能がないので、
+                今回はローカル開発環境を使います。
+
+                ## USBドライバーのインストール
+
+                M5StackとUSBで通信するために、USBドライバ「
+                [SiLabs CP2104 Driver](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)」をダウンロードしてインストールします。ここはArduino IDEで使う場合と共通です。
+
+                ## esptoolのインストール
+
+                esptoolはシリアル回線経由でESP8266やESP32のフラッシュメモリーを消去したり
+                バイナリーファイルを書き込めるツールです。
+
+                過去にesptoolをインストールしていなければ、次のようにしてesptoolをインストールします。
+
+                $ sudo pip install esptool
+
+                以前にインストールしていれば、次のようにして更新します。
+
+                $ sudo pip install -U esptool
+
+                ## MicroPythonファームウェアのダウンロード
+
+                [M5Stack用のMicroPythonファームウェアのダウンロードページ](https://github.com/m5stack/M5Cloud/tree/master/firmwares)でファームウェアをダウンロードします。
+                この時、M5Cloud用とオフライン用があるので、オフライン用をクリックし、最新のファームウェアを選択します。
+
+                upythonfirm.jpg
+
+                ## ファームウェアをM5Stackに書き込む
+
+                M5StackをUSBケーブルでPCに接続し、esptoolを使い、まずerase_flashコマンドでフラッシュを消去し、次にwrite_flashコマンドでファームウェアを書き込みます。
+
+                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
+
+                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART write_flash --flash_mode dio -z 0x1000 m5stack-20180228-v0.3.4.bin
+
+
+                ## Wi-Fiの設定
+
+                ファームウェアを書き込むと、M5Stackの画面に次のようなメッセージが表示されます。
+
+                scsho_upython0.jpg
+
+                M5Stackが一時的にWi-Fiアクセスポイントになっているので、
+                画面に表示されたssidにPCやスマートフォンで接続します。パスワードは設定されていません。
+                ブラウザで192.168.4.1にアクセスすると、次のような設定画面が表示されます。
+
+                scsho_upython1.jpg
+
+                お使いのWi-FiルーターのSSIDとPasswordを入力してConfigureをクリックすると、
+                M5StackのWi-Fi環境が設定され、Wi-Fiに接続されます。
+
+
+                ## M5StackとMicroPython開発環境の動作確認
+
+                PCからCoolTermなどの通信プログラム、あるいはcuコマンドなどでM5Stackにつなぎ、リターンキーを押すと、次のようにMicroPythonのプロンプトが表示されます。MicroPythonの文を入力すると、実行されます。
+                ちなみに、cuコマンドは「~.(チルダ ピリオド)」で切断できます。
+
+                $ sudo cu -s 115200 -l /dev/tty.SLAB_USBtoUART
+                Connected.
+
+                >>> print('hello world')
+                hello world
+                >>>
+                >>> from m5stack import lcd     # lcdモジュールをインポート
+                >>> lcd.clear()    # lcdをクリア
+                >>> lcd.print('hello')    # lcdにhelloと出力される
+
+                >>> ~.
+
+                Disconnected.
+
+
+                # 温湿度・気圧センサBME280を使う
+
+                ## M5StackにBME280をつなぐ
+
+                M5Stackの裏側の写真
+
+                Arduino編と同様にM5Stackに温湿度・気圧センサBME280をつないでみます。
+                詳細は「[M5Stack(Arduino編)](https://ambidata.io/samples/m5stack/m5stack-arduino/)」をご覧ください。
+
+                BME280を接続したら、M5StackをUSBケーブルでPCに接続し、CoolTermやcuなどの通信プログラムを起動します。
+                次のプログラムを入力すると、BME280のI2Cアドレスを確認できます。
+                センサの動作が簡単に確認できるところは対話モードは非常に便利です。
+
+                >>> from machine import I2C, Pin    # I2CモジュールとPinモジュールをインポート
+                >>> i2c = I2C(sda=Pin(21), scl=Pin(22))    # I2Cを初期化
+                >>> print('0x%x' % i2c.scan()[0])    # BME280のI2Cアドレスを確認する
+                0x76
+                >>>
+
+
+                ## BME280ライブラリをM5Stackに転送する
+
+                M5StackからBME280をアクセスするプログラムはGithubに置きました。
+                * [ambient-python-lib](https://github.com/AmbientDataInc/ambient-python-lib)
+
+                [このページ](https://github.com/AmbientDataInc/ambient-python-lib)右上の
+                「Clone or download」をクリックし、「Download ZIP」をクリックして、
+                ZIP形式のファイルをダウンロードし、適当なディレクトリーで展開します。
+
+                BME280のライブラリはGithubに公開されているESP8266用MicroPythonライブラリ「[catdog2/mpy_bme280_esp8266](https://github.com/catdog2/mpy_bme280_esp8266)」を使いました。
+
+                PC上のファイルをM5Stackに転送するのはampyというコマンドが便利です。
+                ampyコマンドのインストールと使い方は「[ampy: MicroPythonマイコンとPCとのファイル転送ツール](https://ambidata.io/blog/2018/03/15/ampy/)」をご覧ください。
+
+                ```bash
+                $ export AMPY_PORT=/dev/tty.SLAB_USBtoUART
+                $ ampy put examples/M5_BME280/bme280.py
+                $ ampy ls /flash
+                boot.py
+                config.json
+                bme280.py
+                ```
+
+                ## M5StackからBME280をアクセスする
+
+                PCからM5Stackに接続し、以下のMicroPythonプログラムを入力すると、
+                BME280にアクセスして温度、湿度、気圧を取得し、表示するのが確認できます。
+
+                ```bash
+                >>> import bme280
+                >>> from machine import I2C, Pin
+                >>> i2c = I2C(scl=Pin(22), sda=Pin(21))
+                >>> bme = bme280.BME280(i2c=i2c)
+                >>> print(bme.values)
+                ('21.57C', '1017.90hPa', '40.41%')
+                ```
+
+                ## BME280のデータをAmbientに送信する
+
+                センサデータをAmbientに送信するMicroPythonライブラリはESP8266用のものと共通です。
+                BME280のデータをAmbientに送信するプログラムは次のようになります。
+
+                プログラム
+                <script src="https://gist.github.com/TakehikoShimojima/91cb688c58df673c0c373af34af9b341.js"></script>
+
+                これらのプログラムも先程Githubからダウンロードしてきたものに含まれています。
+                main.pyのAmbientオブジェクトの初期化にご自分のチャネルIDとライトキーを設定し、
+                ampyでM5Stackに転送します。
+
+                ```bash
+                $ ampy put ambient.py
+                $ ampy put examples/M5_BME280/main.py
+                $ ampy ls /flash
+                boot.py
+                config.json
+                ambient.py
+                main.py
+                bme280.py
+                ```
+
+                これでM5Stackに次のようにファイルが置かれます。
+
+                /flash
+                +---boot.py
+                    config.json
+                    ambient.py
+                    main.py
+                    bme280.py
+
+                /flashの下にmain.pyというファイルがあると、M5Stackがリセットされた時、そのプログラムが実行されます。
+
+                M5Stackをリセットして、Ambientサイトで設定したIDのチャネルページを見ると、次のように温度、湿度、気圧データが送信されているのが確認できます。
+
+                scsho_upython2.jpg
+
+
+                # 温湿度・気圧・空気品質センサBME680を使う
+
+                ## M5StackにBME680をつなぐ
+
+                温湿度・気圧に加えて、空気品質を測定できるBME680というセンサがあります。
+                これもM5Stackにつなげてみます。接続の詳細は「[M5Stack(Arduino編)](https://ambidata.io/samples/m5stack/m5stack-arduino/)」をご覧ください。
+
+                M5StackとBME680の写真
+
+                ## M5StackからBME680をアクセスする
+
+                BME680をアクセスするPythonライブラリモジュールはBME680モジュールを提供している[Pimoroni社のもの](https://github.com/pimoroni/bme680)を使いました。
+                これを[MicroPythonで動かすためのアダプター](https://github.com/gkluoe/bme680)も使います。
+                ファイルはBME280をアクセスするプログラムと一緒にGithubに公開してあり、
+                すでにPC上にダウンロードされています。
+
+                次のようにM5Stackの/flashの下にbme680というディレクトリーを作り、必要なファイルを転送します。
+
+                BME280のアクセスから続いて操作している場合は、ここでM5Stackをリセットしてください。
+
+                ```bash
+                $ ampy mkdir bme680
+                $ ampy put examples/M5_BME680/bme680/__init__.py /flash/bme680/__init__.py
+                $ ampy put examples/M5_BME680/bme680/constants.py /flash/bme680/constants.py
+                $ ampy put examples/M5_BME680/bme680/i2c.py /flash/bme680/i2c.py
+                $ ampy put examples/M5_BME680/main.py
+                ```
+
+                これでM5Stackのファイルシステムは次のようになります。
+
+                /flash
+                +---boot.py
+                    config.json
+                    ambient.py
+                    bme280.py
+                    main.py
+                    bme680
+                    +---__init__.py
+                        constants.py
+                        i2c.py
+
+                M5Stackをリセットすると、今転送したmain.pyが実行され、
+                BME680で取得した温度、湿度、気圧がAmbientに送信されます。
+
+
+                # まとめ
+
+                M5Stackは5.4cm x 5.4cmのコンパクトなケースにESP32、電池、320 x 240 TFTカラーディスプレイなどが搭載されたIoT端末です。拡張モジュールを積み重ねることで機能を拡張していけます。
+                MicroPythonで使うと、対話モードでセンサなどの動作を確認しながらプログラムを作っていけるので、
+                プロトタイプ段階で特に便利です。
+
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#M5Stack">M5Stack</a></li>
+                        <li><a href="#setup">M5Stackを使うためのArduinoの環境設定</a></li>
+                        <li><a href="#bme280">温湿度・気圧センサBME280を使う</a></li>
+                        <li><a href="#program">プログラム</a></li>
+                        <li><a href="#bme680">温湿度・気圧・空気品質センサBME680を使う</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu">
+                <h4>バックナンバー</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="../temphumidpress/index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
+                    <li><a href="../airquality/index.html">2.空気品質を測定し、記録する</a></li>
+                    <li><a href="../m5stack_arduino/index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
