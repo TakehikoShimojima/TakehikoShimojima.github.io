@@ -121,6 +121,15 @@
                 <p>公式サイトに<a href="http://www.m5stack.com/assets/docs/index.html#getting-started" target="_blank">Windows/Mac/Linuxでのインストール方法</a>が解説されています。
                 ここでは簡単にMacでのインストールの流れを紹介します。</p>
 
+                <ul>
+                    <li>USBドライバのインストール
+                        <p>M5StackとUSBで通信するために、USBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」をダウンロードしてインストールします。</p>
+                    </li>
+                    <li>ESP32 Arduino Coreのインストール
+                        <p><a href="http://www.m5stack.com/assets/docs/index.html#getting-started" target="_blank">公式サイト</a>の説明に従ってESP32 Arduino Coreをインストールします。</p>
+                    </li>
+                </ul>
+
                 <h3>USBドライバのインストール</h3>
 
                 <p>M5StackとUSBで通信するために、USBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」をダウンロードしてインストールします。</p>
@@ -234,10 +243,10 @@
                 BME280をI2Cで使う時はSDAとSCLをプルアップする必要があります。
                 スイッチサイエンスのESP8266モジュールにはプルアップ抵抗が載っていませんが、プログラムでプルアップするので大丈夫です。</p>
 
-                <p><pre>
+<p><pre>
     pinMode(21, INPUT_PULLUP);
     pinMode(22, INPUT_PULLUP);
-                </pre></p>
+</pre></p>
 
                 <h3>BME280のデータをAmbientに送る</h3>
 
