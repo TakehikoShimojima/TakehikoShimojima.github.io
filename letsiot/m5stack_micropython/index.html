@@ -107,71 +107,80 @@
                 </ul>
 
 
-                # M5Stackを使うためのMicroPythonの環境設定
+                <h2 id="setup">M5Stackを使うためのMicroPythonの環境設定</h2>
 
-                M5StackのMicroPython開発環境には次の二つがあります。
+                <p>M5StackのMicroPython開発環境には次の二つがあります。</p>
 
-                * M5Cloud
-                クラウドでソースコードを管理する開発環境。
-                Web上でプログラムを開発し、Wi-Fi経由でプログラムをM5Stackに送り、実行します。
+                <ul>
+                    <li>M5Cloud
+                        <p>クラウドでソースコードを管理する開発環境。
+                        Web上でプログラムを開発し、Wi-Fi経由でプログラムをM5Stackに送り、実行します。</p>
+                    </li>
+                    <li>オフライン環境
+                        <p>ローカルのPCでソースを管理する環境。
+                        PCでプログラムを開発し、シリアル回線経由でプログラムをM5Stackに送り、実行します。</p>
+                    </li>
+                </ul>
 
-                * オフライン環境
-                ローカルのPCでソースを管理する環境。
-                PCでプログラムを開発し、シリアル回線経由でプログラムをM5Stackに送り、実行します。
-
-                [公式サイト](https://github.com/m5stack/M5Cloud)の説明に沿って環境を設定していくとM5Cloud環境になりますが、
+                <p><a href="https://github.com/m5stack/M5Cloud" target="_blank">公式サイトの説明に沿って環境を設定していくとM5Cloud環境になりますが、
                 M5Cloudは現時点(2018年3月20日)ではβ版で、一度つけたプロジェクト名が変更できないなど、
                 まだ荒削りなところがあります。また、ソースコードのバージョン管理機能がないので、
-                今回はローカル開発環境を使います。
+                今回はローカル開発環境を使います。</p>
 
-                ## USBドライバーのインストール
+                <h3>USBドライバーのインストール</h3>
 
-                M5StackとUSBで通信するために、USBドライバ「
-                [SiLabs CP2104 Driver](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)」をダウンロードしてインストールします。ここはArduino IDEで使う場合と共通です。
+                <p>M5StackとUSBで通信するために、
+                USBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」をダウンロードしてインストールします。
+                ここはArduino IDEで使う場合と共通です。</p>
 
-                ## esptoolのインストール
+                <h3>esptoolのインストール</h3>
 
-                esptoolはシリアル回線経由でESP8266やESP32のフラッシュメモリーを消去したり
-                バイナリーファイルを書き込めるツールです。
+                <p>esptoolはシリアル回線経由でESP8266やESP32のフラッシュメモリーを消去したり
+                バイナリーファイルを書き込めるツールです。</p>
 
-                過去にesptoolをインストールしていなければ、次のようにしてesptoolをインストールします。
+                <p>過去にesptoolをインストールしていなければ、次のようにしてesptoolをインストールします。</p>
 
-                $ sudo pip install esptool
+<p><pre>
+    $ sudo pip install esptool
+</pre></p>
 
-                以前にインストールしていれば、次のようにして更新します。
+                <p>以前にインストールしていれば、次のようにして更新します。</p>
 
-                $ sudo pip install -U esptool
+<p><pre>
+    $ sudo pip install -U esptool
+</pre></p>
 
-                ## MicroPythonファームウェアのダウンロード
+                <h3>MicroPythonファームウェアのダウンロード</h3>
 
-                [M5Stack用のMicroPythonファームウェアのダウンロードページ](https://github.com/m5stack/M5Cloud/tree/master/firmwares)でファームウェアをダウンロードします。
-                この時、M5Cloud用とオフライン用があるので、オフライン用をクリックし、最新のファームウェアを選択します。
+                <p><a href="https://github.com/m5stack/M5Cloud/tree/master/firmwares" target="_blank">M5Stack用のMicroPythonファームウェアのダウンロードページ</a>でファームウェアをダウンロードします。
+                この時、M5Cloud用とオフライン用があるので、オフライン用をクリックし、最新のファームウェアを選択します。</p>
 
-                upythonfirm.jpg
+                <p><img src="./images/upythonfirm.jpg" width="80%" class="img-responsive center-block"></p>
 
-                ## ファームウェアをM5Stackに書き込む
+                <h3>ファームウェアをM5Stackに書き込む</h3>
 
-                M5StackをUSBケーブルでPCに接続し、esptoolを使い、まずerase_flashコマンドでフラッシュを消去し、次にwrite_flashコマンドでファームウェアを書き込みます。
+                <p>M5StackをUSBケーブルでPCに接続し、esptoolを使い、まずerase_flashコマンドでフラッシュを消去し、次にwrite_flashコマンドでファームウェアを書き込みます。</p>
 
-                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
+<p><pre>
+    $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
 
-                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART write_flash --flash_mode dio -z 0x1000 m5stack-20180228-v0.3.4.bin
+    $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART write_flash --flash_mode dio -z 0x1000 m5stack-20180228-v0.3.4.bin
+</pre></p>
 
+                <h3>Wi-Fiの設定</h3>
 
-                ## Wi-Fiの設定
+                <p>ファームウェアを書き込むと、M5Stackの画面に次のようなメッセージが表示されます。</p>
 
-                ファームウェアを書き込むと、M5Stackの画面に次のようなメッセージが表示されます。
+                <p><img src="./images/scsho_upython0.jpg" width="80%" class="img-responsive center-block"></p>
 
-                scsho_upython0.jpg
-
-                M5Stackが一時的にWi-Fiアクセスポイントになっているので、
+                <p>M5Stackが一時的にWi-Fiアクセスポイントになっているので、
                 画面に表示されたssidにPCやスマートフォンで接続します。パスワードは設定されていません。
-                ブラウザで192.168.4.1にアクセスすると、次のような設定画面が表示されます。
+                ブラウザで192.168.4.1にアクセスすると、次のような設定画面が表示されます。</p>
 
-                scsho_upython1.jpg
+                <p><img src="./images/scsho_upython1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                お使いのWi-FiルーターのSSIDとPasswordを入力してConfigureをクリックすると、
-                M5StackのWi-Fi環境が設定され、Wi-Fiに接続されます。
+                <p>お使いのWi-FiルーターのSSIDとPasswordを入力してConfigureをクリックすると、
+                M5StackのWi-Fi環境が設定され、Wi-Fiに接続されます。</p>
 
 
                 ## M5StackとMicroPython開発環境の動作確認
