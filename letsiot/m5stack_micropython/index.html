@@ -182,121 +182,127 @@
                 <p>お使いのWi-FiルーターのSSIDとPasswordを入力してConfigureをクリックすると、
                 M5StackのWi-Fi環境が設定され、Wi-Fiに接続されます。</p>
 
+                <h3>M5StackとMicroPython開発環境の動作確認</h3>
 
-                ## M5StackとMicroPython開発環境の動作確認
+                <p>PCからCoolTermなどの通信プログラム、あるいはcuコマンドなどでM5Stackにつなぎ、
+                リターンキーを押すと、次のようにMicroPythonのプロンプトが表示されます。MicroPythonの文を入力すると、実行されます。
+                ちなみに、cuコマンドは「~.(チルダ ピリオド)」で切断できます。</p>
+<p><pre>
+    $ sudo cu -s 115200 -l /dev/tty.SLAB_USBtoUART
+    Connected.
 
-                PCからCoolTermなどの通信プログラム、あるいはcuコマンドなどでM5Stackにつなぎ、リターンキーを押すと、次のようにMicroPythonのプロンプトが表示されます。MicroPythonの文を入力すると、実行されます。
-                ちなみに、cuコマンドは「~.(チルダ ピリオド)」で切断できます。
+    >>> print('hello world')
+    hello world
+    >>>
+    >>> from m5stack import lcd     # lcdモジュールをインポート
+    >>> lcd.clear()    # lcdをクリア
+    >>> lcd.print('hello')    # lcdにhelloと出力される
 
-                $ sudo cu -s 115200 -l /dev/tty.SLAB_USBtoUART
-                Connected.
+    >>> ~.
 
-                >>> print('hello world')
-                hello world
-                >>>
-                >>> from m5stack import lcd     # lcdモジュールをインポート
-                >>> lcd.clear()    # lcdをクリア
-                >>> lcd.print('hello')    # lcdにhelloと出力される
+    Disconnected.
+</pre></p>
 
-                >>> ~.
+                <h2>温湿度・気圧センサBME280を使う</h2>
 
-                Disconnected.
+                <h3>M5StackにBME280をつなぐ</h3>
 
+                <p><img src="./images/M5Stack_back.jpg" width="60%" class="img-responsive center-block"></p>
 
-                # 温湿度・気圧センサBME280を使う
+                <p>Arduino編と同様にM5Stackに温湿度・気圧センサBME280をつないでみます。
+                詳細は「<a href="https://ambidata.io/samples/m5stack/m5stack-arduino/">M5Stack(Arduino編)</a>」をご覧ください。</p>
 
-                ## M5StackにBME280をつなぐ
-
-                M5Stackの裏側の写真
-
-                Arduino編と同様にM5Stackに温湿度・気圧センサBME280をつないでみます。
-                詳細は「[M5Stack(Arduino編)](https://ambidata.io/samples/m5stack/m5stack-arduino/)」をご覧ください。
-
-                BME280を接続したら、M5StackをUSBケーブルでPCに接続し、CoolTermやcuなどの通信プログラムを起動します。
+                <p>BME280を接続したら、M5StackをUSBケーブルでPCに接続し、CoolTermやcuなどの通信プログラムを起動します。
                 次のプログラムを入力すると、BME280のI2Cアドレスを確認できます。
-                センサの動作が簡単に確認できるところは対話モードは非常に便利です。
+                センサの動作が簡単に確認できるところは対話モードは非常に便利です。</p>
 
-                >>> from machine import I2C, Pin    # I2CモジュールとPinモジュールをインポート
-                >>> i2c = I2C(sda=Pin(21), scl=Pin(22))    # I2Cを初期化
-                >>> print('0x%x' % i2c.scan()[0])    # BME280のI2Cアドレスを確認する
-                0x76
-                >>>
+<p><pre>
+    >>> from machine import I2C, Pin    # I2CモジュールとPinモジュールをインポート
+    >>> i2c = I2C(sda=Pin(21), scl=Pin(22))    # I2Cを初期化
+    >>> print('0x%x' % i2c.scan()[0])    # BME280のI2Cアドレスを確認する
+    0x76
+    >>>
+</pre></p>
 
+                <h3>BME280ライブラリをM5Stackに転送する</h3>
 
-                ## BME280ライブラリをM5Stackに転送する
+                <p>M5StackからBME280をアクセスするプログラムはGithubに置きました。</p>
 
-                M5StackからBME280をアクセスするプログラムはGithubに置きました。
-                * [ambient-python-lib](https://github.com/AmbientDataInc/ambient-python-lib)
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/ambient-python-lib" target="_blank">ambient-python-lib</a></li>
+                </ul>
 
-                [このページ](https://github.com/AmbientDataInc/ambient-python-lib)右上の
+                <a href="https://github.com/AmbientDataInc/ambient-python-lib" target="_blank">このページ</a>右上の
                 「Clone or download」をクリックし、「Download ZIP」をクリックして、
-                ZIP形式のファイルをダウンロードし、適当なディレクトリーで展開します。
+                ZIP形式のファイルをダウンロードし、適当なディレクトリーで展開します。</p>
 
-                BME280のライブラリはGithubに公開されているESP8266用MicroPythonライブラリ「[catdog2/mpy_bme280_esp8266](https://github.com/catdog2/mpy_bme280_esp8266)」を使いました。
+                <p>BME280のライブラリはGithubに公開されているESP8266用MicroPythonライブラリ「<a href="https://github.com/catdog2/mpy_bme280_esp8266" target="_blank">catdog2/mpy_bme280_esp8266</a>」を使いました。</p>
 
-                PC上のファイルをM5Stackに転送するのはampyというコマンドが便利です。
-                ampyコマンドのインストールと使い方は「[ampy: MicroPythonマイコンとPCとのファイル転送ツール](https://ambidata.io/blog/2018/03/15/ampy/)」をご覧ください。
+                <p>PC上のファイルをM5Stackに転送するのはampyというコマンドが便利です。
+                ampyコマンドのインストールと使い方は「<a href="https://ambidata.io/blog/2018/03/15/ampy/" target="_blank">ampy: MicroPythonマイコンとPCとのファイル転送ツール</a>」をご覧ください。</p>
 
-                ```bash
-                $ export AMPY_PORT=/dev/tty.SLAB_USBtoUART
-                $ ampy put examples/M5_BME280/bme280.py
-                $ ampy ls /flash
-                boot.py
-                config.json
-                bme280.py
-                ```
+<p><pre>
+    $ export AMPY_PORT=/dev/tty.SLAB_USBtoUART
+    $ ampy put examples/M5_BME280/bme280.py
+    $ ampy ls /flash
+    boot.py
+    config.json
+    bme280.py
+</pre></p>
 
-                ## M5StackからBME280をアクセスする
+                <h3>M5StackからBME280をアクセスする</h3>
 
-                PCからM5Stackに接続し、以下のMicroPythonプログラムを入力すると、
-                BME280にアクセスして温度、湿度、気圧を取得し、表示するのが確認できます。
+                <p>PCからM5Stackに接続し、以下のMicroPythonプログラムを入力すると、
+                BME280にアクセスして温度、湿度、気圧を取得し、表示するのが確認できます。</p>
 
-                ```bash
-                >>> import bme280
-                >>> from machine import I2C, Pin
-                >>> i2c = I2C(scl=Pin(22), sda=Pin(21))
-                >>> bme = bme280.BME280(i2c=i2c)
-                >>> print(bme.values)
-                ('21.57C', '1017.90hPa', '40.41%')
-                ```
+<p><pre>
+    >>> import bme280
+    >>> from machine import I2C, Pin
+    >>> i2c = I2C(scl=Pin(22), sda=Pin(21))
+    >>> bme = bme280.BME280(i2c=i2c)
+    >>> print(bme.values)
+    ('21.57C', '1017.90hPa', '40.41%')
+</pre></p>
 
-                ## BME280のデータをAmbientに送信する
+                <h3>BME280のデータをAmbientに送信する</h3>
 
-                センサデータをAmbientに送信するMicroPythonライブラリはESP8266用のものと共通です。
-                BME280のデータをAmbientに送信するプログラムは次のようになります。
+                <p>センサデータをAmbientに送信するMicroPythonライブラリはESP8266用のものと共通です。
+                BME280のデータをAmbientに送信するプログラムは次のようになります。<p>
 
-                プログラム
                 <script src="https://gist.github.com/TakehikoShimojima/91cb688c58df673c0c373af34af9b341.js"></script>
 
-                これらのプログラムも先程Githubからダウンロードしてきたものに含まれています。
+                <p>これらのプログラムも先程Githubからダウンロードしてきたものに含まれています。
                 main.pyのAmbientオブジェクトの初期化にご自分のチャネルIDとライトキーを設定し、
-                ampyでM5Stackに転送します。
+                ampyでM5Stackに転送します。</p>
 
-                ```bash
-                $ ampy put ambient.py
-                $ ampy put examples/M5_BME280/main.py
-                $ ampy ls /flash
-                boot.py
-                config.json
-                ambient.py
-                main.py
-                bme280.py
-                ```
+<p><pre>
+    $ ampy put ambient.py
+    $ ampy put examples/M5_BME280/main.py
+    $ ampy ls /flash
+    boot.py
+    config.json
+    ambient.py
+    main.py
+    bme280.py
+</pre></p>
 
-                これでM5Stackに次のようにファイルが置かれます。
+                <p>これでM5Stackに次のようにファイルが置かれます。</p>
 
-                /flash
-                +---boot.py
-                    config.json
-                    ambient.py
-                    main.py
-                    bme280.py
+<p><pre>
+    /flash
+    +---boot.py
+        config.json
+        ambient.py
+        main.py
+        bme280.py
+</pre></p>
 
-                /flashの下にmain.pyというファイルがあると、M5Stackがリセットされた時、そのプログラムが実行されます。
+                <p>/flashの下にmain.pyというファイルがあると、M5Stackがリセットされた時、そのプログラムが実行されます。</p>
 
-                M5Stackをリセットして、Ambientサイトで設定したIDのチャネルページを見ると、次のように温度、湿度、気圧データが送信されているのが確認できます。
+                <p>M5Stackをリセットして、Ambientサイトで設定したIDのチャネルページを見ると、次のように温度、湿度、気圧データが送信されているのが確認できます。</p>
 
-                scsho_upython2.jpg
+                <p><img src="./images/scsho_upython2.jpg" width="80%" class="img-responsive center-block"></p>
+
 
 
                 # 温湿度・気圧・空気品質センサBME680を使う
