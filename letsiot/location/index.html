@@ -90,10 +90,10 @@
             </div>
 
             <div class="col-sm-9 col-lg-8">
-                <p>「AmbientでIoTをはじめよう」、第5回はGPSモジュールを使い、
+                <p>「AmbientでIoTをはじめよう」の第5回は、GPSモジュールを使い、
                     いろいろな場所のデータを測定して、クラウドに送信し、記録し、確認する事例を紹介します。</p>
 
-                <h2>位置情報付きデータ</h2>
+                <h2 id="locationdata">位置情報付きデータ</h2>
 
                 <p>センサデータにはいつどこで測定したデータかという情報が付帯しています。</p>
 
@@ -119,7 +119,7 @@
 
                 <p>今回は、いろいろな場所の空気品質を測定し、クラウドに送って、記録、可視化する事例を紹介します。</p>
 
-                <h2>全体の構成</h2>
+                <h2 id="struct">全体の構成</h2>
 
                 <p>センサ端末は第2回「<a href="http://pages.switch-science.com/letsiot/airquality/index.html">空気品質を測定し、記録する</a>」で開発した端末と同じものに、
                     位置を調べるためにGPSモジュールを加えます。端末を持ち運べるように、電池駆動にします。</p>
@@ -129,7 +129,7 @@
 
                 <p><img src="./images/structure.jpg" width="100%" class="img-responsive center-block"></p>
 
-                <h2>センサ端末のハードウェア</h2>
+                <h2 id="hardware">センサ端末のハードウェア</h2>
 
                 <p>第2回「空気品質を測定し、記録する」で開発した端末と同じく、マイコンはESPr Developerを、
                     センサは温湿度・気圧センサBME280と空気品質センサCCS811を使います。
@@ -166,7 +166,8 @@
 
                 <p><img src="./images/schema.jpg" width="100%" class="img-responsive center-block"></p>
 
-                <p>ブレッドボード上に組み立てた実際の端末です。</p>
+                <p>ブレッドボード上に組み立てた実際の端末です。
+                    ESPr Developerは面積がコンパクトなので、ブレッドボードが有効に使えます。</p>
 
                 <p><img src="./images/board.jpg" width="100%" class="img-responsive center-block"></p>
 
@@ -189,7 +190,7 @@
                     </table>
                 </div>
 
-                <h2>センサ端末の動作確認</h2>
+                <h2 id="check">センサ端末の動作確認</h2>
 
                 <p>Arduino開発環境の準備とAmbientライブラリのインストールについては第1回「
                     <a href="http://pages.switch-science.com/letsiot/temphumidpress/index.html">温度、湿度、気圧を測定し、記録する</a>」
@@ -200,8 +201,8 @@
                         の「センサ端末の動作確認」をご覧ください。</p>
 
                 <p>プログラムでシリアル通信を実現するライブラリーは「
-                    <a href="https://github.com/plerup/espsoftwareserial">EspSoftwareSerial</a>」を使いました。
-                    <a href="https://github.com/plerup/espsoftwareserial">Githubのページ</a>右上の
+                    <a href="https://github.com/plerup/espsoftwareserial" target="_blank">EspSoftwareSerial</a>」を使いました。
+                    <a href="https://github.com/plerup/espsoftwareserial" target="_blank">Githubのページ</a>右上の
                         「Clone or download」から「Download ZIP」を選んでZIPファイルをダウンロードし、Arduino IDEを立ち上げて、
                         「スケッチ」メニューの「ライブラリをインクルード」→「.ZIP形式のライブラリをインストール…」
                         でダウンロードしたZIPファイルを選択すればインストールは完了です。</p>
@@ -225,7 +226,7 @@
     $GPGSA,A,3,14,27,32,193,26,,,,,,,,3.07,2.92,0.96*3E
 </pre></p>
 
-                <p>これは<a href="https://ja.wikipedia.org/wiki/NMEA_0183">NMEA-0183フォーマット</a>
+                <p>これは<a href="https://ja.wikipedia.org/wiki/NMEA_0183" target="_blank">NMEA-0183フォーマット</a>
                     というフォーマットの文字列で、
                     時刻、緯度、経度、海抜高度、測位に利用した衛星の数やID、それぞれの衛星の位置(方位角と仰角)などの情報が含まれています。</p>
 
@@ -256,7 +257,7 @@
                     </table>
                 </div>
 
-                <p>興味のある方は<a href="http://aprs.gids.nl/nmea/">こちらのサイト</a>をご覧ください。</p>
+                <p>興味のある方は<a href="http://aprs.gids.nl/nmea/" target="_blank">こちらのサイト</a>をご覧ください。</p>
 
                 <p>また、GPSモジュールがGPS衛星のデータを受信して位置を確定させるためには、
                     GPSモジュールを空が見える屋外に置き、45秒以上動作させる必要があります。
@@ -264,13 +265,13 @@
                     位置が確定できるまではモジュール上のLEDが1秒単位で点滅し、
                     確定できると15秒に1回点滅するようになります。</p>
 
-                <h2>ArduinoでGPSデーターを扱うライブラリ</h2>
+                <h2 id="program">ArduinoでGPSデーターを扱うライブラリ</h2>
 
                 <p>先程のデータは生のNMEA-0183フォーマットデータでした。
                     Arduinoにはこのデータをプログラムで扱いやすいデータに変換する「
-                    <a href="http://arduiniana.org/libraries/tinygpsplus/">TinyGPS++</a>」というライブラリがあります。</p>
+                    <a href="http://arduiniana.org/libraries/tinygpsplus/" target="_blank">TinyGPS++</a>」というライブラリがあります。</p>
 
-                <p>インストールはソフトシリアルと同様で<a href="http://arduiniana.org/libraries/tinygpsplus/">TinyGPS++のサイト</a>に行き、
+                <p>インストールはソフトシリアルと同様で<a href="http://arduiniana.org/libraries/tinygpsplus/" target="_blank">TinyGPS++のサイト</a>に行き、
                     ダウンロードアイコンの先の最新ZIPファイルをダウンロードし、Arduino IDEで「.ZIP形式のライブラリをインストール…」
                     でZIPファイルをインストールします。</p>
 
@@ -286,7 +287,7 @@
      }
 </pre></p>
 
-                <h2>いろいろな場所の空気品質を測定してAmbientに送る</h2>
+                <h2 id="measure">いろいろな場所の空気品質を測定してAmbientに送る</h2>
 
                 <p>GPSモジュールの動作確認ができたら、いよいよ温湿度・気圧センサー、空気品質センサーと組み合わせていろいろな場所の空気品質を測定してみます。</p>
 
@@ -322,7 +323,7 @@
                 <p>プログラムはGithubに公開しました。</p>
                     ・
 
-                <h2>Ambientでデータを確認する</h2>
+                <h2 id="viewdata">Ambientでデータを確認する</h2>
 
                 <p>Ambientで位置情報付きのデータを地図上に表示するには、チャート設定でグラフ種類として「地図」を選択します。</p>
 
@@ -332,7 +333,7 @@
 
                     <!-- ![]() -->
 
-                <h2>まとめ</h2>
+                <h2 id="summary">まとめ</h2>
 
                 <p>今回の事例はいろいろな場所の温度、湿度、気圧、CO2を測定しました。
                     センサデータを地図上にプロットすることで、場所による値の変化や傾向が分かりやすくなります。</p>
@@ -356,13 +357,13 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
                     <ul class="list-unstyled">
+                        <li><a href="#locationdata">位置情報付きデータ</a></li>
                         <li><a href="#struct">全体の構成</a></li>
                         <li><a href="#hardware">センサ端末のハードウェア</a></li>
                         <li><a href="#check">センサ端末の動作確認</a></li>
-                        <li><a href="#prepare">「Ambient」側の準備</a></li>
-                        <li><a href="#program">センサ端末のプログラム</a></li>
-                        <li><a href="#deepsleep">ESPr DeveloperをDeep Sleepさせる</a></li>
-                        <li><a href="#customize">Ambientの表示のカスタマイズ</a></li>
+                        <li><a href="#program">ArduinoでGPSデーターを扱うライブラリ</a></li>
+                        <li><a href="#measure">いろいろな場所の空気品質を測定してAmbientに送る</a></li>
+                        <li><a href="#viewdata">Ambientでデータを確認する</a></li>
                         <li><a href="#summary">まとめ</a></li>
                     </ul>
                 </ul>
