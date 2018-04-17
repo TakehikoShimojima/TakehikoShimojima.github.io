@@ -137,6 +137,8 @@
                     両方合わせてI2Cでアクセスします。</p>
 
                 <p>GPSモジュールは「Adafruit Ultimate 66チャンネル10Hz GPSモジュール Version 3」を使います。
+                    66チャンネルというのは66個のGPS衛星をサーチし、22個の衛星をトラッキングできるのだそうです。
+                    アンテナは内蔵されていて、外部アンテナをつけることもできます。
                     このGPSモジュールはシリアル通信でアクセスします。
                     ESPr Developerに使われているESP8266にはシリアル通信モジュールが一つの搭載されていますが、
                     それはPCとの通信やプログラムのダウンロードに使われていて、アプリケーションでは使えません。
@@ -211,7 +213,8 @@
 
                 <script src="https://gist.github.com/TakehikoShimojima/24348b14a6680e61d599b4e9e011578b.js"></script>
 
-                <p>次のような文字列が出力されます。文字列の内容はGPS衛星から受信するデータにより異なります。</p>
+                <p>プログラムをビルドして、ESPr Developerに書き込むと、次のような文字列が出力されます。
+                    文字列の内容はGPS衛星から受信するデータにより異なります。</p>
 
 <p><pre>
     GPS test
@@ -303,11 +306,11 @@
         温湿度・気圧センサーからデータを読む();
         空気品質センサーからデータを読む();
         Ambientにデータと位置情報を送る();
-        5分待つ();
+        1分待つ();
     }
 </pre></p>
 
-                <p>5分毎に位置と温度、湿度、気圧、CO2の値を測定します。
+                <p>1分毎に位置と温度、湿度、気圧、CO2の値を測定します。
                     Ambientには位置情報付きのデーターを受信し、地図上に表示する機能があります。
                     通常のd1からd8のデータに加えて、緯度をデータ9、経度をデータ10として送ると位置情報付きデータになります。</p>
 
@@ -329,9 +332,15 @@
 
                 <p><img src="./images/chartsetting.jpg" width="100%" class="img-responsive center-block"></p>
 
-                <p>データはこんな感じで地図上にプロットされて表示されます。</p>
+                <p>データはこんな感じで地図上にプロットされて表示されます。
+                    プロットはデータの値によって色を変えて表示されます。プロットをクリックするとその地点のデータがポップアップして表示されます。</p>
 
-                    <!-- ![]() -->
+                <p><img src="./images/scsho0.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>Ambientのデータはスマートフォンのブラウザでも見ることができます。
+                    センサ端末を持ち運び、いろいろな場所でデータを測定し、その場でデータを確認できるのは便利です。</p>
+
+                <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h2 id="summary">まとめ</h2>
 
@@ -355,7 +364,7 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
+                    <li class="open"><a href="index.html">5.場所に応じたセンサデータを測定し、記録する</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#locationdata">位置情報付きデータ</a></li>
                         <li><a href="#struct">全体の構成</a></li>
