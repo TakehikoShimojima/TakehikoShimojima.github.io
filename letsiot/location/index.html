@@ -1,0 +1,430 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Location - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>場所に応じたセンサデータを測定し、記録する - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年4月23日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>場所に応じたセンサデータを測定し、記録する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」、第5回はGPSモジュールを使い、
+                    いろいろな場所のデータを測定して、クラウドに送信し、記録し、確認する事例を紹介します。</p>
+
+                <h2>位置情報付きデータ</h2>
+
+                <p>センサデータにはいつどこで測定したデータかという情報が付帯しています。</p>
+
+                <p>第1回の温度、湿度や第2回の空気品質の事例は、時間とともに温度や空気品質がどう変化したかを測定、記録したものです。
+                    場所については触れていませんが、一つの場所で測定したデータであることを仮定しています。データは次のような形式になります。</p>
+
+<p><pre>
+    t1, d1=23.57, d2=44.45
+    t2, d1=23.78, d2=43.96
+    t3, d1=23.87, d2=43.87
+</pre></p>
+
+                <p>一方、場所と時間を変えながら測定されるデータもあります。例えば場所ごとの騒音レベルやCO2濃度などは場所に応じたデータです。
+                    また、サイクリングした時の位置と時刻と心拍数、ペダルの回転数は位置と時刻に応じたデータです。</p>
+
+                <p>データは次のように、緯度経度で表される位置情報がついた形式になります。</p>
+
+<p><pre>
+    t1, d1=23.57, d2=44.45, 緯度=35.64, 経度=139.62
+    t2, d1=23.78, d2=43.96, 緯度=35.62, 経度=139.60
+    t3, d1=23.87, d2=43.87, 緯度=35.63, 経度=139.61
+</pre></p>
+
+                <p>今回は、いろいろな場所の空気品質を測定し、クラウドに送って、記録、可視化する事例を紹介します。</p>
+
+                <h2>全体の構成</h2>
+
+                <p>センサ端末は第2回「<a href="http://pages.switch-science.com/letsiot/airquality/index.html">空気品質を測定し、記録する</a>」で開発した端末と同じものに、
+                    位置を調べるためにGPSモジュールを加えます。端末を持ち運べるように、電池駆動にします。</p>
+
+                <p>クラウドにデータを送信するためにモバイルWi-Fiルータを使い、センサ端末を持ち運び可能にします。
+                    スマートフォンのテザリング機能を使っても構いません。</p>
+
+                <p><img src="./images/structure.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <h2>センサ端末のハードウェア</h2>
+
+                <p>第2回「空気品質を測定し、記録する」で開発した端末と同じく、マイコンはESPr Developerを、
+                    センサは温湿度・気圧センサBME280と空気品質センサCCS811を使います。
+                    BME280はI2CとSPIという二つのインタフェースに対応していますが、CCS811がI2Cインタフェースのみに対応なので、
+                    両方合わせてI2Cでアクセスします。</p>
+
+                <p>GPSモジュールは「Adafruit Ultimate 66チャンネル10Hz GPSモジュール Version 3」を使います。
+                    このGPSモジュールはシリアル通信でアクセスします。
+                    ESPr Developerに使われているESP8266にはシリアル通信モジュールが一つの搭載されていますが、
+                    それはPCとの通信やプログラムのダウンロードに使われていて、アプリケーションでは使えません。
+                    そこで、プログラムでシリアル通信を実現するライブラリーを使い、PCと通信しているのとは別のピンでシリアル通信します。
+                    今回はピン12と2を使い、次のようにGPSモジュールと接続します。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
+                        <thead>
+                            <tr align="center"><th style="width: 50%;">GPSモジュール</th><th>ESP8266など</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr align="center"><td>3.3v</td><td>-</td></tr>
+                            <tr align="center"><td>EN</td><td>10kΩでプルアップ</td></tr>
+                            <tr align="center"><td>VBAT</td><td>3.3v</td></tr>
+                            <tr align="center"><td>FIX</td><td>-</td></tr>
+                            <tr align="center"><td>TX</td><td>IO2</td></tr>
+                            <tr align="center"><td>RX</td><td>IO12</td></tr>
+                            <tr align="center"><td>GND</td><td>GND</td></tr>
+                            <tr align="center"><td>VIN</td><td>3.3v</td></tr>
+                            <tr align="center"><td>PPS</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>回路図を示します。</p>
+
+                <p><img src="./images/schema.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>ブレッドボード上に組み立てた実際の端末です。</p>
+
+                <p><img src="./images/board.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>端末に必要な部品をまとめました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1085/">Adafruit Ultimate 66チャンネル10Hz GPSモジュール Version 3</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3298/">CCS811搭載 空気品質センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2236/">BME280搭載　温湿度・気圧センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2500/">ESPr® Developer (ESP-WROOM-02開発ボード)</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1280/">細いピンヘッダ 20P</a></td><td>2個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/313/">普通のブレッドボード</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/314/">固いジャンパワイヤ　(ブレッドボード用)</a></td><td>1個</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>センサ端末の動作確認</h2>
+
+                <p>Arduino開発環境の準備とAmbientライブラリのインストールについては第1回「
+                    <a href="http://pages.switch-science.com/letsiot/temphumidpress/index.html">温度、湿度、気圧を測定し、記録する</a>」
+                        の「Arduino開発環境の準備」と「Ambientライブラリとサンプルプログラムのインストール」をご覧ください。</p>
+
+                <p>温湿度・気圧センサBME280と空気品質センサCCS811の動作確認は第2回「
+                    <a href="http://pages.switch-science.com/letsiot/airquality/index.html">空気品質を測定し、記録する</a>」
+                        の「センサ端末の動作確認」をご覧ください。</p>
+
+                <p>プログラムでシリアル通信を実現するライブラリーは「
+                    <a href="https://github.com/plerup/espsoftwareserial">EspSoftwareSerial</a>」を使いました。
+                    <a href="https://github.com/plerup/espsoftwareserial">Githubのページ</a>右上の
+                        「Clone or download」から「Download ZIP」を選んでZIPファイルをダウンロードし、Arduino IDEを立ち上げて、
+                        「スケッチ」メニューの「ライブラリをインクルード」→「.ZIP形式のライブラリをインストール…」
+                        でダウンロードしたZIPファイルを選択すればインストールは完了です。</p>
+
+                <p>簡単なプログラムを動かして、GPSモジュールの動作確認をします。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/24348b14a6680e61d599b4e9e011578b.js"></script>
+
+                <p>次のような文字列が出力されます。文字列の内容はGPS衛星から受信するデータにより異なります。</p>
+
+<p><pre>
+    GPS test
+    $GPGGA,034836.000,3538.5838,N,13937.5787,E,1,05,2.92,64.9,M,39.4,M,,*56
+    $GPGSA,A,3,14,27,32,193,26,,,,,,,,3.07,2.92,0.96*3E
+    $GPGSV,3,1,11,26,64,316,30,14,43,191,25,16,42,274,,29,33,046,19*77
+    $GPGSV,3,2,11,21,22,119,16,27,19,207,41,23,19,314,,32,18,174,35*7B
+    $GPGSV,3,3,11,193,10,192,35,25,10,066,,36,,,*4C
+    $GPRMC,034836.000,A,3538.5838,N,13937.5787,E,0.35,69.41,150418,,,A*58
+    $GPVTG,69.41,T,,M,0.35,N,0.66,K,A*01
+    $GPGGA,034837.000,3538.5839,N,13937.5788,E,1,05,2.92,64.9,M,39.4,M,,*59
+    $GPGSA,A,3,14,27,32,193,26,,,,,,,,3.07,2.92,0.96*3E
+</pre></p>
+
+                <p>これは<a href="https://ja.wikipedia.org/wiki/NMEA_0183">NMEA-0183フォーマット</a>
+                    というフォーマットの文字列で、
+                    時刻、緯度、経度、海抜高度、測位に利用した衛星の数やID、それぞれの衛星の位置(方位角と仰角)などの情報が含まれています。</p>
+
+                <p>例えば最初の行の「$GPGGA,034836.000,3538.5838,N,13937.5787,E,1,05,2.92,64.9,M,39.4,M,,*56」は
+                    GPSのGGA(Global Positioning System Fix Data)情報で、次のような情報を表しています。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>意味</th><th>値</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>測位時刻(UTC)</td><td>3時48分36秒</td></tr>
+                            <tr><td>緯度</td><td>3538.5838</td></tr>
+                            <tr><td>緯度方角</td><td>N</td></tr>
+                            <tr><td>経度</td><td>13937.5787</td></tr>
+                            <tr><td>経度方角</td><td>E</td></tr>
+                            <tr><td>Fixタイプ</td><td>1:GPS Fix</td></tr>
+                            <tr><td>測位利用衛星数</td><td>05</td></tr>
+                            <tr><td>水平精度低下率</td><td>2.92</td></tr>
+                            <tr><td>海抜高度</td><td>64.9</td></tr>
+                            <tr><td>高度単位</td><td>M</td></tr>
+                            <tr><td>WGS-84座標系海抜高度差</td><td>39.4</td></tr>
+                            <tr><td>単位</td><td>M</td></tr>
+                            <tr><td>DGPSデータ残存時間</td><td>-</td></tr>
+                            <tr><td>チェックサム</td><td>56</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>興味のある方は<a href="http://aprs.gids.nl/nmea/">こちらのサイト</a>をご覧ください。</p>
+
+                <p>また、GPSモジュールがGPS衛星のデータを受信して位置を確定させるためには、
+                    GPSモジュールを空が見える屋外に置き、45秒以上動作させる必要があります。
+                    今回使用している「Adafruit Ultimate 66チャンネル10Hz GPSモジュール」は
+                    位置が確定できるまではモジュール上のLEDが1秒単位で点滅し、
+                    確定できると15秒に1回点滅するようになります。</p>
+
+                <h2>ArduinoでGPSデーターを扱うライブラリ</h2>
+
+                <p>先程のデータは生のNMEA-0183フォーマットデータでした。
+                    Arduinoにはこのデータをプログラムで扱いやすいデータに変換する「
+                    <a href="http://arduiniana.org/libraries/tinygpsplus/">TinyGPS++</a>」というライブラリがあります。</p>
+
+                <p>インストールはソフトシリアルと同様で<a href="http://arduiniana.org/libraries/tinygpsplus/">TinyGPS++のサイト</a>に行き、
+                    ダウンロードアイコンの先の最新ZIPファイルをダウンロードし、Arduino IDEで「.ZIP形式のライブラリをインストール…」
+                    でZIPファイルをインストールします。</p>
+
+                <p>シリアルから読んだGPSデーターを1文字づつライブラリに渡すと、それを解析し、GPSオブジェクトに追加、更新します。
+                    解析中はfalseが返り、1行処理して解析が成功するとtrueが返されます。
+                    シリアルからGPSデータを読んでGPSオブジェクトにする部分は次のようなプログラムになります。</p>
+
+<p><pre>
+    while (ss.available() > 0) {
+        if (gps.encode(ss.read())) {
+            break;
+        }
+     }
+</pre></p>
+
+                <h2>いろいろな場所の空気品質を測定してAmbientに送る</h2>
+
+                <p>GPSモジュールの動作確認ができたら、いよいよ温湿度・気圧センサー、空気品質センサーと組み合わせていろいろな場所の空気品質を測定してみます。</p>
+
+                <p>プログラムの大まかな構造は次のようになります。</p>
+
+<p><pre>
+    setup() {
+        もろもろの初期化();
+    }
+
+    loop() {
+        GPSから位置情報を読む();
+        温湿度・気圧センサーからデータを読む();
+        空気品質センサーからデータを読む();
+        Ambientにデータと位置情報を送る();
+        5分待つ();
+    }
+</pre></p>
+
+                <p>5分毎に位置と温度、湿度、気圧、CO2の値を測定します。
+                    Ambientには位置情報付きのデーターを受信し、地図上に表示する機能があります。
+                    通常のd1からd8のデータに加えて、緯度をデータ9、経度をデータ10として送ると位置情報付きデータになります。</p>
+
+<p><pre>
+    ambient.set(1, data.temperature);
+    ambient.set(2, data.humidity);
+    ...
+    ambient.set(9, gps.location.lat());  // 緯度をデータ9としてセット
+    ambient.set(10, gps.location.lng());  // 経度をデータ10としてセット
+    ambient.send();
+</pre></p>
+
+                <p>プログラムはGithubに公開しました。</p>
+                    ・
+
+                <h2>Ambientでデータを確認する</h2>
+
+                <p>Ambientで位置情報付きのデータを地図上に表示するには、チャート設定でグラフ種類として「地図」を選択します。</p>
+
+                <p><img src="./images/chartsetting.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>データはこんな感じで地図上にプロットされて表示されます。</p>
+
+                    <!-- ![]() -->
+
+                <h2>まとめ</h2>
+
+                <p>今回の事例はいろいろな場所の温度、湿度、気圧、CO2を測定しました。
+                    センサデータを地図上にプロットすることで、場所による値の変化や傾向が分かりやすくなります。</p>
+
+                <p>位置情報付きデータは車両運行情報の管理など実用的なものからサイクリングの時の心拍数などホビーでの利用まで、
+                    幅広い分野で利用できそうです。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">1.温度、湿度、気圧を測定し、記録する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#struct">全体の構成</a></li>
+                        <li><a href="#hardware">センサ端末のハードウェア</a></li>
+                        <li><a href="#check">センサ端末の動作確認</a></li>
+                        <li><a href="#prepare">「Ambient」側の準備</a></li>
+                        <li><a href="#program">センサ端末のプログラム</a></li>
+                        <li><a href="#deepsleep">ESPr DeveloperをDeep Sleepさせる</a></li>
+                        <li><a href="#customize">Ambientの表示のカスタマイズ</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
