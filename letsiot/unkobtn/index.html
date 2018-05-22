@@ -1,0 +1,291 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="unkobtn - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「うんこボタン」のカウントをクラウドで記録する - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年5月25日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>「うんこボタン」のカウントをクラウドで記録する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」の第6回は、
+                    「<a href="https://unkobtn.com/" target="_blank">うんこボタン</a>」のボタンを押した回数をクラウドに送信し、記録する事例を紹介します。</p>
+
+                <h2 id="unkobtn">「<a href="https://unkobtn.com/" target="_blank">うんこボタン</a>」</h2>
+
+                <p>「うんこボタン」は名前はふざけているようですが、赤ちゃんの排泄を簡単に記録し、育児の記録と共有に役立てるという真面目なデバイスです。
+                    8.4cm x 4.2cmの小さなケースにボタンが二つついていて、デフォルトではうんちとおしっこの記録に使います。
+                    ボタンを押すと信号がWi-Fi経由で「うんこボタン」のクラウドサービスに送られ、記録され、スマホアプリなどで確認できるしくみです。</p>
+
+                <p><img src="./images/unkobtn.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>「うんこボタン」はクラウドファンディングを利用して開発されました。
+                    支援コースの一つに「<a href="https://unkobtn.com/news/press/article/5/" target="_blank">ハッカーコース</a>」という、
+                    「うんこボタン」を利用してインターネットボタンを自作するコースがありました。
+                    今回はこのハッカーコースで入手した「うんこボタン」と、<a href="https://unkobtn.com/news/press/article/5/" target="_blank">参考情報</a>を利用して、
+                    「うんこボタン」のボタンを押した回数をAmbientに送ってカウントするインターネットボタンを作ります。</p>
+
+
+                <h2 id="connecttopc">「うんこボタン」をPCに接続する</h2>
+
+                <p>「うんこボタン」の中にはWi−Fi通信モジュール搭載の32ビットマイコンESP8266が搭載されています。
+                    PCとの通信機能は含まれていませんが、USBシリアル変換アダプターをつけることで、PCとUSBで通信できるようになります。
+                    「うんこボタン」側にピンヘッダをはんだ付けし、USBシリアル変換アダプターを接続します。</p>
+
+                <p><img src="./images/unkobtn_USBserial.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>「うんこボタン」にはマイコンの他に左右のスイッチ計2個、左右それぞれの赤と緑のLED計4個などが搭載されています。</p>
+                <p>今回使用した部品を表にしました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3800/">うんこボタン</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2782/">FTDI USBシリアル変換アダプター Rev.2</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/92/">普通のピンヘッダ10本セット</a></td><td>1個</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <h2 id="check">Arduinoでプログラミングし、動作確認する</h2>
+
+                <p>「うんこボタン」はPCと接続することでArduinoでプログラミングできます。Arduino IDEの設定は通常のESP8266用の設定と同じです。
+                    詳細は「うんこボタン」の<a href="https://unkobtn.com/news/press/article/5/" target="_blank">ハッカーコースのページ</a>をご覧ください。</p>
+
+                <p>「うんこボタン」にUSBシリアル変換アダプターを接続し、USBケーブルでPCにつなぎます。
+                    ハッカーコースのページに左右のボタンを押すと、左右のLEDが1秒程度点灯するという基本的なプログラムがあるので、それをArduino IDEにコピーし、ビルドします。
+                    「うんこボタン」にプログラムを書き込む時は、USBシリアル変換アダプターを接続した場所と反対側にあるJP2をつないだ状態で電源を入れて書き込みます。</p>
+                <p>プログラムを動作させる時はJP2をつながない状態にします。プログラムは次のような動作をしています。</p>
+
+                <ul>
+                    <li>スイッチが押されていない時はESP8266はDeep Sleep状態になっている</li>
+                    <li>左右どちらか、あるいは両方のスイッチが押されるとDeep Sleepから起こされる</li>
+                    <li>左右のスイッチが押されたかどうかを調べる</li>
+                    <li>押された側のLEDを点灯する</li>
+                    <li>1秒後にDeep Sleep状態に戻る</li>
+                </ul>
+
+                <p>スイッチが押されていない時はDeep Sleep状態でスイッチが押されるまで待つことで、
+                    電池駆動でも長期間動作を可能にしているようです。</p>
+
+                <h2 id="send2ambient">ボタンが押されたらAmbientに送信する</h2>
+
+                <p>「うんこボタン」の動作確認ができたら、プログラムを変更し、ボタンが押されたらAmbientに送信するようにします。プログラムを示します。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/b50a36f7007ee2a8ab6316eb132cdf1e.js"></script>
+
+                <p>初期化処理のboot()関数は動作確認で使った基本プログラムと同じです。
+                    65行目から始まるsetup()関数の中でまずAmbientの初期化を行い(68行目)、左のボタンが押されていたらAmbientの1番目のデータに1をセットし(72行目)、
+                    右のボタンが押されていたら2番目のデータに1をセットします(76行目)。
+                    Wi-Fiに接続し、Ambientにデータを送信して(89行目)、Deep Sleepに入ります。
+                    setup()関数の中で必要な処理をおこない、次にボタンが押されるまでDeep Sleepするので、
+                    loop()関数は実行されません。</p>
+
+
+                <h2 id="ambient">Ambientでデータを確認する</h2>
+
+                <p>プログラムをビルドし、「うんこボタン」にダウンロードして動かします。
+                    左右のボタンを押すと、押した側のLEDが点灯し、Ambientにデータが送信されます。</p>
+
+                <p>Ambientのチャートは、センサデータの時系列の変化を見る時などはデフォルトの折れ線グラフが便利です。
+                    今回は何かイベントが発生したらボタンを押してそれを記録しているので、棒グラフを使うことにします。
+                    ボタンが二つあるので、縦積み棒グラフを使います。
+                    最初にチャネル設定画面で「データー1」に「左ボタン」、「データー2」に「右ボタン」という名前をつけておくと分かりやすいでしょう。
+                    チャートの設定はグラフ右上の歯車ボタンをクリックし、チャート設定画面でおこないます。</p>
+
+                <p><img src="./images/chartsetting1.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>グラフ種類で「棒グラフ(縦積み)」を選択し、d1:左ボタンとd2:右ボタンを表示するように選択します。</p>
+                <p>何回かボタンを押してみたのが次のチャートです。</p>
+
+                <p><img src="./images/chart1.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>1時55分に左ボタンが1回押され、次も左、次は右で、その次は左右のボタンが同時に押されています。</p>
+
+                <p>Ambientには10分間から1時間のデータの合計や平均を計算する機能があります。
+                    これを使うと次のように10分間に左右のボタンが何回押されたかを表示することができます。</p>
+
+                <p><img src="./images/chartsetting2.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>チャート設定の集計欄で「10分間」の「合計値」を選択します。区間は10分間、15分間、20分間、30分間、1時間が選択できます。
+                    チャートを追加して一つのチャートは生データ、もう一つは集計データを表示することもできます。</p>
+
+                <p><img src="./images/chart2.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <h2 id="summary">まとめ</h2>
+
+                <p>「うんこボタン」は赤ちゃんのうんちとおしっこを記録するという目的で開発されましたが、汎用性のあるインターネットボタンです。
+                    工夫次第でいろいろなモノゴトの記録ができそうです。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">6.「うんこボタン」のカウントをクラウドで記録する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#unkobtn">「うんこボタン」</a></li>
+                        <li><a href="#connecttopc">「うんこボタン」をPCに接続する</a></li>
+                        <li><a href="#check">Arduinoでプログラミングし、動作確認する</a></li>
+                        <li><a href="#send2ambient">ボタンが押されたらAmbientに送信する</a></li>
+                        <li><a href="#ambient">Ambientでデータを確認する</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
