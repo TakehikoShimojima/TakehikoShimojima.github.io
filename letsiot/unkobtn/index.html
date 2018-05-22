@@ -5,7 +5,7 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="description" content="unkobtn - LetsIoT">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>「うんこボタン」のカウントをクラウドで記録する - AmbientでIoTをはじめよう</title>
+<title>「うんこボタン」のボタン押下をクラウドで記録する - AmbientでIoTをはじめよう</title>
 <link rel="shortcut icon" href="/favicon.ico" />
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -86,7 +86,7 @@
                 <p class="text-right">2018年5月25日</p>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
-                <h1>「うんこボタン」のカウントをクラウドで記録する</h1>
+                <h1>「うんこボタン」のボタン押下をクラウドで記録する</h1>
             </div>
 
             <div class="col-sm-9 col-lg-8">
@@ -105,14 +105,17 @@
                     支援コースの一つに「<a href="https://unkobtn.com/news/press/article/5/" target="_blank">ハッカーコース</a>」という、
                     「うんこボタン」を利用してインターネットボタンを自作するコースがありました。
                     今回はこのハッカーコースで入手した「うんこボタン」と、<a href="https://unkobtn.com/news/press/article/5/" target="_blank">参考情報</a>を利用して、
-                    「うんこボタン」のボタンを押した回数をAmbientに送ってカウントするインターネットボタンを作ります。</p>
+                    ボタンを押した回数をAmbientに送ってカウントする汎用のインターネットボタンを作ります。</p>
 
 
                 <h2 id="connecttopc">「うんこボタン」をPCに接続する</h2>
 
                 <p>「うんこボタン」の中にはWi−Fi通信モジュール搭載の32ビットマイコンESP8266が搭載されています。
-                    PCとの通信機能は含まれていませんが、USBシリアル変換アダプターをつけることで、PCとUSBで通信できるようになります。
-                    「うんこボタン」側にピンヘッダをはんだ付けし、USBシリアル変換アダプターを接続します。</p>
+                    PCとの通信機能は含まれていませんが、USBシリアル変換アダプターをつなぐことで、PCとUSBで通信できるようになります。
+                    「うんこボタン」のJP1にピンヘッダをはんだ付けし、USBシリアル変換アダプターをつなぎます。
+                    USBシリアル変換アダプターと接続するのはTXD、RXD、VIN、GNDの4本です。
+                    VINは「うんこボタン」を電池で駆動する時は接続する必要はありませんが、
+                    プログラミング中はUSBから給電したほうが便利なので、接続します。それ以外のピンは切ってしまいます。</p>
 
                 <p><img src="./images/unkobtn_USBserial.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -152,7 +155,7 @@
                 </ul>
 
                 <p>スイッチが押されていない時はDeep Sleep状態でスイッチが押されるまで待つことで、
-                    電池駆動でも長期間動作を可能にしているようです。</p>
+                    消費電力を低く抑え、電池駆動でも長期間動作を可能にしているようです。</p>
 
                 <h2 id="send2ambient">ボタンが押されたらAmbientに送信する</h2>
 
@@ -186,7 +189,8 @@
 
                 <p><img src="./images/chart1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <p>1時55分に左ボタンが1回押され、次も左、次は右で、その次は左右のボタンが同時に押されています。</p>
+                <p>1時55分に左ボタンが1回押され、次も左、次は右で、その次は左右のボタンが同時に押されています。
+                    こんな感じで左右のボタンが押された状況を確認できるようになりました。</p>
 
                 <p>Ambientには10分間から1時間のデータの合計や平均を計算する機能があります。
                     これを使うと次のように10分間に左右のボタンが何回押されたかを表示することができます。</p>
@@ -217,7 +221,7 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">6.「うんこボタン」のカウントをクラウドで記録する</a></li>
+                    <li class="open"><a href="index.html">6.「うんこボタン」のボタン押下をクラウドで記録する</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#unkobtn">「うんこボタン」</a></li>
                         <li><a href="#connecttopc">「うんこボタン」をPCに接続する</a></li>
