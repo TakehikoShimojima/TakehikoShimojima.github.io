@@ -126,7 +126,7 @@
                     今回使った心拍センサはArduinoライブラリがあるので、比較的簡単に扱えます。</p>
                 <p><img src="https://docid81hrs3j1.cloudfront.net/contents/large/1135_1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <p>使用した部品をまとめました。</p>
+                <p>今回使用した部品をまとめました。</p>
 
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
@@ -150,7 +150,7 @@
 
                 <p>まず、GPSモジュールの動作確認をします。GPSモジュールをM5Stackに写真のように積み重ねます。
                     外部アンテナを接続し、アンテナモジュールを窓際など空がなるべく広く見える場所におきます。</p>
-                <p><img src="../images/gpsstacked.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/gpsstacked.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>GPSモジュールのサンプルプログラムはArduino IDEのファイル > スケッチ例 > M5Stack > Modules > GPS > GPSRawにあります。
                     このプログラムを参考にもう少し簡単にしたものが次のプログラムです。</p>
@@ -213,7 +213,7 @@
                 <p>TinyGPS++のインストールは、<a href="http://arduiniana.org/libraries/tinygpsplus/" target="_blank">TinyGPS++のサイト</a>に行き、
                     ダウンロードアイコンの先の最新ZIPファイルをダウンロードし、Arduino IDEで「.ZIP形式のライブラリをインストール…」
                     でZIPファイルをインストールします。</p>
-                <p><img src="../images/tinyGPS++.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/tinyGPS++.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>シリアルから読んだGPSデータを1文字づつライブラリに渡すと、それを解析し、GPSオブジェクトを更新します。
                     解析中はfalseが返り、1行処理して解析が成功するとtrueが返されます。次のサンプルプログラムで緯度経度が確認できます。</p>
@@ -239,7 +239,7 @@
                 <p>センサを指などにつけ、プログラムを動かし、Arduino IDEのシリアルプロッタを立ち上げると、
                     次のような心拍波形が確認できます。</p>
 
-                <p><img src="../images/pulsetest.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/pulsetest.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h3>心拍間隔や心拍数に変換するライブラリ</h3>
 
@@ -297,11 +297,11 @@
 
                 <p>データを地図上に表示するときは、チャート設定画面でグラフ種類として「地図」を選択します。</p>
 
-                <p><img src="../images/chartSetting.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/chartSetting.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>チャート画面は次のようになります。</p>
 
-                <p><img src="../images/map.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/map.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>プロットはデーターの値によって色を変えて表示されます。
                     プロットをクリックするとその地点のデータがポップアップして表示されます。</p>
@@ -335,8 +335,8 @@
                         <li><a href="#hardware">端末のハードウェア</a></li>
                         <li><a href="#gpsmodule">GPSモジュールの動作確認</a></li>
                         <li><a href="#pulsesensor">心拍センサの動作確認</a></li>
-                        <li><a href="#send2ambient"></a>心拍数と位置情報をAmbientに送る</li>
-                        <li><a href="#ambient"></a>Ambient側の設定</li>
+                        <li><a href="#send2ambient">心拍数と位置情報をAmbientに送る</a></li>
+                        <li><a href="#ambient">Ambient側の設定</a></li>
                         <li><a href="#summary">まとめ</a></li>
                     </ul>
                 </ul>
