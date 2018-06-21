@@ -1,0 +1,404 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5StackGPSHR - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5StackでGPS付き心拍ロガーを作る - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年6月25日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5StackでGPS付き心拍ロガーを作る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」の第7回は、M5Stackに接続できるGPSモジュールと心拍センサを使い、
+                    散歩やサイクリングなど、移動中の位置と心拍数を記録するGPS付き心拍ロガーを作ります。</p>
+
+                <h2 id="structure">全体の構成</h2>
+                <p><img src="./images/structure.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p><a href="https://www.switch-science.com/catalog/3647/">M5Stack</a>はいろいろな専用モジュールを積み重ねることで機能拡張できるIoT端末です。
+                    モジュールの一つに<a href="https://www.switch-science.com/catalog/3861/">GPSモジュール</a>があり、今回はこれを使い、位置を測定します。
+                    心拍を<a href="https://www.switch-science.com/catalog/1135/">光学式の心拍センサ</a>で測定し、位置データと合わせてWi-Fiでモバイルルータに送り、
+                    モバイルルータから<a href="https://ambidata.io">IoTデーター可視化サービス「Ambient」</a>に送信します。
+                    実際にはモバイルルータの代わりにスマホのテザリング機能を使いました。</p>
+
+                <p>心拍データを送信するタイミングは、一定時間ごとに送信、一定の距離を移動したら送信、ユーザーがボタンを押したら送信などアプリケーションによって様々な方法が考えられます。
+                    今回は一定時間ごとに送信することにしました。</p>
+
+                <h2 id="hardware">端末のハードウェア</h2>
+
+                <p>M5Stackは32ビットマイコンESP32を搭載したIoT端末で、Wi-FiやBluetoothで通信できます。
+                    320 x 240 TFTカラーディスプレイ、ボタン、スピーカーなどが5cm角のコンパクトなケースに収められています。
+                    詳しくは以下のサイトをご覧ください。</p>
+
+                <ul>
+                    <li><a href="https://www.switch-science.com/catalog/3647/">スイッチサイエンスの販売ページ</a></li>
+                    <li><a href="http://mag.switch-science.com/2018/02/28/getting-started-with-m5stack/">M5Stackであそぼう</a></li>
+                    <li><a href="http://www.m5stack.com/" target="_blank">公式サイト(英語)</a></li>
+                </ul>
+
+                <p>位置を測定するGPSモジュールはM5Stackの専用拡張モジュールの一つです。
+                    u-blox社のNEO-M8NというGPSチップが搭載され、シリアル通信でGPSデーターを送ります。</p>
+                <p><img src="https://docid81hrs3j1.cloudfront.net/imagecontent/image-1518166301013.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>心拍の測定にはpulsesensor.comの光学式の心拍センサを使いました。
+                    光学式心拍センサは、ある周波数の光を皮膚にあてると血流量に応じて反射光が変化することから、反射光を光センサで受けて血流量の変化を測定するものです。
+                    今回使った心拍センサはArduinoライブラリがあるので、比較的簡単に扱えます。</p>
+                <p><img src="https://docid81hrs3j1.cloudfront.net/contents/large/1135_1.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>使用した部品をまとめました。</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3647/">M5Stack Basic</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3861/">M5Stack用GPSモジュール V2</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1135/">心拍センサ</a></td><td>1個</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="gpsmodule">GPSモジュールの動作確認</h2>
+
+                <p>まずGPSモジュールの動作確認をします。M5Stackの環境設定は
+                    「<a href="http://pages.switch-science.com/letsiot/m5stack_arduino/index.html#setup">M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a>」をご覧ください。</p>
+
+                <h3>GPSモジュールから生データを読む</h3>
+
+                <p>まず、GPSモジュールの動作確認をします。GPSモジュールをM5Stackに写真のように積み重ねます。
+                    外部アンテナを接続し、アンテナモジュールを窓際など空がなるべく広く見える場所におきます。</p>
+                <p><img src="../images/gpsstacked.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>GPSモジュールのサンプルプログラムはArduino IDEのファイル > スケッチ例 > M5Stack > Modules > GPS > GPSRawにあります。
+                    このプログラムを参考にもう少し簡単にしたものが次のプログラムです。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/105db486b31e2be98e7ee8aa50f7cdfa.js"></script>
+
+                <p>3行目にあるように、GPSモジュールはハードシリアル2に接続されています。
+                    loop()関数の中で、GPSモジュールに文字があるうちは文字を読んでシリアルに書いています(12行目)。
+                    プログラムをビルドして動かし、シリアルモニタに次のような文字列が出力されれば、GPSモジュールは動作しています。
+                    なお、文字列の内容はGPS衛星から受信するデータにより異なります。</p>
+
+<p><pre>
+    $GNGGA,075808.00,3538.58688,N,13937.58944,E,1,09,1.06,41.7,M,39.2,M,,*79
+    $GNGSA,A,3,03,07,22,30,17,18,11,01,08,,,,2.08,1.06,1.78*1E
+    $GNGSA,A,3,,,,,,,,,$GNRMC,075809.00,A,3538.58688,N,13937.58910,E,0.097,,260518,,,A*67
+    $GNVTG,,T,,M,0.097,N,0.180,K,A*3A
+    $GNGGA,075809.00,3538.58688,N,13937.58910,E,1,09,1.06,42.3,M,39.2,M,,*7E
+    $GNGSA,A,3,03,07,22,30,17,18,11,01,08,,,,2.08,1.06,1.78*1E
+    $GNGSA,A,3,,,,,,,,,$GNRMC,075810.00,A,3538.58677,N,13937.58910,E,0.064,,260518,,,A*63
+    $GNVTG,,T,,M,0.064,N,0.118,K,A*37
+    $GNGGA,075810.00,3538.58677,N,13937.58910,E,1,09,1.06,42.7,M,39.2,M,,*72
+    $GNGSA,A,3,03,07,22,30,17,18,11,01,08,,,,2.07,1.06,1.78*11
+</pre></p>
+
+                <p>これはNMEA-0183フォーマットというフォーマットの文字列で、
+                    時刻、緯度、経度、海抜高度、測位に利用した衛星の数やID、それぞれの衛星の位置(方位角と仰角)などの情報が含まれています。
+                    例えば先頭の行は次のような情報を表しています。</p>
+
+                    <div>
+                        <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                            <thead>
+                                <tr><th>意味</th><th>値</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>トーカID</td><td>GN: (GNSS(Global Navigation Satellite System))</td></tr>
+                                <tr><td>タイプ</td><td>GGA(Fix information)</td></tr>
+                                <tr><td>測位時刻(UTC)</td><td>7時58分08秒</td></tr>
+                                <tr><td>緯度</td><td>3538.58688</td></tr>
+                                <tr><td>緯度方角</td><td>N</td></tr>
+                                <tr><td>経度</td><td>13937.58944</td></tr>
+                                <tr><td>経度方角</td><td>E</td></tr>
+                                <tr><td>Fixタイプ</td><td>1: GPS Fix</td></tr>
+                                <tr><td>測位利用衛星数</td><td>09</td></tr>
+                                <tr><td>水平精度低下率</td><td>1.06</td></tr>
+                                <tr><td>海抜高度</td><td>41.7</td></tr>
+                                <tr><td>高度単位</td><td>M</td></tr>
+                                <tr><td>WGS-84座標系海抜高度差</td><td>39.2</td></tr>
+                                <tr><td>単位</td><td>M</td></tr>
+                                <tr><td>DGPSデータ残存時間</td><td>–</td></tr>
+                                <tr><td>チェックサム</td><td>79</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                <h3>GPSデータを扱うライブラリ</h3>
+
+                <p>GPSからの生データを解析して、プログラムで扱いやすいデータにするライブラリがあります。
+                    GPSモジュールのサンプルプログラムFullExample ではTinyGPS++というライブラリが使われています。</p>
+
+                <p>TinyGPS++のインストールは、<a href="http://arduiniana.org/libraries/tinygpsplus/" target="_blank">TinyGPS++のサイト</a>に行き、
+                    ダウンロードアイコンの先の最新ZIPファイルをダウンロードし、Arduino IDEで「.ZIP形式のライブラリをインストール…」
+                    でZIPファイルをインストールします。</p>
+                <p><img src="../images/tinyGPS++.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>シリアルから読んだGPSデータを1文字づつライブラリに渡すと、それを解析し、GPSオブジェクトを更新します。
+                    解析中はfalseが返り、1行処理して解析が成功するとtrueが返されます。次のサンプルプログラムで緯度経度が確認できます。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/0b165ba109260c70a084d4cae5a6f8e8.js"></script>
+
+                <p>14行目のwhileループでGPSからの文字データがある間は文字を読み、1行の解析が成功するとループを抜けます(15、16行目)。
+                    13行目のlocation.isUpdated()はGPSオブジェクトが更新されるとtrueになります。
+                    位置が変らなくても、データが更新されればtrueになります。</p>
+
+                <h2 id="pulsesensor">心拍センサの動作確認</h2>
+
+                <h3>生データを見る</h3>
+
+                <p>次に心拍センサの動作を確認します。今回使った心拍センサは電源、GNDと信号線の3本でマイコンなどと接続します。
+                    信号線の電圧が血流量に応じて変化します。そこで信号線をM5StackのGPIO36につなぎ、analogRead()でその値を読み、
+                    シリアルに出力して、Arduino IDEのシリアルプロッターで値を確認しました。</p>
+
+                <p>プログラムは次のようになります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/cfb2da1e2575a23ca1629d6f4ce3a16d.js"></script>
+
+                <p>センサを指などにつけ、プログラムを動かし、Arduino IDEのシリアルプロッタを立ち上げると、
+                    次のような心拍波形が確認できます。</p>
+
+                <p><img src="../images/pulsetest.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <h3>心拍間隔や心拍数に変換するライブラリ</h3>
+
+                <p>この生データから心拍間隔や1分間の心拍数を求めるライブラリが用意されています。
+                    オリジナルのライブラリはESP32 Arduinoに対応していないので、対応したものを作って次の場所に置きました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/PulseSensorPlayground" target="_blank">AmbientDataInc/PulseSensorPlayground</a></li>
+                </ul>
+
+                <p>このサイト右上の「Clone or download」の「Download ZIP」をクリックしてZIPファイルをダウンロードし、
+                    Arduino IDEで「.ZIP形式のライブラリをインストール…」 でZIPファイルをインストールします。</p>
+                <p>setup()関数の中で次のように初期化をおこなうと、タイマ割り込みで2ミリ秒間隔に心拍センサの値を測り、
+                    心拍数などが計算されます。</p>
+
+<p><pre>
+    pulseSensor.analogInput(PIN_INPUT);
+    pulseSensor.setSerial(Serial);
+    pulseSensor.setOutputType(OUTPUT_TYPE);
+    pulseSensor.setThreshold(THRESHOLD);
+
+    pulseSensor.begin();
+</pre></p>
+
+                <p>pulseSensor.getLatestSample()で最新のサンプル値が、
+                    pulseSensor.getBeatsPerMinute()で1分間の心拍数が得られます。</p>
+                <p>このライブラリを使い、心拍波形と心拍数をM5StackのLCD画面に描くサンプルプログラムを作りました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/M5Stack_PulseSensor/tree/master/M5Stack_PulseSensor" target="_blank">M5Stack_PulseSensor</a></li>
+                </ul>
+
+                <p>心拍センサを指などにつけ、プログラムを動かすと、次のように1分間の心拍数と心拍波形が表示されます。</p>
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/FEJdLEpz_2o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+                <h2 id="send2ambient">心拍数と位置情報をAmbientに送る</h2>
+
+                <p>GPSと心拍センサの動作確認ができたら、この二つを組み合わせて、一定時間ごとに心拍数と位置情報をAmbientに送信します。
+                    loop()関数の主な処理は次のようになります。細かな処理は省略しています。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/c19e70d3bba5192670cc4bef626c6881.js"></script>
+
+                <p>これで20ミリ秒ごとに心拍センサの値をLCDに描画しながら、30秒ごとにその時の心拍数と位置情報をAmbientに送信します。
+                    プログラムの全体は下記に公開しました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/M5Stack_PulseSensor/blob/master/M5Stack_PulseSensor_GPS/M5Stack_PulseSensor_GPS.ino" target="_blank">M5Stack_PulseSensor_GPS</a></li>
+                </ul>
+
+                <h2 id="ambient">Ambient側の設定</h2>
+
+                <p>Ambientには位置情報のついたIoTデータを受信し、地図上に表示する機能があります。
+                    Arduinoの場合、通常の1から8までのデータに加えて、データ9に緯度を、データ10に経度を指定すると位置情報付きのデータになります。</p>
+
+                <p>データを地図上に表示するときは、チャート設定画面でグラフ種類として「地図」を選択します。</p>
+
+                <p><img src="../images/chartSetting.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>チャート画面は次のようになります。</p>
+
+                <p><img src="../images/map.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>プロットはデーターの値によって色を変えて表示されます。
+                    プロットをクリックするとその地点のデータがポップアップして表示されます。</p>
+
+                <p>チャート画面はスマホのブラウザでも確認できます。センサ端末を持って移動しながらデータを測定し、
+                    スマホのテザリング機能でデータをAmbientに測定し、測定結果をその場でスマホで確認できるので、非常に便利です。</p>
+
+                <h2 id="summary">まとめ</h2>
+                <p>位置情報付きのセンサデータは、今回の散歩中あるいはサイクリング中の心拍数といったホビーユースものや、
+                    車両の位置と時刻、その時のエンジンの回転数の記録、場所ごとの無線の信号強度の記録などビジネスユースのものまで幅広い応用が考えられます。</p>
+                <p>M5StackはGPSモジュールもあり、コンパクトで持ち運びにも適しています。
+                    位置情報付きのセンサデータ端末としての利用も拡大しそうです。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">7.M5StackでGPS付き心拍ロガーを作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#hardware">端末のハードウェア</a></li>
+                        <li><a href="#gpsmodule">GPSモジュールの動作確認</a></li>
+                        <li><a href="#pulsesensor">心拍センサの動作確認</a></li>
+                        <li><a href="#send2ambient"></a>心拍数と位置情報をAmbientに送る</li>
+                        <li><a href="#ambient"></a>Ambient側の設定</li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
