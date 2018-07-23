@@ -1,0 +1,293 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Obniz - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obnizで環境センサを作る - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年7月25日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>Obnizで環境センサを作る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」の第8回は、話題のIoT端末「<a href="https://obniz.io/" target="_blank">Obniz(オブナイズ)</a>」と温湿度・気圧センサBME280を使い、
+                    環境センサを作ります。</p>
+
+                <h2 id="Obniz">Obniz</h2>
+                <p>ObnizはESP32と128 x 64ドットの小型ディスプレイを搭載したボードマイコンです。
+                    特徴の一つは12本のIOピンです。各ピンの使い方はプログラムで設定でき、それぞれのピンには1Aまで電流を流すことができます。
+                    さらに、ショートした場合の保護回路も組み込まれています。これにより、センサだけでなく、ステップモーターなどのデバイスも直接接続できます。</p>
+
+                <p>もう一つの特徴はプログラミングです。
+                    Obnizはプログラムをブラウザー(の動作しているPC)やサーバーで動かし、PCやサーバーからObnizに接続されたセンサなどのデバイスを制御します。
+                    充実したJavascriptのプログラミング環境が提供されています。WebページのJavascriptからObnizを制御でき、
+                    例えばWebページ上のボタンでObnizにつなげたLEDをon/offするなどの制御が可能になっています。
+                    Web系のエンジニアの方がIoTを始めるには最適な端末ですし、IoTの教育やプロトタイピングにも非常に適しています。
+                    ライブラリも、温度、距離などの各種センサやディスプレイ、サーボモーターなどを制御するものが多数用意されており、これを使うことで簡単にIoT端末のプロトタイプを動かすことができます。</p>
+
+                <h2 id="structure">全体の構成</h2>
+                <p><img src="./images/structure.jpg" width="80%" class="img-responsive center-block"></p>
+                <p>Obnizに温湿度・気圧センサのBME280をつないでセンサ端末にします。
+                    Obnizを制御するプログラムはnode.jsで記述してRaspberry Piで動作させ、5分に1回センサデータを取得し、Ambientに送信します。</p>
+
+                <h2 id="hardware">端末の準備</h2>
+                <p>Obnizの初期設定からプログラミングまでは<a href="https://obniz.io/doc/quickstart" target="_blank">クイックスタートのページ</a>に丁寧に書かれているので、
+                    これに沿って初期設定と動作確認をおこなってください。</p>
+
+                <p>スイッチサイエンスの<a href="https://www.switch-science.com/catalog/2236/">BME280モジュールにはI2C通信のSCLとSDA(基板上ではSCKとSDIと表記)にプルアップ抵抗が搭載されていません。
+                    Obnizなどで使われているマイコンのESP32はプログラムでプルアップする機能があるのでそれを使えば問題ありませんが、
+                    <a href="https://obniz.io/sdk/parts/BME280/README.md?iframe=false" target="_blank">ObnizのBME280ライブラリ</a>の説明では、
+                    外部抵抗でプルアップすることが推奨されているので、それに従いました。
+                    写真のように「<a href="https://www.switch-science.com/catalog/1938/">両方長いピンヘッダー」を使ってObnizをブレッドボードにつなぎ、
+                        BME280とプルアップ抵抗(4.7kΩ)もブレッドボードにつなぎます。</p>
+
+                <p><img src="./images/obniz_bme2801.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/obniz_bme2802.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>今回使用した部品をまとめました。</p>
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3838/">obniz</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2236/">BME280搭載　温湿度・気圧センサモジュール</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1938/">1×16 両方長いピンヘッダ</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/313/">普通のブレッドボード</a></td><td>1個</td></tr>
+                            <tr><td>4.7kΩ抵抗</td><td>2個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3559/">Raspberry Pi 3 スターターキット(16GB版)</a></td><td>1セット</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="program">プログラム</h2>
+                <p>温度、湿度、気圧データを常時取得し、Ambientに送信するため、Raspberry Piをサーバーにして、そこでNode.jsのプログラムを動かし、Obnizを制御します。</p>
+
+                <p>Node.jsのバージョンはv10.6.0を使いました。「<a href="https://qiita.com/setouchi/items/437e4b62e4210871496f" target="_blank">第三回 Raspberry Pi 3に最新のNode.jsをインストールする</a>」などを参考にRaspberry PiのNode.jsを最新版にしてください。
+                    pi$とあるのはRaspberry Pi上のコマンド実行です。
+<p><pre>
+    pi$ node -v
+    v10.6.0
+</pre></p>
+
+                <p>次のように適当なフォルダーを作り、npm initでNode.jsを使う環境を作り、obnizとAmbientのnode.jsライブラリをインストールします。
+                    Ambientのライブラリはambient-libです。ambientというライブラリがありますが、別物なので注意してください。</p>
+<p><pre>
+    pi$ mkdir Obniz_BME280
+    pi$ cd Obniz_BME280/
+    pi$ npm init
+    pi$ npm install obniz --save
+    pi$ npm install ambient-lib --save
+</pre></p>
+                <p>次のようなプログラムをRaspberry Pi上で動かし、ObnizとBME280の接続を確認します。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/174a4eb73b6875ab2e56b5a6d0e49b8c.js"></script>
+
+                <p>Obnizサイト上の<a href="https://obniz.io/sdk/parts/BME280/README.md?iframe=false" target="_blank">BME280のサンプルプログラム</a>とは、BME280を逆向きに接続しています。
+                    obniz.wired()のピン番号がサンプルプログラムと違っているので、ご注意ください。
+                    今回はいろいろな都合でObnizサイトのサンプルと逆向きにBME280を接続したのですが、そのような場合でもIOピンの設定をプログラムで変更できるので、非常に便利です。</p>
+
+                <p>このプログラムを動かして、次のように温度、湿度、気圧が表示されれば、ObnizとBME280はちゃんと接続されています。
+                    また、この時Obnizのディスプレイには、上の写真にあるように各IOピンがどのように設定されたかが表示されます。
+                    これを見ることでプログラムの設定が正しいかを確認できます。こういった工夫も動作確認のためには便利です。</p>
+</p><pre>
+    pi$ node test.js
+    { temperature: 32.46,
+    humidity: 29.326135562651224,
+    pressure: 1003.778257679844 }
+</pre></p>
+                <p>次にBME280から取得したデータをAmbientに送ります。Ambientのユーザー登録や基本的な使い方は<a href="https://ambidata.io/docs/" target="_blank">Ambientのチュートリアルをご覧ください。</p>
+
+                <p>プログラムは次のようになります。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/0229d2a671c1166104be12b0b635fb18.js"></script>
+
+                <p>このプログラムもobniz.wired()のピン番号がサンプルプログラムと違っているので、ご注意ください。</p>
+
+                <p>8行目からのget_data_send()がBME280のデータを取得し、Ambientに送信する関数です。
+                    BME280のデータを取得する時にawaitで同期をとっているので、関数にasyncをつけています。
+                    25行目からのsetInterval()で300秒(5分)ごとにget_data_send()を呼んでいます。
+                    setInterval()は指定した時間経過した後に指定した処理を実行し、それを繰り返します。
+                    経過時間を5分と指定すると5分後に1回目の処理を実行します。
+                    処理がうまくいっているか5分経過しないと分からないのは不便なので、24行目でsestInterval()の前にget_data_send()を1回呼んでいます。</p>
+
+                <p>このプログラムを動かすと、5分毎に温度、湿度、気圧の値をコンソールに出力し、Ambientにも送信して、Ambientで可視化されます。</p>
+
+                <p>次のように起動すると、Raspberry Piからログアウトしてもプログラムが終了しないようにできます。</p>
+<p><pre>
+    pi$nohup node Ambient_obniz_BME280.js < /dev/null &
+</pre></p>
+                <p><img src="./images/scsho.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <h2 id="summary">まとめ</h2>
+                <p>ObnizはObnizクラウドというサービスが用意されています。Obniz 1台ずつにクラウドの利用ライセンスがついていて、クラウドを利用することができます。
+                    Obnizクラウドを使うと、プログラムをクラウド上で管理したり、公開することができます。
+                    また、サーバーレスイベントと言ってWebhookや決められた時刻などの条件でプログラムを起動する仕組みも提供されています。
+                    こういった仕組みを使うことで、比較的簡単に定期的に動作するようなアプリケーションが作れます。</p>
+
+                <p>対応するセンサライブラリも随時追加されています。簡単にIoTのアイデアを具体化して検証できる端末の一つとして期待できます。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">8.Obnizで環境センサを作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#Onbiz">Obniz</a></li>
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#hardware">端末の準備</a></li>
+                        <li><a href="#program">プログラム</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
