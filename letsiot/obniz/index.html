@@ -109,6 +109,8 @@
                 <p><img src="./images/structure.jpg" width="80%" class="img-responsive center-block"></p>
                 <p>Obnizに温湿度・気圧センサのBME280をつないでセンサ端末にします。
                     Obnizを制御するプログラムはnode.jsで記述してRaspberry Piで動作させ、5分に1回センサデータを取得し、Ambientに送信します。</p>
+                <p>さらに、Obnizから取得した温度、湿度データから熱中症の危険度を計算し、「厳重警戒」か「危険」と判定したらObnizのLEDを光らせて知らせるようにします。
+                    熱中症の危険度は簡易な方法で計算したものですが、センサデータを取得し、エッジサーバで処理をおこなって端末を制御するサンプルとしてご覧ください。</p>
 
                 <h2 id="hardware">端末の準備</h2>
                 <p>Obnizの初期設定からプログラミングまでは<a href="https://obniz.io/doc/quickstart" target="_blank">クイックスタートのページ</a>に丁寧に書かれているので、
@@ -198,10 +200,25 @@
 </pre></p>
                 <p><img src="./images/scsho.jpg" width="80%" class="img-responsive center-block"></p>
 
+                <h2 id="control">Obnizを制御する</h2>
+                <p>Raspberry Piで取得した温度、湿度データを基に、熱中症の危険度を計算し、「厳重警戒」か「危険」と判定したらObnizのLEDを光らせてみます。
+                <p>熱中症の危険度は温度、湿度の他に輻射熱なども加えて計算しますが、
+                    日本生気象学会「<a href="http://seikishou.jp/pdf/news/shishin.pdf" target="_blank">日常生活における熱中症予防指針</a>」Ver.3には温度、湿度と熱中症の危険度の関係表が掲載されています。
+                    これを基に、温度、湿度から簡易な方法で熱中症の危険度を計算しました。</p>
+
+                <p>プログラムは次のようになります。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/21eaf5f57e9d8f5c1978f2e20a721288.js"></script>
+
+                <p>13行目からのWBGTlevel()が熱中症の危険度を計算する関数です。26行目からのget_data_send()関数でObnizからセンサデータを取得し(27行目)、
+                    Ambientにデータを送信し(29行目)、35行目で熱中症の危険度を計算し、「厳重警戒」か「危険」の場合にObnizにつないだLEDをonにしています(38行目)。
+                    Obnizではセンサだけでなく、LEDやサーボモーターなどのデバイスを制御するライブラリも用意されており、これを使うことで直感的にデバイスを制御できます。</p>
+                <p>なお、ここでの計算はセンサデータを処理して端末を制御するサンプルの目的であり、正確な熱中症の危険度の計算ではないので、ご注意ください。</p>
+
                 <h2 id="summary">まとめ</h2>
-                <p>ObnizはObnizクラウドというサービスが用意されています。Obniz 1台ずつにクラウドの利用ライセンスがついていて、クラウドを利用することができます。
+                <p>Obnizは<a href="https://obniz.io/doc/about_cloud_account" target="_blank">Obnizクラウド</a>というサービスが用意されています。
+                    Obniz 1台ずつにクラウドの利用ライセンスがついていて、クラウドを利用することができます。
                     Obnizクラウドを使うと、プログラムをクラウド上で管理したり、公開することができます。
-                    また、サーバレスイベントと言ってWebhookや決められた時刻などの条件でプログラムを起動する仕組みも提供されています。
+                    また、<a href="https://obniz.io/doc/about_event" target="_blank">サーバーレスイベント</a>と言ってWebhookや決められた時刻などの条件でプログラムを起動する仕組みも提供されています。
                     こういった仕組みを使うことで、比較的簡単に定期的に動作するようなアプリケーションが作れます。</p>
 
                 <p>対応するセンサライブラリも随時追加されており、今後の強化にも期待できます。</p>
@@ -220,12 +237,13 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">8.Obnizで環境センサを作る</a></li>
+                    <li class="open"><a href="index.html">8.Obnizで環境センサ端末を作る</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#Onbiz">Obniz</a></li>
                         <li><a href="#structure">全体の構成</a></li>
                         <li><a href="#hardware">端末の準備</a></li>
                         <li><a href="#program">プログラム</a></li>
+                        <li><a href="#control">Obnizを制御する</a></li>
                         <li><a href="#summary">まとめ</a></li>
                     </ul>
                 </ul>
