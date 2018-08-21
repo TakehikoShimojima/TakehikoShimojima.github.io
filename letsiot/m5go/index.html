@@ -1,0 +1,416 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="m5go - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5GO IoT Starter Kit - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年8月24日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5GO IoT Starter Kit</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>M5Stackを開発しているM5Stack.comから新しく「<a href="https://www.switch-science.com/catalog/3875/">M5GO Iot Starter Kit</a>」がでました。
+                「AmbientでIoTをはじめよう」の第9回は、このキットを使って温度などを測り、Ambientに送って可視化してみます。</p>
+
+                <h2 id="m5go">M5GO IoT Starter Kit</h2>
+
+                <p><img src="./images/m5go.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>本体はM5Stack Grayモデルに近いもので、ESP32と9軸加速度センサーが搭載されています。
+                M5Stack BasicやGrayには、ケース底面近くにBUS PORTとI/O PORTと呼ばれるスロットがありますが、M5GOにはありません。
+                その代りにGroveポートが三つ、LEDバーが二つついています。
+                キットにはENV(温湿度・気圧)センサー、IR REMOTE(赤外線モジュール)、RGB LEDモジュール、モーションセンサー、
+                Angle(角度)センサー、GroveハブとGroveケーブル、充電ケーブル、Type CのUSBケーブルなどが含まれています。</p>
+
+                <p>M5Stack Basic、GrayとM5GO本体を比較すると次のようになります。</p>
+
+                <p>M5Stack Basic / Gray / M5GO 比較表</p>
+
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th></th><th>Basic</th><th>Gray</th><th>M5GO</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>搭載チップ</td><td colspan="3">ESP-WROOM-32</td></tr>
+                            <tr><td>搭載LCD</td><td colspan="3">320 x 240 カラーTFT LCD</td></tr>
+                            <tr><td>USB Type C</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                M5GO IoT Starter Kitのセットアップは「M5GOのセットアップから使い方いろいろ
+                http://mag.switch-science.com/2018/07/09/m5go-handson/
+                」に詳しく書かれているので、そちらを見ながらセンサーユニットなどの動作確認やネットワークの設定をおこなってください。
+
+
+                # 開発環境の設定
+
+                ## USBドライバーのインストール
+
+                M5GOはMicropython用のファームウェアがインストールされており、Micropythonでプログラムを書きます。開発用ポータルサイトの「Live Code」というページからMicropythonのプログラムを入力し、ページ右下の△のボタンを押すと、プログラムがWi-Fi経由でM5GOに送られ、実行されます。
+                デモプログラムや簡単なプログラムを動かすなら開発環境の準備は不要です。
+
+                しかし、プログラム開発時につきもののエラーメッセージやprint()文はUSB接続したシリアルポートに出力されますし、MicropythonライブラリーをM5GOにインストールする時にもシリアルポートを使います。
+                そこで、M5Stackと通信するためのUSBドライバをインストールします。パソコンにUSBドライバ「SiLabs CP2104 Driver
+                https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
+                」をダウンロードしてインストールしてください。
+
+                ## M5GOのファームウェア更新
+
+                「M5GOのセットアップから使い方いろいろ
+                http://mag.switch-science.com/2018/07/09/m5go-handson/
+                」のM5GOのファームウェアを最新のものに更新する手順で「Flash Download Tools」をダウンロードするとあります。このツールは2018年8月現在、Windows版のみが提供されています。Windows以外のプラットフォームをお使いの方は次の手順でファームウェアの更新ができます。
+
+                1.M5GOのリポジトリをクローンするか、ZIPファイルをダウンロードして展開する。
+                2.ターミナル画面で次のようにコマンドを実行する。
+                2-1. esptoolがインストールされていなければ、インストールする。
+
+                $ sudo pip install esptool
+
+                2-2.ダウンロードしたファイルのfirmware/{最新版}/にいき、M5GOのFLASHを消去して、最新版のファームウェアを書き込む。
+
+                $ cd M5GO/firmware/{最新版}/
+                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
+                $ ./flash.sh
+
+                3.M5GOをリセットする
+                4.ファームウェアを更新するとWi-Fiの設定がクリアされるので、再度設定する
+
+                ## M5GOとのファイル転送ツールの準備
+
+                キットに同梱されているセンサーユニットなどをアクセスするライブラリーは
+                インストール済みですが、それ以外のMicropythonライブラリーをインストールするためには
+                ライブラリーをM5GOに転送する必要があります。
+
+                PC上のファイルをM5GOに転送するのはampyというコマンドが便利です。 ampyコマンドのインストールと使い方は「ampy: MicroPythonマイコンとPCとのファイル転送ツール
+                https://ambidata.io/blog/2018/03/15/ampy/
+                」をご覧ください。
+                ampyを使う時は環境変数AMPY_PORTにM5GOを接続しているUSBシリアルのデバイスを指定しておくと便利です。M5GOのファイルは /flash というディレクトリーの下に置かれています。
+
+                $ export AMPY_PORT=/dev/tty.SLAB_USBtoUART
+                $ ampy ls /flash
+                utils.mpy
+                wificonfig.mpy
+                res
+                boot.py
+                m5stack.mpy
+                img
+                examples
+                M5GO.mpy
+                lib
+                wifisetup.mpy
+                fonts
+                wificonfig.json
+                _main.py
+
+                ## Ambientライブラリーのインストール
+
+                MicropythonでデーターをAmbientに送信するライブラリーはGithubに公開してあります。
+
+                ・ambient-python-lib
+                https://github.com/AmbientDataInc/ambient-python-lib
+
+                このサイトからZIPファイルをダウンロードして展開し、その中のambient.pyをampyコマンドでM5GOに転送します。
+
+                $ ampy put ambient.py
+
+                これでM5GOのMicropythonプログラムからambientライブラリーがimportできるようになります。
+
+
+                # Angleセンサーの値をAmbientに送信する
+
+                最初に動作確認も兼ねて、Angleセンサーの値を読み取り、5秒毎にAmbientに送信してみます。
+
+                m5go_angle.jpg
+
+                Angleセンサーはツマミの角度に応じて0.0から100.0までの値が読めるセンサーです。
+                Micropythonでは次のようにANGLEクラスのインスタンスを作り、read()することでその時のツマミの角度に応じた値が読めます。インスタンスを作るとGroveポートBに対応したピンが確保されます。プログラム終了時にはdeinit()を呼び、確保されているピンを開放します。
+
+                import units
+                angle = units.ANGLE()  # Angleセンサーのインスタンスを作る
+                lcd.print(angle.read())  # Angleセンサーの値を読み、
+                angle.deinit()
+
+                Ambientを使うにはユーザー登録(無料)が必要です。詳細は「Ambientを使ってみる
+                https://ambidata.io/docs/gettingstarted/
+                」をご覧ください。
+
+                Ambientに値を送信するには、チャネルIDとライトキーを指定してAmbientのインスタンスを作り、
+                send()で値を送ります。
+
+                import ambient
+                am = ambient.Ambient(チャネルID, 'ライトキー')
+                r = am.send({'d1': 値})
+                r.close()
+
+                Angleセンサーの値を読み、値に応じてLCDに棒グラフを描き、5秒毎にその時の値をAmbientに送るプログラムは次のようになります。M5StackやM5GOで提供されているLCDなどのMicropythonのAPIは「
+                M5Stack Web IDEのMicroPython API
+                https://github.com/m5stack/M5Cloud/blob/master/README_JP.md#micropython-api
+                」で見られます。
+
+                <script src="https://gist.github.com/TakehikoShimojima/5e104fff1002c247e111d9f117868269.js"></script>
+
+                32行目のwhileループの中でAngleセンサーを読み、前回から5秒以上経過していたら、値をAmbientに送信します(40行目)。Angleセンサーの値に応じて44行目から47行目でLCDに棒グラフを描いています。
+
+                プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、ページ右下の△のボタンを押すと、プログラムが実行されます。
+                この時、M5GOをパソコンにUSB接続し、パソコン側でCoolTermなどの通信プログラムかcuコマンドなどを動かしておくと、エラーメッセージやprint()文の出力を見られます。
+                Angleセンサーのツマミを回し、動作を確認してみてください。
+
+
+                # ENVセンサーとモーションセンサーで人の動きと室温、湿度を調べる
+
+                温湿度と気圧が測れるENVセンサーと人などの動きが検知できるモーションセンサーを使い、
+                人の動きと室温、湿度を合わせて調べてみます。
+                例えば寝室の室温、湿度と寝返りなどの動きを調べるといった使い方が考えられます。
+
+                m5go_env_pir.jpg
+
+                ENVセンサーにどんなセンサーが使われているか、資料は見つけられないのですが、
+                センサーユニットをアクセスするunitsライブラリー
+                https://github.com/m5stack/M5GO/blob/master/lib/units.py
+                を見ると、温度と気圧にはBMP280が、湿度にはDHT12というセンサーが使われています。
+                ENVセンサーのライブラリーには次のようなメソッドが用意されています。
+
+                import units
+                env = units.ENV()  # ENVセンサーのインスタンスを作る
+                env. available()  # ENVセンサーがI2Cバスにつながっているかどうかを調べる
+                t = env. temperature()  # 温度を測る(℃の温度が返る)
+                h = env. humidity()  # 湿度を測る(%の値が返る)
+                p = env. pressure()  # 気圧を測る(hPaの値が返る)
+                t, p, h = env. values  # 温度、気圧、湿度を測る
+
+                モーションセンサー(PIRセンサー)はPassive Infrared Ray、受動型赤外線センサーと呼ばれるもので、人などが発する赤外線の変化を検知するセンサーで、人感センサーとも呼ばれます。人の動きに応じて照明をオン/オフするセンサーなどに使われています。
+
+                次のようなメソッドが用意されていますが、この記事を書いた2018年8月時点でcallback()はエラーになってしまいます。M5Stack.com社に伝えたので修正されると思います。
+
+                import units
+                pir = env.PIR()  # PIRセンサーのインスタンスを作る
+                pir.read()  # PIRセンサーの値を読む
+                pir.callback(cb)  # PIRセンサーの値が変化した時に呼ばれるコールバック関数を設定するが、
+                                            # 今はエラーになる
+
+                そこで代わりに次のようなクラスを定義しました。
+
+                class PIR():
+                	def __init__(self, handler=None):
+                		self.pin = Pin(units.PORTB[1], Pin.IN, handler=handler, trigger=(Pin.IRQ_RISING | Pin.IRQ_FALLING), debounce=100)
+
+                	def read(self):
+                		return self.pin.value()
+
+                	def deinit(self):
+                		self.pin.init(handler=None, trigger=Pin.IRQ_DISABLE)
+
+                このように使います。
+
+                pir = PIR(handler=cb)  # PIRセンサーのインスタンスを作り、コールバック関数を設定する
+                pir.read()  # PIRセンサーの値を読む
+
+                コールバック関数は引数としてGPIOのPinオブジェクトが渡されます。
+                irqvalue()で関数が呼ばれたときのセンサー値を得られます。
+
+                def cb(pin):  # PIRのコールバック関数
+                    val = pin.irqvalue()  # 割り込み時点のピンの値を取得
+
+                この二つのセンサーを使い、5分間の人の動きの回数と5分毎の温度、湿度、気圧を測り、
+                Ambientに送るプログラムを作りました。
+
+                <script src="https://gist.github.com/TakehikoShimojima/580710d425a472fd1937be845ec3a58c.js"></script>
+
+                12行目からの関数がPIRの値が変化した時に呼ばれるコールバック関数です。
+                PIRの値は、赤外線を発する物体を検知したら1になり、一定時間すると0に戻ります。
+                nmovesというグローバル変数を用意し、コールバック関数が呼ばれてPIRの値が0でなければ
+                nmovesを1増やしています。
+
+                45行目でPIRのインスタンスを作る時にコールバック関数を指定しています。
+
+                56行目からのwhileループで5分毎に温度、湿度、気圧を測定し、そこまでの
+                動いた数(nmoves)と合わせてAmbientに送っています(66行目)。
+
+                M5GOを枕元に置いて、寝ているときの体の動きと寝室の室温、湿度を測ろうとしました。
+                LCDをclear()してもデフォルトだと画面はかなり明るく光っています。
+                そこでdarkというフラグを用意し(8行目)、それをTrueにするとsetBrightness(0)でLCDが光らないようにしています(51行目)。さらにボタンCで表示をオン/オフできるようにしました。
+
+                Angleセンサーのサンプルと同じように、プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、ページ右下の△のボタンを押すと、プログラムが実行されます。
+
+                M5GOを枕元に置いて、一晩測定してみた結果です。
+
+                scsho1.jpg
+
+                左上が室温、右上が湿度、左下が気圧、右下は10分間毎の動きの回数です。私の場合、一晩中もぞもぞ動いているようです。眠りが浅いのかもしれません。
+
+                # まとめ
+
+                M5GO IoT Starter Kitは、キットに含まれているのはENV(温湿度・気圧)センサー、IR REMOTE(赤外線モジュール)、RGB LEDモジュール、モーションセンサー、Angle(角度)センサー、Groveハブの六つのユニットですが、インタフェースはGroveなので、Groveの豊富なセンサー類が使えます。はんだ付け不要で、Micropythonでプログラミングできるので、IoTの入門としては使いやすいキットだと思います。
+
+
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">8.Obnizで環境センサ端末を作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#Onbiz">Obniz</a></li>
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#hardware">端末の準備</a></li>
+                        <li><a href="#program">プログラム</a></li>
+                        <li><a href="#control">Obnizを制御する</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
