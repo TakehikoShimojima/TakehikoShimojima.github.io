@@ -219,128 +219,139 @@ $ ampy put ambient.py
 
                 <p>最初に動作確認も兼ねて、Angleセンサーの値を読み取り、5秒毎にAmbientに送信してみます。</p>
 
-                m5go_angle.jpg
+                <p><img src="./images/m5go_angle.jpg" width="100%" class="img-responsive center-block"></p>
 
-                Angleセンサーはツマミの角度に応じて0.0から100.0までの値が読めるセンサーです。
-                Micropythonでは次のようにANGLEクラスのインスタンスを作り、read()することでその時のツマミの角度に応じた値が読めます。インスタンスを作るとGroveポートBに対応したピンが確保されます。プログラム終了時にはdeinit()を呼び、確保されているピンを開放します。
+                <p>Angleセンサーはツマミの角度に応じて0.0から100.0までの値が読めるセンサーです。
+                    Micropythonでは次のようにANGLEクラスのインスタンスを作り、read()することでその時のツマミの角度に応じた値が読めます。
+                    インスタンスを作るとGroveポートBに対応したピンが確保されます。プログラム終了時にはdeinit()を呼び、確保されているピンを開放します。</p>
 
-                import units
-                angle = units.ANGLE()  # Angleセンサーのインスタンスを作る
-                lcd.print(angle.read())  # Angleセンサーの値を読み、
-                angle.deinit()
+<p><pre>
+import units
+angle = units.ANGLE()  # Angleセンサーのインスタンスを作る
+lcd.print(angle.read())  # Angleセンサーの値を読み、
+angle.deinit()
+</pre></p>
 
-                Ambientを使うにはユーザー登録(無料)が必要です。詳細は「Ambientを使ってみる
-                https://ambidata.io/docs/gettingstarted/
-                」をご覧ください。
+                <p>Ambientを使うにはユーザー登録(無料)が必要です。詳細は「<a href="https://ambidata.io/docs/gettingstarted/" target="_blank">Ambientを使ってみる</a>」をご覧ください。
 
-                Ambientに値を送信するには、チャネルIDとライトキーを指定してAmbientのインスタンスを作り、
-                send()で値を送ります。
+                <p>Ambientに値を送信するには、チャネルIDとライトキーを指定してAmbientのインスタンスを作り、
+                send()で値を送ります。</p>
 
-                import ambient
-                am = ambient.Ambient(チャネルID, 'ライトキー')
-                r = am.send({'d1': 値})
-                r.close()
+<p><pre>
+import ambient
+am = ambient.Ambient(チャネルID, 'ライトキー')
+r = am.send({'d1': 値})
+r.close()
+</pre></p>
 
-                Angleセンサーの値を読み、値に応じてLCDに棒グラフを描き、5秒毎にその時の値をAmbientに送るプログラムは次のようになります。M5StackやM5GOで提供されているLCDなどのMicropythonのAPIは「
-                M5Stack Web IDEのMicroPython API
-                https://github.com/m5stack/M5Cloud/blob/master/README_JP.md#micropython-api
-                」で見られます。
+                <p>Angleセンサーの値を読み、値に応じてLCDに棒グラフを描き、5秒毎にその時の値をAmbientに送るプログラムは次のようになります。
+                    M5StackやM5GOで提供されているLCDなどのMicropythonのAPIは「<a href="https://github.com/m5stack/M5Cloud/blob/master/README_JP.md#micropython-api" target="_blank">M5Stack Web IDEのMicroPython API」で見られます。
 
                 <script src="https://gist.github.com/TakehikoShimojima/5e104fff1002c247e111d9f117868269.js"></script>
 
-                32行目のwhileループの中でAngleセンサーを読み、前回から5秒以上経過していたら、値をAmbientに送信します(40行目)。Angleセンサーの値に応じて44行目から47行目でLCDに棒グラフを描いています。
+                <p>32行目のwhileループの中でAngleセンサーを読み、前回から5秒以上経過していたら、値をAmbientに送信します(40行目)。
+                    Angleセンサーの値に応じて44行目から47行目でLCDに棒グラフを描いています。</p>
 
-                プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、ページ右下の△のボタンを押すと、プログラムが実行されます。
-                この時、M5GOをパソコンにUSB接続し、パソコン側でCoolTermなどの通信プログラムかcuコマンドなどを動かしておくと、エラーメッセージやprint()文の出力を見られます。
-                Angleセンサーのツマミを回し、動作を確認してみてください。
+                <p>プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、
+                    ページ右下の△のボタンを押すと、プログラムが実行されます。
+                    この時、M5GOをパソコンにUSB接続し、パソコン側でCoolTermなどの通信プログラムかcuコマンドなどを動かしておくと、エラーメッセージやprint()文の出力を見られます。
+                    Angleセンサーのツマミを回し、動作を確認してみてください。</p>
 
+                <h2 id="env_pir">ENVセンサーとモーションセンサーで人の動きと室温、湿度を調べる</h2>
 
-                # ENVセンサーとモーションセンサーで人の動きと室温、湿度を調べる
+                <p>温湿度と気圧が測れるENVセンサーと人などの動きが検知できるモーションセンサーを使い、人の動きと室温、湿度を合わせて調べてみます。
+                    例えば寝室の室温、湿度と寝返りなどの動きを調べるといった使い方が考えられます。</p>
 
-                温湿度と気圧が測れるENVセンサーと人などの動きが検知できるモーションセンサーを使い、
-                人の動きと室温、湿度を合わせて調べてみます。
-                例えば寝室の室温、湿度と寝返りなどの動きを調べるといった使い方が考えられます。
+                <p><img src="./images/m5go_env_pir.jpg" width="100%" class="img-responsive center-block"></p>
 
-                m5go_env_pir.jpg
+                <p>ENVセンサーにどんなセンサーが使われているか、資料は見つけられないのですが、
+                    センサーユニットをアクセスする<a href="https://github.com/m5stack/M5GO/blob/master/lib/units.py" target="_blank">unitsライブラリー</a>を見ると、
+                    温度と気圧にはBMP280が、湿度にはDHT12というセンサーが使われています。
+                    ENVセンサーのライブラリーには次のようなメソッドが用意されています。</p>
 
-                ENVセンサーにどんなセンサーが使われているか、資料は見つけられないのですが、
-                センサーユニットをアクセスするunitsライブラリー
-                https://github.com/m5stack/M5GO/blob/master/lib/units.py
-                を見ると、温度と気圧にはBMP280が、湿度にはDHT12というセンサーが使われています。
-                ENVセンサーのライブラリーには次のようなメソッドが用意されています。
+<p><pre>
+import units
+env = units.ENV()  # ENVセンサーのインスタンスを作る
+env. available()  # ENVセンサーがI2Cバスにつながっているかどうかを調べる
+t = env. temperature()  # 温度を測る(℃の温度が返る)
+h = env. humidity()  # 湿度を測る(%の値が返る)
+p = env. pressure()  # 気圧を測る(hPaの値が返る)
+t, p, h = env. values  # 温度、気圧、湿度を測る
+</pre></p>
 
-                import units
-                env = units.ENV()  # ENVセンサーのインスタンスを作る
-                env. available()  # ENVセンサーがI2Cバスにつながっているかどうかを調べる
-                t = env. temperature()  # 温度を測る(℃の温度が返る)
-                h = env. humidity()  # 湿度を測る(%の値が返る)
-                p = env. pressure()  # 気圧を測る(hPaの値が返る)
-                t, p, h = env. values  # 温度、気圧、湿度を測る
+                <p>モーションセンサー(PIRセンサー)はPassive Infrared Ray、受動型赤外線センサーと呼ばれるもので、
+                    人などが発する赤外線の変化を検知するセンサーで、人感センサーとも呼ばれます。人の動きに応じて照明をオン/オフするセンサーなどに使われています。</p>
 
-                モーションセンサー(PIRセンサー)はPassive Infrared Ray、受動型赤外線センサーと呼ばれるもので、人などが発する赤外線の変化を検知するセンサーで、人感センサーとも呼ばれます。人の動きに応じて照明をオン/オフするセンサーなどに使われています。
+                <p>次のようなメソッドが用意されていますが、この記事を書いた2018年8月時点でcallback()はエラーになってしまいます。M5Stack.com社に伝えたので修正されると思います。</p>
 
-                次のようなメソッドが用意されていますが、この記事を書いた2018年8月時点でcallback()はエラーになってしまいます。M5Stack.com社に伝えたので修正されると思います。
+<p><pre>
+import units
+pir = env.PIR()  # PIRセンサーのインスタンスを作る
+pir.read()  # PIRセンサーの値を読む
+pir.callback(cb)  # PIRセンサーの値が変化した時に呼ばれるコールバック関数を設定するが、
+                            # 今はエラーになる
+</pre><p/>
 
-                import units
-                pir = env.PIR()  # PIRセンサーのインスタンスを作る
-                pir.read()  # PIRセンサーの値を読む
-                pir.callback(cb)  # PIRセンサーの値が変化した時に呼ばれるコールバック関数を設定するが、
-                                            # 今はエラーになる
+                <p>そこで代わりに次のようなクラスを定義しました。</p>
 
-                そこで代わりに次のようなクラスを定義しました。
+<p><pre>
+class PIR():
+    def __init__(self, handler=None):
+        self.pin = Pin(units.PORTB[1], Pin.IN, handler=handler, trigger=(Pin.IRQ_RISING | Pin.IRQ_FALLING), debounce=100)
 
-                class PIR():
-                	def __init__(self, handler=None):
-                		self.pin = Pin(units.PORTB[1], Pin.IN, handler=handler, trigger=(Pin.IRQ_RISING | Pin.IRQ_FALLING), debounce=100)
+    def read(self):
+        return self.pin.value()
 
-                	def read(self):
-                		return self.pin.value()
+    def deinit(self):
+        self.pin.init(handler=None, trigger=Pin.IRQ_DISABLE)
+</pre></p>
 
-                	def deinit(self):
-                		self.pin.init(handler=None, trigger=Pin.IRQ_DISABLE)
+                <p>このように使います。</p>
 
-                このように使います。
+<p><pre>
+pir = PIR(handler=cb)  # PIRセンサーのインスタンスを作り、コールバック関数を設定する
+pir.read()  # PIRセンサーの値を読む
 
-                pir = PIR(handler=cb)  # PIRセンサーのインスタンスを作り、コールバック関数を設定する
-                pir.read()  # PIRセンサーの値を読む
+コールバック関数は引数としてGPIOのPinオブジェクトが渡されます。
+irqvalue()で関数が呼ばれたときのセンサー値を得られます。
 
-                コールバック関数は引数としてGPIOのPinオブジェクトが渡されます。
-                irqvalue()で関数が呼ばれたときのセンサー値を得られます。
+def cb(pin):  # PIRのコールバック関数
+    val = pin.irqvalue()  # 割り込み時点のピンの値を取得
+</pre></p>
 
-                def cb(pin):  # PIRのコールバック関数
-                    val = pin.irqvalue()  # 割り込み時点のピンの値を取得
-
-                この二つのセンサーを使い、5分間の人の動きの回数と5分毎の温度、湿度、気圧を測り、
-                Ambientに送るプログラムを作りました。
+                <p>この二つのセンサーを使い、5分間の人の動きの回数と5分毎の温度、湿度、気圧を測り、
+                    Ambientに送るプログラムを作りました。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/580710d425a472fd1937be845ec3a58c.js"></script>
 
-                12行目からの関数がPIRの値が変化した時に呼ばれるコールバック関数です。
-                PIRの値は、赤外線を発する物体を検知したら1になり、一定時間すると0に戻ります。
-                nmovesというグローバル変数を用意し、コールバック関数が呼ばれてPIRの値が0でなければ
-                nmovesを1増やしています。
+                <p>12行目からの関数がPIRの値が変化した時に呼ばれるコールバック関数です。
+                    PIRの値は、赤外線を発する物体を検知したら1になり、一定時間すると0に戻ります。
+                    nmovesというグローバル変数を用意し、コールバック関数が呼ばれてPIRの値が0でなければnmovesを1増やしています。</p>
 
-                45行目でPIRのインスタンスを作る時にコールバック関数を指定しています。
+                <p>45行目でPIRのインスタンスを作る時にコールバック関数を指定しています。</p>
 
-                56行目からのwhileループで5分毎に温度、湿度、気圧を測定し、そこまでの
-                動いた数(nmoves)と合わせてAmbientに送っています(66行目)。
+                <p>56行目からのwhileループで5分毎に温度、湿度、気圧を測定し、
+                    そこまでの動いた数(nmoves)と合わせてAmbientに送っています(66行目)。</p>
 
-                M5GOを枕元に置いて、寝ているときの体の動きと寝室の室温、湿度を測ろうとしました。
-                LCDをclear()してもデフォルトだと画面はかなり明るく光っています。
-                そこでdarkというフラグを用意し(8行目)、それをTrueにするとsetBrightness(0)でLCDが光らないようにしています(51行目)。さらにボタンCで表示をオン/オフできるようにしました。
+                <p>M5GOを枕元に置いて、寝ているときの体の動きと寝室の室温、湿度を測ろうとしました。
+                    LCDをclear()してもデフォルトだと画面はかなり明るく光っています。
+                    そこでdarkというフラグを用意し(8行目)、それをTrueにするとsetBrightness(0)でLCDが光らないようにしています(51行目)。
+                    さらにボタンCで表示をオン/オフできるようにしました。</p>
 
-                Angleセンサーのサンプルと同じように、プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、ページ右下の△のボタンを押すと、プログラムが実行されます。
+                <p>Angleセンサーのサンプルと同じように、プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、
+                    開発用ポータルサイトの「Live Code」ページに貼り付け、ページ右下の△のボタンを押すと、プログラムが実行されます。</p>
 
-                M5GOを枕元に置いて、一晩測定してみた結果です。
+                <p>M5GOを枕元に置いて、一晩測定してみた結果です。</p>
 
-                scsho1.jpg
+                <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
 
-                左上が室温、右上が湿度、左下が気圧、右下は10分間毎の動きの回数です。私の場合、一晩中もぞもぞ動いているようです。眠りが浅いのかもしれません。
+                <p>左上が室温、右上が湿度、左下が気圧、右下は10分間毎の動きの回数です。私の場合、一晩中もぞもぞ動いているようです。眠りが浅いのかもしれません。</p>
 
-                # まとめ
+                <h2 id="summary">まとめ</h2>
 
-                M5GO IoT Starter Kitは、キットに含まれているのはENV(温湿度・気圧)センサー、IR REMOTE(赤外線モジュール)、RGB LEDモジュール、モーションセンサー、Angle(角度)センサー、Groveハブの六つのユニットですが、インタフェースはGroveなので、Groveの豊富なセンサー類が使えます。はんだ付け不要で、Micropythonでプログラミングできるので、IoTの入門としては使いやすいキットだと思います。
-
+                <p>M5GO IoT Starter Kitは、キットに含まれているのはENV(温湿度・気圧)センサー、IR REMOTE(赤外線モジュール)、RGB LEDモジュール、モーションセンサー、Angle(角度)センサー、Groveハブの六つのユニットですが、
+                    インタフェースはGroveなので、Groveの豊富なセンサー類が使えます。
+                    はんだ付け不要で、Micropythonでプログラミングできるので、IoTの入門としては使いやすいキットだと思います。</p>
 
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
