@@ -128,45 +128,50 @@
                     </table>
                 </div>
 
-                M5GO IoT Starter Kitのセットアップは「M5GOのセットアップから使い方いろいろ
-                http://mag.switch-science.com/2018/07/09/m5go-handson/
-                」に詳しく書かれているので、そちらを見ながらセンサーユニットなどの動作確認やネットワークの設定をおこなってください。
+                <p>M5GO IoT Starter Kitのセットアップは「<a href="http://mag.switch-science.com/2018/07/09/m5go-handson/">M5GOのセットアップから使い方いろいろ</a>」に詳しく書かれているので、
+                そちらを見ながらセンサーユニットなどの動作確認やネットワークの設定をおこなってください。</p>
 
+                <h2 id="ide">開発環境の設定</h2>
 
-                # 開発環境の設定
+                <h3>USBドライバーのインストール</h3>
 
-                ## USBドライバーのインストール
+                <p>M5GOはMicropython用のファームウェアがインストールされており、Micropythonでプログラムを書きます。
+                    開発用ポータルサイトの「Live Code」というページからMicropythonのプログラムを入力し、ページ右下の△のボタンを押すと、
+                    プログラムがWi-Fi経由でM5GOに送られ、実行されます。デモプログラムや簡単なプログラムを動かすなら開発環境の準備は不要です。</p>
 
-                M5GOはMicropython用のファームウェアがインストールされており、Micropythonでプログラムを書きます。開発用ポータルサイトの「Live Code」というページからMicropythonのプログラムを入力し、ページ右下の△のボタンを押すと、プログラムがWi-Fi経由でM5GOに送られ、実行されます。
-                デモプログラムや簡単なプログラムを動かすなら開発環境の準備は不要です。
+                <p>しかし、プログラム開発時につきもののエラーメッセージやprint()文はUSB接続したシリアルポートに出力されますし、
+                    MicropythonライブラリーをM5GOにインストールする時にもシリアルポートを使います。
+                    そこで、M5Stackと通信するためのUSBドライバをインストールします。
+                    パソコンにUSBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」
+                    をダウンロードしてインストールしてください。</p>
 
-                しかし、プログラム開発時につきもののエラーメッセージやprint()文はUSB接続したシリアルポートに出力されますし、MicropythonライブラリーをM5GOにインストールする時にもシリアルポートを使います。
-                そこで、M5Stackと通信するためのUSBドライバをインストールします。パソコンにUSBドライバ「SiLabs CP2104 Driver
-                https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
-                」をダウンロードしてインストールしてください。
+                <h3>M5GOのファームウェア更新</h3>
 
-                ## M5GOのファームウェア更新
+                <p>「<a href="http://mag.switch-science.com/2018/07/09/m5go-handson/">M5GOのセットアップから使い方いろいろ」
+                    のM5GOのファームウェアを最新のものに更新する手順で「Flash Download Tools」をダウンロードするとあります。
+                    このツールは2018年8月現在、Windows版のみが提供されています。
+                    Windows以外のプラットフォームをお使いの方は次の手順でファームウェアの更新ができます。</p>
 
-                「M5GOのセットアップから使い方いろいろ
-                http://mag.switch-science.com/2018/07/09/m5go-handson/
-                」のM5GOのファームウェアを最新のものに更新する手順で「Flash Download Tools」をダウンロードするとあります。このツールは2018年8月現在、Windows版のみが提供されています。Windows以外のプラットフォームをお使いの方は次の手順でファームウェアの更新ができます。
+                <ol>
+                    <li>M5GOのリポジトリをクローンするか、ZIPファイルをダウンロードして展開する。</li>
+                    <li>ターミナル画面で次のようにコマンドを実行する。<br />
+                        2-1. esptoolがインストールされていなければ、インストールする。
 
-                1.M5GOのリポジトリをクローンするか、ZIPファイルをダウンロードして展開する。
-                2.ターミナル画面で次のようにコマンドを実行する。
-                2-1. esptoolがインストールされていなければ、インストールする。
+<pre>$ sudo pip install esptool</pre>
 
-                $ sudo pip install esptool
+                        2-2.ダウンロードしたファイルのfirmware/{最新版}/にいき、M5GOのFLASHを消去して、最新版のファームウェアを書き込む。
 
-                2-2.ダウンロードしたファイルのfirmware/{最新版}/にいき、M5GOのFLASHを消去して、最新版のファームウェアを書き込む。
+<pre>
+$ cd M5GO/firmware/{最新版}/
+$ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
+$ ./flash.sh
+</pre>
+                        </li>
+                    <li>M5GOをリセットする</li>
+                    <li>ファームウェアを更新するとWi-Fiの設定がクリアされるので、再度設定する</li>
+                </ol>
 
-                $ cd M5GO/firmware/{最新版}/
-                $ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART erase_flash
-                $ ./flash.sh
-
-                3.M5GOをリセットする
-                4.ファームウェアを更新するとWi-Fiの設定がクリアされるので、再度設定する
-
-                ## M5GOとのファイル転送ツールの準備
+                <h3>M5GOとのファイル転送ツールの準備</h3>
 
                 キットに同梱されているセンサーユニットなどをアクセスするライブラリーは
                 インストール済みですが、それ以外のMicropythonライブラリーをインストールするためには
