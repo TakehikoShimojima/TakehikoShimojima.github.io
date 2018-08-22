@@ -90,7 +90,7 @@
             </div>
 
             <div class="col-sm-9 col-lg-8">
-                <p>M5Stackを開発しているM5Stack.comから新しく「<a href="https://www.switch-science.com/catalog/3875/">M5GO Iot Starter Kit</a>」がでました。
+                <p>M5Stackを開発しているM5Stack.comから新しく「<a href="https://www.switch-science.com/catalog/3875/">M5GO IoT Starter Kit</a>」がでました。
                 「AmbientでIoTをはじめよう」の第9回は、このキットを使って温度などを測り、Ambientに送って可視化してみます。</p>
 
                 <h2 id="m5go">M5GO IoT Starter Kit</h2>
@@ -250,7 +250,7 @@ r.close()
                 <script src="https://gist.github.com/TakehikoShimojima/5e104fff1002c247e111d9f117868269.js"></script>
 
                 <p>32行目のwhileループの中でAngleセンサを読み、前回から5秒以上経過していたら、値をAmbientに送信します(40行目)。
-                    Angleセンサの値に応じて44行目から47行目でLCDに棒グラフを描いています。</p>
+                    Angleセンサの値に応じて45行目から48行目でLCDに棒グラフを描いています。</p>
 
                 <p>プログラム中のAmbientのチャネルIDとライトキーをご自分のものに変更し、開発用ポータルサイトの「Live Code」ページに貼り付け、
                     ページ右下の△のボタンを押すと、プログラムが実行されます。
@@ -287,7 +287,7 @@ t, p, h = env. values  # 温度、気圧、湿度を測る
 
 <p><pre>
 import units
-pir = env.PIR()  # PIRセンサのインスタンスを作る
+pir = units.PIR()  # PIRセンサのインスタンスを作る
 pir.read()  # PIRセンサの値を読む
 pir.callback(cb)  # PIRセンサの値が変化した時に呼ばれるコールバック関数を設定するが、
                   # 今はエラーになる
@@ -312,10 +312,11 @@ class PIR():
 <p><pre>
 pir = PIR(handler=cb)  # PIRセンサのインスタンスを作り、コールバック関数を設定する
 pir.read()  # PIRセンサの値を読む
+</pre></p>
 
-コールバック関数は引数としてGPIOのPinオブジェクトが渡されます。
-irqvalue()で関数が呼ばれたときのセンサ値を得られます。
+                <p>コールバック関数は引数としてGPIOのPinオブジェクトが渡されます。irqvalue()で関数が呼ばれたときのセンサ値を得られます。</p>
 
+<p><pre>
 def cb(pin):  # PIRのコールバック関数
     val = pin.irqvalue()  # 割り込み時点のピンの値を取得
 </pre></p>
@@ -367,7 +368,7 @@ def cb(pin):  # PIRのコールバック関数
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">8.Obnizで環境センサ端末を作る</a></li>
+                    <li class="open"><a href="index.html">9.M5GO IoT Starter Kit</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#m5go">M5GO IoT Starter Kit</a></li>
                         <li><a href="#ide">開発環境の設定</a></li>
