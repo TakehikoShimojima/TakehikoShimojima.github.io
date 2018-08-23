@@ -122,7 +122,7 @@
                             <tr align="center"><td>microSDスロット</td><td>1</td><td>1</td><td>1</td></tr>
                             <tr align="center"><td>9軸IMU</td><td></td><td>&#10003;</td><td>&#10003;</td></tr>
                             <tr align="center"><td>LEDバー</td><td></td><td></td><td>&#10003;</td></tr>
-                            <tr align="center"><td>内蔵電池</td><td colspan="2">3.7 V / 150 mAh</td><td>3.7 V / 550mAh寸法</td></tr>
+                            <tr align="center"><td>内蔵電池</td><td colspan="2">3.7 V / 150 mAh</td><td>3.7 V / 550mAh</td></tr>
                             <tr align="center"><td>寸法</td><td colspan="2">54 x 54 x 17 mm</td><td>54 x 54 x 21 mm</td></tr>
                         </tbody>
                     </table>
@@ -135,12 +135,12 @@
 
                 <h3>USBドライバのインストール</h3>
 
-                <p>M5GOはMicropython用のファームウェアがインストールされており、Micropythonでプログラムを書きます。
-                    開発用ポータルサイトの「Live Code」というページからMicropythonのプログラムを入力し、ページ右下の△のボタンを押すと、
+                <p>M5GOはMicroPython用のファームウェアがインストールされており、MicroPythonでプログラムを書きます。
+                    開発用ポータルサイトの「Live Code」というページからMicroPythonのプログラムを入力し、ページ右下の△のボタンを押すと、
                     プログラムがWi-Fi経由でM5GOに送られ、実行されます。デモプログラムや簡単なプログラムを動かすなら開発環境の準備は不要です。</p>
 
                 <p>しかし、プログラム開発時につきもののエラーメッセージやprint()文はUSB接続したシリアルポートに出力されますし、
-                    MicropythonライブラリをM5GOにインストールする時にもシリアルポートを使います。
+                    MicroPythonライブラリをM5GOにインストールする時にもシリアルポートを使います。
                     そこで、M5Stackと通信するためのUSBドライバをインストールします。
                     パソコンにUSBドライバ「<a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers" target="_blank">SiLabs CP2104 Driver</a>」
                     をダウンロードしてインストールしてください。</p>
@@ -174,7 +174,7 @@ $ ./flash.sh
                 <h3>M5GOとのファイル転送ツールの準備</h3>
 
                 <p>キットに同梱されているセンサユニットなどをアクセスするライブラリはインストール済みですが、
-                    それ以外のMicropythonライブラリをインストールするためにはライブラリをM5GOに転送する必要があります。</p>
+                    それ以外のMicroPythonライブラリをインストールするためにはライブラリをM5GOに転送する必要があります。</p>
 
                 <p>PC上のファイルをM5GOに転送するのはampyというコマンドが便利です。
                     ampyコマンドのインストールと使い方は「<a href="https://ambidata.io/blog/2018/03/15/ampy/" target="_blank">ampy: MicroPythonマイコンとPCとのファイル転送ツール</a>」をご覧ください。
@@ -201,7 +201,7 @@ _main.py
 
                 <h3>Ambientライブラリのインストール</h3>
 
-                <p>MicropythonでデータをAmbientに送信するライブラリはGithubに公開してあります。</p>
+                <p>MicroPythonでデータをAmbientに送信するライブラリはGithubに公開してあります。</p>
 
                 <ul>
                     <li><a href="https://github.com/AmbientDataInc/ambient-python-lib" target="_blank">ambient-python-lib</a></li>
@@ -212,7 +212,7 @@ _main.py
 $ ampy put ambient.py
 </pre></p>
 
-                <p>これでM5GOのMicropythonプログラムからambientライブラリがimportできるようになります。</p>
+                <p>これでM5GOのMicroPythonプログラムからambientライブラリがimportできるようになります。</p>
 
 
                 <h2 id="angle">Angleセンサの値をAmbientに送信する</h2>
@@ -222,7 +222,7 @@ $ ampy put ambient.py
                 <p><img src="./images/m5go_angle.jpg" width="65%" class="img-responsive center-block"></p>
 
                 <p>Angleセンサはツマミの角度に応じて0.0から100.0までの値が読めるセンサです。
-                    Micropythonでは次のようにANGLEクラスのインスタンスを作り、read()することでその時のツマミの角度に応じた値が読めます。
+                    MicroPythonでは次のようにANGLEクラスのインスタンスを作り、read()することでその時のツマミの角度に応じた値が読めます。
                     インスタンスを作るとGroveポートBに対応したピンが確保されます。プログラム終了時にはdeinit()を呼び、確保されているピンを開放します。</p>
 
 <p><pre>
@@ -245,7 +245,7 @@ r.close()
 </pre></p>
 
                 <p>Angleセンサの値を読み、値に応じてLCDに棒グラフを描き、5秒毎にその時の値をAmbientに送るプログラムは次のようになります。
-                    M5StackやM5GOで提供されているLCDなどのMicropythonのAPIは「<a href="https://github.com/m5stack/M5Cloud/blob/master/README_JP.md#micropython-api" target="_blank">M5Stack Web IDEのMicroPython API</a>」で見られます。
+                    M5StackやM5GOで提供されているLCDなどのMicroPythonのAPIは「<a href="https://github.com/m5stack/M5Cloud/blob/master/README_JP.md#micropython-api" target="_blank">M5Stack Web IDEのMicroPython API</a>」で見られます。
 
                 <script src="https://gist.github.com/TakehikoShimojima/5e104fff1002c247e111d9f117868269.js"></script>
 
@@ -351,7 +351,7 @@ def cb(pin):  # PIRのコールバック関数
 
                 <p>M5GO IoT Starter Kitは、キットに含まれているのはENV(温湿度・気圧)センサ、IR REMOTE(赤外線モジュール)、RGB LEDモジュール、モーションセンサ、Angle(角度)センサ、Groveハブの六つのユニットですが、
                     インタフェースはGroveなので、Groveの豊富なセンサ類が使えます。
-                    はんだ付け不要で、Micropythonでプログラミングできるので、IoTの入門としては使いやすいキットだと思います。</p>
+                    はんだ付け不要で、MicroPythonでプログラミングできるので、IoTの入門としては使いやすいキットだと思います。</p>
 
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
