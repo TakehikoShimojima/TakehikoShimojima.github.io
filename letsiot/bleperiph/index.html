@@ -135,7 +135,7 @@
                 <p>M5StackとBME280を使うセンサ端末は「<a href="http://pages.switch-science.com/letsiot/m5stack_arduino/index.html">M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a>」で開発したものと同じです。
                     M5StackとBME280は次の表のように接続します。</p>
 
-                <div>
+                <div align="center">
                     <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
                         <thead>
                             <tr align="center"><th style="width: 50%;">M5Stack</th><th>BME280モジュール</th></tr>
@@ -199,7 +199,7 @@
 
                 <p>企業ID0xFFFFがテスト用に用意されているので、これを使い、次のようなアドバタイジングデータを定義しました。</p>
 
-                <div>
+                <div align="center">
                     <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
                         <tbody>
                             <tr><td>0</td><td>長さ</td><td>10</td></tr>
@@ -265,27 +265,27 @@
 
                 <p>「BLE Scanner」を立ち上げると、スキャンして見つかったBLEデバイスが表示されます。</p>
 
-                <p><img src="./images/blescanner1.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/blescanner1.jpg" width="45%" class="img-responsive center-block"></p>
 
                 <p>プログラムが期待通りに動作していれば、デバイスを初期化した時に引数で指定した名前(“AmbientEnv-02”)のデバイスが表示されます。
                     AmbientEnv-02をタップすると、アドバタイジングデータを確認できます。</p>
 
-                <p><img src="./images/blescanner1.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/blescanner1.jpg" width="45%" class="img-responsive center-block"></p>
 
                 <p>Manufacturer Data部分に次のようにデータがセットされているのが確認できます。</p>
 
-                <div>
+                <div align="center">
                     <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
                         <tbody>
-                            <tr align="center"><td>2</td><td>Manufacturer ID (low)</td><td>0xff</td></tr>
-                            <tr align="center"><td>3</td><td>Manufacturer ID (high)</td><td>0xff</td></tr>
-                            <tr align="center"><td>4</td><td>Sequence</td><td>0x93</td></tr>
-                            <tr align="center"><td>5</td><td>温度 (low)</td><td>0x92</td></tr>
-                            <tr align="center"><td>6</td><td>温度 (high)</td><td>0x0b → 0x0b92 → 2962 → 29.62℃</td></tr>
-                            <tr align="center"><td>7</td><td>湿度 (low)</td><td>0xb2</td></tr>
-                            <tr align="center"><td>8</td><td>湿度 (high)</td><td>0x14 → 0x14b2 → 5298 → 52.98%</td></tr>
-                            <tr align="center"><td>9</td><td>気圧 (low)</td><td>0x46</td></tr>
-                            <tr align="center"><td>10</td><td>気圧 (high)</td><td>0x27 → 0x2746 → 10054 → 1005.4hPa</td></tr>
+                            <tr><td>2</td><td>Manufacturer ID (low)</td><td>0xff</td></tr>
+                            <tr><td>3</td><td>Manufacturer ID (high)</td><td>0xff</td></tr>
+                            <tr><td>4</td><td>Sequence</td><td>0x93</td></tr>
+                            <tr><td>5</td><td>温度 (low)</td><td>0x92</td></tr>
+                            <tr><td>6</td><td>温度 (high)</td><td>0x0b → 0x0b92 → 2962 → 29.62℃</td></tr>
+                            <tr><td>7</td><td>湿度 (low)</td><td>0xb2</td></tr>
+                            <tr><td>8</td><td>湿度 (high)</td><td>0x14 → 0x14b2 → 5298 → 52.98%</td></tr>
+                            <tr><td>9</td><td>気圧 (low)</td><td>0x46</td></tr>
+                            <tr><td>10</td><td>気圧 (high)</td><td>0x27 → 0x2746 → 10054 → 1005.4hPa</td></tr>
                         </tbody>
                     </table>
                 </div>
