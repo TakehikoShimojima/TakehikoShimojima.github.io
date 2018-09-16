@@ -189,7 +189,7 @@
 
                 <p>ブロードキャストモードはセンサデータをアドバタイジングパケットの中のアドバタイジングデータという領域に載せて発信します。
                     アドバタイジングデータは次のような構造の最大31バイトのデータで、
-                    <a href="https://www.bluetooth.com/ja-jp/specifications/bluetooth-core-specification">Core Bluetooth 4.0 Core Specification</a>で定義されています。</p>
+                    <a href="https://www.bluetooth.com/ja-jp/specifications/bluetooth-core-specification" target="_blank>Core Bluetooth 4.0 Core Specification</a>で定義されています。</p>
 
                 <p><img src="./images/advertisingdata.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -224,7 +224,7 @@
                 <h2 id="program">プログラム</h2>
 
                 <p>プログラムはArduinoで開発します。ESP32のArduinoにはBLEモジュールが提供されており、
-                    プログラミングは「<a href="https://github.com/nkolban/esp32-snippets/blob/master/Documentation/BLE%20C%2B%2B%20Guide.pdf">BLE C++ Guide</a>」
+                    プログラミングは「<a href="https://github.com/nkolban/esp32-snippets/blob/master/Documentation/BLE%20C%2B%2B%20Guide.pdf" target="_blank>BLE C++ Guide</a>」
                     という資料に解説されています。</p>
 
                 <p>今回開発したプログラムはGithubに公開した中の次のものです。</p>
@@ -270,7 +270,7 @@
                 <p>プログラムが期待通りに動作していれば、デバイスを初期化した時に引数で指定した名前(“AmbientEnv-02”)のデバイスが表示されます。
                     AmbientEnv-02をタップすると、アドバタイジングデータを確認できます。</p>
 
-                <p><img src="./images/blescanner1.jpg" width="40%" class="img-responsive center-block"></p>
+                <p><img src="./images/blescanner2.jpg" width="40%" class="img-responsive center-block"></p>
 
                 <p>Manufacturer Data部分に次のようにデータがセットされているのが確認できます。</p>
 
@@ -310,12 +310,13 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">3.M5Stackでセンサデータを測定し、クラウドに送る (Arduino編)</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#M5Stack">M5Stack</a></li>
-                        <li><a href="#setup">M5Stackを使うためのArduinoの環境設定</a></li>
-                        <li><a href="#bme280">温湿度・気圧センサBME280を使う</a></li>
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#blemode">BLEデバイスの動作</a></li>
+                        <li><a href="#hardware">センサ端末のハードウェア</a></li>
+                        <li><a href="#check">ハードウェアの動作確認</a></li>
+                        <li><a href="#advertisingdata">アドバタイジングデータ</a></li>
                         <li><a href="#program">プログラム</a></li>
-                        <li><a href="#bme680">温湿度・気圧・空気品質センサBME680を使う</a></li>
-                        <li><a href="#summary">まとめ</a></li>
+                        <li><a href="#programcheck">動作確認</a></li>
                     </ul>
                 </ul>
             </div>
