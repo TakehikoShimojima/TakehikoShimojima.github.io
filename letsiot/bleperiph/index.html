@@ -110,8 +110,6 @@
                 <p>BLEではセンサ端末をペリフェラル、ペリフェラルからデータを取得する端末をセントラルといいます。
                     スマホから腕時計型の活動量計にアクセスしている場合、活動量計がペリフェラル、スマホがセントラルになります。</p>
 
-                <p><img src="./images/blemode.jpg" width="80%" class="img-responsive center-block"></p>
-
                 <p>BLE通信では、ペリフェラルが自らの存在を発信(アドバタイズ)します。
                     セントラルはアドバタイジングパケットをスキャンし、自分が必要とするペリフェラルを見つけ、
                     ペリフェラルに接続(コネクト)してデータの送受信をおこないます。
@@ -119,6 +117,8 @@
 
                 <p>もう一つの通信方法は、ペリフェラルがセンサデータなどをアドバタイジングパケットに載せて送り、
                     セントラルがそれを受信する方法です。ブロードキャスター/オブザーバーモードあるいはブロードキャストモードと呼びます。</p>
+
+                <p><img src="./images/blemode.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>コネクトモードは双方向通信ができます。
                     ペリフェラルからセンサデータを受け取るだけでなく、セントラルからペリフェラルのモード設定なども行う場合はコネクトモードを使います。
@@ -187,34 +187,41 @@
 
                 <h2 id="advertisingdata"アドバタイジングデータ</h2>
 
-                ブロードキャストモードはセンサデータをアドバタイジングパケットの中のアドバタイジングデータという領域に載せて発信します。アドバタイジングデータは次のような構造の最大31バイトのデータで、Core Bluetooth 4.0 Core Specification
-                https://www.bluetooth.com/ja-jp/specifications/bluetooth-core-specification
-                で定義されています。
+                <p>ブロードキャストモードはセンサデータをアドバタイジングパケットの中のアドバタイジングデータという領域に載せて発信します。
+                    アドバタイジングデータは次のような構造の最大31バイトのデータで、
+                    <a href="https://www.bluetooth.com/ja-jp/specifications/bluetooth-core-specification">Core Bluetooth 4.0 Core Specification</a>で定義されています。</p>
 
-                図
+                <p><img src="./images/advertisingdata.jpg" width="80%" class="img-responsive center-block"></p>
 
-                AD Typeは1バイトのデータで、AD Dataの内容を定義します。
-                この中にManufacturer Specific(0xFF)という値があり、
-                AD Dataとして2バイトの企業IDとその企業が定義するデータが入れられます。
+                <p>AD Typeは1バイトのデータで、AD Dataの内容を定義します。
+                    この中にManufacturer Specific(0xFF)という値があり、
+                    AD Dataとして2バイトの企業IDとその企業が定義するデータが入れられます。</p>
 
-                企業ID0xFFFFがテスト用に用意されているので、これを使い、
-                次のようなアドバタイジングデータを定義しました。
+                <p>企業ID0xFFFFがテスト用に用意されているので、これを使い、次のようなアドバタイジングデータを定義しました。</p>
 
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
+                        <thead>
+                            <tr align="center"><th style="width: 50%;"></th><th></th><th></th></tr>
+                        </thead>
+                        <tbody>
+                            <tr align="center"><td>0</td><td>長さ</td><td>10</td></tr>
+                            <tr align="center"><td>1</td><td>AD Type</td><td>0xFF (Manufacturer Specific)</td></tr>
+                            <tr align="center"><td>2</td><td>Manufacturer ID (low)</td><td>0xff</td></tr>
+                            <tr align="center"><td>3</td><td>Manufacturer ID (high)</td><td0xff></td></tr>
+                            <tr align="center"><td>4</td><td>Sequence</td><td>シーケンス番号</td></tr>
+                            <tr align="center"><td>5</td><td>温度 (low)</td><td>摂氏温度(℃)を100倍した整数値</td></tr>
+                            <tr align="center"><td>6</td><td>温度 (high)</td><td></td></tr>
+                            <tr align="center"><td>7</td><td>湿度 (low)</td><td>相対湿度(%)を100倍した整数値</td></tr>
+                            <tr align="center"><td>8</td><td>湿度 (high)</td><td></td></tr>
+                            <tr align="center"><td>9</td><td>気圧 (low)</td><td>気圧(hPa)を10倍した整数値</td></tr>
+                            <tr align="center"><td>10</td><td>気圧 (high)</td><td></td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                0 長さ 10
-                1 AD Type 0xFF (Manufacturer Specific)
-                2 Manufacturer ID (low) 0xff
-                3 Manufacturer ID (high) 0xff
-                4 Sequence シーケンス番号
-                5 温度 (low) 摂氏温度(℃)を100倍した整数値
-                6 温度 (high)
-                7 湿度 (low) 相対湿度(%)を100倍した整数値
-                8 湿度 (high)
-                9 気圧 (low) 気圧(hPa)を10倍した整数値
-                10 気圧 (high)
-
-                温度、湿度を100倍、気圧を10倍して整数にしてアドバタイジングデータとして送信し、
-                受信側で元に戻すことで、小数点以下2桁、1桁の浮動小数点を2バイトに収めています。
+                <p>温度、湿度を100倍、気圧を10倍して整数にしてアドバタイジングデータとして送信し、
+                    受信側で元に戻すことで、小数点以下2桁、1桁の浮動小数点を2バイトに収めています。</p>
 
 
                 プログラム
