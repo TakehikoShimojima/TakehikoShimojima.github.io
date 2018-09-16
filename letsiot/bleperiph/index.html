@@ -221,70 +221,77 @@
                     受信側で元に戻すことで、小数点以下2桁、1桁の浮動小数点を2バイトに収めています。</p>
 
 
-                プログラム
+                <h2 id="program">プログラム</h2>
 
-                プログラムはArduinoで開発します。ESP32のArduinoにはBLEモジュールが提供されており、
-                プログラミングは「BLE C++ Guide
-                https://github.com/nkolban/esp32-snippets/blob/master/Documentation/BLE%20C%2B%2B%20Guide.pdf
-                」という資料に解説されています。
+                <p>プログラムはArduinoで開発します。ESP32のArduinoにはBLEモジュールが提供されており、
+                    プログラミングは「<a href="https://github.com/nkolban/esp32-snippets/blob/master/Documentation/BLE%20C%2B%2B%20Guide.pdf">BLE C++ Guide</a>」
+                    という資料に解説されています。</p>
 
-                今回開発したプログラムはGithubに公開した中の次のものです。
+                <p>今回開発したプログラムはGithubに公開した中の次のものです。</p>
 
-                src/envSensor_esp32/BLE_BME280_bcast/BLE_BME280_bcast.ino
+                <ul>
+                    <li>src/envSensor_esp32/BLE_BME280_bcast/BLE_BME280_bcast.ino</li>
+                </ul>
 
-
-                BLEの端末側プログラムの主な流れは次のようになっています。プログラム中のコメントを見ると流れが分かると思います。
+                <p>BLEの端末側プログラムの主な流れは次のようになっています。プログラム中のコメントを見ると流れが分かると思います。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/254b65ca82bbe3674aaef62fc40973fb.js"></script>
 
-                デバイスを初期化し、サーバを生成し、センサを読んで値をアドバタイジングデータにセットし、T_PERIOD秒アドバタイズします。その後、S_PERIOD秒休止します。休止中の消費電力を下げるために休止中はDeep Sleepします。Deep Sleepから復帰するとプログラムは先頭から実行され、次のセンサデータを読み、T_PERIOD秒のアドバタイズをおこないます。
+                <p>デバイスを初期化し、サーバを生成し、センサを読んで値をアドバタイジングデータにセットし、T_PERIOD秒アドバタイズします。
+                    その後、S_PERIOD秒休止します。休止中の消費電力を下げるために休止中はDeep Sleepします。
+                    Deep Sleepから復帰するとプログラムは先頭から実行され、次のセンサデータを読み、T_PERIOD秒のアドバタイズをおこないます。</p>
 
-                センサを読んで値をアドバタイジングデータにセットする部分は次のようになっています。
+                <p>センサを読んで値をアドバタイジングデータにセットする部分は次のようになっています。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/465738be65eb0043cb2fc0f1f185c756.js"></script>
 
-                2行目でBME280のデータを読み、13〜23行目でアドバタイジングデータを作り、
-                25、26行目でアドバタイジングデータを設定しています。
+                <p>2行目でBME280のデータを読み、13〜23行目でアドバタイジングデータを作り、
+                    25、26行目でアドバタイジングデータを設定しています。</p>
 
-                アドバタイジングデータにはシーケンス番号を入れています。
-                シーケンス番号をRTCメモリに定義することで、Deep Sleepの間も値を保持し、
-                1ずつ値を増加させています。
+                <p>アドバタイジングデータにはシーケンス番号を入れています。
+                    シーケンス番号をRTCメモリに定義することで、Deep Sleepの間も値を保持し、1ずつ値を増加させています。</p>
 
-                RTC_DATA_ATTR static uint8_t seq;
+<p><pre>
+    RTC_DATA_ATTR static uint8_t seq;
+</pre></p>
 
+                <h2 id="programcheck">動作確認</h2>
 
-                動作確認
+                <p>プログラムをビルドして、端末にダウンロードして動かします。</p>
 
-                プログラムをビルドして、端末にダウンロードして動かします。
+                <p>動作確認にはスマホアプリ「BLE Scanner」を使うのが便利です。</p>
 
-                動作確認にはスマホアプリ「BLE Scanner」を使うのが便利です。
+                <p><img src="./images/BLEScanner.jpg" width="80%" class="img-responsive center-block"></p>
 
-                図
+                <p>「BLE Scanner」を立ち上げると、スキャンして見つかったBLEデバイスが表示されます。</p>
 
-                「BLE Scanner」を立ち上げると、スキャンして見つかったBLEデバイスが表示されます。
+                <p><img src="./images/blescanner1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                図
+                <p>プログラムが期待通りに動作していれば、デバイスを初期化した時に引数で指定した名前(“AmbientEnv-02”)のデバイスが表示されます。
+                    AmbientEnv-02をタップすると、アドバタイジングデータを確認できます。</p>
 
-                プログラムが期待通りに動作していれば、デバイスを初期化した時に引数で指定した名前(“AmbientEnv-02”)のデバイスが表示されます。
+                <p><img src="./images/blescanner1.jpg" width="80%" class="img-responsive center-block"></p>
 
-                AmbientEnv-02をタップすると、アドバタイジングデータを確認できます。
+                <p>Manufacturer Data部分に次のようにデータがセットされているのが確認できます。</p>
 
-                図
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
+                        <tbody>
+                            <tr align="center"><td>2</td><td>Manufacturer ID (low)</td><td>0xff</td></tr>
+                            <tr align="center"><td>3</td><td>Manufacturer ID (high)</td><td>0xff</td></tr>
+                            <tr align="center"><td>4</td><td>Sequence</td><td>0x93</td></tr>
+                            <tr align="center"><td>5</td><td>温度 (low)</td><td>0x92</td></tr>
+                            <tr align="center"><td>6</td><td>温度 (high)</td><td>0x0b → 0x0b92 → 2962 → 29.62℃</td></tr>
+                            <tr align="center"><td>7</td><td>湿度 (low)</td><td>0xb2</td></tr>
+                            <tr align="center"><td>8</td><td>湿度 (high)</td><td>0x14 → 0x14b2 → 5298 → 52.98%</td></tr>
+                            <tr align="center"><td>9</td><td>気圧 (low)</td><td>0x46</td></tr>
+                            <tr align="center"><td>10</td><td>気圧 (high)</td><td>0x27 → 0x2746 → 10054 → 1005.4hPa</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                Manufacturer Data部分に次のようにデータがセットされているのが確認できます。
-
-                2 Manufacturer ID (low) 0xff
-                3 Manufacturer ID (high) 0xff
-                4 Sequence シーケンス番号 0x93
-                5 温度 (low) 0x92
-                6 温度 (high) 0x0b → 0x0b92 → 2962 → 29.62℃
-                7 湿度 (low) 0xb2
-                8 湿度 (high) 0x14 → 0x14b2 → 5298 → 52.98%
-                9 気圧 (low) 0x46
-                10 気圧 (high) 0x27 → 0x2746 → 10054 → 1005.4hPa
-
-                これでブロードキャストモードのセンサー端末ができました。
-                次回はこのデータを受信してAmbientに送信するゲートウェイを開発します。
+                <p>これでブロードキャストモードのセンサー端末ができました。
+                    次回はこのデータを受信してAmbientに送信するゲートウェイを開発します。</p>
 
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
