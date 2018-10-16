@@ -92,10 +92,10 @@
             <div class="col-sm-9 col-lg-8">
 
                 <p>ESP32はWi-FiとBluetooth Low Energy (BLE)通信機能を持っています。
-                    この機能を使い、BLEセンサー端末からデーターを受けて、クラウドに送信するBLEゲートウェイを作ります。</p>
+                    この機能を使い、BLEセンサ端末からデータを受けて、クラウドに送信するBLEゲートウェイを作ります。</p>
 
-                <p>BLE環境センサー端末は「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサー端末を作る</a>」を、
-                    Raspberry Piを使ったゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_rpi/index.html">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
+                <p>BLE環境センサ端末は「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」を、
+                    Raspberry Piを使ったゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_rpi/index.html">BLE環境センサ・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
 
                 <p><img src="./images/photo2.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -103,8 +103,8 @@
 
                 <p><img src="./images/structure_M5gw.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <p>センサー端末とBLEゲートウェイの両方をM5Stackで作ります。
-                    ゲートウェイはセンサー端末からBLEでデーターを受け、Wi-Fi経由でクラウド(Ambient)に送信します。</p>
+                <p>センサ端末とBLEゲートウェイの両方をM5Stackで作ります。
+                    ゲートウェイはセンサ端末からBLEでデータを受け、Wi-Fi経由でクラウド(Ambient)に送信します。</p>
 
                 <h2 id="programsize">プログラムサイズの問題</h2>
 
@@ -123,8 +123,10 @@
 <p><pre>
 最大1310720バイトのフラッシュメモリのうち、スケッチが264500バイト（20%）を使っています。
 最大327680バイトのRAMのうち、グローバル変数が15184バイト（4%）を使っていて、ローカル変数で312496バイト使うことができます。
-Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreのサイズのようです。これにBLEDevice::init()だけを追加してビルドしてみます。
 </pre></p>
+
+                <p>Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreのサイズのようです。
+                    これにBLEDevice::init()だけを追加してビルドしてみます。</p>
 
 <p><pre>
  #include <M5Stack.h>
@@ -141,8 +143,10 @@ Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreの�
 <p><pre>
 最大1310720バイトのフラッシュメモリのうち、スケッチが1152833バイト（87%）を使っています。
 最大327680バイトのRAMのうち、グローバル変数が59068バイト（18%）を使っていて、ローカル変数で268612バイト使うことができます。
-プログラムサイズが約1Mバイトになってしまいました。増えた分の約867kバイトがBLEモジュールのサイズのようです。さらにWiFi.begin()を足してみます。
 </pre></p>
+
+                <p>プログラムサイズが約1Mバイトになってしまいました。増えた分の約867kバイトがBLEモジュールのサイズのようです。
+                    さらにWiFi.begin()を足してみます。</p>
 
 <p><pre>
  #include <M5Stack.h>
@@ -218,89 +222,59 @@ Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreの�
 
                 <p>boards.txtは次の場所にあります。</p>
 
-                MacOSでは
+                <ul>
+                    <li>MacOSでは<br>
+                        /Users/<アカウント名>/Library/Arduino15/packages/esp32/hardware/esp32/1.0.0-rc4/boards.txt</li>
+                    <li>Windowsでは<br>
+                        C:\Users\<アカウント名>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.0-rc4\boards.txt</li>
+                </ul>
 
-                /Users/<アカウント名>/Library/Arduino15/packages/esp32/hardware/esp32/1.0.0-rc4/boards.txt
+                <p>これで先程のBLEDevice::init()とWiFi.begin()を実行するプログラムをビルドします。</p>
 
-                Windowsでは
+<p><pre>
+ 最大3407872バイトのフラッシュメモリのうち、スケッチが1437438バイト（42%）を使っています。
+ 最大327680バイトのRAMのうち、グローバル変数が79416バイト（24%）を使っていて、ローカル変数で248264バイト使うことができます。
+</pre></p>
 
-                C:\Users\<アカウント名>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.0-rc4\boards.txt
+                <p>プログラム領域が1.25Mバイトから3.25Mバイトに拡張され、ビルドできるようになりました。</p>
 
-                これで先程のBLEDevice::init()とWiFi.begin()を実行するプログラムをビルドします。
+                <h2 id="program">BLEゲートウェイ・プログラム</h2>
 
-                 最大3407872バイトのフラッシュメモリのうち、スケッチが1437438バイト（42%）を使っています。
-                 最大327680バイトのRAMのうち、グローバル変数が79416バイト（24%）を使っていて、ローカル変数で248264バイト使うことができます。
-                プログラム領域が1.25Mバイトから3.25Mバイトに拡張され、ビルドできるようになりました。
+                <p>比較的プログラムが単純なブロードキャストモードのゲートウェイを作ります。</p>
 
-                BLEゲートウェイ・プログラム
-                比較的プログラムが単純なブロードキャストモードのゲートウェイを作ります。
+                <p>ブロードキャストモードのBLEセンサ端末は、センサデータを次のような形式でアドバタイジングデータに載せて発信します。</p>
 
-                ブロードキャストモードのBLEセンサー端末は、センサーデーターを次のような形式でアドバタイジングデーターに載せて発信します。
+                <p><img src="./images/ADVdata.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>BLEゲートウェイはBLEをスキャンしてアドバタイジングパケットを受信し、
+                    AD TypeがManufacturer dataで、次のカンパニーIDが0xffffのデータを探します。
+                    見つけたらその中から温度、湿度、気圧データを取り出し、Ambientに送信します。</p>
+
+                <p>アドバタイジングデータの中には送信するごとに1ずつ増加するシーケンス番号が入っており、
+                    同じデータを重複して送信しないようにしています。</p>
+
+                <p>setup()関数は次のようになります。BLE、WiFi、Ambientの初期化をおこなっています。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/d90e7f04a9aaf541b78df1c654106053.js"></script>
+
+                <p>loop()関数では、BLEをスキャンして、スキャンデータから対象の端末を探し、
+                    見つかったら、スキャンデータからセンサデータを取り出し、Ambientに送ります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/f7ad8f3d1af15896557103c037d7f848.js"></script>
 
 
+                <p>プログラム全体はGithubに置きました。</p>
 
-                BLEゲートウェイはBLEをスキャンしてアドバタイジングパケットを受信し、AD TypeがManufacturer dataで、次のカンパニーIDが0xffffのデーターを探します。見つけたらその中から温度、湿度、気圧データーを取り出し、Ambientに送信します。
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_esp32/BLE_GW/BLE_GW.ino">AmbientDataInc/EnvSensorBleGw</a></li>
+                </ul>
 
-                アドバタイジングデーターの中には送信するごとに1ずつ増加するシーケンス番号が入っており、同じデーターを重複して送信しないようにしています。
+                <p>BLEゲートウェイは常にスキャンをおこない、対象のデバイスからのデータがあれば、それを受けてデータをクラウドに送信します。
+                    BLEセンサ端末が例えば5分に1回温度、湿度、気圧などを測定し、10〜20秒程度BLEでデータをブロードキャストすると、
+                    BLEゲートウェイがそれを受信してクラウドに送ります。</p>
 
-                setup()関数は次のようになります。BLE、WiFi、Ambientの初期化をおこなっています。
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
-                void setup() {
-                    M5.begin();  // M5Stackの初期化
-
-                    Serial.begin(115200);  // シリアルの初期化
-
-                    BLEDevice::init("");  // BLEモジュールの初期化
-                    pBLEScan = BLEDevice::getScan();  // スキャンオブジェクトを取得
-                    pBLEScan->setActiveScan(false);  // パッシブスキャンに設定
-
-                    WiFi.begin(ssid, password);  //  Wi-Fi APに接続
-                    while (WiFi.status() != WL_CONNECTED) {  //  Wi-Fi AP接続待ち
-                        Serial.print(".");
-                        delay(100);
-                    }
-                    // チャネルIDとライトキーを指定してAmbientの初期化
-                    ambient.begin(channelId, writeKey, &client);
-                }
-                view rawBLEGW_esp32_1.ino hosted with ❤ by GitHub
-                loop()関数では、BLEをスキャンして、スキャンデータから対象の端末を探し、見つかったら、スキャンデーターからセンサーデーターを取り出し、Ambientに送ります。
-
-                void loop() {
-                    bool found = false;
-                    float temp, humid, press;
-
-                    BLEScanResults foundDevices = pBLEScan->start(3);  // 3秒間スキャンする
-                    int count = foundDevices.getCount();  // 受信したデバイス数を取得
-                    for (int i = 0; i < count; i++) {  // 受信したデーターに対して
-                        BLEAdvertisedDevice d = foundDevices.getDevice(i);
-                        if (d.haveManufacturerData()) {  // Manufacturer dataがあって
-                            std::string data = d.getManufacturerData();
-                            int manu = data[1] << 8 | data[0];
-                            // Manufacturer IDが0xffffで、シーケンス番号が更新されていたら
-                            if (manu == MyManufacturerId && seq != data[2]) {
-                                found = true;
-                                seq = data[2];
-                                temp = (float)(data[4] << 8 | data[3]) / 100.0;  // データーから温度等を取り出す
-                                humid = (float)(data[6] << 8 | data[5]) / 100.0;
-                                press = (float)(data[8] << 8 | data[7]) * 10.0 / 100.0;
-                            }
-                        }
-                    }
-
-                    if (found) {
-                        // 温度、湿度、気圧、CO2、TVOCの値をAmbientに送信する
-                        ambient.set(1, temp);
-                        ambient.set(2, humid);
-                        ambient.set(3, press);
-                        ambient.send();
-                    }
-                }
-                view rawBLEGW_esp32_2.ino hosted with ❤ by GitHub
-                プログラム全体はGithubに置きました。
-
-                ・AmbientDataInc/EnvSensorBleGw
-
-                BLEゲートウェイは常にスキャンをおこない、対象のデバイスからのデーターがあれば、それを受けてデーターをクラウドに送信します。BLEセンサー端末が例えば5分に1回温度、湿度、気圧などを測定し、10〜20秒程度BLEでデーターをブロードキャストすると、BLEゲートウェイがそれを受信してクラウドに送ります。
             </div>
 
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
@@ -313,13 +287,12 @@ Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreの�
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">11.BLE環境センサ・ゲートウェイ(Raspberry Pi編)</a></li>
+                    <li class="open"><a href="index.html">12.BLE環境センサ・ゲートウェイ(ESP32編)</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#structure">全体の構成</a></li>
-                        <li><a href="#blemode">BLEデバイスの動作</a></li>
-                        <li><a href="#hardware">ハードウェア、OS、Python</a></li>
-                        <li><a href="#library">ライブラリ</a></li>
-                        <li><a href="#program">プログラム</a></li>
+                        <li><a href="#programsize">プログラムサイズの問題</a></li>
+                        <li><a href="#solution">サイズ問題の対処</a></li>
+                        <li><a href="#program">BLEゲートウェイ・プログラム</a></li>
                     </ul>
                 </ul>
             </div>
