@@ -1,0 +1,305 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="BLE GW RPi - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLE環境センサ・ゲートウェイ(Raspberry Pi編) - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年10月25日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>BLE環境センサ・ゲートウェイ(Raspberry Pi編)</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」ではBluetooth Low Energy (BLE) でデータを発信するセンサ端末を作りました。
+                    今回はこの端末からデータを受けて、クラウドにデータを送るゲートウェイを作ります。</p>
+                <p>ESP32を使ったゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_esp32/index.html">BLE環境センサ・ゲートウェイ(ESP32編)</a>」をご覧ください。</p>
+
+                <h2 id="structure">全体の構成</h2>
+
+                <p><img src="./images/structure.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>センサ端末はM5StackにBME280を接続し、温度、湿度、気圧を測定し、BLEで発信するものです。
+                    M5Stackに搭載されているものと同じマイコンESP32を搭載するESPr Developer 32でも動作します。
+                    センサ端末の開発は「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」をご覧ください。</p>
+
+                <p>ゲートウェイはBLE通信ができて、インターネットにも接続できるものが必要です。今回はRaspberry Piを使います。</p>
+
+                <h2 id="blemode">BLEデバイスの動作</h2>
+
+                <p>BLE通信にはコネクトモードとブロードキャストモードがあります。</p>
+
+                <p><img src="./images/blemode.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>コネクトモードでは、センサ端末などのペリフェラルが自らの存在を発信(アドバタイズ)します。
+                    セントラルと呼ばれるゲートウェイはアドバタイジングパケットをスキャンし、自分が必要とするペリフェラルを見つけ、
+                    ペリフェラルに接続(コネクト)してデータの送受信をおこないます。</p>
+
+                <p>ブロードキャストモードでは、ペリフェラルがセンサデータなどをアドバタイジングパケットに載せて送り、セントラルがそれを受信します。</p>
+
+                <p>コネクトモードは双方向通信ですので、ペリフェラルからデータを取得するだけでなく、セントラル側からパラメーター設定をおこなうといった場合はコネクトモードが必要です。
+                    ただし、ペリフェラルはセントラル側からのコネクトを待つ必要があるため、一般にはDeep Sleepできず、電力消費を抑えにくくなります。</p>
+
+                <p>ブロードキャストモードは単方向です。ペリフェラルからデータを取得するだけなら、ブロードキャストモードが適しています。
+                    しかもブロードキャストモードは、ペリフェラルがデータを送りたいときだけアドバタイズし、あとはDeep Sleepすることができるので、
+                    ペリフェラル側の電力消費を低く抑えられます。</p>
+
+                <p>コネクトモード、ブロードキャストモード、それぞれで動作するセンサ端末を開発したので、ゲートウェイもそれぞれのモードの物を作ります。</p>
+
+                <h2 id="hardware">ハードウェア、OS、Python</h2>
+
+                <p>ゲートウェイのハードウェアは「<a href="https://www.switch-science.com/catalog/3646/">Raspberry Pi Zero WH</a>」を使いました。
+                    65mm x 30mm と非常に小さいサイズですが、Wi-FiとBLE通信機能があり、RAMも512MBあります。BLEゲートウェイを動かすには十分な性能です。</p>
+
+                <p><img src="./images/photo1.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>OSは「Raspbian GNU/Linux 9.4 (stretch)」を使いました。
+                    OSのセットアップは「<a href="https://qiita.com/hishi/items/8bdfd9d72fa8fe2e7573">Raspberry Pi Zero(W)のセットアップ</a>」などをご覧ください。
+
+                <p>Pythonはpyenvを導入し、Pythonは3.6.5をインストールしました。
+                    pyenvとPythonのインストールは「<a href="https://qiita.com/h-sakano/items/cb8df027b81acd78bd77">RaspberryPiにpyenvを導入</a>」などをご覧ください。
+
+                <p>Raspberry Pi Zero WHへのPythonのインストールは非常に時間がかかります。ネットワーク環境にもよりますが、私の環境では1時間6分かかりました。
+                    途中、不安になりますが、気長にお待ちください。</p>
+
+                <h2 id="library">BLEライブラリ</h2>
+
+                <p>PythonのBLEライブラリにはいくつかのものがあります。
+                    「<a href="http://masato-ka.hatenablog.com/entry/2017/09/10/153555">PythonからBLEを制御するライブラリの調査</a>」に比較レポートがあります。
+                    Python3系で使えて<a href="http://ianharvey.github.io/bluepy-doc/">ドキュメント</a>がしっかりしている
+                    「<a href="https://github.com/IanHarvey/bluepy">bluepy</a>」を使いました。
+
+                <h3>bluepyとAmbientライブラリのインストール</h3>
+
+                <p>Raspberry Piへのbluepyのインストールは次のようにおこないます。</p>
+
+<p><pre>
+pi$ sudo apt-get install libglib2.0-dev
+pi$ pip install bluepy
+</pre></p>
+
+                <p>これはpyenvを使っている場合ですが、使っていない場合は次のようにします。</p>
+
+<p><pre>
+pi$ sudo pip3 install bluepy
+</pre></p>
+
+                <p>PythonでAmbientにデータを送信するライブラリがあるので、それも次のようにインストールします。</p>
+
+<p><pre>
+pi$ pip install git+https://github.com/AmbientDataInc/ambient-python-lib.git
+</pre></p>
+
+                <h2 id="program">プログラム</h2>
+
+                <p>ブロードキャストモードでは、センサ端末がセンサデータをアドバタイジングパケットの中のアドバタイジングデータという領域に載せて発信します。
+                    アドバタイジングデータは次のような構造の最大31バイトのデータです。</p>
+
+                <p><img src="./images/advertisingdata.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>BLE環境センサでは下図のようにアドバタイジングデータをセットしています。</p>
+
+                <p><img src="./images/ADVdata.jpg" width="80%" class="img-responsive center-block"></p>
+
+                <p>ブロードキャストモードのゲートウェイプログラムは比較的単純です。センサ端末が送るアドバタイジングデータをスキャンして見つけ、
+                    アドバタイジングデータからセンサ値を取り出し、Ambientに送ります。</p>
+
+                <p>bluepyでは、Scannerクラスのインスタンスを作り、scan()メソッドを呼ぶとスキャンが始まります。
+                    withDelegate()メソッドでdelegate関数を指定すると、スキャンでBLEデバイスが見つかった時にcallback関数として呼ばれます。
+                    delegate関数にはDefaultDelegateクラスが用意してあり、このクラスのサブクラスを作り、handleDiscovery()メソッドをオーバーライドすることで、
+                    独自のcallback関数を定義します。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/24cdcd720f5e3bf64c9d841fc0807cc4.js"></script>
+
+                <p>handleDiscovery()の引数のscanEntryはscanEntryクラスです。getScanData()メソッドで(Ad Type、その説明、Ad Typeに対する値)のタプルが得られます。</p>
+
+                <p>スキャンすると、BLE電波が届く範囲にあって、その時アドバタイズしている複数のBLE端末からのアドバタイジングデータが得られます。
+                    その中で説明が’Manufacturer’で値の先頭のカンパニーIDが0xffffのデータがBLE環境センサのアドバタイジングデータです。
+                    そのデータを見つけて、データから温度、湿度、気圧を取り出し、Ambientに送ります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/c7b0c1fcf422340a8e60562571584c86.js"></script>
+
+                <p>プログラム全体はGithubに置きました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientBS.py">EnvSensorBleGw/src/gw_RPi/env2ambientBS.py</a></li>
+                </ul>
+
+                <p>BLEデバイスにアクセスするのにroot権限が必要なので、プログラムは次のように起動します。</p>
+
+<p><pre>
+pi$ sudo python env2ambientBS.py
+</pre></p>
+
+                <p>Raspberry Piからログアウトしても、ゲートウェイプログラムが終了しないようにするには、次のように起動します。</p>
+
+<p><pre>
+pi$ sudo nohup python env2ambientBS.py < /dev/null &
+</pre></p>
+
+                <p>センサ端末とゲートウェイを動かし、データを送信したAmbientのチャネルページを見ると、送信した温度、湿度、気圧データが確認できます。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">10.M5StackでBLE環境センサ端末を作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#blemode">BLEデバイスの動作</a></li>
+                        <li><a href="#hardware">ハードウェア、OS、Python</a></li>
+                        <li><a href="#library">ライブラリ</a></li>
+                        <li><a href="#program">プログラム</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
