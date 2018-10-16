@@ -123,7 +123,7 @@
                     しかもブロードキャストモードは、ペリフェラルがデータを送りたいときだけアドバタイズし、あとはDeep Sleepすることができるので、
                     ペリフェラル側の電力消費を低く抑えられます。</p>
 
-                <p>コネクトモード、ブロードキャストモード、それぞれで動作するセンサ端末を開発したので、ゲートウェイもそれぞれのモードの物を作ります。</p>
+                <p>センサ端末はブロードキャストモードで動作するものを開発したので、ゲートウェイもブロードキャストモードのものを作ります。</p>
 
                 <h2 id="hardware">ハードウェア、OS、Python</h2>
 
@@ -133,10 +133,10 @@
                 <p><img src="./images/photo1.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>OSは「Raspbian GNU/Linux 9.4 (stretch)」を使いました。
-                    OSのセットアップは「<a href="https://qiita.com/hishi/items/8bdfd9d72fa8fe2e7573">Raspberry Pi Zero(W)のセットアップ</a>」などをご覧ください。
+                    OSのセットアップは「<a href="https://qiita.com/hishi/items/8bdfd9d72fa8fe2e7573" target="_blank">Raspberry Pi Zero(W)のセットアップ</a>」などをご覧ください。
 
                 <p>Pythonはpyenvを導入し、Pythonは3.6.5をインストールしました。
-                    pyenvとPythonのインストールは「<a href="https://qiita.com/h-sakano/items/cb8df027b81acd78bd77">RaspberryPiにpyenvを導入</a>」などをご覧ください。
+                    pyenvとPythonのインストールは「<a href="https://qiita.com/h-sakano/items/cb8df027b81acd78bd77" target="_blank">RaspberryPiにpyenvを導入</a>」などをご覧ください。
 
                 <p>Raspberry Pi Zero WHへのPythonのインストールは非常に時間がかかります。ネットワーク環境にもよりますが、私の環境では1時間6分かかりました。
                     途中、不安になりますが、気長にお待ちください。</p>
@@ -144,9 +144,9 @@
                 <h2 id="library">BLEライブラリ</h2>
 
                 <p>PythonのBLEライブラリにはいくつかのものがあります。
-                    「<a href="http://masato-ka.hatenablog.com/entry/2017/09/10/153555">PythonからBLEを制御するライブラリの調査</a>」に比較レポートがあります。
-                    Python3系で使えて<a href="http://ianharvey.github.io/bluepy-doc/">ドキュメント</a>がしっかりしている
-                    「<a href="https://github.com/IanHarvey/bluepy">bluepy</a>」を使いました。
+                    「<a href="http://masato-ka.hatenablog.com/entry/2017/09/10/153555" target="_blank">PythonからBLEを制御するライブラリの調査</a>」に比較レポートがあります。
+                    Python3系で使えて<a href="http://ianharvey.github.io/bluepy-doc/" target="_blank">ドキュメント</a>がしっかりしている
+                    「<a href="https://github.com/IanHarvey/bluepy" target="_blank">bluepy</a>」を使いました。
 
                 <h3>bluepyとAmbientライブラリのインストール</h3>
 
@@ -201,7 +201,7 @@ pi$ pip install git+https://github.com/AmbientDataInc/ambient-python-lib.git
                 <p>プログラム全体はGithubに置きました。</p>
 
                 <ul>
-                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientBS.py">EnvSensorBleGw/src/gw_RPi/env2ambientBS.py</a></li>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientBS.py" target="_blank">EnvSensorBleGw/src/gw_RPi/env2ambientBS.py</a></li>
                 </ul>
 
                 <p>BLEデバイスにアクセスするのにroot権限が必要なので、プログラムは次のように起動します。</p>
@@ -232,7 +232,7 @@ pi$ sudo nohup python env2ambientBS.py < /dev/null &
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">10.M5StackでBLE環境センサ端末を作る</a></li>
+                    <li class="open"><a href="index.html">11.BLE環境センサ・ゲートウェイ(Raspberry Pi編)</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#structure">全体の構成</a></li>
                         <li><a href="#blemode">BLEデバイスの動作</a></li>
