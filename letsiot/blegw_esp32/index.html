@@ -95,7 +95,7 @@
                     この機能を使い、BLEセンサ端末からデータを受けて、クラウドに送信するBLEゲートウェイを作ります。</p>
 
                 <p>BLE環境センサ端末は「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」を、
-                    Raspberry Piを使ったゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_rpi/index.html">BLE環境センサ・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
+                    Raspberry Piを使ったBLEゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_rpi/index.html">BLE環境センサ・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
 
                 <p><img src="./images/photo2.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -104,9 +104,15 @@
                 <p><img src="./images/structure_M5gw.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>センサ端末とBLEゲートウェイの両方をM5Stackで作ります。
-                    ゲートウェイはセンサ端末からBLEでデータを受け、Wi-Fi経由でクラウド(Ambient)に送信します。</p>
+                    BLEゲートウェイはセンサ端末からBLEでデータを受け、Wi-Fi経由でクラウド(Ambient)に送信します。</p>
 
                 <h2 id="programsize">プログラムサイズの問題</h2>
+
+                <p>ESP32はArduino、MicroPython、ESP-IDFでプログラミングできます。
+                    MicroPythonはBluetooth Low Energyがサポートされていないので、Arduinoでプログラミングします。
+                    ESP32 ArduinoのBLEライブラリは非常にサイズが大きいことで知られています。実際にビルドしてサイズを調べてみます。</p>
+
+                    <p>ほぼ何もしないプログラムをビルドすると、次のようなメッセージが表示されます。</p>
 
 <p><pre>
  #include <M5Stack.h>
@@ -118,15 +124,14 @@
  }
 </pre></p>
 
-                <p>ほぼ何もしないプログラムをビルドすると、次のようなメッセージが表示されます。</p>
-
 <p><pre>
 最大1310720バイトのフラッシュメモリのうち、スケッチが264500バイト（20%）を使っています。
 最大327680バイトのRAMのうち、グローバル変数が15184バイト（4%）を使っていて、ローカル変数で312496バイト使うことができます。
 </pre></p>
 
                 <p>Arduino Coreは1.0.0-rc4を使っています。258kバイトがArduino Coreのサイズのようです。
-                    これにBLEDevice::init()だけを追加してビルドしてみます。</p>
+                    これにBLEDevice::init()だけを追加してビルドしてみます。
+                    BLEモジュールはArduino Coreに含まれているので、特にインストール作業は必要ありません。</p>
 
 <p><pre>
  #include <M5Stack.h>
@@ -240,7 +245,7 @@
 
                 <h2 id="program">BLEゲートウェイ・プログラム</h2>
 
-                <p>比較的プログラムが単純なブロードキャストモードのゲートウェイを作ります。</p>
+                <p>比較的プログラムが単純なブロードキャストモードのBLEゲートウェイを作ります。</p>
 
                 <p>ブロードキャストモードのBLEセンサ端末は、センサデータを次のような形式でアドバタイジングデータに載せて発信します。</p>
 
@@ -258,7 +263,9 @@
                 <script src="https://gist.github.com/TakehikoShimojima/d90e7f04a9aaf541b78df1c654106053.js"></script>
 
                 <p>loop()関数では、BLEをスキャンして、スキャンデータから対象の端末を探し、
-                    見つかったら、スキャンデータからセンサデータを取り出し、Ambientに送ります。</p>
+                    見つかったら、スキャンデータからセンサデータを取り出し、Ambientに送ります。
+                    10行目のgetManufacturerData()関数でマニュファクチャラデータを取得します。
+                    その先頭のカンパニーIDが0xffffで、シーケンス番号が更新されていたら、マニュファクチャラデータから温度、湿度、気圧データを取り出し、Ambientに送信します。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/f7ad8f3d1af15896557103c037d7f848.js"></script>
 

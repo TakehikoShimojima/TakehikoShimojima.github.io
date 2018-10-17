@@ -90,9 +90,14 @@
             </div>
 
             <div class="col-sm-9 col-lg-8">
+                <p>Bluetooth Low Energy (BLE) は消費電力の低い通信方式ですが、直接インターネットにはデータを送れません。
+                    BLEで送信したセンサデータをクラウドに送るためには、
+                    BLEで送信されたデータを受信してTCP/IPでクラウドに送るBLEゲートウェイが必要です。</p>
+
                 <p>「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」ではBluetooth Low Energy (BLE) でデータを発信するセンサ端末を作りました。
-                    今回はこの端末からデータを受けて、クラウドにデータを送るゲートウェイを作ります。</p>
-                <p>ESP32を使ったゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_esp32/index.html">BLE環境センサ・ゲートウェイ(ESP32編)</a>」をご覧ください。</p>
+                    今回はこの端末からデータを受けて、クラウドにデータを送るBLEゲートウェイを作ります。</p>
+
+                <p><img src="./images/photo1.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h2 id="structure">全体の構成</h2>
 
@@ -102,7 +107,8 @@
                     M5Stackに搭載されているものと同じマイコンESP32を搭載するESPr Developer 32でも動作します。
                     センサ端末の開発は「<a href="http://pages.switch-science.com/letsiot/bleperiph/index.html">M5StackでBLE環境センサ端末を作る</a>」をご覧ください。</p>
 
-                <p>ゲートウェイはBLE通信ができて、インターネットにも接続できるものが必要です。今回はRaspberry Piを使います。</p>
+                <p>BLEゲートウェイはBLE通信ができて、インターネットにも接続できるものが必要です。今回はRaspberry Piを使います。</p>
+                <p>ESP32を使ったBLEゲートウェイは「<a href="http://pages.switch-science.com/letsiot/blegw_esp32/index.html">BLE環境センサ・ゲートウェイ(ESP32編)</a>」をご覧ください。</p>
 
                 <h2 id="blemode">BLEデバイスの動作</h2>
 
@@ -111,7 +117,7 @@
                 <p><img src="./images/blemode.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>コネクトモードでは、センサ端末などのペリフェラルが自らの存在を発信(アドバタイズ)します。
-                    セントラルと呼ばれるゲートウェイはアドバタイジングパケットをスキャンし、自分が必要とするペリフェラルを見つけ、
+                    セントラルと呼ばれるBLEゲートウェイはアドバタイジングパケットをスキャンし、自分が必要とするペリフェラルを見つけ、
                     ペリフェラルに接続(コネクト)してデータの送受信をおこないます。</p>
 
                 <p>ブロードキャストモードでは、ペリフェラルがセンサデータなどをアドバタイジングパケットに載せて送り、セントラルがそれを受信します。</p>
@@ -123,14 +129,27 @@
                     しかもブロードキャストモードは、ペリフェラルがデータを送りたいときだけアドバタイズし、あとはDeep Sleepすることができるので、
                     ペリフェラル側の電力消費を低く抑えられます。</p>
 
-                <p>センサ端末はブロードキャストモードで動作するものを開発したので、ゲートウェイもブロードキャストモードのものを作ります。</p>
+                <p>センサ端末はブロードキャストモードで動作するものを開発したので、BLEゲートウェイもブロードキャストモードのものを作ります。</p>
 
                 <h2 id="hardware">ハードウェア、OS、Python</h2>
 
-                <p>ゲートウェイのハードウェアは「<a href="https://www.switch-science.com/catalog/3646/">Raspberry Pi Zero WH</a>」を使いました。
+                <p>BLEゲートウェイのハードウェアは「<a href="https://www.switch-science.com/catalog/3646/">Raspberry Pi Zero WH</a>」を使いました。
                     65mm x 30mm と非常に小さいサイズですが、Wi-FiとBLE通信機能があり、RAMも512MBあります。BLEゲートウェイを動かすには十分な性能です。</p>
 
-                <p><img src="./images/photo1.jpg" width="80%" class="img-responsive center-block"></p>
+                <p>今回使用した部品をまとめました。</p>
+                <div>
+                    <table class="table table-bordered" style="font-size:0.9em; width: 70%;">
+                        <thead>
+                            <tr><th>部品</th><th>個数</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3646/">Raspberry Pi Zero WH</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/3240/">Adafruit Raspberry Pi Zero用ケース</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/2109/">USB ACアダプター 5V/2.0A</a></td><td>1個</td></tr>
+                            <tr><td><a href="https://www.switch-science.com/catalog/1035/">USB2.0ケーブル(A-microBタイプ)50cm</a></td><td>1個</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <p>OSは「Raspbian GNU/Linux 9.4 (stretch)」を使いました。
                     OSのセットアップは「<a href="https://qiita.com/hishi/items/8bdfd9d72fa8fe2e7573" target="_blank">Raspberry Pi Zero(W)のセットアップ</a>」などをご覧ください。
@@ -138,19 +157,21 @@
                 <p>Pythonはpyenvを導入し、Pythonは3.6.5をインストールしました。
                     pyenvとPythonのインストールは「<a href="https://qiita.com/h-sakano/items/cb8df027b81acd78bd77" target="_blank">RaspberryPiにpyenvを導入</a>」などをご覧ください。
 
-                <p>Raspberry Pi Zero WHへのPythonのインストールは非常に時間がかかります。ネットワーク環境にもよりますが、私の環境では1時間6分かかりました。
+                <p>Raspberry Pi Zero WHへのPythonのインストールは非常に時間がかかります。ネットワーク環境にもよりますが、著者の環境では1時間6分かかりました。
                     途中、不安になりますが、気長にお待ちください。</p>
 
                 <h2 id="library">BLEライブラリ</h2>
 
                 <p>PythonのBLEライブラリにはいくつかのものがあります。
                     「<a href="http://masato-ka.hatenablog.com/entry/2017/09/10/153555" target="_blank">PythonからBLEを制御するライブラリの調査</a>」に比較レポートがあります。
-                    Python3系で使えて<a href="http://ianharvey.github.io/bluepy-doc/" target="_blank">ドキュメント</a>がしっかりしている
+                    今回はこの中でPython3系で使えて<a href="http://ianharvey.github.io/bluepy-doc/" target="_blank">ドキュメント</a>がしっかりしている
                     「<a href="https://github.com/IanHarvey/bluepy" target="_blank">bluepy</a>」を使いました。
+                    ライブラリを選択する上で、ドキュメントの充実は重要です。
+                    APIや関数インタフェースの仕様、使い方、事例などが豊富にあるとプログラミングもとても楽になります。</p>
 
                 <h3>bluepyとAmbientライブラリのインストール</h3>
 
-                <p>Raspberry Piへのbluepyのインストールは次のようにおこないます。</p>
+                <p>Raspberry Piへのbluepyのインストールは次のようにおこないます。「pi$」と書いてある部分はRaspberry Piでのコマンド実行です。</p>
 
 <p><pre>
 pi$ sudo apt-get install libglib2.0-dev
@@ -180,7 +201,7 @@ pi$ pip install git+https://github.com/AmbientDataInc/ambient-python-lib.git
 
                 <p><img src="./images/ADVdata.jpg" width="80%" class="img-responsive center-block"></p>
 
-                <p>ブロードキャストモードのゲートウェイプログラムは比較的単純です。センサ端末が送るアドバタイジングデータをスキャンして見つけ、
+                <p>ブロードキャストモードのBLEゲートウェイプログラムは比較的単純です。センサ端末が送るアドバタイジングデータをスキャンして見つけ、
                     アドバタイジングデータからセンサ値を取り出し、Ambientに送ります。</p>
 
                 <p>bluepyでは、Scannerクラスのインスタンスを作り、scan()メソッドを呼ぶとスキャンが始まります。
@@ -193,7 +214,7 @@ pi$ pip install git+https://github.com/AmbientDataInc/ambient-python-lib.git
                 <p>handleDiscovery()の引数のscanEntryはscanEntryクラスです。getScanData()メソッドで(Ad Type、その説明、Ad Typeに対する値)のタプルが得られます。</p>
 
                 <p>スキャンすると、BLE電波が届く範囲にあって、その時アドバタイズしている複数のBLE端末からのアドバタイジングデータが得られます。
-                    その中で説明が’Manufacturer’で値の先頭のカンパニーIDが0xffffのデータがBLE環境センサのアドバタイジングデータです。
+                    その中で説明(desc)が’Manufacturer’で値の先頭(value[0:4])のカンパニーIDが0xffffのデータがBLE環境センサのアドバタイジングデータです。
                     そのデータを見つけて、データから温度、湿度、気圧を取り出し、Ambientに送ります。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/c7b0c1fcf422340a8e60562571584c86.js"></script>
@@ -210,13 +231,14 @@ pi$ pip install git+https://github.com/AmbientDataInc/ambient-python-lib.git
 pi$ sudo python env2ambientBS.py
 </pre></p>
 
-                <p>Raspberry Piからログアウトしても、ゲートウェイプログラムが終了しないようにするには、次のように起動します。</p>
+                <p>このままだとRaspberry Piからログアウトすると、プログラムが終了してしまいます。
+                    Raspberry Piからログアウトしても、BLEゲートウェイプログラムが終了しないようにするには、次のように起動します。</p>
 
 <p><pre>
 pi$ sudo nohup python env2ambientBS.py < /dev/null &
 </pre></p>
 
-                <p>センサ端末とゲートウェイを動かし、データを送信したAmbientのチャネルページを見ると、送信した温度、湿度、気圧データが確認できます。</p>
+                <p>センサ端末とBLEゲートウェイを動かし、データを送信したAmbientのチャネルページを見ると、送信した温度、湿度、気圧データが確認できます。</p>
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
