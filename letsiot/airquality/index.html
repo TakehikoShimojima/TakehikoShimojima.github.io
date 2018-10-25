@@ -130,7 +130,7 @@
                 <p>回路図は次のようになります。「CCS811搭載 空気品質センサモジュール」にはI2C通信用にSCL、SDAのプルアップ抵抗が載っているので、外付けのプルアップ抵抗は不要です。</p>
                 <p><img src="./images/schema.jpg" width="90%" class="img-responsive center-block"></p>
 
-                <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュール、CSS811モジュールともにセンサをブレッドボードから離して設置したかったので、L字型のピンヘッダを使っています。</p>
+                <p>回路図を基にブレッドボード上に組み立てたセンサ端末の例です。BME280モジュール、CCS811モジュールともにセンサをブレッドボードから離して設置したかったので、L字型のピンヘッダを使っています。</p>
 
                 <p><img src="./images/hw.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -146,7 +146,7 @@
                 <p><img src="./images/scsho1.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>examples/CCS811_testがセンサ端末の動作確認プログラムです。</p>
-                <p>SparkFunのCSS811ライブラリには主に次の機能があります。</p>
+                <p>SparkFunのCCS811ライブラリには主に次の機能があります。</p>
 
                 <div>
                     <table class="table table-bordered" style="font-size:0.9em; width: 85%;">
@@ -154,9 +154,9 @@
                             <tr><th style="width: 40%;">関数</th><th>説明</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>status begin(void);</td><td>CSS811を初期化する。この関数の中でCSS811の動作モードの設定などがおこなわれる。</td></tr>
+                            <tr><td>status begin(void);</td><td>CCS811を初期化する。この関数の中でCCS811の動作モードの設定などがおこなわれる。</td></tr>
                             <tr><td>bool dataAvailable(void);</td><td>データが読み出し可能かチェックする。</td></tr>
-                            <tr><td>status readAlgorithmResults(void);</td><td>CO2とTVOC(総揮発性有機化合物)の値をCSS811から読み出す。</td></tr>
+                            <tr><td>status readAlgorithmResults(void);</td><td>CO2とTVOC(総揮発性有機化合物)の値をCCS811から読み出す。</td></tr>
                             <tr><td>uint16_t getCO2(void);</td><td>CO2の値を返す。</td></tr>
                             <tr><td>uint16_t getTVOC(void);</td><td>TVOCの値を返す。</td></tr>
                         </tbody>
