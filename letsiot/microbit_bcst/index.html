@@ -216,13 +216,13 @@
                 <p>micro:bitにセンサーなどを接続するには、「<a href="https://www.switch-science.com/catalog/3181/">micro:bit用エッジコネクタピッチ変換基板</a>」を使うのが便利です。
                     micro:bitのエッジコネクタのピンアサインはmicro:bitのMicroPythonの「<a href="https://microbit-micropython.readthedocs.io/ja/latest/pin.html" target="_blank">入出力端子</a>」に書かれています。</p>
 
-                <p><img src="./images/edge_connector.jpg" width="100%" class="img-responsive center-block"></p>
+                    <p><img src="./images/edge_connector.jpg" width="60%" class="img-responsive center-block"></p>
 
                 <p>BME280はI2CとSPIの両方でアクセスできます。今回は高速なアクセスは必要ないので、I2Cでアクセスします。
                     micro:bitでデフォルトでI2C通信に使うピンはSCL=19ピン、SDI=20ピンです。BME280とは次のように接続します。</p>
 
                     <div align="center">
-                        <table class="table table-bordered" style="font-size:0.9em; width: 80%;">
+                        <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
                             <tbody>
                                 <tr><td>micro:bit</td><td>BME280モジュール</td></tr>
                                 <tr><td>GND</td><td>SDO</td></tr>
@@ -238,56 +238,66 @@
 
                 <h3>BME280のアクセス</h3>
 
-                    Sparkfun社の「Weatherbit」という製品があります。温度、湿度、気圧、風速、雨量、土壌の温度、水分が測れるmicro:bitの拡張モジュールです。この製品の温度、湿度、気圧の測定にBME280が使われていて、micro:bitでアクセスするための機能ブロックが公開されいます。
+                <p>Sparkfun社の「<a href="https://learn.sparkfun.com/tutorials/microclimate-kit-experiment-guide/about-the-weatherbit" target="_blank">Weatherbit</a>」という製品があります。温度、湿度、気圧、風速、雨量、土壌の温度、水分が測れるmicro:bitの拡張モジュールです。
+                    この製品の温度、湿度、気圧の測定にBME280が使われていて、micro:bitでアクセスするための機能ブロックが公開されいます。</p>
 
-                    ・MakeCode package for the SparkFun weather:bit board – beta
+                <ul>
+                    <li><a href="https://github.com/sparkfun/pxt-weather-bit" target="_blank">MakeCode package for the SparkFun weather:bit board – beta</a></li>
+                </ul>
 
-                    Block Editorで「高度なブロック」 > 「拡張機能」を選択し、「weatherbit」で検索するとWeatherbitの機能ブロックが見つかります。
+                <p>Block Editorで「高度なブロック」 > 「拡張機能」を選択し、「weatherbit」で検索するとWeatherbitの機能ブロックが見つかります。</p>
 
+                <p><img src="./images/weatherbit.jpg" width="100%" class="img-responsive center-block"></p>
 
+                <p>これを選択すると、Weathrbitの機能ブロックが使えるようになります。
+                    BME280の温度、湿度、気圧はそれぞれtemperature(C)、humidity、pressureという変数ですが、実際の値は次のように求めます。</p>
 
-                    これを選択すると、Weathrbitの機能ブロックが使えるようになります。BME280の温度、湿度、気圧はそれぞれtemperature(C)、humidity、pressureという変数ですが、実際の値は次のように求めます。
+<p><pre>
+     温度(℃) = temperature(C) / 10
+     湿度(%) = humidity / 1024
+     気圧(hPa) = pressure / 25600
+</pre></p>
 
-                     温度(℃) = temperature(C) / 10
-                     湿度(%) = humidity / 1024
-                     気圧(hPa) = pressure / 25600
+                <p><img src="./images/weatherbit_block.jpg" width="100%" class="img-responsive center-block"></p>
 
+                <h3>Eddystoneフォーマットのアドバタイジングデーターを設計する</h3>
 
-                    Eddystoneフォーマットのアドバタイジングデーターを設計する
-                    温度、湿度、気圧をEddystoneのUIDフレームに載せます。micro:bitではinstanceの中の4バイトしか使えないので、この4バイト(32ビット)にシーケンス番号、温度、湿度、気圧をエンコードします。
+                <p>温度、湿度、気圧をEddystoneのUIDフレームに載せます。
+                    micro:bitではinstanceの中の4バイトしか使えないので、この4バイト(32ビット)にシーケンス番号、温度、湿度、気圧をエンコードします。</p>
 
-                    温度は−50℃から+50℃までを小数点1桁で表すことにします。温度データーを10倍して整数にして、10ビット(±512)を割り当てます。
-                    湿度は0%から100%までを小数点1桁で表すことにします。これも10倍して整数にして、10ビット(0〜1023)を割り当てます。
-                    気圧は400から1400hPaまでを整数で表し、10ビット割り当てます。
+                <ul>
+                    <li>温度は−50℃から+50℃までを小数点1桁で表すことにします。温度データーを10倍して整数にして、10ビット(±512)を割り当てます。</li>
+                    <li>湿度は0%から100%までを小数点1桁で表すことにします。これも10倍して整数にして、10ビット(0〜1023)を割り当てます。</li>
+                    <li>気圧は400から1400hPaまでを整数で表し、10ビット割り当てます。</li>
+                </ul>
 
+                <p><img src="./images/instance2.jpg" width="60%" class="img-responsive center-block"></p>
 
-                    C言語風に表現すると、次のような式になります。
+                <p>C言語風に表現すると、次のような式になります。</p>
 
-                    (seq % 4) << 30 | ((気圧 - 400) & 0x3FF) << 20 | ((湿度 x 100) & 0x3FF) << 10 | ((温度 x 10) & 0x3FF)
-                    micro:bitのプログラムは次のようになります。
+<p><pre>
+    (seq % 4) << 30 | ((気圧 - 400) & 0x3FF) << 20 | ((湿度 x 100) & 0x3FF) << 10 | ((温度 x 10) & 0x3FF)
+</pre></p>
 
+                <p>micro:bitのプログラムは次のようになります。</p>
 
+                <p><img src="./images/BLE_BME280adv.png" width="100%" class="img-responsive center-block"></p>
 
-                    ブロードキャストモードのゲートウェイプログラム
-                    micro:bitのアドバタイジングデータを見つけるところまでは、内蔵センサーのプログラムと同じです。見つけたデーターの値の32文字目から39文字目までがシーケンス番号、気圧、湿度、温度を表しています。エンコードの逆の処理で温度、湿度、気圧データーを取り出し、Ambientに送信します。
+                <h2 id="gateway2">ブロードキャストモードのゲートウェイプログラム<h2>
 
-                        def handleDiscovery(self, dev, isNewDev, isNewData):
-                            if isNewDev or isNewData:
-                                for (adtype, desc, value) in dev.getScanData():
-                                    if desc == '16b Service Data' and value[0:4] == 'aafe' and value[8:28] == '000000000000616d6269':
-                                        seq = (int(value[32:33], 16) & 0xC) >> 2
-                                        if seq != self.lastseq:  # シーケンス番号が前回と違っていたら(新しいデーター)
-                                            self.lastseq = seq
-                                            temp =  (int(value[37:40], 16) & 0x3FF) / 10
-                                            humid = ((int(value[35:38], 16) & 0xFFC) >> 2) / 10
-                                            press = (int(value[32:35], 16) & 0x3FF) + 400
-                                            sendWithRetry({'d1': temp, 'd2': humid, 'd3': press})
-                    view rawmicrobit_ble_bcst2.py hosted with ❤ by GitHub
-                    ゲートウェイプログラムはGithubに公開しました。
+                <p>micro:bitのアドバタイジングデータを見つけるところまでは、内蔵センサーのプログラムと同じです。
+                    見つけたデーターの値の32文字目から39文字目までがシーケンス番号、気圧、湿度、温度を表しています。
+                    エンコードの逆の処理で温度、湿度、気圧データーを取り出し、Ambientに送信します。</p>
 
-                    ・AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py
+                <script src="https://gist.github.com/TakehikoShimojima/13a02743b88432920bb9af2c77d79d0b.js"></script>
 
-                    micro:bitとゲートウェイのプログラムを動かすと、温度、湿度、気圧を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。
+                <p>ゲートウェイプログラムはGithubに公開しました。</p>
+
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientBS.py" target="_blank">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py</a></li>
+                </ul>
+
+                <p>micro:bitとゲートウェイのプログラムを動かすと、温度、湿度、気圧を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。</p>
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
