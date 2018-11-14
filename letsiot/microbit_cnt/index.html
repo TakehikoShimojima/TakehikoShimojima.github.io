@@ -114,7 +114,7 @@
                 <p><img src="./images/structure.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>プロセッサー内蔵の温度センサーを使って温度を測り、データーをBluetooth Low Energy (BLE) で発信します。
-                    Raspberry Pi Zero WHをゲートウェイにしてBLEでデーターを受信し、<a href="https://ambidata.io/">IoTデータ可視化サービス「Ambient」</a>に送って、グラフ化します。</p>
+                    Raspberry Pi Zero WHをゲートウェイにしてBLEでデーターを受信し、<a href="https://ambidata.io/" target="_blank">IoTデータ可視化サービス「Ambient」</a>に送って、グラフ化します。</p>
 
                 <p>プロセッサー内蔵の温度センサーはプロセッサーの発熱の影響を受けます。
                     その影響を避けるため、<a href="../microbit_bcst/">ブロードキャスト編</a>ではBME280を使って温度などを測るバージョンも開発します。</p>
@@ -147,7 +147,7 @@
                 <h2 id="ble_mode">BLEデバイスの動作</h2>
 
                 <p>BLEデバイスの通信にはコネクトモードとブロードキャストモードがあります。
-                    詳細は「<a href="../blegw_rpi/">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
+                    詳細は「<a href="../blegw_rpi/#blemode">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」をご覧ください。</p>
 
                 <p>コネクトモードは双方向通信なので、ゲートウェイからセンサー端末のデーターを取得するだけでなく、センサー端末のモード設定をおこなうこともできます。
                     センサー端末は常にゲートウェイからのコネクトを待つため、消費電力が多くなりがちです。</p>
@@ -176,7 +176,7 @@
 
                 <p>動作確認にはスマホアプリ「BLE Scanner」が便利です。<p>
 
-                <p><img src="./images/BLEScanner.jpg" width="60%" class="img-responsive center-block"></p>
+                <p><img src="./images/BLEScanner.jpg" width="50%" class="img-responsive center-block"></p>
 
                 <p>BLE Scannerでスキャンすると、デバイスリストに「micro:bit [puzup]」が表示されます。
                     [puzup] の部分は端末によって異なるようです。</p>
@@ -187,14 +187,14 @@
 
                 <p><img src="./images/BLEscanner2.jpg" width="40%" class="img-responsive center-block"></p>
 
-                <p>micro:bitのBLEプロファイルによれば、サービスとキャラクタリスティクスのUUIDは次のようになっています。</p>
+                <p><a href="https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html" target="_blank">micro:bitのBLEプロファイル</a>によれば、サービスとキャラクタリスティクスのUUIDは次のようになっています。</p>
 
                 <div align="center">
                     <table class="table table-bordered" style="font-size:0.9em; width: 80%;">
                         <tbody>
-                            <tr><td>ベースUUID</td><td>E95D0000-251D-470A-A062-FA1922DFA9A8</td></tr>
-                            <tr><td>温度計サービスのサービスUUID</td><td>E95D6100-251D-470A-A062-FA1922DFA9A8</td></tr>
-                            <tr><td>温度のキャラクタリスティクスUUID</td><td>E95D9250-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>ベースUUID</td><td>E95D<span style="background-color:0xffff00">0000</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>温度計サービスのサービスUUID</td><td><span style="background-color:0xffff00">E95D6100</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>温度のキャラクタリスティクスUUID</td><td><span style="background-color:0xffff00">E95D9250</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -213,7 +213,7 @@
                 <p>ゲートウェイは「<a href="../blegw_rpi/">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」で開発したものをベースにします。
                     Raspberry PiへのBLEライブラリーのインストールなどはこの資料をご覧ください。ゲートウェイはRaspberry Pi Zero WHを使いました。</p>
 
-                <p>大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共有です。</p>
+                <p>大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共通です。</p>
 
                 <p>まずスキャンしてmicro:bitを見つけます。
                     micro:bitのアドバタイジングデーターはAdTypeが「Complete Local Name」、値が「BBC micro:bit [xxxxx]」です。
@@ -227,7 +227,7 @@
                 <p>ゲートウェイプログラムはGithubに公開しました。</p>
 
                 <ul>
-                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientCS.py">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientCS.py</a></li>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientCS.py" target="_blank">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientCS.py</a></li>
                 </ul>
 
                 <p>micro:bitとゲートウェイのプログラムを動かすと、温度を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。</p>
@@ -248,15 +248,14 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">10.M5StackでBLE環境センサ端末を作る</a></li>
+                    <li class="open"><a href="index.html">13.micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a></li>
                     <ul class="list-unstyled">
+                        <li><a href="#microbit">micro:bit</a></li>
                         <li><a href="#structure">全体の構成</a></li>
-                        <li><a href="#blemode">BLEデバイスの動作</a></li>
-                        <li><a href="#hardware">センサ端末のハードウェア</a></li>
-                        <li><a href="#check">ハードウェアの動作確認</a></li>
-                        <li><a href="#advertisingdata">アドバタイジングデータ</a></li>
-                        <li><a href="#program">プログラム</a></li>
-                        <li><a href="#programcheck">動作確認</a></li>
+                        <li><a href="#prepare">micro:bitでBLEを使う準備</a></li>
+                        <li><a href="#ble_mode">BLEデバイスの動作</a></li>
+                        <li><a href="#connect_mode">コネクトモード</a></li>
+                        <li><a href="#gateway">コネクトモードのゲートウェイプログラム</a></li>
                     </ul>
                 </ul>
             </div>
