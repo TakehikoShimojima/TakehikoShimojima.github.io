@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="description" content="micro:bit ble connect - LetsIoT">
+<meta name="description" content="micro:bit ble broadcast - LetsIoT">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編) - AmbientでIoTをはじめよう</title>
+<title>micro:bitで温度データーをAmbientに送りグラフにする(ブロードキャストモード編) - AmbientでIoTをはじめよう</title>
 <link rel="shortcut icon" href="/favicon.ico" />
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -86,63 +86,29 @@
                 <p class="text-right">2018年11月26日</p>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
-                <h1>micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</h1>
+                <h1>micro:bitで温度データーをAmbientに送りグラフにする(ブロードキャストモード編)</h1>
             </div>
 
             <div class="col-sm-9 col-lg-8">
                 <p>「AmbientでIoTをはじめよう」、第13回、第14回はmicro:bitを使って温度データーをBluetooth Low Energy (BLE) で発信し、
                     ゲートウェイ経由でAmbientに送って、記録し、グラフ化(可視化)します。
-                    第13回はmicro:bitとゲートウェイをBLEコネクトモードで通信する方法を説明します。
-                    ブロードキャストモードでの通信は第14回「<a href="../microbit_bcst/">micro:bitで温度データーをAmbientに送りグラフにする(ブロードキャストモード編)</a>」をご覧ください。</p>
+                    第14回はmicro:bitとゲートウェイをBLEブロードキャストモードで通信する方法を説明します。
+                    コネクトモードでの通信は第13回「<a href="../microbit_cnt/">micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a>」をご覧ください。</p>
 
-                <p><img src="./images/microbit.jpg" width="65%" class="img-responsive center-block"></p>
+                <p>micro:bitでBluetooth Low Energyを使うための開発環境の設定、Bluetooth機能ブロックの説明についても
+                    「<a href="../microbit_cnt/">micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a>」をご覧ください。</p>
 
-                <h2 id="microbit"><a href="https://www.switch-science.com/catalog/3735/">micro:bit</a></h2>
-
-                <p>micro:bitはイギリスBBCが教育用に開発したシングルボードコンピューターです。
-                    プロセッサーとしてARM Cortex-M0をベースにしたNordic nRF51822を搭載し、Bluetooth Low Energy (BLE) で通信できます。</p>
-
-                <p>ボード上に25個のLED、2個のボタンスイッチ、加速度センサー、磁力センサーが搭載されており、照度や温度を測ることもできます。
-                    温度はプロセッサー内蔵の温度センサーを使っています。</p>
-
-                <p>プログラミング言語としては、Microsoft Block Editor、MicroPython、JavaScriptなどが使えます。
-                    Block Editorはビジュアルに機能ブロックを組み合わせてプログラムが書けます。
-                    micro:bitとの親和性がいいので、今回はBlock Editorを使ってプログラミングします。</p>
+                <p><img src="./images/microbit_bme280.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h2 id="structure">全体の構成</h2>
 
-                <p><img src="./images/structure.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="../microbit_cnt/images/structure.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>プロセッサー内蔵の温度センサーを使って温度を測り、データーをBluetooth Low Energy (BLE) で発信します。
                     Raspberry Pi Zero WHをゲートウェイにしてBLEでデーターを受信し、<a href="https://ambidata.io/" target="_blank">IoTデータ可視化サービス「Ambient」</a>に送って、グラフ化します。</p>
 
                 <p>プロセッサー内蔵の温度センサーはプロセッサーの発熱の影響を受けます。
-                    その影響を避けるため、<a href="../microbit_bcst/">ブロードキャスト編</a>ではBME280を使って温度などを測るバージョンも開発します。</p>
-
-                <h2 id="prepare">micro:bitでBLEを使う準備</h2>
-
-                <h3>Block EditorでBLEが使えるようにする</h3>
-
-                <p>Block EditorでBLEを使うために、機能ブロックの中の「高度なブロック」 > 「拡張機能」を選択し、bluetoothを追加します。
-                    Bluetoothはradio機能と同居できないので、radioを削除します。</p>
-
-                <p><img src="./images/addBLE1.jpg" width="100%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE2.jpg" width="100%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE3.jpg" width="70%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE4.jpg" width="100%" class="img-responsive center-block"></p>
-
-                <p>これでbluetoothが追加されます。
-                    さらに「プロジェクトの設定」で「No Pairing Required: Any One can connect via Bluetooth.」を選択します。</p>
-
-                <p><img src="./images/addBLE5.jpg" width="100%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE6.jpg" width="100%" class="img-responsive center-block"></p>
-
-                <h3>Bluetooth機能ブロック</h3>
-
-                <p>Bluetooth機能ブロックには、加速度、ボタン、温度計などのサービスと、「接続されたとき」、「接続が切断されたとき」といった条件、
-                    「UIDをアドバタイズ」、「URLをアドバタイズ」、UARTでの文字の送受信などがあります。</p>
-
-                <p><img src="./images/BLEblock.jpg" width="100%" class="img-responsive center-block"></p>
+                    その影響を避けるため、BME280を使って温度などを測るバージョンも開発します。</p>
 
                 <h2 id="ble_mode">BLEデバイスの動作</h2>
 
@@ -155,84 +121,161 @@
                 <p>ブロードキャストモードは一方向通信です。センサー端末からデーターを発信するには適した方式ですし、
                     5分に1回、10秒間だけブロードキャストするといった間欠動作をおこなうことで消費電力を低く抑えることも可能です。</p>
 
-                <h2 id="connect_mode">コネクトモード</h2>
+                <h2 id="broadcast_mode">ブロードキャストモード</h2>
 
-                <h3>micro:bit側のプログラム</h3>
+                <p>micro:bitはEddystoneというフォーマットでデーターをブロードキャストします。</p>
 
-                <p>「最初だけ」に「Bluetooth 温度計サービス」ブロックを入れると、温度計サービスが組み込まれます。
-                    プログラムをダウンロードして動かせば、アドバタイズが始まります。
-                    ゲートウェイなどのセントラル側でスキャンしてmicro:bitを見つけ、接続して温度データーを読めます。
-                    一般的にBLE通信では、サービスとキャラクタリスティクスを定義して、UUIDを付与し、
-                    キャラクタリスティクスにread要求があった場合にセンサーデーターを返す処理を書く必要があります。
-                    micro:bitで予め用意された温度、加速度などのサービスは、機能ブロックを「最初だけ」に入れるだけで必要な処理がすべて組み込まれます。</p>
+                <p>EddystoneはGoogleが公開しているBLEビーコンの規格です。</p>
 
-                <p>これだけだとmicro:bitの動作が見えないので、「接続されたとき」に温度をLEDに表示し、「接続が切断されたとき」に悲しい顔マークを表示してみます。</p>
+                <ul>
+                    <li><a href="https://github.com/google/eddystone/blob/master/protocol-specification.md" target="_blank">Eddystone Protocol Specification</a></li>
+                </ul>
 
-                <p><img src="./images/connect.png" width="100%" class="img-responsive center-block"></p>
+                <p>EddystoneにはUID(ユニークID)、URL、TLM(テレメトリ)、EID(エフェメラル(一時的な)ID)という四つのフレームタイプが定義されています。
+                    micro:bitではこの内、UIDとURLが使えます。機能ブロックも「UIDをアドバタイズ」、「URLをアドバタイズ」が提供されています。</p>
 
-                <p>このプログラムのhexファイルを作り、micro:bitにダウンロードします。ダウンロードが終わると、プログラムが動きます。</p>
+                <p>URLタイプは文字通りURLをブロードキャストするものです。
+                    UIDタイプは10バイトのnamespaceと6バイトのinstanceからなるデーターが送れるので、UIDタイプを使って温度データーを送ります。</p>
 
-                <h3>「BLE Scanner」で動作を確認する</h3>
+                <h3>Eddystoneフォーマットのアドバタイジングデーターを設計する</h3>
 
-                <p>動作確認にはスマホアプリ「BLE Scanner」が便利です。<p>
+                <p>micro:bitの「Advertise UID」という資料を見ると、namespaceは最後の4バイト、instanceも最後の4バイトが使えるとあります。</p>
 
-                <p><img src="./images/BLEScanner.jpg" width="50%" class="img-responsive center-block"></p>
+                <p>「UIDをアドバタイズ」という機能ブロックの「ネームスペース」「インスタンス」それぞれに4バイトのデーターが入れられます。</p>
 
-                <p>BLE Scannerでスキャンすると、デバイスリストに「micro:bit [puzup]」が表示されます。
-                    [puzup] の部分は端末によって異なるようです。</p>
+                <p>ネームスペースは<a href="https://lancaster-university.github.io/microbit-docs/ble/eddystone/" target="_blank">micro:bitのEddystoneの説明</a>にはURLをSHA-1でハッシュ化して先頭の10バイトを使う例が出ていますが、
+                    実際には4バイトしか使えないので、’a’, ‘m’, ‘b’, ‘i’に対応する「0x616d6269」を指定することにします。
+                    ブロックエディターには16進数が入れられないようなので、「0x616d6269」の10進数「1634558569」を入力します。</p>
 
-                <p><img src="./images/BLEscanner1.jpg" width="40%" class="img-responsive center-block"></p>
+                <p>インスタンスは2ビットのシーケンス番号と1バイトの温度データーを次のように入れることにしました。</p>
 
-                <p>Connectすると、DEVICE UUIDなどの情報が表示され、micro:bitのLEDは温度の表示に変わります。</p>
+                <p><img src="./images/instance1.jpg" width="60%" class="img-responsive center-block"></p>
 
-                <p><img src="./images/BLEscanner2.jpg" width="40%" class="img-responsive center-block"></p>
+                <p>C言語風に書けば次のような式を</p>
 
-                <p><a href="https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html" target="_blank">micro:bitのBLEプロファイル</a>によれば、サービスとキャラクタリスティクスのUUIDは次のようになっています。</p>
+<p><pre>
+    (seq % 4) << 30 | 温度 & 0xFF
+</pre></p>
+
+                <p>ブロックエディターで次のように表しました。</p>
+
+<p><pre>
+    「「「seq を 4 で割ったあまり」 x 1073741824」 + 温度」
+</pre></p>
+
+                <p>ブロードキャストは一定時間(今回のプログラムでは5秒間)おこないます。
+                    同じデーターをゲートウェイが複数回スキャンした時に、同じデーターだと分かり、クラウドには1回だけ送信するように、
+                    データーにシーケンス番号を付加しています。</p>
+
+                <p>micro:bitのプログラムは次のようになります。</p>
+
+                <p><img src="./images/BLEadv.png" width="100%" class="img-responsive center-block"></p>
+
+                <p>アドバタイジングデーターは次のようになります。</p>
 
                 <div align="center">
                     <table class="table table-bordered" style="font-size:0.9em; width: 80%;">
                         <tbody>
-                            <tr><td>ベースUUID</td><td>E95D<span style="background-color:#ffff00">0000</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
-                            <tr><td>温度計サービスのサービスUUID</td><td>E95D<span style="background-color:#ffff00">6100</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
-                            <tr><td>温度のキャラクタリスティクスUUID</td><td>E95D<span style="background-color:#ffff00">9250</span>-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>バイト数</td><td>タイプ</td><td>値</td><td>意味</td></tr>
+                            <tr><td>1</td><td>AD Type</td><td>0x16</td><td>Service DATA</td></tr>
+                            <tr><td>2</td><td>Service UUID</td><td>0xFEAA</td><td>Eddystone</td></tr>
+                            <tr><td>1</td><td>Frame Type</td><td>0x00</td><td>UID</td></tr>
+                            <tr><td>1</td><td>TxPower</td><td></td><td></td></tr>
+                            <tr><td>10</td><td>UID namespace</td><td></td><td></td></tr>
+                            <tr><td>6</td><td>UID instance</td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
 
-                <p>UUIDの5桁目から8桁目までがサービスやキャラクタリスティクスによって固有の値に変わります。</p>
+                <h2 id="gateway">ブロードキャストモードのゲートウェイプログラム</h2>
 
-                <p>BLE Scannerで温度計サービスとその先の温度のキャラクタリスティクスを見ると、値が0x17(23℃)で、LEDにも同じ値が表示されています。</p>
+                    ブロードキャストモードのゲートウェイも「BLE環境センサー・ゲートウェイ(Raspberry Pi編)」で開発したものをベースにします。
 
-                <p><img src="./images/BLEscanner3.jpg" width="40%" class="img-responsive center-block"></p>
-                <p><img src="./images/BLEscanner4.jpg" width="40%" class="img-responsive center-block"></p>
+                    スキャンしたデーターのAdTypeが「16b Service Data」で、値の最初の4文字がEddystoneを表す「aafe」のものがmicro:bitのアドバタイジングデーターです。最後の20文字(10バイト)が「000000000000616d6269」のものが今回開発しているセンサー端末です。
 
-                <p>これでmicro:bit側の動作は確認できました。次はゲートウェイ側です。</p>
+                    値の32文字目の上位2ビットがシーケンス番号なので、それが前回見つけた値と異なっていれば新しいデーターです。値の38、39文字目が温度データーです。それを取り出してAmbientに送信します。
 
-                <h2 id="gateway">コネクトモードのゲートウェイプログラム</h2>
+                        def handleDiscovery(self, dev, isNewDev, isNewData):
+                            if isNewDev or isNewData:
+                                for (adtype, desc, value) in dev.getScanData():
+                                    if desc == '16b Service Data' and value[0:4] == 'aafe' and value[8:28] == '000000000000616d6269':
+                                        seq = (int(value[32:33], 16) & 0xC) >> 2
+                                        if seq != self.lastseq:  # シーケンス番号が前回と違っていたら(新しいデーター)
+                                            self.lastseq = seq
+                                            temp = int(value[38:40], 16)
+                                            sendWithRetry({'d1': temp})
+                    view rawmicrobit_ble_bcst1.py hosted with ❤ by GitHub
+                    ゲートウェイプログラムはGithubに公開しました。
 
-                <p>ゲートウェイは「<a href="../blegw_rpi/">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」で開発したものをベースにします。
-                    Raspberry PiへのBLEライブラリーのインストールなどはこの資料をご覧ください。ゲートウェイはRaspberry Pi Zero WHを使いました。</p>
+                    ・AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py
 
-                <p>大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共通です。</p>
+                    BME280で温度、湿度、気圧を測定し、Ambientに送る
+                    内蔵の温度センサーはプロセッサーの発熱の影響を受けます。そこで内蔵の温度センサーではなく、BME280をつないで温度、湿度、気圧を測定してAmbientに送るものも開発します。
 
-                <p>まずスキャンしてmicro:bitを見つけます。
-                    micro:bitのアドバタイジングデーターはAdTypeが「Complete Local Name」、値が「BBC micro:bit [xxxxx]」です。
-                    [xxxxx]の部分はボードによって変わるようです。そこで、[xxxxx]の部分を無視し、値が「BBC micro:bit」に前方一致したものを見つけます。</p>
+                    BME280の接続
+                    micro:bitにセンサーなどを接続するには、「micro:bit用エッジコネクタピッチ変換基板」を使うのが便利です。micro:bitのエッジコネクタのピンアサインはmicro:bitのMicroPythonの「入出力端子」に書かれています。
 
-                <script src="https://gist.github.com/TakehikoShimojima/a178d1d66bdf3044d0f11b6abbd55b60.js"></script>
+                    BME280はI2CとSPIの両方でアクセスできます。今回は高速なアクセスは必要ないので、I2Cでアクセスします。micro:bitでデフォルトでI2C通信に使うピンはSCL=19ピン、SDI=20ピンです。BME280とは次のように接続します。
 
-                <p>端末を見つけたら、スレッドを起動し、端末にコネクトして、周期的にデーターを読み出します。
-                    温度のキャラクタリスティクスUUIDを指定してgetCharacteristics()し、read()すると温度データーが取得できます。</p>
+                    micro:bit	BME280モジュール
+                    GND	SDO
+                    SCL(19)	SCK
+                    SDA(20)	SDI
+                    3V	CSB
+                    GND	GND
+                    3V	Vcore
+                    ―	 Vio
+                    BME280のアクセス
+                    Sparkfun社の「Weatherbit」という製品があります。温度、湿度、気圧、風速、雨量、土壌の温度、水分が測れるmicro:bitの拡張モジュールです。この製品の温度、湿度、気圧の測定にBME280が使われていて、micro:bitでアクセスするための機能ブロックが公開されいます。
 
-                <p>ゲートウェイプログラムはGithubに公開しました。</p>
+                    ・MakeCode package for the SparkFun weather:bit board – beta
 
-                <ul>
-                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientCS.py" target="_blank">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientCS.py</a></li>
-                </ul>
+                    Block Editorで「高度なブロック」 > 「拡張機能」を選択し、「weatherbit」で検索するとWeatherbitの機能ブロックが見つかります。
 
-                <p>micro:bitとゲートウェイのプログラムを動かすと、温度を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。</p>
 
-                <p>ブロードキャストモードは「<a href="../microbit_bcst">micro:bitで温度データーをAmbientに送ってグラフにする(ブロードキャストモード編)</a>」をご覧ください。</p>
+
+                    これを選択すると、Weathrbitの機能ブロックが使えるようになります。BME280の温度、湿度、気圧はそれぞれtemperature(C)、humidity、pressureという変数ですが、実際の値は次のように求めます。
+
+                     温度(℃) = temperature(C) / 10
+                     湿度(%) = humidity / 1024
+                     気圧(hPa) = pressure / 25600
+
+
+                    Eddystoneフォーマットのアドバタイジングデーターを設計する
+                    温度、湿度、気圧をEddystoneのUIDフレームに載せます。micro:bitではinstanceの中の4バイトしか使えないので、この4バイト(32ビット)にシーケンス番号、温度、湿度、気圧をエンコードします。
+
+                    温度は−50℃から+50℃までを小数点1桁で表すことにします。温度データーを10倍して整数にして、10ビット(±512)を割り当てます。
+                    湿度は0%から100%までを小数点1桁で表すことにします。これも10倍して整数にして、10ビット(0〜1023)を割り当てます。
+                    気圧は400から1400hPaまでを整数で表し、10ビット割り当てます。
+
+
+                    C言語風に表現すると、次のような式になります。
+
+                    (seq % 4) << 30 | ((気圧 - 400) & 0x3FF) << 20 | ((湿度 x 100) & 0x3FF) << 10 | ((温度 x 10) & 0x3FF)
+                    micro:bitのプログラムは次のようになります。
+
+
+
+                    ブロードキャストモードのゲートウェイプログラム
+                    micro:bitのアドバタイジングデータを見つけるところまでは、内蔵センサーのプログラムと同じです。見つけたデーターの値の32文字目から39文字目までがシーケンス番号、気圧、湿度、温度を表しています。エンコードの逆の処理で温度、湿度、気圧データーを取り出し、Ambientに送信します。
+
+                        def handleDiscovery(self, dev, isNewDev, isNewData):
+                            if isNewDev or isNewData:
+                                for (adtype, desc, value) in dev.getScanData():
+                                    if desc == '16b Service Data' and value[0:4] == 'aafe' and value[8:28] == '000000000000616d6269':
+                                        seq = (int(value[32:33], 16) & 0xC) >> 2
+                                        if seq != self.lastseq:  # シーケンス番号が前回と違っていたら(新しいデーター)
+                                            self.lastseq = seq
+                                            temp =  (int(value[37:40], 16) & 0x3FF) / 10
+                                            humid = ((int(value[35:38], 16) & 0xFFC) >> 2) / 10
+                                            press = (int(value[32:35], 16) & 0x3FF) + 400
+                                            sendWithRetry({'d1': temp, 'd2': humid, 'd3': press})
+                    view rawmicrobit_ble_bcst2.py hosted with ❤ by GitHub
+                    ゲートウェイプログラムはGithubに公開しました。
+
+                    ・AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py
+
+                    micro:bitとゲートウェイのプログラムを動かすと、温度、湿度、気圧を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
