@@ -92,8 +92,9 @@
             <div class="col-sm-9 col-lg-8">
                 <p>「AmbientでIoTをはじめよう」、第13回、第14回はmicro:bitを使って温度データーをBluetooth Low Energy (BLE) で発信し、
                     ゲートウェイ経由でAmbientに送って、記録し、グラフ化(可視化)します。
-                    第14回はmicro:bitとゲートウェイをBLEブロードキャストモードで通信する方法を説明します。
-                    コネクトモードでの通信は第13回「<a href="../microbit_cnt/">micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a>」をご覧ください。</p>
+                    第14回はmicro:bitとゲートウェイをBLEブロードキャストモードで通信する方法を説明します。</p>
+
+                <p>コネクトモードでの通信は第13回「<a href="../microbit_cnt/">micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a>」をご覧ください。</p>
 
                 <p>micro:bitでBluetooth Low Energyを使うための開発環境の設定、Bluetooth機能ブロックの説明についても
                     「<a href="../microbit_cnt/">micro:bitで温度データーをAmbientに送りグラフにする(コネクトモード編)</a>」をご覧ください。</p>
@@ -189,43 +190,54 @@
 
                 <h2 id="gateway">ブロードキャストモードのゲートウェイプログラム</h2>
 
-                    ブロードキャストモードのゲートウェイも「BLE環境センサー・ゲートウェイ(Raspberry Pi編)」で開発したものをベースにします。
+                <p>ブロードキャストモードのゲートウェイも「<a href="../blegw_rpi/">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」で開発したものをベースにします。</p>
 
-                    スキャンしたデーターのAdTypeが「16b Service Data」で、値の最初の4文字がEddystoneを表す「aafe」のものがmicro:bitのアドバタイジングデーターです。最後の20文字(10バイト)が「000000000000616d6269」のものが今回開発しているセンサー端末です。
+                <p>スキャンしたデーターのAdTypeが「16b Service Data」で、値の最初の4文字がEddystoneを表す「aafe」のものがmicro:bitのアドバタイジングデーターです。
+                    最後の20文字(10バイト)が「000000000000616d6269」のものが今回開発しているセンサー端末です。</p>
 
-                    値の32文字目の上位2ビットがシーケンス番号なので、それが前回見つけた値と異なっていれば新しいデーターです。値の38、39文字目が温度データーです。それを取り出してAmbientに送信します。
+                <p>値の32文字目の上位2ビットがシーケンス番号なので、それが前回見つけた値と異なっていれば新しいデーターです。
+                    値の38、39文字目が温度データーです。それを取り出してAmbientに送信します。</p>
 
-                        def handleDiscovery(self, dev, isNewDev, isNewData):
-                            if isNewDev or isNewData:
-                                for (adtype, desc, value) in dev.getScanData():
-                                    if desc == '16b Service Data' and value[0:4] == 'aafe' and value[8:28] == '000000000000616d6269':
-                                        seq = (int(value[32:33], 16) & 0xC) >> 2
-                                        if seq != self.lastseq:  # シーケンス番号が前回と違っていたら(新しいデーター)
-                                            self.lastseq = seq
-                                            temp = int(value[38:40], 16)
-                                            sendWithRetry({'d1': temp})
-                    view rawmicrobit_ble_bcst1.py hosted with ❤ by GitHub
-                    ゲートウェイプログラムはGithubに公開しました。
+                <script src="https://gist.github.com/TakehikoShimojima/98c4ad150fc281cfa7e68baa09d5f199.js"></script>
 
-                    ・AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py
+                <p>ゲートウェイプログラムはGithubに公開しました。</p>
 
-                    BME280で温度、湿度、気圧を測定し、Ambientに送る
-                    内蔵の温度センサーはプロセッサーの発熱の影響を受けます。そこで内蔵の温度センサーではなく、BME280をつないで温度、湿度、気圧を測定してAmbientに送るものも開発します。
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientBS.py" target="_blank">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientBS.py</a></li>
+                </ul>
 
-                    BME280の接続
-                    micro:bitにセンサーなどを接続するには、「micro:bit用エッジコネクタピッチ変換基板」を使うのが便利です。micro:bitのエッジコネクタのピンアサインはmicro:bitのMicroPythonの「入出力端子」に書かれています。
+                <h2 id="bme280">BME280で温度、湿度、気圧を測定し、Ambientに送る</h2>
 
-                    BME280はI2CとSPIの両方でアクセスできます。今回は高速なアクセスは必要ないので、I2Cでアクセスします。micro:bitでデフォルトでI2C通信に使うピンはSCL=19ピン、SDI=20ピンです。BME280とは次のように接続します。
+                <p>内蔵の温度センサーはプロセッサーの発熱の影響を受けます。
+                    そこで内蔵の温度センサーではなく、BME280をつないで温度、湿度、気圧を測定してAmbientに送るものも開発します。</p>
 
-                    micro:bit	BME280モジュール
-                    GND	SDO
-                    SCL(19)	SCK
-                    SDA(20)	SDI
-                    3V	CSB
-                    GND	GND
-                    3V	Vcore
-                    ―	 Vio
-                    BME280のアクセス
+                <h3>BME280の接続</h3>
+
+                <p>micro:bitにセンサーなどを接続するには、「<a href="https://www.switch-science.com/catalog/3181/">micro:bit用エッジコネクタピッチ変換基板</a>」を使うのが便利です。
+                    micro:bitのエッジコネクタのピンアサインはmicro:bitのMicroPythonの「<a href="https://microbit-micropython.readthedocs.io/ja/latest/pin.html" target="_blank">入出力端子</a>」に書かれています。</p>
+
+                <p><img src="./images/edge_connector.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>BME280はI2CとSPIの両方でアクセスできます。今回は高速なアクセスは必要ないので、I2Cでアクセスします。
+                    micro:bitでデフォルトでI2C通信に使うピンはSCL=19ピン、SDI=20ピンです。BME280とは次のように接続します。</p>
+
+                    <div align="center">
+                        <table class="table table-bordered" style="font-size:0.9em; width: 80%;">
+                            <tbody>
+                                <tr><td>micro:bit</td><td>BME280モジュール</td></tr>
+                                <tr><td>GND</td><td>SDO</td></tr>
+                                <tr><td>SCL(19)</td><td>SCK</td></tr>
+                                <tr><td>SDA(20)</td><td>SDI</td></tr>
+                                <tr><td>3V</td><td>CSB</td></tr>
+                                <tr><td>GND</td><td>GND</td></tr>
+                                <tr><td>3V</td><td>Vcore</td></tr>
+                                <tr><td>―</td><td>Vio</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                <h3>BME280のアクセス</h3>
+
                     Sparkfun社の「Weatherbit」という製品があります。温度、湿度、気圧、風速、雨量、土壌の温度、水分が測れるmicro:bitの拡張モジュールです。この製品の温度、湿度、気圧の測定にBME280が使われていて、micro:bitでアクセスするための機能ブロックが公開されいます。
 
                     ・MakeCode package for the SparkFun weather:bit board – beta
