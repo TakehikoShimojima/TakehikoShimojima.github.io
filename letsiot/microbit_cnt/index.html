@@ -95,7 +95,7 @@
                     第13回はmicro:bitとゲートウェイをBLEコネクトモードで通信する方法を説明します。
                     ブロードキャストモードでの通信は第14回「<a href="../microbit_bcst/">micro:bitで温度データーをAmbientに送りグラフにする(ブロードキャストモード編)</a>」をご覧ください。</p>
 
-                <p><img src="./images/microbit.jpg" width="70%" class="img-responsive center-block"></p>
+                <p><img src="./images/microbit.jpg" width="65%" class="img-responsive center-block"></p>
 
                 <h2 id="microbit"><a href="https://www.switch-science.com/catalog/3735/">micro:bit</a></h2>
 
@@ -126,23 +126,23 @@
                 <p>Block EditorでBLEを使うために、機能ブロックの中の「高度なブロック」 > 「拡張機能」を選択し、bluetoothを追加します。
                     Bluetoothはradio機能と同居できないので、radioを削除します。</p>
 
-                <p><img src="./images/addBLE1.jpg" width="80%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE2.jpg" width="80%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE3.jpg" width="60%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE4.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE1.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE2.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE3.jpg" width="70%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE4.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <p>これでbluetoothが追加されます。
                     さらに「プロジェクトの設定」で「No Pairing Required: Any One can connect via Bluetooth.」を選択します。</p>
 
-                <p><img src="./images/addBLE5.jpg" width="80%" class="img-responsive center-block"></p>
-                <p><img src="./images/addBLE6.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE5.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/addBLE6.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h3>Bluetooth機能ブロック</h3>
 
                 <p>Bluetooth機能ブロックには、加速度、ボタン、温度計などのサービスと、「接続されたとき」、「接続が切断されたとき」といった条件、
                     「UIDをアドバタイズ」、「URLをアドバタイズ」、UARTでの文字の送受信などがあります。</p>
 
-                <p><img src="./images/BLEblock.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/BLEblock.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h2 id="ble_mode">BLEデバイスの動作</h2>
 
@@ -168,39 +168,48 @@
 
                 <p>これだけだとmicro:bitの動作が見えないので、「接続されたとき」に温度をLEDに表示し、「接続が切断されたとき」に悲しい顔マークを表示してみます。</p>
 
+                <p><img src="./images/connect.png" width="100%" class="img-responsive center-block"></p>
 
+                <p>このプログラムのhexファイルを作り、micro:bitにダウンロードします。ダウンロードが終わると、プログラムが動きます。</p>
 
-                このプログラムのhexファイルを作り、micro:bitにダウンロードします。ダウンロードが終わると、プログラムが動きます。
+                <h3>「BLE Scanner」で動作を確認する</h3>
 
-                「BLE Scanner」で動作を確認する
-                動作確認にはスマホアプリ「BLE Scanner」が便利です。
+                <p>動作確認にはスマホアプリ「BLE Scanner」が便利です。<p>
 
+                <p><img src="./images/BLEScanner.jpg" width="70%" class="img-responsive center-block"></p>
 
+                <p>BLE Scannerでスキャンすると、デバイスリストに「micro:bit [puzup]」が表示されます。
+                    [puzup] の部分は端末によって異なるようです。</p>
 
-                BLE Scannerでスキャンすると、デバイスリストに「micro:bit [puzup]」が表示されます。[puzup] の部分は端末によって異なるようです。
+                <p><img src="./images/BLEscanner1.jpg" width="40%" class="img-responsive center-block"></p>
 
+                <p>Connectすると、DEVICE UUIDなどの情報が表示され、micro:bitのLEDは温度の表示に変わります。</p>
 
+                <p><img src="./images/BLEscanner2.jpg" width="40%" class="img-responsive center-block"></p>
 
-                Connectすると、DEVICE UUIDなどの情報が表示され、micro:bitのLEDは温度の表示に変わります。
+                <p>micro:bitのBLEプロファイルによれば、サービスとキャラクタリスティクスのUUIDは次のようになっています。</p>
 
+                <div align="center">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
+                        <tbody>
+                            <tr><td>ベースUUID</td><td>E95D0000-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>温度計サービスのサービスUUID</td><td>E95D6100-251D-470A-A062-FA1922DFA9A8</td></tr>
+                            <tr><td>温度のキャラクタリスティクスUUID</td><td>E95D9250-251D-470A-A062-FA1922DFA9A8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <p>UUIDの5桁目から8桁目までがサービスやキャラクタリスティクスによって固有の値に変わります。</p>
 
-                micro:bitのBLEプロファイルによれば、サービスとキャラクタリスティクスのUUIDは次のようになっています。
+                <p>BLE Scannerで温度計サービスとその先の温度のキャラクタリスティクスを見ると、値が0x17(23℃)で、LEDにも同じ値が表示されています。</p>
 
-                ベースUUID	E95D0000-251D-470A-A062-FA1922DFA9A8
-                温度計サービスのサービスUUID	E95D6100-251D-470A-A062-FA1922DFA9A8
-                温度のキャラクタリスティクスUUID	E95D9250-251D-470A-A062-FA1922DFA9A8
-                UUIDの5桁目から8桁目までがサービスやキャラクタリスティクスによって固有の値に変わります。
+                <p><img src="./images/BLEscanner3.jpg" width="40%" class="img-responsive center-block"></p>
+                <p><img src="./images/BLEscanner4.jpg" width="40%" class="img-responsive center-block"></p>
 
-                BLE Scannerで温度計サービスとその先の温度のキャラクタリスティクスを見ると、値が0x17(23℃)で、LEDにも同じ値が表示されています。
+                <p>これでmicro:bit側の動作は確認できました。次はゲートウェイ側です。</p>
 
+                <h2 id="gateway">コネクトモードのゲートウェイプログラム</h2>
 
-
-
-
-                これでmicro:bit側の動作は確認できました。次はゲートウェイ側です。
-
-                コネクトモードのゲートウェイプログラム
                 ゲートウェイは「BLE環境センサー・ゲートウェイ(Raspberry Pi編)」で開発したものをベースにします。Raspberry PiへのBLEライブラリーのインストールなどはこの資料をご覧ください。ゲートウェイはRaspberry Pi Zero WHを使いました。
 
                 大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共有です。
