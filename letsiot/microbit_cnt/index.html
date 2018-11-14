@@ -210,32 +210,29 @@
 
                 <h2 id="gateway">コネクトモードのゲートウェイプログラム</h2>
 
-                ゲートウェイは「BLE環境センサー・ゲートウェイ(Raspberry Pi編)」で開発したものをベースにします。Raspberry PiへのBLEライブラリーのインストールなどはこの資料をご覧ください。ゲートウェイはRaspberry Pi Zero WHを使いました。
+                <p>ゲートウェイは「<a href="../blegw_rpi/">BLE環境センサー・ゲートウェイ(Raspberry Pi編)</a>」で開発したものをベースにします。
+                    Raspberry PiへのBLEライブラリーのインストールなどはこの資料をご覧ください。ゲートウェイはRaspberry Pi Zero WHを使いました。</p>
 
-                大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共有です。
+                <p>大まかな流れはESP32やOMRONセンサー端末を対象にしたものと共有です。</p>
 
-                まずスキャンしてmicro:bitを見つけます。micro:bitのアドバタイジングデーターはAdTypeが「Complete Local Name」、値が「BBC micro:bit [xxxxx]」です。[xxxxx]の部分はボードによって変わるようです。そこで、[xxxxx]の部分を無視し、値が「BBC micro:bit」に前方一致したものを見つけます。
+                <p>まずスキャンしてmicro:bitを見つけます。
+                    micro:bitのアドバタイジングデーターはAdTypeが「Complete Local Name」、値が「BBC micro:bit [xxxxx]」です。
+                    [xxxxx]の部分はボードによって変わるようです。そこで、[xxxxx]の部分を無視し、値が「BBC micro:bit」に前方一致したものを見つけます。</p>
 
-                    def handleDiscovery(self, dev, isNewDev, isNewData):
-                        if isNewDev:
-                            for (adtype, desc, value) in dev.getScanData():  # スキャンデーターを調べる
-                                if desc == 'Complete Local Name' and value.startswith('BBC micro:bit'):  # 対象を見つけたら
-                                    if dev.addr in scannedDevs.keys():  # すでに見つけていたらスキップ
-                                        return
-                                    devThread = EnvSensor(dev)  # EnvSensorクラスのインスタンスを生成
-                                    scannedDevs[dev.addr] = devThread
-                                    devThread.start()  # スレッドを起動
+                <script src="https://gist.github.com/TakehikoShimojima/a178d1d66bdf3044d0f11b6abbd55b60.js"></script>
 
-                view rawmicrobit_ble_cnt.py hosted with ❤ by GitHub
-                端末を見つけたら、スレッドを起動し、端末にコネクトして、周期的にデーターを読み出します。温度のキャラクタリスティクスUUIDを指定してgetCharacteristics()し、read()すると温度データーが取得できます。
+                <p>端末を見つけたら、スレッドを起動し、端末にコネクトして、周期的にデーターを読み出します。
+                    温度のキャラクタリスティクスUUIDを指定してgetCharacteristics()し、read()すると温度データーが取得できます。</p>
 
-                ゲートウェイプログラムはGithubに公開しました。
+                <p>ゲートウェイプログラムはGithubに公開しました。</p>
 
-                ・AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientCS.py
+                <ul>
+                    <li><a href="https://github.com/AmbientDataInc/EnvSensorBleGw/blob/master/src/gw_RPi/env2ambientCS.py">AmbientDataInc/EnvSensorBleGw/src/gw_RPi/env2ambientCS.py</a></li>
+                </ul>
 
-                micro:bitとゲートウェイのプログラムを動かすと、温度を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。
+                <p>micro:bitとゲートウェイのプログラムを動かすと、温度を測定し、ゲートウェイ経由でAmbientに温度データーが送信され、グラフ表示されます。</p>
 
-                ブロードキャストモードは「micro:bitで温度データーをAmbientに送ってグラフにする(ブロードキャストモード編)」をご覧ください。
+                <p>ブロードキャストモードは「<a href="../microbit_bcst">micro:bitで温度データーをAmbientに送ってグラフにする(ブロードキャストモード編)</a>」をご覧ください。</p>
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
