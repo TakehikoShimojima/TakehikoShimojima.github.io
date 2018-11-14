@@ -222,7 +222,7 @@
                     micro:bitでデフォルトでI2C通信に使うピンはSCL=19ピン、SDI=20ピンです。BME280とは次のように接続します。</p>
 
                     <div align="center">
-                        <table class="table table-bordered" style="font-size:0.9em; width: 60%;">
+                        <table class="table table-bordered" style="font-size:0.9em; width: 50%;">
                             <tbody>
                                 <tr><td>micro:bit</td><td>BME280モジュール</td></tr>
                                 <tr><td>GND</td><td>SDO</td></tr>
@@ -249,16 +249,17 @@
 
                 <p><img src="./images/weatherbit.jpg" width="100%" class="img-responsive center-block"></p>
 
-                <p>これを選択すると、Weathrbitの機能ブロックが使えるようになります。
-                    BME280の温度、湿度、気圧はそれぞれtemperature(C)、humidity、pressureという変数ですが、実際の値は次のように求めます。</p>
+                <p>これを選択すると、Weathrbitの機能ブロックが使えるようになります。</p>
+
+                <p><img src="./images/weatherbit_block.jpg" width="100%" class="img-responsive center-block"></p>
+
+                <p>BME280の温度、湿度、気圧はそれぞれtemperature(C)、humidity、pressureという変数ですが、実際の値は次のように求めます。</p>
 
 <p><pre>
      温度(℃) = temperature(C) / 10
      湿度(%) = humidity / 1024
      気圧(hPa) = pressure / 25600
 </pre></p>
-
-                <p><img src="./images/weatherbit_block.jpg" width="100%" class="img-responsive center-block"></p>
 
                 <h3>Eddystoneフォーマットのアドバタイジングデーターを設計する</h3>
 
@@ -283,7 +284,7 @@
 
                 <p><img src="./images/BLE_BME280adv.png" width="100%" class="img-responsive center-block"></p>
 
-                <h2 id="gateway2">ブロードキャストモードのゲートウェイプログラム<h2>
+                <h2 id="gateway2">ブロードキャストモードのゲートウェイプログラム</h2>
 
                 <p>micro:bitのアドバタイジングデータを見つけるところまでは、内蔵センサーのプログラムと同じです。
                     見つけたデーターの値の32文字目から39文字目までがシーケンス番号、気圧、湿度、温度を表しています。
