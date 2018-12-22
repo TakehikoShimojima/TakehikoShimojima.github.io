@@ -1,0 +1,439 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="gravity - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「Gravity」シリーズのセンサを使う - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2018年12月26日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>「Gravity」シリーズのセンサを使う</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>「AmbientでIoTをはじめよう」、第15回は「Gravity」シリーズのセンサを扱います。</p>
+
+                <p><img src="./images/photo1.jpg" width="100%" class="img-responsive center-block"></p>
+
+# 「Gravity」シリーズ
+
+「Gravity」は上海にあるDFRobot社が提供するセンサ・シリーズです。
+DFRobot社は2008年に設立された会社で、
+オープンソースのハードウェア、特にロボットプラットフォームやセンサ、Arduino互換シールドなどを製造しています。
+
+「Gravity」シリーズは
+温度センサ、湿度センサ、光センサといったポピュラーなものから
+pHセンサ、水分導電率センサ、溶存酸素量センサといった少し珍しいセンサまで豊富なラインナップが
+提供されています。
+原稿執筆時点(2018年12月)でスイッチサイエンスのサイト
+https://www.switch-science.com/catalog/list/?keyword=gravity&searched&paginate_by=200
+でも200種類のセンサ類が扱われています
+(お取り寄せ商品を含みます)。ページを見ているだけでもワクワクします。
+
+「Gravity」シリーズのセンサには次のような特徴があります。
+・アナログセンサは「A」、デジタルセンサは「D」と分かりやすく表示されている
+・機能を示すアイコンも表示されている
+・電源、グランド、信号線の3本でマイコンと接続する
+
+Arduinoやmicro:bitにセンサを接続する拡張ボードもあり、簡単にセンサ端末が作れます。
+
+今回はこの中からLM35搭載アナログ温度センサ
+https://www.switch-science.com/catalog/4019/
+と赤外線CO2センサ
+https://www.switch-science.com/catalog/4026/
+を使い、M5Stackにつないで温度とCO2濃度を測ります。
+溶存酸素量センサなどの特徴的なセンサを評価したかったのですが、
+評価する対象が身近にないので、今回は評価していません。
+
+写真2
+
+写真2の上が赤外線CO2センサ、右下がLM35搭載アナログ温度センサ、
+左下はアナログ環境光センサです。3ピンのソケットの横に「A」と書かれてあり、
+これらのセンサがアナログセンサであることが分かります。
+「A」の反対側にセンサの機能を示すピクトグラムがあります。
+
+# LM35搭載アナログ温度センサ
+https://www.switch-science.com/catalog/4019/
+
+テキサス・インスツルメンツ製のアナログ温度センサLM35を搭載したセンサモジュールです。
+
+仕様やサンプルプログラムは「「DFRobot LM35 Linear Temperature Sensor
+https://www.dfrobot.com/wiki/index.php/DFRobot_LM35_Linear_Temperature_Sensor_(SKU:DFR0023)
+」にあります。
+
+LM35搭載アナログ温度センサの主な仕様を示します。
+
+タイプ：アナログ
+動作電圧：3.3-5.0 V
+感度：10 mV/℃
+機能範囲：0°C〜150°C
+精度：±1℃
+
+LM35搭載アナログ温度センサとM5Stackは次のようにつなぎます。
+
+LM35搭載アナログ温度センサ　M5Stack
+電源        5V
+GND        GND
+信号線    35
+
+LM35の電源とGNDをつなぐと、周囲の温度に対応して、信号線に0℃のときは0V、20℃のときは200mVの電圧が出力されます。
+
+LM35をM5Stackの内蔵ADコンバータにつないで、analogRead()でLM35の出力を読むのですが、ここで考慮すべきポイントがあります。
+
+## ESP32の内蔵ADコンバータの直線性
+
+ESP32内蔵のADコンバータはデフォルトで12ビットで、
+0から3.6Vの入力に対して0から4095が出力されます。
+このADコンバータは入力のアナログ値に対して出力が直線ではないという問題があります。実際に入力電圧をテスタで測りながらADコンバータの出力を調べると、図1のように実際の電圧が0.2Vから2.5Vぐらいの間はほぼ直線ですが、それ以外のところでは直線から外れてしまいます。
+
+図1
+
+温度センサLM35で室温を測る場合、温度は0〜40℃ぐらい、LM35の出力は0〜0.4Vぐらいなので、直線でない部分を使うことになります。これはESP32を搭載しているM5Stackでも共通の問題です。
+
+そこで、次のような簡単な補正式をつかい、ADコンバータで読み取った値を修正します。
+
+    v = (float)analogRead(PIN) / 4095.0 * 3.6 + 0.1132;
+
+LM35の出力から温度を求めるプログラムは次のようになります。
+
+    float voutT = (float)analogRead(35) / 4095.0 * 3.6 + 0.1132;
+    float temp = voutT / 0.01;
+
+
+# 赤外線CO2センサ
+https://www.switch-science.com/catalog/4026/
+
+NDIR(Non Dispersive Infrared)方式のCO2センサモジュールです。
+NDIR方式とはガス分子が特定の波長の光を吸収することを利用して特定のガスの濃度を測定するセンサです。CO2濃度の測定にはNDIRガスセンサがよく使われます。
+
+仕様やサンプルプログラムは「Gravity: Analog Infrared CO2 Sensor For Arduino
+https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219
+」にあります。
+
+赤外線CO2センサの主な仕様を示します。
+
+検出ガス：二酸化炭素
+動作電圧：4.5〜5.5 V DC
+平均電流：60 mA以下（5 V時）
+ピーク電流：150 mA（5 V時）
+出力信号：アナログ出力（0.4〜2 V）
+測定範囲：0〜5000 ppm
+精度：±（50 ppm + 3％）
+予熱時間：3分
+応答時間：120秒
+動作温度：0〜50℃
+動作湿度：0〜95％RH（結露なきこと）
+寿命：最大5年
+サイズ：37 mm × 69 mm
+重量：34 g
+
+赤外線CO2センサとM5Stackは次のようにつなぎます。
+
+赤外線CO2センサ　M5Stack
+電源        5V
+GND        GND
+信号線    36
+
+赤外線CO2センサのデータシート
+https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219
+によると、出力とCO2濃度は次の関係があります。
+
+電源が5Vの時、CO2濃度0〜5000ppmに対して、出力は0.4〜2.0Vになります。
+0.4V未満は予熱中、0Vはエラーです。
+
+図2
+
+ADコンバータの直線性の補正も加え、
+赤外線CO2センサの出力からCO2濃度を求めるプログラムは次のようになります。
+
+    float voutC = analogRead(36) / 4095.0 * 3.6 + 0.1132;
+    float co2 = (voutC - 0.4) / 1.6 * 5000.0;
+
+LM35搭載アナログ温度センサと赤外線CO2センサを読んで、
+M5StackのLCDに表示するプログラムは次のようになります。
+
+<script src="https://gist.github.com/TakehikoShimojima/3ee519dba74f8e5c7eea3f5bb4dbac5f.js"></script>
+
+# Ambient https://ambidata.io に送信する。
+
+温度とCO2濃度データをAmbientに送信するのは、取得したデータをset()してsend()するだけです。
+
+    ambient.set(1, temp);
+    ambient.set(2, co2);
+    ambient.send();
+
+Wi-Fiのアクセスポイントに接続して、周期的に温度とCO2濃度を測定し、Ambientに送信する
+プログラムの全体は次のようになります。
+
+<script src="https://gist.github.com/TakehikoShimojima/5c5722b79055a4f749a678165649e2bb.js"></script>
+
+# micro:bitにつなぐ
+
+「Gravity」シリーズには、センサをmicro:bitに接続する拡張ボード
+「Boson/Gravity - micro:bit用拡張基板
+https://www.switch-science.com/catalog/4013/
+」があります。
+写真3の左下が拡張ボード、右上はmicro:bitです。
+
+写真3
+
+拡張ボードの両側にP0、P1、P2、P8、P12、P16と書かれたコネクタがあり、
+micro:bitの対応するピンにつながっています。
+ここに「Gravity」シリーズのセンサを接続します。
+
+P0、P1、P2にLM35搭載アナログ温度センサ、赤外線CO2センサ、アナログ環境光センサ
+https://www.switch-science.com/catalog/4020/
+をつないだのが写真4です。
+
+写真4
+
+これを使って、micro:bitからセンサをアクセスしてみます。
+
+micro:bitはブロックエディタの他にMicroPythonでプログラミングできるので、
+今回はそれも試してみます。
+
+micro:bitで用意されているPythonエディタは、REPL(対話型インタプリタ)機能がありません。
+
+図3
+
+micro:bit MicroPythonチュートリアル
+https://microbit-micropython.readthedocs.io/ja/latest/tutorials/introduction.html
+を見ると、「muエディタ」という開発環境も推奨しているので、それを使ってみます。
+
+「muエディア」のサイト
+https://codewith.mu/
+で、お使いのOS用のプログラムをダウンロードして、インストールします。
+
+muエディタを立ち上げると、図4のように開発対象の環境を聞かれるので、
+micro:bitを選択します。
+
+図4
+
+micro:bitをUSBケーブルでPCにつなぎ、muエディタの「REPL」ボタンをクリックすると、
+画面の下部にREPLの領域が現れ、プロンプト(>>> )が表示されます。
+プロンプトが表示されない時は、上の画面で簡単なMicroPythonプログラム(例えばprint('hello'))を書き、
+「Flash」ボタンをクリックしてプログラムをmicro:bitに送って実行させ、
+その後「REPL」ボタンをクリックするとプロンプトが現れます。
+
+プロンプト(>>> )にMicroPythonの文を入力すると、その場で実行され、結果が表示されます。
+
+図5
+
+REPLはプログラム開発の初期段階でプログラムを少しずつ動作させ、確認しながら
+開発を進められるのでとても便利です。例えばピン0に接続したアナログセンサの値は
+次のように確認できます。
+
+>>> from microbit import *
+>>> pin0.read_analog()
+68
+
+read_analog()はピンの入力0〜3.3Vに対して0〜1023の数値を返します。
+次のようにするとピン0につなげたアナログ温度センサの値を読んで温度(℃)に変換できます。
+
+>>> pin0.read_analog() / 1023.0 * 3.3 / 0.01
+21.2903
+
+同様に、次のようにするとピン1につなげた赤外線CO2センサの値を読んでCO2濃度を得られます。
+
+>>> pin1.read_analog()
+137
+>>> (pin1.read_analog() / 1023.0 * 3.3 - 0.4 / 5.0 * 3.3) * 1.6 / 5.0 * 3.3 * 5000.0
+1484.53
+
+
+アナログ環境光センサ
+https://www.switch-science.com/catalog/4020/
+は周囲の明るさを測ります。DFRobot社の資料
+https://www.dfrobot.com/wiki/index.php/DFRobot_Ambient_Light_Sensor_SKU:DFR0026
+によると、このセンサの値は参考値で、
+明るさの単位であるLuxに変換するには校正された照度センサを使って自分で校正するように書かれています。
+ここではLuxに変換せず、read_analog()で読んだ値を参考値として使うことにします。
+
+アナログ温度センサ、赤外線CO2センサ、アナログ環境光センサを読んで、
+温度、CO2濃度、明るさを出力するプログラムは次のようになります。
+
+<script src="https://gist.github.com/TakehikoShimojima/5e73eea57db90b8959fee99ab7609e09.js"></script>
+
+muエディタにこのプログラムを入力し、「Flash」ボタンでプログラムをmicro:bitに書き込むと、
+micro:bitのLEDが点滅し、しばらくするとmuエディタの左下に「Flashing "untitled *" onto the micro:bit」と
+表示され、書き込みが終わります。
+書き込みが終わったらパソコンでCoolTermのようなターミナルコマンドでmicro:bitに接続すると
+print()した結果が確認できます。
+「REPL」ボタンをクリックすると、実行中のプログラムが中断されてしまいます。
+print()した結果を見るには「REPL」ではなく、別のターミナルコマンドを立ち上げてください。
+
+micro:bitのMicroPythonでは、残念ながらBluetoothがサポートされていません。
+センサで得られた値をBLEで送信するには、micro:bitのブロックエディタを使います。
+やり方は「micro:bitで温度データをAmbientに送りグラフにする(コネクトモード編)
+http://pages.switch-science.com/letsiot/microbit_cnt/
+」を参考にしてください。
+
+
+
+
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">14.micro:bitで温度データをAmbientに送りグラフにする(ブロードキャストモード編)</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#structure">全体の構成</a></li>
+                        <li><a href="#ble_mode">BLEデバイスの動作</a></li>
+                        <li><a href="#broadcast_mode">ブロードキャストモード</a></li>
+                        <li><a href="#gateway">ブロードキャストモードのゲートウェイプログラム</a></li>
+                        <li><a href="#bme280">BME280で温度、湿度、気圧を測定し、Ambientに送る</a></li>
+                        <li><a href="#gateway2">ブロードキャストモードのゲートウェイプログラム</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
