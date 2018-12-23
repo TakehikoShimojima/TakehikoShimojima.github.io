@@ -157,7 +157,6 @@
                     </table>
                 </div>
 
-
                 <p>LM35の電源とGNDをつなぐと、周囲の温度に対応して、信号線に0℃のときは0V、20℃のときは200mVの電圧が出力されます。</p>
 
                 <p>LM35をM5Stackの内蔵ADコンバータにつないで、analogRead()でLM35の出力を読むのですが、ここで考慮すべきポイントがあります。</p>
@@ -169,62 +168,74 @@
                     実際に入力電圧をテスタで測りながらADコンバータの出力を調べると、図1のように実際の電圧が0.2Vから2.5Vぐらいの間はほぼ直線ですが、
                     それ以外のところでは直線から外れてしまいます。</p>
 
-                    <p><img src="./images/pict1.jpg" width="60%" class="img-responsive center-block"></p>
+                <p><img src="./images/pict1.jpg" width="60%" class="img-responsive center-block"></p>
 
-温度センサLM35で室温を測る場合、温度は0〜40℃ぐらい、LM35の出力は0〜0.4Vぐらいなので、直線でない部分を使うことになります。これはESP32を搭載しているM5Stackでも共通の問題です。
+                <p>温度センサLM35で室温を測る場合、温度は0〜40℃ぐらい、LM35の出力は0〜0.4Vぐらいなので、直線でない部分を使うことになります。
+                    これはESP32を搭載しているM5Stackでも共通の問題です。</p>
 
-そこで、次のような簡単な補正式をつかい、ADコンバータで読み取った値を修正します。
+                <p>そこで、次のような簡単な補正式をつかい、ADコンバータで読み取った値を修正します。</p>
 
+<p><pre>
     v = (float)analogRead(PIN) / 4095.0 * 3.6 + 0.1132;
+</pre></p>
 
-LM35の出力から温度を求めるプログラムは次のようになります。
+                <p>LM35の出力から温度を求めるプログラムは次のようになります。</p>
 
+<p><pre>
     float voutT = (float)analogRead(35) / 4095.0 * 3.6 + 0.1132;
     float temp = voutT / 0.01;
+</pre></p>
 
 
-# 赤外線CO2センサ
-https://www.switch-science.com/catalog/4026/
+                <h2 id="co2-sensor"><a href="https://www.switch-science.com/catalog/4026/">赤外線CO2センサ</a></h2>
 
-NDIR(Non Dispersive Infrared)方式のCO2センサモジュールです。
-NDIR方式とはガス分子が特定の波長の光を吸収することを利用して特定のガスの濃度を測定するセンサです。CO2濃度の測定にはNDIRガスセンサがよく使われます。
+                <p>NDIR(Non Dispersive Infrared)方式のCO2センサモジュールです。
+                    NDIR方式とはガス分子が特定の波長の光を吸収することを利用して特定のガスの濃度を測定するセンサです。CO2濃度の測定にはNDIRガスセンサがよく使われます。</p>
 
-仕様やサンプルプログラムは「Gravity: Analog Infrared CO2 Sensor For Arduino
-https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219
-」にあります。
+                <p>仕様やサンプルプログラムは「<a href="https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219">Gravity: Analog Infrared CO2 Sensor For Arduino</a>」にあります。</p>
 
-赤外線CO2センサの主な仕様を示します。
+                <p>赤外線CO2センサの主な仕様を示します。</p>
 
-検出ガス：二酸化炭素
-動作電圧：4.5〜5.5 V DC
-平均電流：60 mA以下（5 V時）
-ピーク電流：150 mA（5 V時）
-出力信号：アナログ出力（0.4〜2 V）
-測定範囲：0〜5000 ppm
-精度：±（50 ppm + 3％）
-予熱時間：3分
-応答時間：120秒
-動作温度：0〜50℃
-動作湿度：0〜95％RH（結露なきこと）
-寿命：最大5年
-サイズ：37 mm × 69 mm
-重量：34 g
+                <div align="center">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 40%;">
+                        <tbody>
+                            <tr><td>検出ガス</td><td>二酸化炭素</td></tr>
+                            <tr><td>動作電圧</td><td>4.5〜5.5 V DC</td></tr>
+                            <tr><td>平均電流</td><td>60 mA以下（5 V時）</td></tr>
+                            <tr><td>ピーク電流</td><td>150 mA（5 V時）</td></tr>
+                            <tr><td>出力信号</td><td>アナログ出力（0.4〜2 V）</td></tr>
+                            <tr><td>測定範囲</td><td>0〜5000 ppm</td></tr>
+                            <tr><td>精度</td><td>±（50 ppm + 3％）</td></tr>
+                            <tr><td>予熱時間</td><td>3分</td></tr>
+                            <tr><td>応答時間</td><td>120秒</td></tr>
+                            <tr><td>動作温度</td><td>0〜50℃</td></tr>
+                            <tr><td>動作湿度</td><td>0〜95％RH（結露なきこと）</td></tr>
+                            <tr><td>寿命</td><td>最大5年</td></tr>
+                            <tr><td>サイズ</td><td></td>37 mm × 69 mm</tr>
+                            <tr><td>重量</td><td>34 g</td></tr>
+                            <tr><td></td><td></td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-赤外線CO2センサとM5Stackは次のようにつなぎます。
+                <p>赤外線CO2センサとM5Stackは次のようにつなぎます。</p>
 
-赤外線CO2センサ　M5Stack
-電源        5V
-GND        GND
-信号線    36
+                <div align="center">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 40%;">
+                        <tbody>
+                            <tr><th>赤外線CO2センサ</th><th>M5Stack</th></tr>
+                            <tr align="center"><td>電源</td><td>5V</td></tr>
+                            <tr align="center"><td>GND</td><td>GND</td></tr>
+                            <tr align="center"><td>信号線</td><td>36</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-赤外線CO2センサのデータシート
-https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219
-によると、出力とCO2濃度は次の関係があります。
+                <p><a href="https://www.dfrobot.com/wiki/index.php/Gravity:_Analog_Infrared_CO2_Sensor_For_Arduino_SKU:_SEN0219">赤外線CO2センサのデータシート</a>によると、出力とCO2濃度は次の関係があります。</p>
 
-電源が5Vの時、CO2濃度0〜5000ppmに対して、出力は0.4〜2.0Vになります。
-0.4V未満は予熱中、0Vはエラーです。
+                <p>電源が5Vの時、CO2濃度0〜5000ppmに対して、出力は0.4〜2.0Vになります。0.4V未満は予熱中、0Vはエラーです。</p>
 
-図2
+                <p style="margin: 10px, 0;"><img src="./images/pict2.jpg" width="60%" class="img-responsive center-block"></p>
 
 ADコンバータの直線性の補正も加え、
 赤外線CO2センサの出力からCO2濃度を求めるプログラムは次のようになります。
