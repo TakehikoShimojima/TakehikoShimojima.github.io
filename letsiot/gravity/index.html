@@ -92,7 +92,7 @@
             <div class="col-sm-9 col-lg-8">
                 <p>「AmbientでIoTをはじめよう」、第15回は「Gravity」シリーズのセンサを扱います。</p>
 
-                <p><img src="./images/photo1.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/photo1.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <h2 id="gravity">「Gravity」シリーズ</h2>
 
@@ -119,7 +119,7 @@
                     <a href="https://www.switch-science.com/catalog/4026/">赤外線CO2センサ</a>を使い、M5Stackにつないで温度とCO2濃度を測ります。
                     溶存酸素量センサなどの特徴的なセンサを評価したかったのですが、評価する対象が身近にないので、今回は評価していません。</p>
 
-                <p><img src="./images/photo2.jpg" width="100%" class="img-responsive center-block"></p>
+                <p><img src="./images/photo2.jpg" width="80%" class="img-responsive center-block"></p>
 
                 <p>写真2の上が赤外線CO2センサ、右下がLM35搭載アナログ温度センサ、左下はアナログ環境光センサです。
                     3ピンのソケットの横に「A」と書かれてあり、これらのセンサがアナログセンサであることが分かります。
@@ -127,27 +127,36 @@
 
                 <h2 id="temp-sensor"><a href="https://www.switch-science.com/catalog/4019/">LM35搭載アナログ温度センサ</a></h2>
 
+                <p>テキサス・インスツルメンツ製のアナログ温度センサLM35を搭載したセンサモジュールです。</p>
 
-テキサス・インスツルメンツ製のアナログ温度センサLM35を搭載したセンサモジュールです。
+                <p>仕様やサンプルプログラムは「<a href="https://www.dfrobot.com/wiki/index.php/DFRobot_LM35_Linear_Temperature_Sensor_(SKU:DFR0023)">DFRobot LM35 Linear Temperature Sensor</a>」にあります。</p>
 
-仕様やサンプルプログラムは「「DFRobot LM35 Linear Temperature Sensor
-https://www.dfrobot.com/wiki/index.php/DFRobot_LM35_Linear_Temperature_Sensor_(SKU:DFR0023)
-」にあります。
+                <p>LM35搭載アナログ温度センサの主な仕様を示します。</p>
+                <div align="center">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 40%;">
+                        <tbody>
+                            <tr><td>タイプ</td><td>アナログ</td></tr>
+                            <tr><td>動作電圧</td><td>3.3-5.0 V</td></tr>
+                            <tr><td>感度</td><td>10 mV/℃</td></tr>
+                            <tr><td>機能範囲</td><td>0〜150°C</td></tr>
+                            <tr><td>精度</td><td>±1℃</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-LM35搭載アナログ温度センサの主な仕様を示します。
+                <p>LM35搭載アナログ温度センサとM5Stackは次のようにつなぎます。</p>
 
-タイプ：アナログ
-動作電圧：3.3-5.0 V
-感度：10 mV/℃
-機能範囲：0°C〜150°C
-精度：±1℃
+                <div align="center">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 40%;">
+                        <tbody>
+                            <tr><td>LM35搭載アナログ温度センサ</td><td>M5Stack</td></tr>
+                            <tr><td>電源</td><td>5V</td></tr>
+                            <tr><td>GND</td><td>GND</td></tr>
+                            <tr><td>信号線</td><td>35</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-LM35搭載アナログ温度センサとM5Stackは次のようにつなぎます。
-
-LM35搭載アナログ温度センサ　M5Stack
-電源        5V
-GND        GND
-信号線    35
 
 LM35の電源とGNDをつなぐと、周囲の温度に対応して、信号線に0℃のときは0V、20℃のときは200mVの電圧が出力されます。
 
