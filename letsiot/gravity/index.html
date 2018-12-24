@@ -248,7 +248,7 @@
 
                 <script src="https://gist.github.com/TakehikoShimojima/3ee519dba74f8e5c7eea3f5bb4dbac5f.js"></script>
 
-                <h2 id="ambient"><a href="https://ambidata.io">Ambient</a>に送信する。</h2>
+                <h2 id="ambient"><a href="https://ambidata.io">Ambient</a>に送信する</h2>
 
                 <p>温度とCO2濃度データをAmbientに送信するのは、取得したデータをset()してsend()するだけです。</p>
 
@@ -266,7 +266,7 @@
 
                 <p>「Gravity」シリーズには、センサをmicro:bitに接続する拡張ボード
                     「<a href="https://www.switch-science.com/catalog/4013/">Boson/Gravity - micro:bit用拡張基板</a>」があります。
-                    写真3の左下が拡張ボード、右上はmicro:bitです。</p>
+                    写真3の右下が拡張ボード、左上はmicro:bitです。</p>
 
                 <p><img src="./images/photo3.jpg" width="80%" class="img-responsive center-block"></p>
 
@@ -294,75 +294,67 @@
 
                 <p><img src="./images/pict4.jpg" width="80%" class="img-responsive center-block"></p>
 
-micro:bitをUSBケーブルでPCにつなぎ、muエディタの「REPL」ボタンをクリックすると、
-画面の下部にREPLの領域が現れ、プロンプト(>>> )が表示されます。
-プロンプトが表示されない時は、上の画面で簡単なMicroPythonプログラム(例えばprint('hello'))を書き、
-「Flash」ボタンをクリックしてプログラムをmicro:bitに送って実行させ、
-その後「REPL」ボタンをクリックするとプロンプトが現れます。
+                <p>micro:bitをUSBケーブルでPCにつなぎ、muエディタの「REPL」ボタンをクリックすると、
+                    画面の下部にREPLの領域が現れ、プロンプト(>>> )が表示されます。
+                    プロンプトが表示されない時は、上の画面で簡単なMicroPythonプログラム(例えばprint('hello'))を書き、
+                    「Flash」ボタンをクリックしてプログラムをmicro:bitに送って実行させ、
+                    その後「REPL」ボタンをクリックするとプロンプトが現れます。</p>
 
-プロンプト(>>> )にMicroPythonの文を入力すると、その場で実行され、結果が表示されます。
+                <p>プロンプト(>>> )にMicroPythonの文を入力すると、その場で実行され、結果が表示されます。</p>
 
-図5
+                <p><img src="./images/pict5.jpg" width="80%" class="img-responsive center-block"></p>
 
-REPLはプログラム開発の初期段階でプログラムを少しずつ動作させ、確認しながら
-開発を進められるのでとても便利です。例えばピン0に接続したアナログセンサの値は
-次のように確認できます。
+                <p>REPLはプログラム開発の初期段階でプログラムを少しずつ動作させ、確認しながら
+                    開発を進められるのでとても便利です。例えばピン0に接続したアナログセンサの値は次のように確認できます。</p>
 
+<p><pre>
 >>> from microbit import *
 >>> pin0.read_analog()
 68
+</pre></p>
 
-micro:bitのMicroPythonについては「micro:bit MicroPython ドキュメンテーション
-https://microbit-micropython.readthedocs.io/ja/latest/
-」に書かれています。ページ左下の「v: latest」をクリックして「ja」を選択すると
-日本語のドキュメントが表示されます。
+                <p>micro:bitのMicroPythonについては「<a href="https://microbit-micropython.readthedocs.io/ja/latest/">micro:bit MicroPython ドキュメンテーション</a>」に書かれています。
+                    ページ左下の「v: latest」をクリックして「ja」を選択すると日本語のドキュメントが表示されます。</p>
 
-図6
+                <p><img src="./images/pict6.jpg" width="80%" class="img-responsive center-block"></p>
 
-read_analog()はピンの入力0〜3.3Vに対して0〜1023の数値を返します。
-次のようにするとピン0につなげたアナログ温度センサの値を読んで温度(℃)に変換できます。
+                <p>read_analog()はピンの入力0〜3.3Vに対して0〜1023の数値を返します。
+                    次のようにするとピン0につなげたアナログ温度センサの値を読んで温度(℃)に変換できます。</p>
 
+<p><pre>
 >>> pin0.read_analog() / 1023.0 * 3.3 / 0.01
 21.2903
+</pre></p>
 
-同様に、次のようにするとピン1につなげた赤外線CO2センサの値を読んでCO2濃度を得られます。
+                <p>同様に、次のようにするとピン1につなげた赤外線CO2センサの値を読んでCO2濃度を得られます。</p>
 
+<p><pre>
 >>> pin1.read_analog()
 137
 >>> (pin1.read_analog() / 1023.0 * 3.3 - 0.4 / 5.0 * 3.3) * 1.6 / 5.0 * 3.3 * 5000.0
 1484.53
+</pre></p>
 
 
-アナログ環境光センサ
-https://www.switch-science.com/catalog/4020/
-は周囲の明るさを測ります。DFRobot社の資料
-https://www.dfrobot.com/wiki/index.php/DFRobot_Ambient_Light_Sensor_SKU:DFR0026
-によると、このセンサの値は参考値で、
-明るさの単位であるLuxに変換するには校正された照度センサを使って自分で校正するように書かれています。
-ここではLuxに変換せず、read_analog()で読んだ値を参考値として使うことにします。
+                <p><a href="https://www.switch-science.com/catalog/4020/">アナログ環境光センサ</a>は周囲の明るさを測ります。
+                    <a href="https://www.dfrobot.com/wiki/index.php/DFRobot_Ambient_Light_Sensor_SKU:DFR0026">DFRobot社の資料</a>によると、
+                    このセンサの値は参考値で、明るさの単位であるLuxに変換するには校正された照度センサを使って自分で校正するように書かれています。
+                    ここではLuxに変換せず、read_analog()で読んだ値を参考値として使うことにします。</p>
 
-アナログ温度センサ、赤外線CO2センサ、アナログ環境光センサを読んで、
-温度、CO2濃度、明るさを出力するプログラムは次のようになります。
+                <p>アナログ温度センサ、赤外線CO2センサ、アナログ環境光センサを読んで、温度、CO2濃度、明るさを出力するプログラムは次のようになります。</p>
 
-<script src="https://gist.github.com/TakehikoShimojima/5e73eea57db90b8959fee99ab7609e09.js"></script>
+                <script src="https://gist.github.com/TakehikoShimojima/5e73eea57db90b8959fee99ab7609e09.js"></script>
 
-muエディタにこのプログラムを入力し、「Flash」ボタンでプログラムをmicro:bitに書き込むと、
-micro:bitのLEDが点滅し、しばらくするとmuエディタの左下に「Flashing "untitled *" onto the micro:bit」と
-表示され、書き込みが終わります。
-書き込みが終わったらパソコンでCoolTermのようなターミナルコマンドでmicro:bitに接続すると
-print()した結果が確認できます。
-「REPL」ボタンをクリックすると、実行中のプログラムが中断されてしまいます。
-print()した結果を見るには「REPL」ではなく、別のターミナルコマンドを立ち上げてください。
+                <p>muエディタにこのプログラムを入力し、「Flash」ボタンでプログラムをmicro:bitに書き込むと、
+                    micro:bitのLEDが点滅し、しばらくするとmuエディタの左下に「Flashing "untitled *" onto the micro:bit」と
+                    表示され、書き込みが終わります。</p>
+                <p>書き込みが終わったらパソコンでCoolTermのようなターミナルコマンドでmicro:bitに接続するとprint()した結果が確認できます。
+                    「REPL」ボタンをクリックすると、実行中のプログラムが中断されてしまいます。
+                    print()した結果を見るには「REPL」ではなく、別のターミナルコマンドを立ち上げてください。</p>
 
-micro:bitのMicroPythonでは、残念ながらBluetoothがサポートされていません。
-センサで得られた値をBLEで送信するには、micro:bitのブロックエディタを使います。
-やり方は「micro:bitで温度データをAmbientに送りグラフにする(コネクトモード編)
-http://pages.switch-science.com/letsiot/microbit_cnt/
-」を参考にしてください。
-
-
-
-
+                <p>micro:bitのMicroPythonでは、残念ながらBluetoothがサポートされていません。
+                    センサで得られた値をBLEで送信するには、micro:bitのブロックエディタを使います。
+                    やり方は「<a href="http://pages.switch-science.com/letsiot/microbit_cnt/">micro:bitで温度データをAmbientに送りグラフにする(コネクトモード編)</a>」を参考にしてください。</p>
 
                 <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
 
@@ -378,14 +370,13 @@ http://pages.switch-science.com/letsiot/microbit_cnt/
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">14.micro:bitで温度データをAmbientに送りグラフにする(ブロードキャストモード編)</a></li>
+                    <li class="open"><a href="index.html">15.「Gravity」シリーズのセンサを使う</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#structure">全体の構成</a></li>
-                        <li><a href="#ble_mode">BLEデバイスの動作</a></li>
-                        <li><a href="#broadcast_mode">ブロードキャストモード</a></li>
-                        <li><a href="#gateway">ブロードキャストモードのゲートウェイプログラム</a></li>
-                        <li><a href="#bme280">BME280で温度、湿度、気圧を測定し、Ambientに送る</a></li>
-                        <li><a href="#gateway2">ブロードキャストモードのゲートウェイプログラム</a></li>
+                        <li><a href="#gravity">「Gravity」シリーズ</a></li>
+                        <li><a href="#temp-sensor">LM35搭載アナログ温度センサ</a></li>
+                        <li><a href="#co2-sensor">赤外線CO2センサ</a></li>
+                        <li><a href="#ambient">Ambientに送信する</a></li>
+                        <li><a href="#microbit">micro:bitにつなぐ</a></li>
                     </ul>
                 </ul>
             </div>
