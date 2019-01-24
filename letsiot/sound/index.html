@@ -132,10 +132,10 @@
                     マイクとM5Stackは次のように接続します。</p>
 
                 <div align="center">
-                    <table class="table table-bordered" style="font-size:0.9em; width: 40%;">
+                    <table class="table table-bordered" style="font-size:0.9em; width: 50%;">
                         <tbody>
                             <tr><td>M5Stack</td><td>ADMP401搭載MEMSマイクモジュール</td></tr>
-                            <tr><td36></td><td>AUD</td></tr>
+                            <tr><td>36</td><td>AUD</td></tr>
                             <tr><td>3V3</td><td>Vcc</td></tr>
                             <tr><td>GND</td><td>GND</td></tr>
                         </tbody>
@@ -191,11 +191,11 @@
                 <p>次にスマートフォンの音生成アプリを使い、リファレンス音を生成して、測定してみます。
                     音生成アプリとしては「Audio Tone Generator LITE」などが便利です。</p>
 
-                <p><img src="./images/pict3.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/pict3.jpg" width="60%" class="img-responsive center-block"></p>
 
                 <p>ATG LITEを使って1000Hzの正弦波(sine波)を発生させます。</p>
 
-                <p><img src="./images/pict4.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/pict4.jpg" width="50%" class="img-responsive center-block"></p>
 
                 <p>先ほどのプログラムを動かして、マイクで音を測定し、シリアルプロッタで出力を表示してみます。
                     こんな感じの波形が表示されます。</p>
@@ -236,13 +236,13 @@
                     サンプリングした波形を高速フーリエ変換(FFT: Fast Fourier Transform)することで、音を構成する主な周波数の成分を調べられます。</p>
 
                 <p>Arduinoで動くFFTライブラリはいくつかあります。
-                    Arduino IDEのライブラリマネージャからインストールできるものとしては<a href="https://github.com/kosme/arduinoFFT">arduinoFFT</a>があります。</p>
+                    Arduino IDEのライブラリマネージャからインストールできるものとしては<a href="https://github.com/kosme/arduinoFFT" target="_blank">arduinoFFT</a>があります。</p>
 
                 <p>Arduino IDEのスケッチ→ライブラリをインクルード→ライブラリを管理...を選択してライブラリマネージャを立ち上げ、右上の検索窓に「fft」と入力します。
                     いくつかFFTライブラリが表示されますが、その中の「arduinoFFT by Enrique Condes」をインストールします。
                     「More info」をクリックすると図のように「インストール」ボタンが現れるので、それをクリックすればインストール完了です。</p>
 
-                <p><img src="./images/pict8.jpg" width="80%" class="img-responsive center-block"></p>
+                <p><img src="./images/pict8.jpg" width="90%" class="img-responsive center-block"></p>
 
                 <p>ライブラリーの使い方は簡単です。</p>
 
