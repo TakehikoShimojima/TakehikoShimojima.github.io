@@ -1,0 +1,298 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5Stack Power Monitor - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackとクランプ式電流センサで交流の電流値を測る - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年2月26日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackとクランプ式電流センサで交流の電流値を測る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <h1 id="m5stackとクランプ式電流センサで交流の電流値を測る">M5Stackとクランプ式電流センサで交流の電流値を測る</h1>
+                <p>家庭やオフィス、工場などでは非常に多くの機器が電気で動いています。機器の電気の使用状態を測り、データを蓄積して見える化することは、省エネやコスト削減に効果的です。さらに、見守りサービスや設備の稼働率改善などのサービスに発展させることもできます。</p>
+                <p>そこで今回は、M5Stackとクランプ式電流センサを使って、機器が使用する電流値を測ります。</p>
+                <h2 id="クランプ式電流センサ">クランプ式電流センサ</h2>
+                <p>クランプ式電流センサは電流が流れる線を磁気コアではさんで電流を測定します。電線を流れる電流によって磁気コア内に磁束が発生し、それに応じて2次巻線に2次電流が流れます。そこに抵抗をつなぎ、抵抗の両端の電圧を測ります。この方法は交流しか測れませんが、二つに分かれた磁気コアで電線をはさむことで、測定対象の回路を切らずに電流が測定できます。</p>
+                <p><img src="./images/clamp.jpg" alt="クランプ式電流センサ"></p>
+                <p>上の写真のセンサは今回使用する「<a href="https://www.switch-science.com/catalog/840/">クランプ式AC電流センサ30A</a>」です。<a href="https://static.sparkfun.com/datasheets/Sensors/Current/ECS1030-L72-SPEC.pdf">データシート</a>によれば、測定対象の電流に対して2000:1の2次電流が得られます。20Aの電流であれば10mAの2次電流が流れます。</p>
+                <h2 id="測定回路">測定回路</h2>
+                <p>クランプ式電流センサを使って電流を測定する回路は次のようになります。</p>
+                <p><img src="./images/PowerMon.jpg" alt="回路図"></p>
+                <p>クランプ式電流センサの2次巻線に51Ωの負荷抵抗をつなぎ、その両端の電圧をADコンバーターMCP3004で測ります。交流を測定するので、負荷抵抗の両端の電圧はプラスとマイナスになります。4.7kΩの抵抗二つで電源電圧3.3Vの半分の電圧(1.65V)を作り、1.65Vを中心にして電圧が変化するようにしました。</p>
+                <p>MCP3004は10ビットのADコンバーターで、入力が0VからVrefV(=3.3V)のときに0から1023の値が読めます。ADコンバーターで読んだ値をiとすると、負荷抵抗の両端の電圧Vrは次のようになります。</p>
+                <pre><code>Vr = (i - 512) / 1024 * 3.3
+                </code></pre>
+                <p>負荷抵抗が51Ω、クランプ式電流センサの1次電流と2次電流の比率が2000:1なので、1次電流Iは次のように計算できます。</p>
+                <pre><code>I = Vr / 51 * 2000
+                </code></pre>
+                <p>ブレッドボード上に作った測定回路です。</p>
+                <p><img src="./images/bbcircuit.jpg" alt="BB回路"></p>
+                <p>センサ端末に必要な部品をまとめました。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="left">部品</th>
+                <th align="left">個数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/3647/">M5Stack Basic</a></td>
+                <td align="left">1個</td>
+                </tr>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/840/">クランプ式AC電流センサ30A</a></td>
+                <td align="left">2個</td>
+                </tr>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/619/">オーディオジャック+ピッチ変換基板のセット</a></td>
+                <td align="left">2個</td>
+                </tr>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/57/">ジャンパワイヤ(オス～オス)</a></td>
+                <td align="left">1セット</td>
+                </tr>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/313/">普通のブレッドボード</a></td>
+                <td align="left">1個</td>
+                </tr>
+                <tr>
+                <td align="left">MCP3004</td>
+                <td align="left">1個</td>
+                </tr>
+                <tr>
+                <td align="left">抵抗(51Ω)</td>
+                <td align="left">2個</td>
+                </tr>
+                <tr>
+                <td align="left">抵抗（４．７ｋΩ)</td>
+                <td align="left">2個</td>
+                </tr>
+                </tbody>
+                </table><h2 id="交流の電流を測定する">交流の電流を測定する</h2>
+                <p>日本の家庭で使われている電気は100Vの交流で、東日本は50Hz、西日本は60Hzです。交流の電流値を測るために、まず1m秒間隔で100回、電流値を測定してみます。このように周期的に値を測定する処理をサンプリングといいます。1m秒 x 100回 = 100m秒なので、50Hzだと5周期分、60Hzだと6周期分測定します。</p>
+                <p>測定プログラムは次のようになります。</p>
+
+                <p>1m秒間隔で関数onTimer0()を呼び出すタイマーを用意します。forループの先頭でフラグが0の間待つようにして、関数onTimer0()でフラグを1にすることで、1m秒間隔でforループを実行するようにします。forループの中でADコンバーターMCP3004を読み、値をバッファーに格納することで、1m秒間隔で電流値を測定します。</p>
+                <p>最初のプログラムは交流のサンプリングが上手くできているかを確認するために、サンプリングしたデータをプリントアウトします。</p>
+                <p>MCP3004をアクセスする部分はライブラリー化しています。ライブラリーも含めたプログラム全体はGithubに置きました。</p>
+                <ul>
+                <li><a href="https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/MCP3004_test">https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/MCP3004_test</a></li>
+                </ul>
+                <h2 id="動作確認">動作確認</h2>
+                <p><img src="./images/test.jpg" alt="測定テスト"></p>
+                <p>電源ケーブルは2本の線でできています。2本の線をクランプで挟んでも、行きと帰りの電流が打ち消しあって磁束が発生せず、2次電流は流れません。写真のように2本の線の一方だけを挟んで測定します。</p>
+                <p>プログラムをビルドしてM5Stackに転送し、いつものシリアルモニタではなく、シリアルプロッタを起動します。</p>
+                <p>電源ケーブルの先に適当な電気製品をつなげます。実験では1200Wのドライヤーをつなげました。ドライヤーを動かしたり止めたりすると、シリアルプロッタに次のような波形が描かれます。波形はつないだ機器によって異なりますが、交流波形が測定できているのが確認できました。</p>
+                <p><img src="./images/testwave.jpg" alt="テスト波形"></p>
+                <h2 id="交流の電流値を求める">交流の電流値を求める</h2>
+                <p>プラスマイナスに振れる交流の電流値を求めるには、何周期か測定したサンプリング値をそれぞれ2乗して平均値を求め、平方根を取ります。</p>
+                <p>その部分の処理は次のようになります。最初のプログラムはサンプリングした値を確認するために値を全てバッファーに記録しましたが、電流値を計算するだけならその必要はありません。サンプリングするたびにサンプル値を2乗して足し込んでいき、最後に平均して平方根を求めます。この処理を例えば1分ごとに呼び出せば、1分ごとの電流値を測れます。</p>
+
+                <h2 id="交流の電力値">交流の電力値</h2>
+                <p>電力は電圧×電流です。家庭の交流の電圧は100Vなので、電流値に100Vをかけると電力値になるかというと、そうなりません。<br>
+                交流の場合は電圧と電流の位相のずれがあるため、実際に使われた電力(有効電力)は</p>
+                <pre><code>有効電力＝電圧×電流×力率
+                </code></pre>
+                <p>になります。今回は正確な電力値を求めるよりも、機器の電気の利用パターンを調べることを目的に、電流値を使って電力使用の傾向を把握することにしました。</p>
+                <h2 id="電流値をlcdに表示する">電流値をLCDに表示する</h2>
+                <p>1分ごとの電流値が得られたので、これをM5StackのLCDに表示します。</p>
+                <p>100件のリングバッファーを用意して、1分ごとに電流値を格納し、リングバッファー中の値をLCDに表示します。LCDに表示する部分のプログラムは次のようになります。</p>
+
+                <p>プログラム全体はGithubを御覧ください。</p>
+                <ul>
+                <li><a href="https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon">https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon</a></li>
+                </ul>
+                <h2 id="ambientに送信して可視化する">Ambientに送信して可視化する</h2>
+                <p>1分ごとの電流値をAmbientに送って可視化します。</p>
+                <p>Ambientへのデータ送信は簡単です。setup関数でWi-Fiに接続し、Ambientオブジェクトをambient.begin()で初期化します。loop関数の中で電流値を測定し、ambient.set()でデータをセットし、ambient.send()に送信します。</p>
+                <p>Ambientに送信するのに関係する部分のプログラムは次のようになります。</p>
+
+                <p>プログラム全体はGithubを御覧ください。</p>
+                <ul>
+                <li><a href="https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon_ambient">https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon_ambient</a></li>
+                </ul>
+                <h2 id="家庭の電流消費量を測る">家庭の電流消費量を測る</h2>
+                <p>日本の多くの家庭は単相3線式といって2系統で電力が供給されています。2系統の両方の電流値を測ることで家全体の電流の使用状態を測定できます。</p>
+                <p>実際に分電盤にクランプ式電流センサを取り付けた様子です。</p>
+                <p><img src="./images/panelboard.jpg" alt="分電盤"></p>
+                <p>取り付けはブレーカーを落とした状態で、十分気をつけておこなってください。</p>
+                <p>測定した電流値をAmbientで見ると、次のようなグラフが見られます。</p>
+                <p><img src="./images/ambient.jpg" alt="Ambient"></p>
+                <p>チャート設定でグラフサイズを「large」にして、d1とd2を同じチャートで表示し、日付指定を設定しています。</p>
+                <p>グラフは著者の自宅の電流値です。系統1(青い線)に冷蔵庫が接続されていて、オン/オフを繰り返しながら常時動いているのが分かります。系統2にオイルヒーターがついていて、0時から6時ぐらいまで動いています。6時半ぐらいの大きなピークはオーブンレンジです。</p>
+                <p>このように電流計を家庭に設置すれば、家庭での電気の使用状況が可視化でき、<br>
+                省エネ意識も高まるでしょう。毎日の傾向を調べれば、見守りサービスのデータとしても使えそうです。</p>
+                <p>工場の工作機械の電気使用状況を調べれば、機械の稼働状況を可視化し、稼働率の改善などに役立てられそうです。</p>
+
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">16.M5Stackで音を測る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#mic">マイクモジュール</a></li>
+                        <li><a href="#hardware">マイクをM5Stackに接続する</a></li>
+                        <li><a href="#readmic">マイクの信号を読む</a></li>
+                        <li><a href="#lcd">音の波形をLCDに表示する</a></li>
+                        <li><a href="#fft">周波数成分を調べる</a></li>
+                        <li><a href="#summary">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
