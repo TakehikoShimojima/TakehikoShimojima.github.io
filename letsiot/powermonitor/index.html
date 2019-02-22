@@ -111,7 +111,7 @@
                 <p><img src="./images/bbcircuit.jpg" width="80%" class="img-responsive center-block" alt="BB回路"></p>
                 <p>センサ端末に必要な部品をまとめました。</p>
 
-                <table>
+                <table class="table table-bordered">
                 <thead>
                 <tr>
                 <th align="left">部品</th>
@@ -148,14 +148,14 @@
                 <td align="left">2個</td>
                 </tr>
                 <tr>
-                <td align="left">抵抗（４．７ｋΩ)</td>
+                <td align="left">抵抗（4.7ｋΩ)</td>
                 <td align="left">2個</td>
                 </tr>
                 </tbody>
                 </table><h2 id="交流の電流を測定する">交流の電流を測定する</h2>
                 <p>日本の家庭で使われている電気は100Vの交流で、東日本は50Hz、西日本は60Hzです。交流の電流値を測るために、まず1m秒間隔で100回、電流値を測定してみます。このように周期的に値を測定する処理をサンプリングといいます。1m秒 x 100回 = 100m秒なので、50Hzだと5周期分、60Hzだと6周期分測定します。</p>
                 <p>測定プログラムは次のようになります。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/9c53bc0d4d4753b7e4058f0915466caa.js"></script>
                 <p>1m秒間隔で関数onTimer0()を呼び出すタイマーを用意します。forループの先頭でフラグが0の間待つようにして、関数onTimer0()でフラグを1にすることで、1m秒間隔でforループを実行するようにします。forループの中でADコンバーターMCP3004を読み、値をバッファーに格納することで、1m秒間隔で電流値を測定します。</p>
                 <p>最初のプログラムは交流のサンプリングが上手くできているかを確認するために、サンプリングしたデータをプリントアウトします。</p>
                 <p>MCP3004をアクセスする部分はライブラリー化しています。ライブラリーも含めたプログラム全体はGithubに置きました。</p>
@@ -171,7 +171,7 @@
                 <h2 id="交流の電流値を求める">交流の電流値を求める</h2>
                 <p>プラスマイナスに振れる交流の電流値を求めるには、何周期か測定したサンプリング値をそれぞれ2乗して平均値を求め、平方根を取ります。</p>
                 <p>その部分の処理は次のようになります。最初のプログラムはサンプリングした値を確認するために値を全てバッファーに記録しましたが、電流値を計算するだけならその必要はありません。サンプリングするたびにサンプル値を2乗して足し込んでいき、最後に平均して平方根を求めます。この処理を例えば1分ごとに呼び出せば、1分ごとの電流値を測れます。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/61f267d46ef1171a12267864d0897a07.js"></script>
                 <h2 id="交流の電力値">交流の電力値</h2>
                 <p>電力は電圧×電流です。家庭の交流の電圧は100Vなので、電流値に100Vをかけると電力値になるかというと、そうなりません。<br>
                 交流の場合は電圧と電流の位相のずれがあるため、実際に使われた電力(有効電力)は</p>
@@ -181,7 +181,7 @@
                 <h2 id="電流値をlcdに表示する">電流値をLCDに表示する</h2>
                 <p>1分ごとの電流値が得られたので、これをM5StackのLCDに表示します。</p>
                 <p>100件のリングバッファーを用意して、1分ごとに電流値を格納し、リングバッファー中の値をLCDに表示します。LCDに表示する部分のプログラムは次のようになります。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/2905b7c34a4a81fa9db6e78490b72a36.js"></script>
                 <p>プログラム全体はGithubを御覧ください。</p>
                 <ul>
                 <li><a href="https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon">https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon</a></li>
@@ -190,7 +190,7 @@
                 <p>1分ごとの電流値をAmbientに送って可視化します。</p>
                 <p>Ambientへのデータ送信は簡単です。setup関数でWi-Fiに接続し、Ambientオブジェクトをambient.begin()で初期化します。loop関数の中で電流値を測定し、ambient.set()でデータをセットし、ambient.send()に送信します。</p>
                 <p>Ambientに送信するのに関係する部分のプログラムは次のようになります。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/57fbbb9583128deb52d760d90ea4cf72.js"></script>
                 <p>プログラム全体はGithubを御覧ください。</p>
                 <ul>
                 <li><a href="https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon_ambient">https://github.com/AmbientDataInc/M5Stack_PowerMonitor/tree/master/pmon_ambient</a></li>
