@@ -101,7 +101,7 @@
                 <li>Conta™ サーモグラフィー AMG8833搭載</li>
                 <li>M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</li>
                 </ul>
-                <p><img src="./images/thermalcameras.jpg" alt="サーマルカメラ"></p>
+                <p><img src="./images/thermalcameras.jpg" width="80%" class="img-responsive center-block" alt="サーマルカメラ"></p>
                 <p>写真は左からOMRON MEMS非接触温度センサD6T-44L-06、Conta™ サーモグラフィー AMG8833搭載、M5Stack用ミニサーマルカメラユニット (MLX90640搭載)です。</p>
                 <p>三つのセンサーの仕様は次のようになっています。</p>
 
@@ -182,7 +182,7 @@
                 </tbody>
                 </table><h3 id="接続">接続</h3>
                 <p>接続はM5StackのGroveポート(I<sup>2</sup>C)に接続するだけです。M5Stack BasicとGrayはI<sup>2</sup>CのGroveポートが一つだけなのでそこにつなぎます。M5Stack FireとM5GOにはI<sup>2</sup>C用とGPIO用、UART用の三つのGroveポートがあります。本体側についているのがI<sup>2</sup>C用なので、そこにつなぎます。ボトム側についているGroveポートはGPIO用とUART用なので、間違えないようにしましょう。</p>
-                <p><img src="./images/d6tconnection.jpg" alt="D6T接続"></p>
+                <p><img src="./images/d6tconnection.jpg" width="80%" class="img-responsive center-block" alt="D6T接続"></p>
                 <h3 id="プログラム">プログラム</h3>
                 <p>ArduinoでD6T-44L-06を使うためのライブラリーが用意されています。</p>
                 <ul>
@@ -198,7 +198,7 @@
                 </code></pre>
                 <p>あるいはWireExt.cppとWireExt.hを削除しても構いません。</p>
                 <p>「ファイル」メニューの「スケッチ例」→「Omron D6T-Grove-Arduino」の「sample」がサンプルプログラムなので、ビルドして実行します。プログラムのシリアルの速度設定が9600bpsになっているので、シリアルモニタの速度もそれに合わせると、次のような数字が出力されます。</p>
-                <p><img src="./images/d6t1.jpg" alt="D6Tサンプルプログラムの出力"></p>
+                <p><img src="./images/d6t1.jpg" width="80%" class="img-responsive center-block" alt="D6Tサンプルプログラムの出力"></p>
                 <p>これが4x4のエリアの温度を表しています。</p>
                 <p>ライブラリの使い方は、最初にインクルードファイルOmronD6T.hをインクルードし、OmronD6Tのオブジェクトを作ります。</p>
                 <pre><code>#include "OmronD6T.h"
@@ -208,10 +208,10 @@
                 <p>このオブジェクトのscanTempというメソッドを呼ぶと、温度が測定され、4x4の温度データーがsensor.temp[x][y]という配列にセットされます。</p>
                 <p>このデーターをM5StackのLCDに色で表示してみます。</p>
                 <p>M5StackのLCDは縦横が320x240ピクセルなので、D6T-44L-06の4x4の領域の温度をLCDの80x60の領域の色で表現します。D6T-44L-06は縦がx、横がyですが、M5StackのLCDでは縦がy、横がxで、D6T-44L-06と縦横が逆なので注意が必要です。</p>
-                <p><img src="./images/d6tpixels.jpg" alt="D6Tのピクセル構成"></p>
+                <p><img src="./images/d6tpixels.jpg" width="80%" class="img-responsive center-block" alt="D6Tのピクセル構成"></p>
                 <h3 id="温度を色で表す">温度を色で表す</h3>
                 <p>数値を色で表すには青から緑、赤と変化する色相を使います。これは赤、緑、青を次のように混ぜることで得られます。</p>
-                <p><img src="./images/hue.jpg" alt="青→緑→赤の色相"></p>
+                <p><img src="./images/hue.jpg" width="80%" class="img-responsive center-block" alt="青→緑→赤の色相"></p>
                 <p>各色の変化を再現するには直線で近似する方法、三角関数を使う方法などがありますが、「<a href="https://qiita.com/masato_ka/items/c178a53c51364703d70b">サーモグラフィ風の色変化をシグモイド関数で再現する</a>」を参考に、シグモイド関数を使って実現しました。</p>
                 <p>0.0から1.0の値を青から赤の色に変換するプログラムは次のようになります。</p>
 
@@ -219,11 +219,11 @@
                 <p>D6T-44L-06の4x4の領域の温度をM5StackのLCDに表示するプログラムは次のようになります。LCDの各領域の中心に温度の数字も表示しています。</p>
 
                 <p>動かしてみるとこんな画像が得られます。</p>
-                <p><img src="./images/d6toutput.jpg" alt="D6T出力"></p>
+                <p><img src="./images/d6toutput.jpg" width="80%" class="img-responsive center-block" alt="D6T出力"></p>
                 <h2 id="conta™-サーモグラフィー-amg8833搭載">Conta™ サーモグラフィー AMG8833搭載</h2>
                 <p>次は「Conta™ サーモグラフィー AMG8833搭載」を使います。このモジュールはPanasonicの非接触温度センサー「AMG8833」を搭載しています。AMG8833は8x8のメッシュで温度が測定でき、精度は±2.5℃です。I<sup>2</sup>Cで通信します。AMG8833のデフォルトのI<sup>2</sup>Cアドレスは0x68ですが、M5Stack Grayなどの9軸IMU(慣性計測装置)センサーMPU9250のI<sup>2</sup>Cアドレスとぶつかっています。M5Stack BasicにはMPU9250が搭載されていないので問題ないのですが、Gray、M5GO、Fireを使う時はサーモグラフィーモジュールの基板表面のソルダージャンパー「SJ1」のセンターパッドを「H」側と接続してアドレスを「0x69」に変更します。</p>
                 <p>このモジュールにはプルアップ抵抗は搭載されていないので、プログラムでプルアップします。</p>
-                <p><img src="./images/amg8833connection.jpg" alt="AMG8833接続"></p>
+                <p><img src="./images/amg8833connection.jpg" width="80%" class="img-responsive center-block" alt="AMG8833接続"></p>
                 <p>I<sup>2</sup>C接続なので、サーモグラフィーモジュールのSDAをM5Stackの21番ピンに、SCLを22番ピンに接続します。</p>
                 <h3 id="プログラム-1">プログラム</h3>
                 <p>スイッチサイエンスのサンプルプログラムを参考に、AMG8833の初期化をおこないます。</p>
@@ -235,12 +235,12 @@
                 <p>8x8の温度をM5StackのLCDに色で表示する部分はD6T-44L-06のものとほぼ同じです。</p>
 
                 <p>動かしてみるとこんな画像が得られます。</p>
-                <p><img src="./images/amg8833output.jpg" alt="AMG8833出力"></p>
+                <p><img src="./images/amg8833output.jpg" width="80%" class="img-responsive center-block" alt="AMG8833出力"></p>
                 <h2 id="m5stack用ミニサーマルカメラユニット-mlx90640搭載">M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</h2>
                 <p>最後にM5Stack用ミニサーマルカメラユニットを使ってみます。このサーマルカメラユニットはMLX90640という非接触温度センサを搭載しています。MLX90640は32x24ピクセルのメッシュで温度が測定でき、精度はベストケースで±1.5℃と書かれています。マイコンとはI<sup>2</sup>Cで通信します。</p>
                 <h3 id="接続-1">接続</h3>
                 <p>サーマルカメラユニットにはGroveコネクタがついていて、GroveケーブルでM5Stackと接続できます。ユニット内でI<sup>2</sup>CのSDAとSCLがプルアップされているので、外部のプルアップ抵抗は必要ありません。</p>
-                <p><img src="./images/mlx90640connection.jpg" alt="MLX90640接続"></p>
+                <p><img src="./images/mlx90640connection.jpg" width="80%" class="img-responsive center-block" alt="MLX90640接続"></p>
                 <h3 id="プログラム-2">プログラム</h3>
                 <p>サンプルプログラムがあるので、それを動かしてみましょう。Arduino IDEの「ファイル」メニュー→「スケッチ例」→「M5Stack」→「Unit」→「MLX90640」を開きます。</p>
                 <p>サンプルプログラムに含まれるMLX90640_I2C_Driver.cppにはバグがあり、そのままビルドすると「No ack read」というエラーが出続けます。Githubに公開されているサンプルプログラムは修正済みですが、ライブラリマネージャでインストールしたM5Stackライブラリのコード(バージョン0.2.5)はまだ修正されていないので、次のように修正します。</p>
@@ -269,7 +269,7 @@
                 //bool reverseScreen = false;
                 bool reverseScreen = true;
                 </code></pre>
-                <p><img src="./images/mlx90640output.jpg" alt="MLX90640出力"></p>
+                <p><img src="./images/mlx90640output.jpg" width="80%" class="img-responsive center-block" alt="MLX90640出力"></p>
                 <h2 id="まとめ">まとめ</h2>
                 <p>今回はM5Stackに3種類のサーマルカメラをつないで、温度分布をLCDに表示してみました。解像度は4x4、8x8、32x24と違いますが、2次元の温度分布が調べられるのは同じです。画像にして見ている分には高解像度のものが面白いですが、実際にデーターを使って何かの制御をする時には、高解像度のものがいいとは限りません。用途に応じた解像度のものを選ぶのがよさそうです。</p>
 
