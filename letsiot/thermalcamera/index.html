@@ -217,11 +217,16 @@
                 <p>各色の変化を再現するには直線で近似する方法、三角関数を使う方法などがありますが、「<a href="https://qiita.com/masato_ka/items/c178a53c51364703d70b">サーモグラフィ風の色変化をシグモイド関数で再現する</a>」を参考に、シグモイド関数を使って実現しました。</p>
                 <p>0.0から1.0の値を青から赤の色に変換するプログラムは次のようになります。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/8d028c7155f96e919d82f34cefcf6f39.js"></script>
+
                 <p>M5Stackは色を16ビットで扱うので、heat()関数では最後にRGBの値を16ビットに変換しています。</p>
                 <p>D6T-44L-06の4x4の領域の温度をM5StackのLCDに表示するプログラムは次のようになります。LCDの各領域の中心に温度の数字も表示しています。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/52424aa54ba99df9fdb71d73b3cfa627.js"></script>
+
                 <p>動かしてみるとこんな画像が得られます。</p>
                 <p><img src="./images/d6toutput.jpg" width="80%" class="img-responsive center-block" alt="D6T出力"></p>
+
                 <h2 id="conta™-サーモグラフィー-amg8833搭載">Conta™ サーモグラフィー AMG8833搭載</h2>
                 <p>次は「Conta™ サーモグラフィー AMG8833搭載」を使います。このモジュールはPanasonicの非接触温度センサー「AMG8833」を搭載しています。AMG8833は8x8のメッシュで温度が測定でき、精度は±2.5℃です。I<sup>2</sup>Cで通信します。AMG8833のデフォルトのI<sup>2</sup>Cアドレスは0x68ですが、M5Stack Grayなどの9軸IMU(慣性計測装置)センサーMPU9250のI<sup>2</sup>Cアドレスとぶつかっています。M5Stack BasicにはMPU9250が搭載されていないので問題ないのですが、Gray、M5GO、Fireを使う時はサーモグラフィーモジュールの基板表面のソルダージャンパー「SJ1」のセンターパッドを「H」側と接続してアドレスを「0x69」に変更します。</p>
                 <p>このモジュールにはプルアップ抵抗は搭載されていないので、プログラムでプルアップします。</p>
@@ -230,14 +235,21 @@
                 <h3 id="プログラム-1">プログラム</h3>
                 <p>スイッチサイエンスのサンプルプログラムを参考に、AMG8833の初期化をおこないます。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/91d77869759c46014c4e81679cc37467.js"></script>
+
                 <p>フレームレートを10FPSに、割り込みを無効に、移動平均出力を有効に設定しています。</p>
                 <p>I<sup>2</sup>C通信は次のようにしました。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/4ab46490cd769dcfdb55f691994d58e9.js"></script>
 
                 <p>AMG8833は8x8ピクセルで1ピクセル2バイトのデーターなので、全部で128バイトになります。ESP32のI<sup>2</sup>Cは128バイトまで読めるので、1回の通信ですませています。</p>
                 <p>8x8の温度をM5StackのLCDに色で表示する部分はD6T-44L-06のものとほぼ同じです。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/bf2e41d9226a9821c09fc596407b70f1.js"></script>
+
                 <p>動かしてみるとこんな画像が得られます。</p>
                 <p><img src="./images/amg8833output.jpg" width="80%" class="img-responsive center-block" alt="AMG8833出力"></p>
+
                 <h2 id="m5stack用ミニサーマルカメラユニット-mlx90640搭載">M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</h2>
                 <p>最後にM5Stack用ミニサーマルカメラユニットを使ってみます。このサーマルカメラユニットはMLX90640という非接触温度センサを搭載しています。MLX90640は32x24ピクセルのメッシュで温度が測定でき、精度はベストケースで±1.5℃と書かれています。マイコンとはI<sup>2</sup>Cで通信します。</p>
                 <h3 id="接続-1">接続</h3>
@@ -249,7 +261,7 @@
                 <p>IDEの「MLX90640_I2C_Driver.cpp」タブを選択し、46行目のWire.endTransmission()の戻り値を「7」と比較していたら、それを「0」に変更します。</p>
 <pre><code>
     if (Wire.endTransmission(false) != 7) //Do not release bus
-                                   ↓変更する
+                                      ↓変更する
     if (Wire.endTransmission(false) != 0) //Do not release bus
 </code></pre>
                 <p>このサンプルプログラムは32x24ピクセルの中心の温度をLCDに表示するのですが、ここもバグがあるようで、画面の右端のピクセルの温度を表示しています。「MLX90640.ino」の372行目を次のように修正します。</p>
