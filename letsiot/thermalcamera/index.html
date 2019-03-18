@@ -1,0 +1,368 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5Stack Thermalcamera - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackにサーマルカメラをつなぐ - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年3月25日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackにサーマルカメラをつなぐ</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>「AmbientでIoTをはじめよう」、第18回は、M5Stackとクランプ式電流センサを使って、機器が使用する電流値を測ります。</p>
+
+                <p>2次元の温度分布が調べられるセンサーがあります。非接触温度センサー、赤外線アレイセンサー、サーマルカメラなどと呼ばれますが、少し離れたところにあるものの温度が調べられるセンサーです。</p>
+                <p>今回はこのセンサーをM5Stackにつないで、画像表示してみます。</p>
+                <p><img src="./images/outputs.jpt" alt="サーマルカメラの出力"></p>
+                <h2 id="非接触温度センサー">非接触温度センサー</h2>
+                <p>今回は次の3種類のセンサーを使います。</p>
+                <ul>
+                <li>OMRON MEMS非接触温度センサD6T-44L-06</li>
+                <li>Conta™ サーモグラフィー AMG8833搭載</li>
+                <li>M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</li>
+                </ul>
+                <p><img src="./images/thermalcameras.jpg" alt="サーマルカメラ"></p>
+                <p>写真は左からOMRON MEMS非接触温度センサD6T-44L-06、Conta™ サーモグラフィー AMG8833搭載、M5Stack用ミニサーマルカメラユニット (MLX90640搭載)です。</p>
+                <p>三つのセンサーの仕様は次のようになっています。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="center"></th>
+                <th align="center">D6T-44L-06</th>
+                <th align="center">AMG8833</th>
+                <th align="center">MLX90640</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="center">温度測定範囲</td>
+                <td align="center">5〜50℃</td>
+                <td align="center">0〜80℃</td>
+                <td align="center">-40〜300℃</td>
+                </tr>
+                <tr>
+                <td align="center">精度</td>
+                <td align="center">±1.5℃</td>
+                <td align="center">±2.5℃</td>
+                <td align="center">±1.5℃</td>
+                </tr>
+                <tr>
+                <td align="center">ピクセル数(横ｘ縦)</td>
+                <td align="center">4 x 4</td>
+                <td align="center">8 x 8</td>
+                <td align="center">32 x 24</td>
+                </tr>
+                <tr>
+                <td align="center">視野角(横ｘ縦)</td>
+                <td align="center">45.7° x 44.2°</td>
+                <td align="center">60° x 60°</td>
+                <td align="center">110° x 75°</td>
+                </tr>
+                <tr>
+                <td align="center">電源電圧</td>
+                <td align="center">4.5〜5.5V</td>
+                <td align="center">3.3V</td>
+                <td align="center">3.3V</td>
+                </tr>
+                <tr>
+                <td align="center">インタフェース</td>
+                <td align="center">I<sup>2</sup>C</td>
+                <td align="center">I<sup>2</sup>C</td>
+                <td align="center">I<sup>2</sup>C</td>
+                </tr>
+                <tr>
+                <td align="center">I<sup>2</sup>Cアドレス</td>
+                <td align="center">0x0a</td>
+                <td align="center">0x68 or 0x69</td>
+                <td align="center">0x33</td>
+                </tr>
+                </tbody>
+                </table><p>物体は温度に応じて放射エネルギーを放出しています。これをサーモパイルと呼ばれる素子で測定することで、離れた物体の温度が測定できます。サーマルカメラはこのサーモパイル素子をアレイ状に並べることで二次元の温度分布を測ります。</p>
+                <h2 id="omron-mems非接触温度センサd6t-44l-06">OMRON MEMS非接触温度センサD6T-44L-06</h2>
+                <p>「OMRON MEMS非接触温度センサD6T-44L-06」はオムロンが開発した非接触温度センサーです。縦横4x4のメッシュで温度が測定でき、精度は±1.5℃です。マイコンとはI<sup>2</sup>Cインタフェースで通信します。</p>
+                <p>コネクタはJHSのGHシリーズ SM04B-GHS-TBですが、このコネクタをGroveコネクタに変換する基板「4×4非接触温度センサD6T 変換基板」がでているので、それも合わせて使います。変換基板の中でI<sup>2</sup>CのSDAとSCLがプルアップされているので、外部のプルアップ抵抗は必要ありません。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="left">部品</th>
+                <th align="left">個数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/1297/">OMRON MEMS非接触温度センサD6T-44L-06</a></td>
+                <td align="left">1個</td>
+                </tr>
+                <tr>
+                <td align="left"><a href="https://www.switch-science.com/catalog/5331/">4×4非接触温度センサD6T 変換基板</a></td>
+                <td align="left">1個</td>
+                </tr>
+                </tbody>
+                </table><h3 id="接続">接続</h3>
+                <p>接続はM5StackのGroveポート(I<sup>2</sup>C)に接続するだけです。M5Stack BasicとGrayはI<sup>2</sup>CのGroveポートが一つだけなのでそこにつなぎます。M5Stack FireとM5GOにはI<sup>2</sup>C用とGPIO用、UART用の三つのGroveポートがあります。本体側についているのがI<sup>2</sup>C用なので、そこにつなぎます。ボトム側についているGroveポートはGPIO用とUART用なので、間違えないようにしましょう。</p>
+                <p><img src="./images/d6tconnection.jpg" alt="D6T接続"></p>
+                <h3 id="プログラム">プログラム</h3>
+                <p>ArduinoでD6T-44L-06を使うためのライブラリーが用意されています。</p>
+                <ul>
+                <li><a href="https://github.com/omron-devhub/d6t-grove-arduino">https://github.com/omron-devhub/d6t-grove-arduino</a></li>
+                </ul>
+                <p>このページにいき、ページ右上の「Clone or download」の「Download ZIP」をクリックして、ライブラリーのZIPファイルをダウンロードします。</p>
+                <p>Arduino IDEを立ち上げ、「スケッチ」メニューの「ライブラリをインクルード」→「.ZIP形式のライブラリをインストール…」をクリックし、ダウンロードしたZIPファイルを選択してインストールします。</p>
+                <p>このライブラリーはArduino UNOなどで動くように作られています。D6T-44L-06はマイコンとI<sup>2</sup>Cで通信し、35バイトのデーターを返しますが、Arduino UNOのWireライブラリーは32バイトのデーターしか扱えません。そこで、D6T-44L-06ライブラリーではWireを拡張したWireExtというライブラリーを使っています。ところが、WireExtライブラリーがESP32に対応していないため、そのままビルドするとエラーになってしまいます。ESP32のWireライブラリーは128バイトまで扱えるので、WireExtは必要ありません。</p>
+                <p>対策として、インストールしたD6T-44L-06ライブラリーのWireExt.cppを修正します。インストールしたライブラリーはArduinoのスケッチフォルダーのlibrariesの下に置かれます。スケッチフォルダの場所はArduino IDEの「ファイル」メニューの「環境設定」で確認できますが、 Windowsの場合、標準では「C:\Users&lt;アカウント名&gt;\Documents\Arduino」です。libraries\d6t-grove-arduino-master\src\WireExt.cppを編集して、全体を次の2行で挟みます。</p>
+                <pre><code>#ifdef ARDUINO_ARCH_AVR
+                元のWireExt.cpp
+                #endif
+                </code></pre>
+                <p>あるいはWireExt.cppとWireExt.hを削除しても構いません。</p>
+                <p>「ファイル」メニューの「スケッチ例」→「Omron D6T-Grove-Arduino」の「sample」がサンプルプログラムなので、ビルドして実行します。プログラムのシリアルの速度設定が9600bpsになっているので、シリアルモニタの速度もそれに合わせると、次のような数字が出力されます。</p>
+                <p><img src="./images/d6t1.jpg" alt="D6Tサンプルプログラムの出力"></p>
+                <p>これが4x4のエリアの温度を表しています。</p>
+                <p>ライブラリの使い方は、最初にインクルードファイルOmronD6T.hをインクルードし、OmronD6Tのオブジェクトを作ります。</p>
+                <pre><code>#include "OmronD6T.h"
+
+                OmronD6T sensor;
+                </code></pre>
+                <p>このオブジェクトのscanTempというメソッドを呼ぶと、温度が測定され、4x4の温度データーがsensor.temp[x][y]という配列にセットされます。</p>
+                <p>このデーターをM5StackのLCDに色で表示してみます。</p>
+                <p>M5StackのLCDは縦横が320x240ピクセルなので、D6T-44L-06の4x4の領域の温度をLCDの80x60の領域の色で表現します。D6T-44L-06は縦がx、横がyですが、M5StackのLCDでは縦がy、横がxで、D6T-44L-06と縦横が逆なので注意が必要です。</p>
+                <p><img src="./images/d6tpixels.jpg" alt="D6Tのピクセル構成"></p>
+                <h3 id="温度を色で表す">温度を色で表す</h3>
+                <p>数値を色で表すには青から緑、赤と変化する色相を使います。これは赤、緑、青を次のように混ぜることで得られます。</p>
+                <p><img src="./images/hue.jpg" alt="青→緑→赤の色相"></p>
+                <p>各色の変化を再現するには直線で近似する方法、三角関数を使う方法などがありますが、「<a href="https://qiita.com/masato_ka/items/c178a53c51364703d70b">サーモグラフィ風の色変化をシグモイド関数で再現する</a>」を参考に、シグモイド関数を使って実現しました。</p>
+                <p>0.0から1.0の値を青から赤の色に変換するプログラムは次のようになります。</p>
+
+                <p>M5Stackは色を16ビットで扱うので、heat()関数では最後にRGBの値を16ビットに変換しています。</p>
+                <p>D6T-44L-06の4x4の領域の温度をM5StackのLCDに表示するプログラムは次のようになります。LCDの各領域の中心に温度の数字も表示しています。</p>
+
+                <p>動かしてみるとこんな画像が得られます。</p>
+                <p><img src="./images/d6toutput.jpg" alt="D6T出力"></p>
+                <h2 id="conta™-サーモグラフィー-amg8833搭載">Conta™ サーモグラフィー AMG8833搭載</h2>
+                <p>次は「Conta™ サーモグラフィー AMG8833搭載」を使います。このモジュールはPanasonicの非接触温度センサー「AMG8833」を搭載しています。AMG8833は8x8のメッシュで温度が測定でき、精度は±2.5℃です。I<sup>2</sup>Cで通信します。AMG8833のデフォルトのI<sup>2</sup>Cアドレスは0x68ですが、M5Stack Grayなどの9軸IMU(慣性計測装置)センサーMPU9250のI<sup>2</sup>Cアドレスとぶつかっています。M5Stack BasicにはMPU9250が搭載されていないので問題ないのですが、Gray、M5GO、Fireを使う時はサーモグラフィーモジュールの基板表面のソルダージャンパー「SJ1」のセンターパッドを「H」側と接続してアドレスを「0x69」に変更します。</p>
+                <p>このモジュールにはプルアップ抵抗は搭載されていないので、プログラムでプルアップします。</p>
+                <p><img src="./images/amg8833connection.jpg" alt="AMG8833接続"></p>
+                <p>I<sup>2</sup>C接続なので、サーモグラフィーモジュールのSDAをM5Stackの21番ピンに、SCLを22番ピンに接続します。</p>
+                <h3 id="プログラム-1">プログラム</h3>
+                <p>スイッチサイエンスのサンプルプログラムを参考に、AMG8833の初期化をおこないます。</p>
+
+                <p>フレームレートを10FPSに、割り込みを無効に、移動平均出力を有効に設定しています。</p>
+                <p>I<sup>2</sup>C通信は次のようにしました。</p>
+
+                <p>AMG8833は8x8ピクセルで1ピクセル2バイトのデーターなので、全部で128バイトになります。ESP32のI<sup>2</sup>Cは128バイトまで読めるので、1回の通信ですませています。</p>
+                <p>8x8の温度をM5StackのLCDに色で表示する部分はD6T-44L-06のものとほぼ同じです。</p>
+
+                <p>動かしてみるとこんな画像が得られます。</p>
+                <p><img src="./images/amg8833output.jpg" alt="AMG8833出力"></p>
+                <h2 id="m5stack用ミニサーマルカメラユニット-mlx90640搭載">M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</h2>
+                <p>最後にM5Stack用ミニサーマルカメラユニットを使ってみます。このサーマルカメラユニットはMLX90640という非接触温度センサを搭載しています。MLX90640は32x24ピクセルのメッシュで温度が測定でき、精度はベストケースで±1.5℃と書かれています。マイコンとはI<sup>2</sup>Cで通信します。</p>
+                <h3 id="接続-1">接続</h3>
+                <p>サーマルカメラユニットにはGroveコネクタがついていて、GroveケーブルでM5Stackと接続できます。ユニット内でI<sup>2</sup>CのSDAとSCLがプルアップされているので、外部のプルアップ抵抗は必要ありません。</p>
+                <p><img src="./images/mlx90640connection.jpg" alt="MLX90640接続"></p>
+                <h3 id="プログラム-2">プログラム</h3>
+                <p>サンプルプログラムがあるので、それを動かしてみましょう。Arduino IDEの「ファイル」メニュー→「スケッチ例」→「M5Stack」→「Unit」→「MLX90640」を開きます。</p>
+                <p>サンプルプログラムに含まれるMLX90640_I2C_Driver.cppにはバグがあり、そのままビルドすると「No ack read」というエラーが出続けます。Githubに公開されているサンプルプログラムは修正済みですが、ライブラリマネージャでインストールしたM5Stackライブラリのコード(バージョン0.2.5)はまだ修正されていないので、次のように修正します。</p>
+                <p>IDEの「MLX90640_I2C_Driver.cpp」タブを選択し、46行目のWire.endTransmission()の戻り値を「7」と比較していたら、それを「0」に変更します。</p>
+                <pre><code>    if (Wire.endTransmission(false) != 7) //Do not release bus
+                                                       ↓変更する
+                    if (Wire.endTransmission(false) != 0) //Do not release bus
+                </code></pre>
+                <p>このサンプルプログラムは32x24ピクセルの中心の温度をLCDに表示するのですが、ここもバグがあるようで、画面の右端のピクセルの温度を表示しています。「MLX90640.ino」の372行目を次のように修正します。</p>
+                <pre><code>  spot_v = pixels[768/2];
+                                      ↓変更する
+                  spot_v = pixels[768/2-16];
+                </code></pre>
+                <p>さらに416行目から418行目がコメントアウトされているのをコメントを外し、逆に419行目から421行目をコメントアウトします。</p>
+                <pre><code>    //M5.Lcd.drawCircle(160, 100, 6, TFT_WHITE);     // update center spot icon
+                    //M5.Lcd.drawLine(160, 90, 160, 110, TFT_WHITE); // vertical line
+                    //M5.Lcd.drawLine(150, 100, 170, 100, TFT_WHITE); // horizontal line
+                    M5.Lcd.drawCircle(160, 120, 6, TFT_WHITE);     // update center spot icon
+                    M5.Lcd.drawLine(160, 110, 160, 130, TFT_WHITE); // vertical line
+                    M5.Lcd.drawLine(150, 120, 170, 120, TFT_WHITE); // horizontal line
+                </code></pre>
+                <p>このプログラムはサーマルカメラをLCD画面と同じ向きにした時、つまり自撮りした時に正しい向きで温度分布を表示するようになっています。カメラをLCD画面と逆向きにした時に正しい向きで表示する場合は「MLX90640.ino」の50行目のreverseScreenがfalseになっているのをtrueに変更します。</p>
+                <pre><code>bool reverseScreen = false;
+                //bool reverseScreen = true;
+                ↓変更する
+                //bool reverseScreen = false;
+                bool reverseScreen = true;
+                </code></pre>
+                <p><img src="./images/mlx90640output.jpg" alt="MLX90640出力"></p>
+                <h2 id="まとめ">まとめ</h2>
+                <p>今回はM5Stackに3種類のサーマルカメラをつないで、温度分布をLCDに表示してみました。解像度は4x4、8x8、32x24と違いますが、2次元の温度分布が調べられるのは同じです。画像にして見ている分には高解像度のものが面白いですが、実際にデーターを使って何かの制御をする時には、高解像度のものがいいとは限りません。用途に応じた解像度のものを選ぶのがよさそうです。</p>
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">17.M5Stackとクランプ式電流センサで交流の電流値を測る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#クランプ式電流センサ">クランプ式電流センサ</a></li>
+                        <li><a href="#測定回路">測定回路</a></li>
+                        <li><a href="#交流の電流を測定する">交流の電流を測定する</a></li>
+                        <li><a href="#動作確認">動作確認</a></li>
+                        <li><a href="#交流の電流値を求める">交流の電流値を求める</a></li>
+                        <li><a href="#交流の電力値">交流の電力値</a></li>
+                        <li><a href="#電流値をlcdに表示する">電流値をLCDに表示する</a></li>
+                        <li><a href="#ambientに送信して可視化する">Ambientに送信して可視化する</a></li>
+                        <li><a href="#家庭の電流消費量を測る家庭の電流消費量を測る">家庭の電流消費量を測る</a></li>
+                        <li><a href="#M5Stack用プロトモジュールを使う">M5Stack用プロトモジュールを使う</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
