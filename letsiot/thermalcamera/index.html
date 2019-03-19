@@ -163,7 +163,7 @@
                 <p>「OMRON MEMS非接触温度センサD6T-44L-06」はオムロンが開発した非接触温度センサです。縦横4x4のメッシュで温度が測定でき、精度は±1.5℃です。マイコンとはI<sup>2</sup>Cインタフェースで通信します。</p>
                 <p>コネクタはJHSのGHシリーズ SM04B-GHS-TBですが、このコネクタをGroveコネクタに変換する基板「4×4非接触温度センサD6T 変換基板」がでているので、それも合わせて使います。変換基板の中でI<sup>2</sup>CのSDAとSCLがプルアップされているので、外部のプルアップ抵抗は必要ありません。</p>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="width: 70%;">
                 <thead>
                 <tr>
                 <th align="left">部品</th>
@@ -186,7 +186,7 @@
                 <h3 id="プログラム">プログラム</h3>
                 <p>ArduinoでD6T-44L-06を使うためのライブラリーが用意されています。</p>
                 <ul>
-                <li><a href="https://github.com/omron-devhub/d6t-grove-arduino">https://github.com/omron-devhub/d6t-grove-arduino</a></li>
+                <li><a href="https://github.com/omron-devhub/d6t-grove-arduino" target="_blank">https://github.com/omron-devhub/d6t-grove-arduino</a></li>
                 </ul>
                 <p>このページにいき、ページ右上の「Clone or download」の「Download ZIP」をクリックして、ライブラリーのZIPファイルをダウンロードします。</p>
                 <p>Arduino IDEを立ち上げ、「スケッチ」メニューの「ライブラリをインクルード」→「.ZIP形式のライブラリをインストール…」をクリックし、ダウンロードしたZIPファイルを選択してインストールします。</p>
@@ -214,7 +214,7 @@
                 <h3 id="温度を色で表す">温度を色で表す</h3>
                 <p>数値を色で表すには青から緑、赤と変化する色相を使います。これは赤、緑、青を次のように混ぜることで得られます。</p>
                 <p><img src="./images/hue.jpg" width="80%" class="img-responsive center-block" alt="青→緑→赤の色相"></p>
-                <p>各色の変化を再現するには直線で近似する方法、三角関数を使う方法などがありますが、「<a href="https://qiita.com/masato_ka/items/c178a53c51364703d70b">サーモグラフィ風の色変化をシグモイド関数で再現する</a>」を参考に、シグモイド関数を使って実現しました。</p>
+                <p>各色の変化を再現するには直線で近似する方法、三角関数を使う方法などがありますが、「<a href="https://qiita.com/masato_ka/items/c178a53c51364703d70b" target="_blank">サーモグラフィ風の色変化をシグモイド関数で再現する</a>」を参考に、シグモイド関数を使って実現しました。</p>
                 <p>0.0から1.0の値を青から赤の色に変換するプログラムは次のようになります。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/8d028c7155f96e919d82f34cefcf6f39.js"></script>
