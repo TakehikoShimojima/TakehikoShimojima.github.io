@@ -184,14 +184,14 @@
                 <p>接続はM5StackのGroveポート(I<sup>2</sup>C)に接続するだけです。M5Stack BasicとGrayはI<sup>2</sup>CのGroveポートが一つだけなのでそこにつなぎます。M5Stack FireとM5GOにはI<sup>2</sup>C用とGPIO用、UART用の三つのGroveポートがあります。本体側についているのがI<sup>2</sup>C用なので、そこにつなぎます。ボトム側についているGroveポートはGPIO用とUART用なので、間違えないようにしましょう。</p>
                 <p><img src="./images/d6tconnection.jpg" width="80%" class="img-responsive center-block" alt="D6T接続"></p>
                 <h3 id="プログラム">プログラム</h3>
-                <p>ArduinoでD6T-44L-06を使うためのライブラリーが用意されています。</p>
+                <p>ArduinoでD6T-44L-06を使うためのライブラリが用意されています。</p>
                 <ul>
                 <li><a href="https://github.com/omron-devhub/d6t-grove-arduino" target="_blank">https://github.com/omron-devhub/d6t-grove-arduino</a></li>
                 </ul>
-                <p>このページにいき、ページ右上の「Clone or download」の「Download ZIP」をクリックして、ライブラリーのZIPファイルをダウンロードします。</p>
+                <p>このページにいき、ページ右上の「Clone or download」の「Download ZIP」をクリックして、ライブラリのZIPファイルをダウンロードします。</p>
                 <p>Arduino IDEを立ち上げ、「スケッチ」メニューの「ライブラリをインクルード」→「.ZIP形式のライブラリをインストール…」をクリックし、ダウンロードしたZIPファイルを選択してインストールします。</p>
-                <p>このライブラリーはArduino UNOなどで動くように作られています。D6T-44L-06はマイコンとI<sup>2</sup>Cで通信し、35バイトのデータを返しますが、Arduino UNOのWireライブラリーは32バイトのデータしか扱えません。そこで、D6T-44L-06ライブラリーではWireを拡張したWireExtというライブラリーを使っています。ところが、WireExtライブラリーがESP32に対応していないため、そのままビルドするとエラーになってしまいます。ESP32のWireライブラリーは128バイトまで扱えるので、WireExtは必要ありません。</p>
-                <p>対策として、インストールしたD6T-44L-06ライブラリーのWireExt.cppを修正します。インストールしたライブラリーはArduinoのスケッチフォルダーのlibrariesの下に置かれます。スケッチフォルダの場所はArduino IDEの「ファイル」メニューの「環境設定」で確認できますが、 Windowsの場合、標準では「C:\Users&lt;アカウント名&gt;\Documents\Arduino」です。libraries\d6t-grove-arduino-master\src\WireExt.cppを編集して、全体を次の2行で挟みます。</p>
+                <p>このライブラリはArduino UNOなどで動くように作られています。D6T-44L-06はマイコンとI<sup>2</sup>Cで通信し、35バイトのデータを返しますが、Arduino UNOのWireライブラリは32バイトのデータしか扱えません。そこで、D6T-44L-06ライブラリではWireを拡張したWireExtというライブラリを使っています。ところが、WireExtライブラリがESP32に対応していないため、そのままビルドするとエラーになってしまいます。ESP32のWireライブラリは128バイトまで扱えるので、WireExtは必要ありません。</p>
+                <p>対策として、インストールしたD6T-44L-06ライブラリのWireExt.cppを修正します。インストールしたライブラリはArduinoのスケッチフォルダのlibrariesの下に置かれます。スケッチフォルダの場所はArduino IDEの「ファイル」メニューの「環境設定」で確認できますが、 Windowsの場合、標準では「C:\Users&lt;アカウント名&gt;\Documents\Arduino」です。libraries\d6t-grove-arduino-master\src\WireExt.cppを編集して、全体を次の2行で挟みます。</p>
 <pre><code>
     #ifdef ARDUINO_ARCH_AVR
     元のWireExt.cpp
