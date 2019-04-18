@@ -102,7 +102,7 @@
                 <p><img src="./images/webcamera_controller.jpg" width="80%" class="img-responsive center-block" alt="Webカメラとコントローラ"></p>
                 <p>今回使う部品をまとめました。</p>
 
-                <table>
+                <table class="table table-bordered">
                 <thead>
                 <tr>
                 <th align="left">部品</th>
@@ -131,7 +131,8 @@
                 <td align="right">1</td>
                 </tr>
                 </tbody>
-                </table><h2 id="m5camera">M5camera</h2>
+                </table>
+                <h2 id="m5camera">M5camera</h2>
                 <p>M5cameraは4MBフラッシュと4MB PSRAMが搭載されたESP32とイメージセンサOV2640が入ったカメラモジュールです。出荷時期によってピン配置の異なる2バージョンあるようですが、今回使ったのはBモデルです。</p>
                 <p><img src="./images/m5camera.jpg" width="80%" class="img-responsive center-block" alt="M5camera"></p>
                 <h3 id="動作確認">動作確認</h3>
@@ -141,27 +142,28 @@
                 <h2 id="arduino-ideでプログラミングする">Arduino IDEでプログラミングする</h2>
                 <p>Arduinoにもカメラを制御するサンプルプログラムがあり、M5cameraも制御できるので、Arduinoのサンプルプログラムをベースに開発を進めます。</p>
                 <p>Arduino IDEのボード選択で「ツール」メニュー→「ボード」で「ESP32 Wrover Module」を選択します。</p>
-                <p><img src="./images/boardselect.jpg" width="80%" class="img-responsive center-block" alt="ボード選択"></p>
+                <p><img src="./images/boardselect.jpg" width="90%" class="img-responsive center-block" alt="ボード選択"></p>
                 <p>設定は次のようにします。</p>
-                <p><img src="./images/boardsettings.jpg" width="80%" class="img-responsive center-block" alt="設定"></p>
+                <p><img src="./images/boardsettings.jpg" width="90%" class="img-responsive center-block" alt="設定"></p>
                 <p>「Upload Speed」は921600bpsで書き込むことができます。「Partition Scheme」は「Huge APP (3MB No OTA)」に設定します。</p>
                 <h3 id="サンプルプログラムを動かす">サンプルプログラムを動かす</h3>
                 <p>サンプルプログラムがArduino IDEの「ファイル」メニュー→「スケッチ例」→「ESP32」→「Camera」→「CameraWebServer」にあるので、それを選択します。適当なファイル名、例えばM5cameraという名前をつけて保存します。</p>
                 <p>カメラモデルの設定とssid、password、SIODとVSYNCのピン番号を変更します。SIODとVSYNCのピン番号はAモデルからBモデルになったときに変更されています。サンプルプログラムはAモデルに対応しているので、それをBモデルに合わせて変更します。今後、サンプルプログラムがBモデル対応になれば、SIODとVSYNCのピン番号の変更は不要になります。</p>
-                <pre><code>10〜11行目
-                //#define CAMERA_MODEL_WROVER_KIT    // コメントを付ける
-                #define CAMERA_MODEL_M5STACK_PSRAM    // コメントを外す
+                <pre><code>
+    10〜11行目
+    //#define CAMERA_MODEL_WROVER_KIT    // コメントを付ける
+    #define CAMERA_MODEL_M5STACK_PSRAM    // コメントを外す
 
-                14〜15行目
-                const char* ssid = "*********";    // 自分のWi-Fiルータのssid
-                const char* password = "*********";    // 自分のWi-Fiルータのパスワード
+    14〜15行目
+    const char* ssid = "*********";    // 自分のWi-Fiルータのssid
+    const char* password = "*********";    // 自分のWi-Fiルータのパスワード
 
-                41行目
-                #define SIOD_GPIO_NUM     22  // 25→22に変更
+    41行目
+    #define SIOD_GPIO_NUM     22  // 25→22に変更
 
-                52行目
-                #define VSYNC_GPIO_NUM    25  // 22→25に変更
-                </code></pre>
+    52行目
+    #define VSYNC_GPIO_NUM    25  // 22→25に変更
+</code></pre>
                 <p>ビルドしてM5cameraにダウンロードして、動かしてみます。シリアルモニタには次のような出力が表示されます。</p>
                 <p><img src="./images/sampleoutput.jpg" width="80%" class="img-responsive center-block" alt="サンプルプログラムのシリアル出力"></p>
                 <p>このサンプルプログラムはステーションモードでWi-Fiルータに接続し、Webサーバを立ち上げています。</p>
@@ -171,7 +173,7 @@
                 <p>パン・チルト機構は水平方向の回転と縦方向の首振りをおこなう機構とそれを駆動する2個のサーボモーターSG90のキットです。</p>
                 <p>サーボモーターSG90の主な仕様を示します。</p>
 
-                <table>
+                <table class="table table-bordered">
                 <thead>
                 <tr>
                 <th align="left"></th>
@@ -204,37 +206,40 @@
                 <td align="left">４．８Ｖ（～５Ｖ）</td>
                 </tr>
                 </tbody>
-                </table><p>サーボモーターSG90はパルス幅でモーター角度を制御します。基本周期が20m秒、つまり50Hzで、パルス幅を0.5m秒にするとモーター角度が-90°に、1.45m秒にすると0°に、2.4m秒にすると+90°になります。こうしたパルス幅での制御をPWM(Pulse Width Modulation: パルス幅変調)といいます。</p>
+                </table>
+                <p>サーボモーターSG90はパルス幅でモーター角度を制御します。基本周期が20m秒、つまり50Hzで、パルス幅を0.5m秒にするとモーター角度が-90°に、1.45m秒にすると0°に、2.4m秒にすると+90°になります。こうしたパルス幅での制御をPWM(Pulse Width Modulation: パルス幅変調)といいます。</p>
                 <p><img src="./images/sg90pwm.jpg" width="80%" class="img-responsive center-block" alt="SG90のパルス幅制御"></p>
                 <p>ESP32 ArduinoでPWMをおこなうにはLEDコントロールライブラリ(ledc)を使います。LEDの明るさを制御するためにパルス幅変調(PWM)が使われるため、ライブラリ名がpwmではなくledcになっているものと思われます。</p>
                 <p>ledcライブラリは次のように使います。</p>
-                <pre><code>double ledcSetup(uint8_t channel, double freq, uint8_t resolution_bits);
-                説明：PWMチャネルを初期設定する
-                パラメータ：
-                	channel: チャネル。0〜１５。
-                	freq: 周波数
-                	resolution_bits: 分解能(ビット数)
+                <pre><code>
+        double ledcSetup(uint8_t channel, double freq, uint8_t resolution_bits);
+        説明：PWMチャネルを初期設定する
+        パラメータ：
+        	channel: チャネル。0〜１５。
+        	freq: 周波数
+        	resolution_bits: 分解能(ビット数)
 
-                void ledcAttachPin(uint8_t pin, uint8_t channel);
-                説明：PWMチャネルにピンを割り当てる
-                パラメータ：
-                	pin: 割り当てるピン番号
-                	channel: チャネル
+        void ledcAttachPin(uint8_t pin, uint8_t channel);
+        説明：PWMチャネルにピンを割り当てる
+        パラメータ：
+        	pin: 割り当てるピン番号
+        	channel: チャネル
 
-                void ledcWrite(uint8_t channel, uint32_t duty);
-                説明：PWMチャネルにHIGHになる値を設定する
-                パラメータ：
-                	channel: チャネル
-                	duty: 出力がHIGHになる期間
-                </code></pre>
+        void ledcWrite(uint8_t channel, uint32_t duty);
+        説明：PWMチャネルにHIGHになる値を設定する
+        パラメータ：
+        	channel: チャネル
+        	duty: 出力がHIGHになる期間
+</code></pre>
                 <p>チャネルにカウンタがあり、カウンタの最大値が2のresolution_bits乗、つまりresolution_bitsが10なら1023に設定されます。ledcWriteでdutyを設定すると、duty値の分だけ出力がHIGHになります。</p>
                 <p>SG90は基本周期が20m秒で、0.5m秒HIGHにするとモーター角度が-90°に、2.4m秒で+90°になります。ledcWriteのdutyを26にするとモーター角度を-90°に制御できます。</p>
-                <pre><code>0.5m秒 / 20m秒 * 1023 ≒ 26   →  -90°
-                2.4m秒 / 20m秒 * 1023 ≒ 123  →  +90°
-                </code></pre>
+                <pre><code>
+        0.5m秒 / 20m秒 * 1023 ≒ 26   →  -90°
+        2.4m秒 / 20m秒 * 1023 ≒ 123  →  +90°
+</code></pre>
                 <p>では、M5StackでSG90を制御してみましょう。まずSG90とM5Stackを次のように接続します。</p>
 
-                <table>
+                <table class="table table-bordered">
                 <thead>
                 <tr>
                 <th align="center">SG90</th>
@@ -255,7 +260,8 @@
                 <td align="center">G</td>
                 </tr>
                 </tbody>
-                </table><p><img src="./images/sg90test.jpg" width="80%" class="img-responsive center-block" alt="SG90のテスト"></p>
+                </table>
+                <p><img src="./images/sg90test.jpg" width="80%" class="img-responsive center-block" alt="SG90のテスト"></p>
                 <p>次のプログラムをビルドして動かしてみます。</p>
 
                 <p>Arduinoのmap関数で-90から90までの値を26から123に比例計算してduty値を求め、ledcWrite関数で設定しています。</p>
@@ -272,7 +278,7 @@
                 <p><img src="./images/m5camerasetting.jpg" width="80%" class="img-responsive center-block" alt="M5cameraの取り付け"></p>
                 <p>M5camraのGroveソケットにGND、5V、GPIO4、GPIO13が出ているので、それを使ってパン・チルト機構のSG90と次のようにつなぎます。</p>
 
-                <table>
+                <table class="table table-bordered">
                 <thead>
                 <tr>
                 <th align="center">M5cameraのGroveソケット</th>
@@ -297,44 +303,51 @@
                 <td align="center">チルト(縦方向)のSG90のPWM(橙)</td>
                 </tr>
                 </tbody>
-                </table><p>「GROVE - サーボ用2分岐ケーブル」を使う場合、白い線がある方をパン(水平方向)に、黄色い線がある方をチルト(縦方向)に接続します。</p>
+                </table>
+                <p>「GROVE - サーボ用2分岐ケーブル」を使う場合、白い線がある方をパン(水平方向)に、黄色い線がある方をチルト(縦方向)に接続します。</p>
                 <h3 id="サンプルプログラムにパン・チルト制御を組み込む">サンプルプログラムにパン・チルト制御を組み込む</h3>
                 <p>サンプルプログラムの「CameraWebServer」に、パン・チルト制御を組み込みます。</p>
                 <p>「CameraWebServer」はapp_httpd.cppというファイルがWebサーバーとカメラ制御をおこなっています。このファイルでパン・チルト制御をおこなうために、ファイル中でSG90ライブラリのヘッダファイルをインクルードし、パンとチルトを制御するSG90のインスタンスを作ります。</p>
-                <pre><code>#include "SG90.h"
+                <pre><code>
+        #include "SG90.h"
 
-                SG90 pan;
-                SG90 tilt;
-                </code></pre>
+        SG90 pan;
+        SG90 tilt;
+</code></pre>
                 <p>app_httpd.cppでは、startCameraServer関数がこのモジュールの初期化処理で、Webサーバーを起動しています。この関数の最後にパンとチルトを初期化する2行を追加します。カメラの制御にLEDCのチャネル0を使っているので、SG90の制御にチャネル0を使うとカメラが動かなくなってしまいます。それを避けるために、SG90の制御にはチャネル14と15を使いました。</p>
-                <pre><code>    pan.begin(4, 14);  // (ピン番号, PWMチャネル)
-                    tilt.begin(13, 15);  // (ピン番号, PWMチャネル)
-                </code></pre>
+                <pre><code>
+        pan.begin(4, 14);  // (ピン番号, PWMチャネル)
+        tilt.begin(13, 15);  // (ピン番号, PWMチャネル)
+</code></pre>
                 <p>Webカメラをブラウザで制御するとき、Web画面左側の制御部分を操作すると、/controlというURLに対してHTTPリクエストが送られます。例えばWebカメラの画面の上下を反転させるV-Flipというスライダを変更すると、次のようなHTTPリクエストが送られます。</p>
-                <pre><code>http://{M5cameraのIPアドレス}/control?var=vflip&amp;val=1
-                </code></pre>
+                <pre><code>
+        http://{M5cameraのIPアドレス}/control?var=vflip&amp;val=1
+</code></pre>
                 <p>そこで、パン・チルト制御をおこなうpantiltというコマンドを追加し、左に振るなら"p+"、右なら”p-"、下に振るなら"t+"、上なら"t-"という文字列を値(val)として渡すことにします。例えばカメラを左上に振るなら次のようなHTTPリクエストを送ります。</p>
-                <pre><code>http://{M5cameraのIPアドレス}/control?var=pantilt&amp;val=p+t-
-                </code></pre>
+                <pre><code>
+        http://{M5cameraのIPアドレス}/control?var=pantilt&amp;val=p+t-
+</code></pre>
                 <p>/controlに対して送られたHTTPリクエストは、cmd_handlerという関数で処理されます。varにセットした文字列がコマンドとなり、コマンドに応じた処理がおこなわれます。pantiltコマンドを扱うためにcmd_handlerに次の処理を追加しました。</p>
-                <pre><code>    else if (!strcmp(variable, "pantilt")) {     // value="p[+,-,0]t[+,-,0]"
-                        if (value[1] == '+') pan.plus();         // 2文字目が'+'ならpan.plus
-                        else if (value[1] == '-') pan.minus();   // '-'ならpan.minusを呼ぶ
-                        if (value[3] == '+') tilt.plus();        // 4文字目が'+'ならtilt.plus
-                        else if (value[3] == '-') tilt.minus();  // '-'ならtilt.minusを呼ぶ
-                    }
-                </code></pre>
+                <pre><code>
+        else if (!strcmp(variable, "pantilt")) {     // value="p[+,-,0]t[+,-,0]"
+            if (value[1] == '+') pan.plus();         // 2文字目が'+'ならpan.plus
+            else if (value[1] == '-') pan.minus();   // '-'ならpan.minusを呼ぶ
+            if (value[3] == '+') tilt.plus();        // 4文字目が'+'ならtilt.plus
+            else if (value[3] == '-') tilt.minus();  // '-'ならtilt.minusを呼ぶ
+        }
+</code></pre>
                 <p>プログラム全体はGithubに公開しました。</p>
                 <ul>
                 <li><a href="https://github.com/AmbientDataInc/M5camera_pantilt/tree/master/M5Camera_pantilt">https://github.com/AmbientDataInc/M5camera_pantilt/tree/master/M5Camera_pantilt</a></li>
                 </ul>
                 <h3 id="動作確認-1">動作確認</h3>
                 <p>プログラムをビルドして、動かします。curlコマンドで次のようなHTTPリクエストを送ってみます。</p>
-                <pre><code>$ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p+t0'
-                $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p-t0'
-                $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p0t+'
-                $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p0t-'
-                </code></pre>
+                <pre><code>
+        $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p+t0'
+        $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p-t0'
+        $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p0t+'
+        $ curl http://{M5cameraのIPアドレス}/control?'var=pantilt&amp;val=p0t-'
+</code></pre>
                 <p>パン・チルト機構が左右、上下に動くのが確認できます。</p>
                 <p>これでWebカメラ側は完成です。</p>
                 <h2 id="コントローラ">コントローラ</h2>
@@ -367,13 +380,15 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">18.M5Stackにサーマルカメラをつなぐ</a></li>
+                    <li class="open"><a href="index.html">19.M5cameraとパンチルト機構でWebカメラを作る</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#非接触温度センサ">非接触温度センサ</a></li>
-                        <li><a href="#omron-mems非接触温度センサd6t-44l-06">omron-mems非接触温度センサd6t-44l-06</a></li>
-                        <li><a href="#conta™-サーモグラフィー-amg8833搭載">Conta™ サーモグラフィー AMG8833搭載</a></li>
-                        <li><a href="#m5stack用ミニサーマルカメラユニット-mlx90640搭載">M5Stack用ミニサーマルカメラユニット (MLX90640搭載)</a></li>
-                        <li><a href="#まとめ">まとめ</a></li>
+                        <li><a href="#全体の構成">全体の構成</a></li>
+                        <li><a href="#m5camera">M5camera</a></li>
+                        <li><a href="#arduino-ideでプログラミングする">Arduino IDEでプログラミングする</a></li>
+                        <li><a href="#パン・チルト機構を制御する">パン・チルト機構を制御する</a></li>
+                        <li><a href="#m5cameraからパン・チルト機構を制御する">m5cameraからパン・チルト機構を制御する</a></li>
+                        <li><a href="#コントローラ">コントローラ</a></li>
+                        <li><a href="#m5stackコントローラでm5cameraのwebカメラを制御する">M5StackコントローラでM5cameraのWebカメラを制御する</a></li>
                     </ul>
                 </ul>
             </div>
