@@ -94,12 +94,12 @@
                 <p>M5cameraはESP32とイメージセンサOV2640が小さいケースに入ったカメラユニットです。
                     これを上下左右に首の振れるパン・チルト機構に載せて、別のM5Stackのジョイスティックから首振り制御するWebカメラを作ります。</p>
                 <h2 id="全体の構成">全体の構成</h2>
-                <p><img src="./images/structure.jpg" alt="全体構成"></p>
+                <p><img src="./images/structure.jpg" width="90%" class="img-responsive center-block" alt="全体構成"></p>
                 <p>全体の構造はM5cameraを使ったWebカメラと、それを制御するコントローラ、Webカメラの画像を見るブラウザの三つから構成されます。</p>
                 <p>Webカメラ側は、M5cameraをパン・チルト機構に載せます。M5cameraでWebサーバーを動かし、カメラの映像をブラウザに送ると同時に、コントローラからのリクエストを受けてパン・チルト機構を制御し、自分自身の向きを変えます。</p>
                 <p>コントローラ側はM5Stackにジョイスティックをつなぎ、ジョイスティックの動きに応じてM5cameraのWebサーバーにパン・チルトを制御するリクエストを送ります。</p>
                 <p>Webカメラの映像はPCやスマホのブラウザで見ます。</p>
-                <p><img src="./images/webcamera_controller.jpg" alt="Webカメラとコントローラ"></p>
+                <p><img src="./images/webcamera_controller.jpg" width="80%" class="img-responsive center-block" alt="Webカメラとコントローラ"></p>
                 <p>今回使う部品をまとめました。</p>
 
                 <table>
@@ -133,7 +133,7 @@
                 </tbody>
                 </table><h2 id="m5camera">M5camera</h2>
                 <p>M5cameraは4MBフラッシュと4MB PSRAMが搭載されたESP32とイメージセンサOV2640が入ったカメラモジュールです。出荷時期によってピン配置の異なる2バージョンあるようですが、今回使ったのはBモデルです。</p>
-                <p><img src="./images/m5camera.jpg" alt="M5camera"></p>
+                <p><img src="./images/m5camera.jpg" width="80%" class="img-responsive center-block" alt="M5camera"></p>
                 <h3 id="動作確認">動作確認</h3>
                 <p>M5cameraの出荷時はESP-IDFで作られたサンプルのファームウェアが書き込まれていて、USBケーブルをつなぐとサンプルが動作します。<br>
                 M5cameraが「M5CAM」というssidのWi-Fiアクセスポイントになり、PCやスマホでそのssidに接続して、ブラウザで「<a href="http://192.168.4.1">http://192.168.4.1</a>」にアクセスすると画像が流れてきます。</p>
@@ -141,9 +141,9 @@
                 <h2 id="arduino-ideでプログラミングする">Arduino IDEでプログラミングする</h2>
                 <p>Arduinoにもカメラを制御するサンプルプログラムがあり、M5cameraも制御できるので、Arduinoのサンプルプログラムをベースに開発を進めます。</p>
                 <p>Arduino IDEのボード選択で「ツール」メニュー→「ボード」で「ESP32 Wrover Module」を選択します。</p>
-                <p><img src="./images/boardselect.jpg" alt="ボード選択"></p>
+                <p><img src="./images/boardselect.jpg" width="80%" class="img-responsive center-block" alt="ボード選択"></p>
                 <p>設定は次のようにします。</p>
-                <p><img src="./images/boardsettings.jpg" alt="設定"></p>
+                <p><img src="./images/boardsettings.jpg" width="80%" class="img-responsive center-block" alt="設定"></p>
                 <p>「Upload Speed」は921600bpsで書き込むことができます。「Partition Scheme」は「Huge APP (3MB No OTA)」に設定します。</p>
                 <h3 id="サンプルプログラムを動かす">サンプルプログラムを動かす</h3>
                 <p>サンプルプログラムがArduino IDEの「ファイル」メニュー→「スケッチ例」→「ESP32」→「Camera」→「CameraWebServer」にあるので、それを選択します。適当なファイル名、例えばM5cameraという名前をつけて保存します。</p>
@@ -163,10 +163,10 @@
                 #define VSYNC_GPIO_NUM    25  // 22→25に変更
                 </code></pre>
                 <p>ビルドしてM5cameraにダウンロードして、動かしてみます。シリアルモニタには次のような出力が表示されます。</p>
-                <p><img src="./images/sampleoutput.jpg" alt="サンプルプログラムのシリアル出力"></p>
+                <p><img src="./images/sampleoutput.jpg" width="80%" class="img-responsive center-block" alt="サンプルプログラムのシリアル出力"></p>
                 <p>このサンプルプログラムはステーションモードでWi-Fiルータに接続し、Webサーバを立ち上げています。</p>
                 <p>ブラウザで「<a href="http://192.168.11.12">http://192.168.11.12</a>」にアクセスすると、次のようなコントロール画面が表れ、一番下の「Get Still」をクリックすると静止が、「Start Stream」をクリックするとストリーム画像が右側に表示されます。</p>
-                <p><img src="./images/sampleimage.jpg" alt="サンプルプログラムの画像出力"></p>
+                <p><img src="./images/sampleimage.jpg" width="80%" class="img-responsive center-block" alt="サンプルプログラムの画像出力"></p>
                 <h2 id="パン・チルト機構を制御する">パン・チルト機構を制御する</h2>
                 <p>パン・チルト機構は水平方向の回転と縦方向の首振りをおこなう機構とそれを駆動する2個のサーボモーターSG90のキットです。</p>
                 <p>サーボモーターSG90の主な仕様を示します。</p>
@@ -205,7 +205,7 @@
                 </tr>
                 </tbody>
                 </table><p>サーボモーターSG90はパルス幅でモーター角度を制御します。基本周期が20m秒、つまり50Hzで、パルス幅を0.5m秒にするとモーター角度が-90°に、1.45m秒にすると0°に、2.4m秒にすると+90°になります。こうしたパルス幅での制御をPWM(Pulse Width Modulation: パルス幅変調)といいます。</p>
-                <p><img src="./images/sg90pwm.jpg" alt="SG90のパルス幅制御"></p>
+                <p><img src="./images/sg90pwm.jpg" width="80%" class="img-responsive center-block" alt="SG90のパルス幅制御"></p>
                 <p>ESP32 ArduinoでPWMをおこなうにはLEDコントロールライブラリ(ledc)を使います。LEDの明るさを制御するためにパルス幅変調(PWM)が使われるため、ライブラリ名がpwmではなくledcになっているものと思われます。</p>
                 <p>ledcライブラリは次のように使います。</p>
                 <pre><code>double ledcSetup(uint8_t channel, double freq, uint8_t resolution_bits);
@@ -255,7 +255,7 @@
                 <td align="center">G</td>
                 </tr>
                 </tbody>
-                </table><p><img src="./images/sg90test.jpg" alt="SG90のテスト"></p>
+                </table><p><img src="./images/sg90test.jpg" width="80%" class="img-responsive center-block" alt="SG90のテスト"></p>
                 <p>次のプログラムをビルドして動かしてみます。</p>
 
                 <p>Arduinoのmap関数で-90から90までの値を26から123に比例計算してduty値を求め、ledcWrite関数で設定しています。</p>
@@ -269,7 +269,7 @@
                 <h2 id="m5cameraからパン・チルト機構を制御する">M5cameraからパン・チルト機構を制御する</h2>
                 <h3 id="m5cameraとパン・チルト機構をつなぐ">M5cameraとパン・チルト機構をつなぐ</h3>
                 <p>パン・チルト機構を組み立てたら、M5cameraをパン・チルト機構に取り付けます。LEGOの足をつける部分が邪魔なので、上下逆さまに取り付けました。</p>
-                <p><img src="./images/m5camerasetting.jpg" alt="M5cameraの取り付け"></p>
+                <p><img src="./images/m5camerasetting.jpg" width="80%" class="img-responsive center-block" alt="M5cameraの取り付け"></p>
                 <p>M5camraのGroveソケットにGND、5V、GPIO4、GPIO13が出ているので、それを使ってパン・チルト機構のSG90と次のようにつなぎます。</p>
 
                 <table>
