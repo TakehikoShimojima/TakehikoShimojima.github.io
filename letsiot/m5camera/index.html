@@ -137,7 +137,7 @@
                 <p><img src="./images/m5camera.jpg" width="80%" class="img-responsive center-block" alt="M5camera"></p>
                 <h3 id="動作確認">動作確認</h3>
                 <p>M5cameraの出荷時はESP-IDFで作られたサンプルのファームウェアが書き込まれていて、USBケーブルをつなぐとサンプルが動作します。<br>
-                M5cameraが「M5CAM」というssidのWi-Fiアクセスポイントになり、PCやスマホでそのssidに接続して、ブラウザで「<a href="http://192.168.4.1">http://192.168.4.1</a>」にアクセスすると画像が流れてきます。</p>
+                M5cameraが「M5CAM」というssidのWi-Fiアクセスポイントになり、PCやスマホでそのssidに接続して、ブラウザで「http://192.168.4.1」にアクセスすると画像が流れてきます。</p>
                 <p>あっけないほど簡単に動作確認できました。</p>
                 <h2 id="arduino-ideでプログラミングする">Arduino IDEでプログラミングする</h2>
                 <p>Arduinoにもカメラを制御するサンプルプログラムがあり、M5cameraも制御できるので、Arduinoのサンプルプログラムをベースに開発を進めます。</p>
@@ -166,7 +166,7 @@
                 <p>ビルドしてM5cameraにダウンロードして、動かしてみます。シリアルモニタには次のような出力が表示されます。</p>
                 <p><img src="./images/sampleoutput.jpg" width="80%" class="img-responsive center-block" alt="サンプルプログラムのシリアル出力"></p>
                 <p>このサンプルプログラムはステーションモードでWi-Fiルータに接続し、Webサーバを立ち上げています。</p>
-                <p>ブラウザで「<a href="http://192.168.11.12">http://192.168.11.12</a>」にアクセスすると、次のようなコントロール画面が表れ、一番下の「Get Still」をクリックすると静止が、「Start Stream」をクリックするとストリーム画像が右側に表示されます。</p>
+                <p>ブラウザで「http://192.168.11.12」にアクセスすると、次のようなコントロール画面が表れ、一番下の「Get Still」をクリックすると静止が、「Start Stream」をクリックするとストリーム画像が右側に表示されます。</p>
                 <p><img src="./images/sampleimage.jpg" width="80%" class="img-responsive center-block" alt="サンプルプログラムの画像出力"></p>
                 <h2 id="パン・チルト機構を制御する">パン・チルト機構を制御する</h2>
                 <p>パン・チルト機構は水平方向の回転と縦方向の首振りをおこなう機構とそれを駆動する2個のサーボモーターSG90のキットです。</p>
@@ -262,14 +262,14 @@
 
                 <p>writeメソッドはモーターを指定した角度に回します。SG90はM5cameraのGroveソケットの5Vで駆動します。一つのSG90を連続して動かしても問題ありませんが、二つのSG90を連続して動かすと大きな電流が流れてM5cameraの電圧が下がり、M5cameraがリセットされてしまいます。そこで、前回と別のSG90を動かす時は50m秒間隔をあけています。</p>
                 <p>plusとminusメソッドは現在の角度から5°増やす、減らすメソッドです。</p>
-                <p>SG90の動作が確認できたら、<a href="https://learn.sparkfun.com/tutorials/setting-up-the-pi-zero-wireless-pan-tilt-camera?_ga=2.139910900.651684395.1507773867-1937571979.1501724101#hardware-assembly">組み立てガイド</a>を見ながらパン・チルト機構を組み立てます。台に載せないとパン・チルト機構が転がってしまうので、適当な台に載せます。</p>
+                <p>SG90の動作が確認できたら、<a href="https://learn.sparkfun.com/tutorials/setting-up-the-pi-zero-wireless-pan-tilt-camera?_ga=2.139910900.651684395.1507773867-1937571979.1501724101#hardware-assembly" target="_blank">組み立てガイド</a>を見ながらパン・チルト機構を組み立てます。台に載せないとパン・チルト機構が転がってしまうので、適当な台に載せます。</p>
                 <h2 id="m5cameraからパン・チルト機構を制御する">M5cameraからパン・チルト機構を制御する</h2>
                 <h3 id="m5cameraとパン・チルト機構をつなぐ">M5cameraとパン・チルト機構をつなぐ</h3>
                 <p>パン・チルト機構を組み立てたら、M5cameraをパン・チルト機構に取り付けます。LEGOの足をつける部分が邪魔なので、上下逆さまに取り付けました。</p>
                 <p><img src="./images/m5camerasetting.jpg" width="80%" class="img-responsive center-block" alt="M5cameraの取り付け"></p>
                 <p>M5camraのGroveソケットにGND、5V、GPIO4、GPIO13が出ているので、それを使ってパン・チルト機構のSG90と次のようにつなぎます。</p>
 
-                <table class="table table-bordered" style="width: 50%;">
+                <table class="table table-bordered" style="width: 60%;">
                 <thead>
                 <tr>
                 <th align="center">M5cameraのGroveソケット</th>
