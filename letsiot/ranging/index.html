@@ -107,7 +107,7 @@
                 <p>HC-SR04はトリガ端子とエコー端子があります。トリガ端子を10μ秒以上HIGHにすると超音波パルスを発信し、発信してから反射波を受信するまでエコー端子がHIGHになるので、トリガ端子、エコー端子はGPIOにつなげば大丈夫です。M5StackのGPIO2とGPIO5につなぎました。</p>
 
                 <div align="center">
-                    <table class="table table-bordered" style="width: 70%;">
+                    <table class="table table-bordered" style="width: 50%;">
                     <thead>
                     <tr>
                     <th align="center">M5Stack</th>
@@ -129,7 +129,7 @@
 
                 <p>VL53L0XとLIDAR-Lite v3HPはI2C接続なので、それぞれのSDAをM5StackのGPIO21に、SCLをGPIO22につなぎます。VL53L0Xの電源電圧は3.3〜6Vなので3.3Vに、LIDAR-Lite v3HPは4.5〜5.5Vなので5Vにつなぎました。また、LIDAR-Lite v3HPのデータシートにあるように、5VdcとGNDに間に680μFのコンデンサを入れています。</p>
 
-                <div>
+                <div align="center">
                     <table class="table table-bordered" style="width: 70%;">
                     <thead>
                     <tr>
@@ -241,15 +241,14 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">19.M5cameraとパンチルト機構でWebカメラを作る</a></li>
+                    <li class="open"><a href="index.html">20.M5Stackで距離を測る</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#全体の構成">全体の構成</a></li>
-                        <li><a href="#m5camera">M5camera</a></li>
-                        <li><a href="#arduino-ideでプログラミングする">Arduino IDEでプログラミングする</a></li>
-                        <li><a href="#パン・チルト機構を制御する">パン・チルト機構を制御する</a></li>
-                        <li><a href="#m5cameraからパン・チルト機構を制御する">m5cameraからパン・チルト機構を制御する</a></li>
-                        <li><a href="#コントローラ">コントローラ</a></li>
-                        <li><a href="#m5stackコントローラでm5cameraのwebカメラを制御する">M5StackコントローラでM5cameraのWebカメラを制御する</a></li>
+                        <li><a href="#測距センサ">測距センサ</a></li>
+                        <li><a href="#m5stackに測距センサをつなぐ">M5Stackに測距センサをつなぐ</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#生データを見る">生データを見る</a></li>
+                        <li><a href="#cmから100cmまで測ってみる">10cmから100cmまで測ってみる</a></li>
+                        <li><a href="#速度を測る">速度を測る</a></li>
                     </ul>
                 </ul>
             </div>
