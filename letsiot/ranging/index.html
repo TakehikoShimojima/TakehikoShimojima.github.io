@@ -106,74 +106,87 @@
                 <p>三つのセンサをいっぺんにM5Stackにつなぎ、同時に距離を測って比べてみます。</p>
                 <p>HC-SR04はトリガ端子とエコー端子があります。トリガ端子を10μ秒以上HIGHにすると超音波パルスを発信し、発信してから反射波を受信するまでエコー端子がHIGHになるので、トリガ端子、エコー端子はGPIOにつなげば大丈夫です。M5StackのGPIO2とGPIO5につなぎました。</p>
 
-                <table>
-                <thead>
-                <tr>
-                <th align="center">M5Stack</th>
-                <th align="center">HC-SR04</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td align="center">GPIO2</td>
-                <td align="center">Trig端子</td>
-                </tr>
-                <tr>
-                <td align="center">GPIO5</td>
-                <td align="center">Echo端子</td>
-                </tr>
-                </tbody>
-                </table><p>VL53L0XとLIDAR-Lite v3HPはI2C接続なので、それぞれのSDAをM5StackのGPIO21に、SCLをGPIO22につなぎます。VL53L0Xの電源電圧は3.3〜6Vなので3.3Vに、LIDAR-Lite v3HPは4.5〜5.5Vなので5Vにつなぎました。また、LIDAR-Lite v3HPのデータシートにあるように、5VdcとGNDに間に680μFのコンデンサを入れています。</p>
+                <div align="center">
+                    <table class="table table-bordered" style="width: 70%;">
+                    <thead>
+                    <tr>
+                    <th align="center">M5Stack</th>
+                    <th align="center">HC-SR04</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td align="center">GPIO2</td>
+                    <td align="center">Trig端子</td>
+                    </tr>
+                    <tr>
+                    <td align="center">GPIO5</td>
+                    <td align="center">Echo端子</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
 
-                <table>
-                <thead>
-                <tr>
-                <th align="center">M5Stack</th>
-                <th align="center">VL53L0X</th>
-                <th align="center">LIDAR-Lite v3HP</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td align="center">GPIO21</td>
-                <td align="center">SDA</td>
-                <td align="center">SDA</td>
-                </tr>
-                <tr>
-                <td align="center">GPIO22</td>
-                <td align="center">SCL</td>
-                <td align="center">SCL</td>
-                </tr>
-                <tr>
-                <td align="center">3V3</td>
-                <td align="center">VDD</td>
-                <td align="center"></td>
-                </tr>
-                <tr>
-                <td align="center">5V</td>
-                <td align="center"></td>
-                <td align="center">5Vdc</td>
-                </tr>
-                <tr>
-                <td align="center">GND</td>
-                <td align="center">GND</td>
-                <td align="center">GND</td>
-                </tr>
-                </tbody>
-                </table><h2 id="プログラム">プログラム</h2>
+                <p>VL53L0XとLIDAR-Lite v3HPはI2C接続なので、それぞれのSDAをM5StackのGPIO21に、SCLをGPIO22につなぎます。VL53L0Xの電源電圧は3.3〜6Vなので3.3Vに、LIDAR-Lite v3HPは4.5〜5.5Vなので5Vにつなぎました。また、LIDAR-Lite v3HPのデータシートにあるように、5VdcとGNDに間に680μFのコンデンサを入れています。</p>
+
+                <div>
+                    <table class="table table-bordered" style="width: 70%;">
+                    <thead>
+                    <tr>
+                    <th align="center">M5Stack</th>
+                    <th align="center">VL53L0X</th>
+                    <th align="center">LIDAR-Lite v3HP</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td align="center">GPIO21</td>
+                    <td align="center">SDA</td>
+                    <td align="center">SDA</td>
+                    </tr>
+                    <tr>
+                    <td align="center">GPIO22</td>
+                    <td align="center">SCL</td>
+                    <td align="center">SCL</td>
+                    </tr>
+                    <tr>
+                    <td align="center">3V3</td>
+                    <td align="center">VDD</td>
+                    <td align="center"></td>
+                    </tr>
+                    <tr>
+                    <td align="center">5V</td>
+                    <td align="center"></td>
+                    <td align="center">5Vdc</td>
+                    </tr>
+                    <tr>
+                    <td align="center">GND</td>
+                    <td align="center">GND</td>
+                    <td align="center">GND</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
+
+                <h2 id="プログラム">プログラム</h2>
                 <h3 id="hc-sr04">HC-SR04</h3>
                 <p>HC-SR04はトリガ端子を10μ秒以上HIGHにすると超音波パルスを発信し、発信してから反射波を受信するまでエコー端子がHIGHになります。HIGHの時間が物体までの往復時間なので、それを測り、その半分(片道)を音速で割ると距離が求められます。</p>
                 <p>エコー端子がHIGHになる時間はArduinoのpulseIn関数で測れます。</p>
-                <pre><code>pulseIn(pin, value[, timeout]);
-                </code></pre>
+<pre><code>pulseIn(pin, value[, timeout]);
+</code></pre>
                 <p>pulseInは、ピン番号pinがHIGHまたはLOWである時間を測り、結果をマイクロ秒で返します。timeoutを指定した場合、timeout μ秒経過すると0が返ります。</p>
                 <p>HC-SR04で距離を測るプログラムは次のようにライブラリにしました。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/bb11d491ce9fa89cf781103d81c2b3b0.js"></script>
+
+                <script src="https://gist.github.com/TakehikoShimojima/76886419c040e619c1b7ba1d4b1332bd.js"></script>
 
                 <h3 id="vl53l0x">VL53L0X</h3>
                 <p>VL53L0Xで距離を測るライブラリはPololu社が公開しているので、それを使います。Arduino IDEを立ち上げ、スケッチメニューの「ライブラリをインクルード」＞「ライブラリを管理」でライブラリマネージャを立ち上げ、「VL53L0X」で検索し、「VL53L0X by Pololu」の最新版をインストールします。</p>
                 <p><img src="./images/vl53l0xlib.jpg" width="90%" class="img-responsive center-block" alt="VL53L0Xライブラリのインストール"></p>
                 <p>ライブラリインタフェースは<a href="https://github.com/pololu/vl53l0x-arduino">Githubのページ</a>にありますが、基本的な使い方は次のようになります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/2ba2fb30f51b00a0ea51aac0320d23a7.js"></script>
 
                 <ul>
                 <li>ヘッダファイルをインクルードし、インスタンスを作ります。</li>
@@ -184,6 +197,8 @@
                 <p>LIDAR-Lite v3HPのライブラリはガーミンが公開しています。Arduino IDEを立ち上げ、スケッチメニューの「ライブラリをインクルード」＞「ライブラリを管理」でライブラリマネージャを立ち上げ、「lidar-lite」で検索し、「LIDAR-Lite by Garmin」の最新版をインストールします。</p>
                 <p><img src="./images/lidar-litelib.jpg" width="90%" class="img-responsive center-block" alt="LIDAR-Liteライブラリのインストール"></p>
                 <p>基本的な使い方は次のようになります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/f3bba1acd3be48b6c5442da6c367b180.js"></script>
 
                 <ul>
                 <li>ヘッダファイルをインクルードし、インスタンスを作ります。</li>
@@ -206,7 +221,7 @@
                 <h2 id="速度を測る">速度を測る</h2>
                 <p>LIDAR-Lite v3HPは40mまでの距離が測れるので、それを利用して物の速度を測定してみます。</p>
                 <p><img src="./images/speed.jpg" width="90%" class="img-responsive center-block" alt="速度を測る"></p>
-                <p><img src="M5Stack_speed.jpg" width="90%" class="img-responsive center-block" alt="M5Stackで速度を測る"></p>
+                <p><img src="./images/M5Stack_speed.jpg" width="90%" class="img-responsive center-block" alt="M5Stackで速度を測る"></p>
                 <p>例えば時速40kmで走っている車は1秒間に約11m進みます。そこで、対象物までの距離を0.5秒間隔で2回測り、移動距離から速度を計算してLCDに表示してみました。</p>
 
                 <p>測定用のビームが10m先で8cmにしか広がらないので、対象物を捉えるのが難しいですが、うまく捉えられれば速度が測定できます。なお、この製品はclass1のレーザーを使用しています。通常使用時には危険性はありませんが、人に向けては照射しないでください。</p>
