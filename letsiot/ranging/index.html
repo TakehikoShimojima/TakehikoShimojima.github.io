@@ -209,10 +209,14 @@
                 <p>三つのセンサをM5Stackにつなぎ、40cm程度の距離に物を置き、距離を測って、シリアルに表示してみました。</p>
                 <p><img src="./images/ranging40cm.jpg" width="90%" class="img-responsive center-block" alt="三つのセンサで測距する"></p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/d960edc4f9a90b72f834f076d2e46a7f.js"></script>
+
                 <p>出力結果をシリアルプロッタに表示したのが次の図です。</p>
                 <p><img src="./images/3sensorRaw.jpg" width="90%" class="img-responsive center-block" alt="三つのセンサの測距結果"></p>
                 <p>青い線がHC-SR04、赤がVL53L0X、緑がLIDAR-Lite v3HPです。センサを置いた位置やセンサから対象物までの距離が微妙に違うので、絶対値には差がありますが、HC-SR04は値が比較的安定しているのに対し、特にLIDAR-Lite v3HPは測るたびに5〜6cmの幅で値がぶれました。測定に使った個体の問題なのか、センサの特性なのか不明ですが、LIDAR-Lite v3HPは数センチのブレがあるようです。</p>
                 <p>そこでVL53L0Xは10回、LIDAR-Lite v3HPは20回測定して平均を取るようにしました。測定結果をM5StackのLCDに表示したのが次のプログラムです。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/9808392997a7410ccb8c18a02c4ad116.js"></script>
 
                 <h2 id="cmから100cmまで測ってみる">10cmから100cmまで測ってみる</h2>
                 <p>三つのセンサで対象物までの距離を10cmから100cmまで変えて測ってみました。結果が次のグラフです。</p>
@@ -223,6 +227,8 @@
                 <p><img src="./images/speed.jpg" width="90%" class="img-responsive center-block" alt="速度を測る"></p>
                 <p><img src="./images/M5Stack_speed.jpg" width="90%" class="img-responsive center-block" alt="M5Stackで速度を測る"></p>
                 <p>例えば時速40kmで走っている車は1秒間に約11m進みます。そこで、対象物までの距離を0.5秒間隔で2回測り、移動距離から速度を計算してLCDに表示してみました。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/09cfdca6057428003fb0b9a7eb5cc11b.js"></script>
 
                 <p>測定用のビームが10m先で8cmにしか広がらないので、対象物を捉えるのが難しいですが、うまく捉えられれば速度が測定できます。なお、この製品はclass1のレーザーを使用しています。通常使用時には危険性はありませんが、人に向けては照射しないでください。</p>
 
