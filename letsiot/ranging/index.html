@@ -1,0 +1,301 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5Stack Ranging - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackで距離を測る - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年5月24日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackで距離を測る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>「AmbientでIoTをはじめよう」、第20回はM5Stackで距離を測ります。</p>
+                <h2 id="測距センサ">測距センサ</h2>
+                <p><img src="./images/rangingsensors.jpg" width="90%" class="img-responsive center-block" alt="測距センサー"></p>
+                <p>測距センサにはいくつかの方式があります。今回使うセンサは、超音波や赤外線レーザーなどを物体に向けて発信し、反射した音波なりレーザーなりを受信して、往復にかかった時間を測定し、それを音や光の速度で割って距離を計算するものです。</p>
+                <p><img src="./images/ranging.jpg" width="90%" class="img-responsive center-block" alt="測距センサー原理"></p>
+                <p>今回は三つのセンサで距離を測り、比較してみます。写真の左からガーミン製のLIDAR-Lite v3HP、スイッチサイエンス製のVL53L0X、SparkFun製のHC-SR04です。今回使った距離センサの仕様を表1にまとめました。</p>
+                <p><img src="./images/rangingspec.jpg" width="90%" class="img-responsive center-block" alt="測距センサーのスペック"></p>
+                <p>HC-SR04は超音波を使った測距センサで、2cmから4mまでの距離が測れ、分解能は0.3cmとのことです。音速は約340m/sなので、1マイクロ秒で0.34mm進みます。1mmの往復で約6μ秒、1mの往復で約6m秒かかる計算になります。HC-SR04は物体までの超音波の往復時間をプログラムで測り、距離を計算します。</p>
+                <p>VL53L0Xはレーザーを使ったセンサで、2mまでの距離が測れ、分解能は1mmのようです。最短の測定可能距離はデータシートからは分かりませんでした。精度は測定対象の反射率で異なり、白い物だと120cm離れたところで4%、5cm程度、灰色の物だと70cm離れたところで7%、5cm程度とのことです。</p>
+                <p>LIDAR-Lite v3HPはレーザーを使ったセンサで、測定可能距離はなんと5cmから40mまで測れます。精度は2m未満が5cm、2m以上が2.5cm。照射する赤外線のビーム拡散が8ミリラジアン、角度にすると0.46度ということで、10m先で8cmに広がる程度です。</p>
+                <p>光の速度は約30万km/sなので、1μ秒で300mも進みます。数センチの精度で距離を測るためにはピコ秒オーダーの時間測定が必要になります。レーザーを使った測距センサはセンサ内部で時間を測定し、距離を計算して、結果をI2Cインタフェースでマイコンに通信します。</p>
+                <h2 id="m5stackに測距センサをつなぐ">M5Stackに測距センサをつなぐ</h2>
+                <p>三つのセンサをいっぺんにM5Stackにつなぎ、同時に距離を測って比べてみます。</p>
+                <p>HC-SR04はトリガ端子とエコー端子があります。トリガ端子を10μ秒以上HIGHにすると超音波パルスを発信し、発信してから反射波を受信するまでエコー端子がHIGHになるので、トリガ端子、エコー端子はGPIOにつなげば大丈夫です。M5StackのGPIO2とGPIO5につなぎました。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="center">M5Stack</th>
+                <th align="center">HC-SR04</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="center">GPIO2</td>
+                <td align="center">Trig端子</td>
+                </tr>
+                <tr>
+                <td align="center">GPIO5</td>
+                <td align="center">Echo端子</td>
+                </tr>
+                </tbody>
+                </table><p>VL53L0XとLIDAR-Lite v3HPはI2C接続なので、それぞれのSDAをM5StackのGPIO21に、SCLをGPIO22につなぎます。VL53L0Xの電源電圧は3.3〜6Vなので3.3Vに、LIDAR-Lite v3HPは4.5〜5.5Vなので5Vにつなぎました。また、LIDAR-Lite v3HPのデータシートにあるように、5VdcとGNDに間に680μFのコンデンサを入れています。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="center">M5Stack</th>
+                <th align="center">VL53L0X</th>
+                <th align="center">LIDAR-Lite v3HP</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="center">GPIO21</td>
+                <td align="center">SDA</td>
+                <td align="center">SDA</td>
+                </tr>
+                <tr>
+                <td align="center">GPIO22</td>
+                <td align="center">SCL</td>
+                <td align="center">SCL</td>
+                </tr>
+                <tr>
+                <td align="center">3V3</td>
+                <td align="center">VDD</td>
+                <td align="center"></td>
+                </tr>
+                <tr>
+                <td align="center">5V</td>
+                <td align="center"></td>
+                <td align="center">5Vdc</td>
+                </tr>
+                <tr>
+                <td align="center">GND</td>
+                <td align="center">GND</td>
+                <td align="center">GND</td>
+                </tr>
+                </tbody>
+                </table><h2 id="プログラム">プログラム</h2>
+                <h3 id="hc-sr04">HC-SR04</h3>
+                <p>HC-SR04はトリガ端子を10μ秒以上HIGHにすると超音波パルスを発信し、発信してから反射波を受信するまでエコー端子がHIGHになります。HIGHの時間が物体までの往復時間なので、それを測り、その半分(片道)を音速で割ると距離が求められます。</p>
+                <p>エコー端子がHIGHになる時間はArduinoのpulseIn関数で測れます。</p>
+                <pre><code>pulseIn(pin, value[, timeout]);
+                </code></pre>
+                <p>pulseInは、ピン番号pinがHIGHまたはLOWである時間を測り、結果をマイクロ秒で返します。timeoutを指定した場合、timeout μ秒経過すると0が返ります。</p>
+                <p>HC-SR04で距離を測るプログラムは次のようにライブラリにしました。</p>
+
+
+                <h3 id="vl53l0x">VL53L0X</h3>
+                <p>VL53L0Xで距離を測るライブラリはPololu社が公開しているので、それを使います。Arduino IDEを立ち上げ、スケッチメニューの「ライブラリをインクルード」＞「ライブラリを管理」でライブラリマネージャを立ち上げ、「VL53L0X」で検索し、「VL53L0X by Pololu」の最新版をインストールします。</p>
+                <p><img src="./images/vl53l0xlib.jpg" width="90%" class="img-responsive center-block" alt="VL53L0Xライブラリのインストール"></p>
+                <p>ライブラリインタフェースは<a href="https://github.com/pololu/vl53l0x-arduino">Githubのページ</a>にありますが、基本的な使い方は次のようになります。</p>
+
+                <ul>
+                <li>ヘッダファイルをインクルードし、インスタンスを作ります。</li>
+                <li>setup関数で、初期化し、タイムアウト値を設定し、startContinuousで連続測定を開始します</li>
+                <li>loop関数で、readRangeContinuousMillimetersで測定結果をmmで取得します</li>
+                </ul>
+                <h3 id="lidar-lite-v3hp">LIDAR-Lite v3HP</h3>
+                <p>LIDAR-Lite v3HPのライブラリはガーミンが公開しています。Arduino IDEを立ち上げ、スケッチメニューの「ライブラリをインクルード」＞「ライブラリを管理」でライブラリマネージャを立ち上げ、「lidar-lite」で検索し、「LIDAR-Lite by Garmin」の最新版をインストールします。</p>
+                <p><img src="./images/lidar-litelib.jpg" width="90%" class="img-responsive center-block" alt="LIDAR-Liteライブラリのインストール"></p>
+                <p>基本的な使い方は次のようになります。</p>
+
+                <ul>
+                <li>ヘッダファイルをインクルードし、インスタンスを作ります。</li>
+                <li>setup関数で、初期設定します</li>
+                <li>loop関数で、センサーがビジーの間待ち、距離を測定し、データを取得します</li>
+                </ul>
+                <h2 id="生データを見る">生データを見る</h2>
+                <p>三つのセンサをM5Stackにつなぎ、40cm程度の距離に物を置き、距離を測って、シリアルに表示してみました。</p>
+                <p><img src="./images/ranging40cm.jpg" width="90%" class="img-responsive center-block" alt="三つのセンサで測距する"></p>
+
+                <p>出力結果をシリアルプロッタに表示したのが次の図です。</p>
+                <p><img src="./images/3sensorRaw.jpg" width="90%" class="img-responsive center-block" alt="三つのセンサの測距結果"></p>
+                <p>青い線がHC-SR04、赤がVL53L0X、緑がLIDAR-Lite v3HPです。センサを置いた位置やセンサから対象物までの距離が微妙に違うので、絶対値には差がありますが、HC-SR04は値が比較的安定しているのに対し、特にLIDAR-Lite v3HPは測るたびに5〜6cmの幅で値がぶれました。測定に使った個体の問題なのか、センサの特性なのか不明ですが、LIDAR-Lite v3HPは数センチのブレがあるようです。</p>
+                <p>そこでVL53L0Xは10回、LIDAR-Lite v3HPは20回測定して平均を取るようにしました。測定結果をM5StackのLCDに表示したのが次のプログラムです。</p>
+
+                <h2 id="cmから100cmまで測ってみる">10cmから100cmまで測ってみる</h2>
+                <p>三つのセンサで対象物までの距離を10cmから100cmまで変えて測ってみました。結果が次のグラフです。</p>
+                <p><img src="./images/ranging10_100cm.jpg" width="90%" class="img-responsive center-block" alt="10cmから100cmまで測距"></p>
+                <p>青がHC-SR04、赤がVL53L0X、緑がLIDAR-Lite v3HPです。10cmから100cmの範囲ではHC-SR04とVL53L0Xは比較的正しい値が得られているのに対し、LIDAR-Lite v3HPは特に10〜20cmといった近距離では低めの値になるようです。</p>
+                <h2 id="速度を測る">速度を測る</h2>
+                <p>LIDAR-Lite v3HPは40mまでの距離が測れるので、それを利用して物の速度を測定してみます。</p>
+                <p><img src="./images/speed.jpg" width="90%" class="img-responsive center-block" alt="速度を測る"></p>
+                <p><img src="M5Stack_speed.jpg" width="90%" class="img-responsive center-block" alt="M5Stackで速度を測る"></p>
+                <p>例えば時速40kmで走っている車は1秒間に約11m進みます。そこで、対象物までの距離を0.5秒間隔で2回測り、移動距離から速度を計算してLCDに表示してみました。</p>
+
+                <p>測定用のビームが10m先で8cmにしか広がらないので、対象物を捉えるのが難しいですが、うまく捉えられれば速度が測定できます。なお、この製品はclass1のレーザーを使用しています。通常使用時には危険性はありませんが、人に向けては照射しないでください。</p>
+
+
+                <p style="margin-top: 40px;">この記事は<a href="https://ambidata.io/" target="_blank">アンビエントデーター</a>の下島が担当しました。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">19.M5cameraとパンチルト機構でWebカメラを作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#全体の構成">全体の構成</a></li>
+                        <li><a href="#m5camera">M5camera</a></li>
+                        <li><a href="#arduino-ideでプログラミングする">Arduino IDEでプログラミングする</a></li>
+                        <li><a href="#パン・チルト機構を制御する">パン・チルト機構を制御する</a></li>
+                        <li><a href="#m5cameraからパン・チルト機構を制御する">m5cameraからパン・チルト機構を制御する</a></li>
+                        <li><a href="#コントローラ">コントローラ</a></li>
+                        <li><a href="#m5stackコントローラでm5cameraのwebカメラを制御する">M5StackコントローラでM5cameraのWebカメラを制御する</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
