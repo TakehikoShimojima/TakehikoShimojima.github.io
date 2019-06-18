@@ -1,0 +1,293 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5StickC - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5StickCで小型環境センサ端末を作る - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年6月20日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5StickCで小型環境センサ端末を作る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>「AmbientでIoTをはじめよう」、第20回はM5Stackで距離を測ります。</p>
+                <p>M5Stack社から、「M5StickC」という新しい端末がリリースされ、日本でも販売が始まりました。
+                    「AmbientでIoTをはじめよう」の第20回はこの「M5StickC」を使って小型の環境センサ端末を作ります。</p>
+                <p><img src="./images/m5stackm5stickc.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <h2 id="「m5stickc」">「M5StickC」</h2>
+                <p>M5StickCは、上の写真の右のように4.8 x 2.4 x 1.4cmのスティック状の小型端末です。MPUはM5Stackで使われているESP32と同じアーキテクチャのESP32-picoが使われています。MPUの他に、80 x 160ピクセルのカラー液晶画面、ボタン3個、LED、赤外線送信機、マイク、6軸加速度・ジャイロセンサなどが搭載されています。プログラムはArduino IDEか、UIFlowという開発環境を使ってBlocklyまたはMicroPythonで開発します。</p>
+                <p>M5StickCのスペックを、 M5Stackシリーズと合わせてまとめました。</p>
+                <p><img src="./images/m5stackspec.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>M5StickCとM5Stackを比較すると、サイズの違いの他に、LCDも80×160ピクセルとサイズが小さくなり、M5StackにあるmicroSDカードスロットがありません。スピーカーも便利なのですが、M5StickCにはありません（今後、拡張ハットとして提供されるようです）。逆にM5StickCには赤外線LEDと6軸の加速度・ジャイロセンサがついています。</p>
+                <p>パソコンとの接続はM5Stackと同じくType-C USBケーブルを使います。その他、I2CのGeoveポートと、8ピンの拡張ソケットがついています。</p>
+                <p>LCDの下に大きめのボタンがあり、M5StickCを手に持って、何かを制御するコントローラとしても使えそうです。</p>
+                <h2 id="開封">開封</h2>
+                <p>M5StickCは、下の写真のようなパッケージに入って届けられます。</p>
+                <p><img src="./images/packed.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>パッケージの中には次の写真にあるものが同梱されています。</p>
+                <p><img src="./images/items.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>同梱物</p>
+                <ul>
+                <li>腕時計マウンタ</li>
+                <li>LEGO互換マウンタ</li>
+                <li>ネジ固定用マウンタ</li>
+                <li>USB Type-Cケーブル</li>
+                </ul>
+                <p>腕時計マウンタ、LEGO互換マウンタはホビー向けですが、ネジ固定用マウンタはホビーに限らず、幅広い用途を想定しているように思います。</p>
+                <h2 id="arduino環境のセットアップ">Arduino環境のセットアップ</h2>
+                <p>Arduino IDEのインストールは「<a href="https://docs.m5stack.com/#/ja/quick_start/m5stickc/m5stickc_quick_start_with_arduino_Windows">M5StickC クイックスタート</a>」に書かれていますが、M5Stackのセットアップと違う点だけを解説します。</p>
+                <h3 id="ボード情報">ボード情報</h3>
+                <p>Arduino IDEをインストールした後、ボード情報を設定します。M5StickCのボード情報は「M5Stick-C」を選択します。</p>
+                <p><img src="./images/setting.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>「M5Stick-C」はESP32のボード情報のバージョンが1.0.2以上でないと選択肢に現れません。ボード情報に「M5Stick-C」が現れないときは、ESP32のバージョンを1.0.2以上に更新してください。Arduino IDEの「ツール」メニュー→「ボード」→「ボードマネージャ…」を選択して、ボードマネージャを立ち上げ、検索窓に「esp32」と入力して、「esp32 by Espressif Systems」を選び、1.0.2以上のバージョンをインストールします。</p>
+                <p>「M5Stick-C」はビルドしたスケッチを転送する速度が最高1.5Mbpsに高速化されています。ボード情報を「M5Stick-C」に設定すると、転送速度（Upload Speed）は1.5Mbpsに設定されます。</p>
+                <h3 id="ライブラリインストール">ライブラリインストール</h3>
+                <p>M5StickCでは、LCDなどにアクセスするシステム関数もライブラリとして提供されているので、インストールします。Arduino IDEの「スケッチ」メニュー→「ライブラリをインクルード」→「ライブラリを管理…」でライブラリマネージャを立ち上げ、検索窓に「m5stickc」と入力します。検索結果に現れた「M5StickC by M5StickC」の最新版をインストールします。</p>
+                <p>これで、Arduino環境のセットアップは完了です。</p>
+                <h2 id="温度、湿度、気圧を測る">温度、湿度、気圧を測る</h2>
+                <p>M5StickC用のArduino環境がセットアップできたら、センサをつないでみます。M5StickCにはGroveポートと、Groveポートの反対側に拡張ソケットがあり、そこにセンサをつなげられます。</p>
+                <p>M5Stackのセンサユニットで、温度、湿度、気圧が測れる「Env（環境）」ユニットというものがあります。国内では単品では販売されていませんが、「M5GO IoTスターターキット」に含まれています。今回はこの「Env」ユニットをM5StickCにつないで温度、湿度、気圧を測ってみます。</p>
+                <p>「Env」ユニットは、I2CのGroveポートで接続するので、M5StickCのGroveポートに挿すだけで接続完了です。</p>
+                <p><img src="./images/m5stickcenvsensor.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>「Env」ユニットにはDHT12という温度、湿度センサと、BMP280という気圧センサが内蔵されています。</p>
+                <p>ArduinoでDHT12にアクセスするライブラリは公開されたものがあり、BMP280ライブラリはAdafruit社が公開しています。Arduino IDEのライブラリマネージャを立ち上げ、検索窓から「bmp280 adafruit」と検索して、BMP280ライブラリをインストールします。</p>
+                <p><img src="./images/installbmp280.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>「Env」ユニットで温度、湿度、気圧を測るプログラムは次のようになります。</p>
+
+                <p>M5Stackのプログラムは M5Stack.h をインクルードしますが、M5StickCのプログラムは M5StickC.h をインクルードします（A）。</p>
+                <p>M5.Axp.ScreenBreath(10) はスクリーンの輝度を制御するAPIで、7から15の値が指定できます。10に設定して、再高輝度よりやや輝度を落としています（B）。M5Stackでは M5.Lcd.setBrightness というAPIでしたが、M5StickCではM5.Axp.ScreenBreathに変更になりました。</p>
+                <p>M5.Lcd.setRotation(3) は画面を90°単位で回転させるAPIです（C）。引数に3を指定すると、M5StickCの左側が上になり、画面を横長に使えます。M5StickCは画面が小さいので、表示したい情報に合わせて、画面を有効に使うとよさそうです。</p>
+                <p>I2Cを制御するWireライブラリなどはM5Stackと同じように使えます。</p>
+                <p>M5.Axp.GetVbatData() はM5StickCのバッテリー電圧を取得するAPIです（D）。</p>
+                <p>このプログラムをビルドして実行すると、写真5のように温度、湿度、気圧とバッテリー電圧がLCDに表示されます。</p>
+                <p><img src="./images/m5stickc.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <h2 id="wi-fi-に接続して、データをクラウドに送信する">Wi-Fi に接続して、データをクラウドに送信する</h2>
+                <p>M5StickCに搭載されているMPU、ESP32はWi-FiとBluetoothで通信ができます。ここではWi-Fiでセンサデータをクラウドサービスに送信して、可視化してみます。</p>
+                <p>クラウドサービスとしては、著者が運営するシンプルなIoTデータ可視化サービス「Ambient」を使います。</p>
+                <p>Wi-Fiに接続する方法、Ambientにデータを送信する方法はM5Stackのときと全く同じです。プログラムは次です。</p>
+
+                <p>WiFi.begin 関数でWi-Fiのアクセスポイントに接続します（A）。</p>
+                <p>Ambientにデータを送信するには、ambient.set 関数で送信するデータをセットし、ambient.send 関数で送信するだけです（B）。</p>
+                <p>上のプログラムでは、センサからデータを取得し、Wi-Fiアクセスポイントに接続して、データをクラウドサービスに送信した後、deep sleepモードに移行しています（C）。指定した時間経過した後に、再びプログラムの先頭から動き始めます。Deep sleepの方法もM5Stackと同じです。</p>
+                <p>このように、M5StackとM5StickCは、同じESP32マイコンを使っているため、setBrightness と ScreenBreath のように一部変更になったシステム関数はあるものの、ほとんど同じ感覚でプログラミングできます。</p>
+                <h2 id="データをbleで送る">データをBLEで送る</h2>
+                <p>次にデータをM5StickCからBluetooth Low Enrgy（BLE）で送ってみます。</p>
+                <p>BLE通信は、センサ端末（ペリフェラル）とセンター側の端末（セントラル）がコネクトしてデータを送受信するコネクトモードと、ペリフェラルがセンサデータなどをアドバタイジングパケットに載せて送り、セントラルがそれを受信するブロードキャストモードがあります。今回はセンサ端末の通信に向いたブロードキャストモードを使います。</p>
+                <p>セントラル側はM5Stackを使います。</p>
+                <p><img src="./images/structure.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <h3 id="センサ端末側プログラム">センサ端末側プログラム</h3>
+                <p>ブロードキャストモードでは、センサ端末がセンサデータをアドバタイジングパケットの中のアドバタイジングデータという最大31バイトのデータ領域に載せて発信します。</p>
+                <p>アドバタイジングデータの「AD Type」というフィールドを0xFFにすることで、メーカー独自のデータが定義できます。「カンパニーID」には0xFFFFというテスト用のIDがあるので、今回はテスト用IDを使います。それ以降のフィールドは、次のように定義して使います。</p>
+                <p><img src="./images/advdata.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <p>ブロードキャストモードでアドバタイジングパケットを送信する部分は次のプログラムです。温度、湿度、バッテリー電圧は値を100倍、気圧は10倍してアドバタイジングパケットにセットすることで、アドバタイジングパケットにはデータを16ビット整数で格納しています。受信側では温度、湿度、バッテリー電圧の値を100分の1、気圧の値を10分の1にして、元の値に戻します。<br>
+                プログラム全体はGithubに公開したので、ご覧ください。</p>
+                <ul>
+                <li><a href="https://github.com/AmbientDataInc/M5StickC">https://github.com/AmbientDataInc/M5StickC</a></li>
+                </ul>
+
+                <p>10秒間アドバタイジングパケットを送信し、290秒間deep sleepするようにしました。</p>
+                <h3 id="センター側プログラム">センター側プログラム</h3>
+                <p>アドバタイジングパケットを受信するセンター側はM5Stackを使いました。</p>
+                <p>アドバタイジングパケットをスキャンし、AD Typeが0xFFで、カンパニーIDが0xFFFFのデータを探します。送信側でパケットにシーケンス番号を付加してあり、1つ前に受信したシーケンス番号と比較してシーケンス番号が新しいパケットのときだけパケットを処理します。こうすることで、10秒間送信されるアドバタイジングパケットを複数回処理してしまうことを避けています。</p>
+                <p>最後に、パケットから温度、湿度、気圧、バッテリー電圧を取り出し、M5StackのLCDに表示しています。</p>
+
+                <p>プログラム全体はGithubをご覧ください。</p>
+                <ul>
+                <li><a href="https://github.com/AmbientDataInc/M5StickC">https://github.com/AmbientDataInc/M5StickC</a></li>
+                </ul>
+                <p>M5StickC、M5Stack、それぞれにプログラムをダウンロードして、実行すると、M5StickCで測定したデータがBLEでM5Stackに送られて、表示されるのが確認できます。</p>
+                <p><img src="./images/senddatabyble.jpg" width="90%" class="img-responsive center-block" alt=""></p>
+                <h2 id="ボタンの扱い">ボタンの扱い</h2>
+                <p>M5Stackに3つのボタンがあり、次のシステム関数で状態を得られました。</p>
+                <ul>
+                <li>M5.update()：ボタンの状態を調べる</li>
+                <li>M5.BtnA.isPressed()：ボタンAが押されているか</li>
+                <li>M5.BtnA.wasPressed()：ボタンAが押されていたか</li>
+                <li>M5.BtnA.pressedFor(uint32_t ms)：ボタンAがmsミリ秒押されていたか</li>
+                </ul>
+                <p>M5StickCにはLCDの下に大きなボタンAと、右側面にボタンBの2つのボタンがあります。2つのボタンはGPIO37とGPIO39につながっています。</p>
+                <p>M5Stackのようなシステム関数は提供されておらず、digitalRead関数で状態を読みます。ボタンAとボタンBはM5StickC.hの中で次のように定義されています。</p>
+                <pre><code>#define M5_BUTTON_HOME 37
+                #define M5_BUTTON_RST 39
+                </code></pre>
+                <p>M5StickCライブラリに添付されているサンプルスケッチを見ると、次のようにボタンの状態を読んでいます。</p>
+                <pre><code>    if (digitalRead(M5_BUTTON_HOME) == LOW) {
+                        // ボタンを押されたときの処理
+                        while (digitalRead(M5_BUTTON_HOME) == LOW) ;
+                    }
+                </code></pre>
+                <p>テストプログラムを作って、動作を確認したところ、上のコードでも、チャタリング(ボタンの機械的なバタつき)もなく、ボタンの状態が読めています。</p>
+                <h2 id="m5stickcの拡張性">M5StickCの拡張性</h2>
+                <p>M5StickCにはUSBポートと反対側に拡張ソケットがあります。M5Stackのボトムモジュールにあるピン・ソケットと同じように、ジャンパワイヤを使ってセンサなどをつなぐこともできますが、ここに接続する専用のハットが用意されています。</p>
+                <p>原稿執筆時点（2019年6月）で、M5Stack.comサイトには次の製品が掲載されています。</p>
+                <ul>
+                <li>環境センサ：温度、湿度、気圧、3軸磁気センサ搭載</li>
+                <li>人感センサ：人の動きを感知</li>
+                <li>スピーカー</li>
+                </ul>
+                <p>3月にM5Stack社のオフィスを訪問したときには、GPSや非接触温度センサなども予定しているとのことだったので、今後、続々といろいろなセンサハットが提供されることでしょう。日本ではまだ販売されていませんが、販売が待たれます。</p>
+                <p>これらを使うと、非常にコンパクトなセンサ端末が作れるので、M5StickCの利用用途もさらに広がりそうです。</p>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">20.M5Stackで距離を測る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#測距センサ">測距センサ</a></li>
+                        <li><a href="#m5stackに測距センサをつなぐ">M5Stackに測距センサをつなぐ</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#生データを見る">生データを見る</a></li>
+                        <li><a href="#cmから100cmまで測ってみる">10cmから100cmまで測ってみる</a></li>
+                        <li><a href="#速度を測る">速度を測る</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
