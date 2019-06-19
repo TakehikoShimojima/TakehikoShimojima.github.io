@@ -93,7 +93,7 @@
 
                 <p>「AmbientでIoTをはじめよう」、第20回はM5Stackで距離を測ります。</p>
                 <p>M5Stack社から、「M5StickC」という新しい端末がリリースされ、日本でも販売が始まりました。
-                    「AmbientでIoTをはじめよう」の第20回はこの「M5StickC」を使って小型の環境センサ端末を作ります。</p>
+                    「AmbientでIoTをはじめよう」の第21回はこの「M5StickC」を使って小型の環境センサ端末を作ります。</p>
                 <p><img src="./images/m5stackm5stickc.jpg" width="90%" class="img-responsive center-block" alt=""></p>
                 <h2 id="「m5stickc」">「M5StickC」</h2>
                 <p>M5StickCは、上の写真の右のように4.8 x 2.4 x 1.4cmのスティック状の小型端末です。MPUはM5Stackで使われているESP32と同じアーキテクチャのESP32-picoが使われています。MPUの他に、80 x 160ピクセルのカラー液晶画面、ボタン3個、LED、赤外線送信機、マイク、6軸加速度・ジャイロセンサなどが搭載されています。プログラムはArduino IDEか、UIFlowという開発環境を使ってBlocklyまたはMicroPythonで開発します。</p>
@@ -119,11 +119,12 @@
                 <p>Arduino IDEのインストールは「<a href="https://docs.m5stack.com/#/ja/quick_start/m5stickc/m5stickc_quick_start_with_arduino_Windows" target="_blank">M5StickC クイックスタート</a>」に書かれていますが、M5Stackのセットアップと違う点だけを解説します。</p>
                 <h3 id="ボード情報">ボード情報</h3>
                 <p>Arduino IDEをインストールした後、ボード情報を設定します。M5StickCのボード情報は「M5Stick-C」を選択します。</p>
-                <p><img src="./images/setting.jpg" width="60%" class="img-responsive center-block" alt=""></p>
+                <p><img src="./images/setting.jpg" width="50%" class="img-responsive center-block" alt=""></p>
                 <p>「M5Stick-C」はESP32のボード情報のバージョンが1.0.2以上でないと選択肢に現れません。ボード情報に「M5Stick-C」が現れないときは、ESP32のバージョンを1.0.2以上に更新してください。Arduino IDEの「ツール」メニュー→「ボード」→「ボードマネージャ…」を選択して、ボードマネージャを立ち上げ、検索窓に「esp32」と入力して、「esp32 by Espressif Systems」を選び、1.0.2以上のバージョンをインストールします。</p>
                 <p>「M5Stick-C」はビルドしたスケッチを転送する速度が最高1.5Mbpsに高速化されています。ボード情報を「M5Stick-C」に設定すると、転送速度（Upload Speed）は1.5Mbpsに設定されます。</p>
                 <h3 id="ライブラリインストール">ライブラリインストール</h3>
                 <p>M5StickCでは、LCDなどにアクセスするシステム関数もライブラリとして提供されているので、インストールします。Arduino IDEの「スケッチ」メニュー→「ライブラリをインクルード」→「ライブラリを管理…」でライブラリマネージャを立ち上げ、検索窓に「m5stickc」と入力します。検索結果に現れた「M5StickC by M5StickC」の最新版をインストールします。</p>
+                <p><img src="./images/installm5stickclib.jpg" width="90%" class="img-responsive center-block" alt=""></p>
                 <p>これで、Arduino環境のセットアップは完了です。</p>
                 <h2 id="温度、湿度、気圧を測る">温度、湿度、気圧を測る</h2>
                 <p>M5StickC用のArduino環境がセットアップできたら、センサをつないでみます。M5StickCにはGroveポートと、Groveポートの反対側に拡張ソケットがあり、そこにセンサをつなげられます。</p>
