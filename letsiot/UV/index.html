@@ -93,47 +93,47 @@
                 <p>紫外線は、一年中地球に降り注いでいて、肌の老化など人体にも影響がありますが、その割にはあまり実態を理解していません。そこで今回は紫外線をUVセンサで測定してみます。</p>
                 <h2 id="紫外線">紫外線</h2>
                 <p>可視光よりも波長の短い、波長が10〜380nmの電磁波を紫外線といいます。紫外線の中でも波長の長い（紫に近い）領域を近紫外線といい、その中でも波長が315〜380nmの領域をUVA、280〜315nmの領域をUVB、200〜280nmの領域をUVCといいます。</p>
-                <p><img src="./images/wavelength.jpg" alt="紫外線の波長"></p>
+                <p><img src="./images/wavelength.jpg" width="90%" class="img-responsive center-block" alt="紫外線の波長"></p>
                 <p>太陽光にはUVA、UVB、UVCの紫外線が含まれていますが、UVCはオゾン層でほとんど吸収され、地表に到達する紫外線の99%がUVAだそうです（Wikipediaより）。</p>
                 <p>紫外線を浴びすぎると皮膚がんや白内障になりやすいことから、世界保健機構（WHO）が紫外線の強さを指標化したUVインデックスを定め、対策を推奨しています（気象庁「<a href="%5Bhttps://www.data.jma.go.jp/gmd/env/uvhp/3-50uvindex_manual.html%5D(https://www.data.jma.go.jp/gmd/env/uvhp/3-50uvindex_manual.html)">UVインデックスとは</a>」）。</p>
-                <p><img src="https://www.data.jma.go.jp/gmd/env/uvhp/chishiki_fig/kankyo_syo.png" alt="UVインデックス"></p>
+                <p><img src="https://www.data.jma.go.jp/gmd/env/uvhp/chishiki_fig/kankyo_syo.png" width="90%" class="img-responsive center-block" alt="UVインデックス"></p>
                 <h2 id="uvセンサ-1">UVセンサ</h2>
                 <p>紫外線を測定するUVセンサを検索するとVEML6070、VEML6075、SI1145といったセンサを搭載したモジュールが見つかります。</p>
-                <p><img src="./images/uvsensors.jpg" alt="UVセンサ"></p>
+                <p><img src="./images/uvsensors.jpg" width="90%" class="img-responsive center-block" alt="UVセンサ"></p>
                 <p>今回はこの3つのセンサを比較します。各センサのスペックは次のようになっています。</p>
-                <p><img src="./images/uvsensorspec.jpg" alt="UVセンサスペック"></p>
+                <p><img src="./images/uvsensorspec.jpg" width="90%" class="img-responsive center-block" alt="UVセンサスペック"></p>
                 <p>3つのセンサとも、マイコンとはI2Cで通信します。評価にはM5Stackを使い、Arduino IDEでプログラミングすることにします。</p>
                 <h2 id="veml6070">VEML6070</h2>
                 <p>VEML6070は、UVAの紫外線を測定するセンサです。UVスペクトルの感知範囲は320〜410nmで、波長に対する感度は次のようになっています（<a href="https://cdn-shop.adafruit.com/product-files/2899/C4170_veml6070.pdf">VEML6070データシート</a>より）。</p>
-                <p><img src="./images/VEML6070spectral.jpg" alt="VEML6070スペクトラルレスポンス"></p>
+                <p><img src="./images/VEML6070spectral.jpg" width="90%" class="img-responsive center-block" alt="VEML6070スペクトラルレスポンス"></p>
                 <p>この「VEML6070搭載 UVセンサボード」から値を読んでみます。VEML6070はAdafruit社がライブラリを提供しているので、そのライブラリを使います。<br>
                 Arduino IDEを立ち上げ、「ツール」メニュー→「ライブラリを管理…」を選択して、ライブラリマネージャを立ち上げます。検索窓に「VEML6070」と入力して、「Adafruit VEML6070 Library by Adafruit」を探し、最新版をインストールします。</p>
-                <p><img src="./images/VEML6070lib.jpg" alt="VEML6070ライブラリをインストール"></p>
+                <p><img src="./images/VEML6070lib.jpg" width="90%" class="img-responsive center-block" alt="VEML6070ライブラリをインストール"></p>
                 <p>ライブラリの使い方は簡単で、Adafruit_VEML6070オブジェクトを作り、beginメソッドで測定時間を指定して初期設定し、readUVメソッドで値を読み取ります。値は測定した紫外線量に相当する、キャリブレートされていない値です。</p>
                 <p>スケッチ例を参考に、M5StackのLCDにUV値を表示するプログラムを作りました。</p>
 
                 <p>プログラムをビルドして動かすと、UV値が表示されます。センサを明るいところに持っていったり、手で覆ったりすると、値が増減するのが確認できます。</p>
                 <h2 id="veml6075">VEML6075</h2>
                 <p>VEML6075は、UVAとUVB、2帯域の紫外線を測定するセンサです。測定値からUVインデックスを計算する機能もあります。UVスペクトルの感知範囲はデータシートでは見つけられませんでしたが、波長に対する感度は次のようになっています（<a href="https://www.vishay.com/ppg?84304">VEML6075データシート</a>より）。</p>
-                <p><img src="./images/VEML6075spectral.jpg" alt="VEML6075スペクトラルレスポンス"></p>
+                <p><img src="./images/VEML6075spectral.jpg" width="90%" class="img-responsive center-block" alt="VEML6075スペクトラルレスポンス"></p>
                 <p>「VEML6075搭載 UVA/UVB/UVインデックスセンサモジュール」から値を読んでみます。VEML6075はAdafruit社がライブラリを提供しているので、そのライブラリを使います。Arduino IDEのライブラリマネージャで「VEML6075」を検索し、「Adafruit VEML6075 Library by Adafruit」を探し、最新版をインストールします。</p>
-                <p><img src="./images/VEML6075lib.jpg" alt="VEML6075ライブラリをインストール"></p>
+                <p><img src="./images/VEML6075lib.jpg" width="90%" class="img-responsive center-block" alt="VEML6075ライブラリをインストール"></p>
                 <p>VEML6075ライブラリは、「Adafruit BusIOライブラリ」も必要なので、ライブラリマネージャから「busio」で検索し、「Adafruit BusIO by Adafruit」の最新版もインストールします。</p>
-                <p><img src="./images/busiolib.jpg" alt="BusIOライブラリをインストール"></p>
+                <p><img src="./images/busiolib.jpg" width="90%" class="img-responsive center-block" alt="BusIOライブラリをインストール"></p>
                 <p>ライブラリにはセンサを初期設定するメソッドがいくつかありますが、通常の使い方ではデフォルト設定で使うことが推奨されています。従って、使い方はVEML6070と同様に簡単で、Adafruit_VEML6075オブジェクトを作り、beginメソッドでオブジェクトを初期設定し、setIntegrationTimeメソッドで測定時間を指定し、readUVAメソッドとreadUVBメソッドで、UVAとUVBのUV値を読み取ります。readUVIメソッドで、UVインデックスが読み取れます。</p>
                 <p>スケッチ例を参考に、M5StackのLCDにUV値を表示するプログラムを作りました。</p>
 
                 <h2 id="si1145">SI1145</h2>
                 <p>SI1145は、UVインデックスと可視光、赤外線の強さが測定できるセンサです。UVスペクトルの感知範囲はデータシートでは見つけられませんでした。</p>
                 <p>SI1145もAdafruitがライブラリを提供しています。Arduino IDEのライブラリマネージャで「SI1145」を検索し、「Adafruit SI1145 Library by Adafruit」を探し、最新版をインストールします。</p>
-                <p><img src="./images/SI1145lib.jpg" alt="SI1145ライブラリをインストール"></p>
+                <p><img src="./images/SI1145lib.jpg" width="90%" class="img-responsive center-block" alt="SI1145ライブラリをインストール"></p>
                 <p>ライブラリの使い方はVEML6070やVEML6075と同様で、Adafruit_SI1145オブジェクトを作り、beginメソッドで初期設定し、readUVメソッドでUVインデックスを得ます。この値は100倍された値なので、100で割って実際の値にします。</p>
                 <p>スケッチ例を参考に、M5StackのLCDにUV値を表示するプログラムを作りました。</p>
 
                 <h2 id="つのuvセンサを比較する">3つのUVセンサを比較する</h2>
                 <p>各センサの基本的な扱い方は確認できました。そこで、3つのセンサをまとめて扱い、UV値を取得して、比較してみます。</p>
                 <p>3つのUVセンサはいずれもI2Cでマイコンと通信し、I2Cアドレスも重なっていません。各センサモジュールのシリアルデータ（SDA)、シリアルクロック（SCL）にはプルアップ抵抗がついているので、各センサモジュールをバス接続するときは、プルアップ抵抗の値を調整したほうがよいのですが、調整せずにバス接続したところ、正常に動作しているので、そのまま使ってみます。</p>
-                <p><img src="./images/threeUVsensors.jpg" alt="3つのUVセンサをつなぐ"></p>
+                <p><img src="./images/threeUVsensors.jpg" width="90%" class="img-responsive center-block" alt="3つのUVセンサをつなぐ"></p>
                 <p>3つのUVセンサからデータを取得し、M5StackのLCDに表示し、さらにAmbientに送信して、値を比較してみます。</p>
                 <p>プログラムは次のようになります。</p>
 
@@ -169,11 +169,11 @@
                 </tr>
                 </tbody>
                 </table><p>d1、d2、d5がUVインデックスなので、1つにまとめてチャート1に表示します。d2とd3はUVAとUVBの値なので、チャート2にまとめます。</p>
-                <p><img src="./rawuvdata.jpg" alt="UV値"></p>
+                <p><img src="./rawuvdata.jpg" width="90%" class="img-responsive center-block" alt="UV値"></p>
                 <p>これは7月25日の0時から24時までの24時間のUV値です。紫外線、特にUVBはガラスを透過しにくいので、窓の外で測定したほうがよいのですが、まだ梅雨も明けておらず、センサを雨に濡らしたくなかったので、ガラス窓の内側にセンサを置いて測定しました。この日はほぼ晴れでしたが、センサは直射日光にはあたっていません。日の出の時刻は4時44分、日没は18時52分です。</p>
                 <p>チャート1、2を見ると、各センサとも、日の出とともにUV値が上がり始め、12時台にピークになり、日没の30分前ぐらいからUV値が下がることが見て取れます。チャート2を見ると、ガラス窓の内側での測定の影響なのか、UVAよりもUVBがかなり低い値になっています。</p>
                 <p>チャート1で3つのセンサのデータを比較すると、VEML6070とSI1145のUVインデックス値は、絶対値は違いますが、ほぼ同じ傾向で上下しています。この2つの値を散布図にしてみると、ほぼリニアに相関していることが分かります。VEML6070とVEML6075の値も散布図にすると、ほぼリニアに相関していました。UVインデックス値については3つのセンサとも同じような傾向のデータが得られています。</p>
-                <p><img src="./correlation.jpg" alt="相関図"></p>
+                <p><img src="./correlation.jpg" width="90%" class="img-responsive center-block" alt="相関図"></p>
                 <p>UVAとUVBについては、ガラス窓の内側と外側、直射日光の当たる場所など、条件の違う場所で同時に測定して、データを比較する必要がありそうです。</p>
                 <h2 id="まとめ">まとめ</h2>
                 <p>VEML6070とVEML6075は、どちらもVUセンサで、価格もほぼ同じぐらいですが、VEML6070がUVインデックスに相当する値を出力するのに対して、VEML6075はUVAとUVBのUV値とUVインデックス値を出力するので、VEML6075の方が優れています。</p>
