@@ -96,7 +96,7 @@
                 <p>可視光よりも波長の短い、波長が10〜380nmの電磁波を紫外線といいます。紫外線の中でも波長の長い（紫に近い）領域を近紫外線といい、その中でも波長が315〜380nmの領域をUVA、280〜315nmの領域をUVB、200〜280nmの領域をUVCといいます。</p>
                 <p><img src="./images/wavelength.jpg" width="70%" class="img-responsive center-block" alt="紫外線の波長"></p>
                 <p>太陽光にはUVA、UVB、UVCの紫外線が含まれていますが、UVCはオゾン層でほとんど吸収され、地表に到達する紫外線の99%がUVAだそうです（Wikipediaより）。</p>
-                <p>紫外線を浴びすぎると皮膚がんや白内障になりやすいことから、世界保健機構（WHO）が紫外線の強さを指標化したUVインデックスを定め、対策を推奨しています（気象庁「<a href="%5Bhttps://www.data.jma.go.jp/gmd/env/uvhp/3-50uvindex_manual.html%5D(https://www.data.jma.go.jp/gmd/env/uvhp/3-50uvindex_manual.html)">UVインデックスとは</a>」）。</p>
+                <p>紫外線を浴びすぎると皮膚がんや白内障になりやすいことから、世界保健機構（WHO）が紫外線の強さを指標化したUVインデックスを定め、対策を推奨しています（気象庁「<a href="https://www.data.jma.go.jp/gmd/env/uvhp/3-50uvindex_manual.html" target="_blank">UVインデックスとは</a>」）。</p>
                 <p><img src="https://www.data.jma.go.jp/gmd/env/uvhp/chishiki_fig/kankyo_syo.png" width="70%" class="img-responsive center-block" alt="UVインデックス"></p>
 
                 <h2 id="uvセンサ-1">UVセンサ</h2>
@@ -107,7 +107,7 @@
                 <p>3つのセンサとも、マイコンとはI2Cで通信します。評価にはM5Stackを使い、Arduino IDEでプログラミングすることにします。</p>
 
                 <h2 id="veml6070">VEML6070</h2>
-                <p>VEML6070は、UVAの紫外線を測定するセンサです。UVスペクトルの感知範囲は320〜410nmで、波長に対する感度は次のようになっています（<a href="https://cdn-shop.adafruit.com/product-files/2899/C4170_veml6070.pdf">VEML6070データシート</a>より）。</p>
+                <p>VEML6070は、UVAの紫外線を測定するセンサです。UVスペクトルの感知範囲は320〜410nmで、波長に対する感度は次のようになっています（<a href="https://cdn-shop.adafruit.com/product-files/2899/C4170_veml6070.pdf" target="_blank">VEML6070データシート</a>より）。</p>
                 <p><img src="./images/VEML6070spectral.jpg" width="50%" class="img-responsive center-block" alt="VEML6070スペクトラルレスポンス"></p>
                 <p>この「VEML6070搭載 UVセンサボード」から値を読んでみます。VEML6070はAdafruit社がライブラリを提供しているので、そのライブラリを使います。<br>
                 Arduino IDEを立ち上げ、「ツール」メニュー→「ライブラリを管理…」を選択して、ライブラリマネージャを立ち上げます。検索窓に「VEML6070」と入力して、「Adafruit VEML6070 Library by Adafruit」を探し、最新版をインストールします。</p>
@@ -120,7 +120,7 @@
                 <p>プログラムをビルドして動かすと、UV値が表示されます。センサを明るいところに持っていったり、手で覆ったりすると、値が増減するのが確認できます。</p>
 
                 <h2 id="veml6075">VEML6075</h2>
-                <p>VEML6075は、UVAとUVB、2帯域の紫外線を測定するセンサです。測定値からUVインデックスを計算する機能もあります。UVスペクトルの感知範囲はデータシートでは見つけられませんでしたが、波長に対する感度は次のようになっています（<a href="https://www.vishay.com/ppg?84304">VEML6075データシート</a>より）。</p>
+                <p>VEML6075は、UVAとUVB、2帯域の紫外線を測定するセンサです。測定値からUVインデックスを計算する機能もあります。UVスペクトルの感知範囲はデータシートでは見つけられませんでしたが、波長に対する感度は次のようになっています（<a href="https://www.vishay.com/ppg?84304" target="_blank">VEML6075データシート</a>より）。</p>
                 <p><img src="./images/VEML6075spectral.jpg" width="50%" class="img-responsive center-block" alt="VEML6075スペクトラルレスポンス"></p>
                 <p>「VEML6075搭載 UVA/UVB/UVインデックスセンサモジュール」から値を読んでみます。VEML6075はAdafruit社がライブラリを提供しているので、そのライブラリを使います。Arduino IDEのライブラリマネージャで「VEML6075」を検索し、「Adafruit VEML6075 Library by Adafruit」を探し、最新版をインストールします。</p>
                 <p><img src="./images/VEML6075lib.jpg" width="90%" class="img-responsive center-block" alt="VEML6075ライブラリをインストール"></p>
@@ -214,7 +214,7 @@
                     <li class="open"><a href="index.html">22.M5Stackで紫外線を測る</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#紫外線">紫外線</a></li>
-                        <li><a href="#uvセンサ-1">UVセンサveml6070</a></li>
+                        <li><a href="#uvセンサ-1">UVセンサ0</a></li>
                         <li><a href="#veml6070">VEML6070</a></li>
                         <li><a href="#veml6075">VEML6075</a></li>
                         <li><a href="#si1145">SI1145</a></li>
