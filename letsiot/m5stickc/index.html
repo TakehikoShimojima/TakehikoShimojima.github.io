@@ -127,13 +127,13 @@
                 <p>これで、Arduino環境のセットアップは完了です。</p>
                 <h2 id="温度、湿度、気圧を測る">温度、湿度、気圧を測る</h2>
                 <p>M5StickC用のArduino環境がセットアップできたら、センサをつないでみます。M5StickCにはGroveポートと、Groveポートの反対側に拡張ソケットがあり、そこにセンサをつなげられます。</p>
-                <p>M5Stackのセンサユニットで、温度、湿度、気圧が測れる「Env（環境）」ユニットというものがあります。国内では単品では販売されていませんが、「M5GO IoTスターターキット」に含まれています。今回はこの「Env」ユニットをM5StickCにつないで温度、湿度、気圧を測ってみます。</p>
-                <p>「Env」ユニットは、I2CのGroveポートで接続するので、M5StickCのGroveポートに挿すだけで接続完了です。</p>
+                <p>M5Stackのセンサユニットで、温度、湿度、気圧が測れる「M5Stack用環境センサユニットというものがあります。今回はこの「環境センサユニット」をM5StickCにつないで温度、湿度、気圧を測ってみます。</p>
+                <p>「環境センサユニット」は、I2CのGroveポートで接続するので、M5StickCのGroveポートに挿すだけで接続完了です。</p>
                 <p><img src="./images/m5stickcenvsensor.jpg" width="90%" class="img-responsive center-block" alt=""></p>
-                <p>「Env」ユニットにはDHT12という温度、湿度センサと、BMP280という気圧センサが内蔵されています。</p>
+                <p>「環境センサユニット」にはDHT12という温度、湿度センサと、BMP280という気圧センサが内蔵されています。</p>
                 <p>ArduinoでDHT12にアクセスするライブラリは公開されたものがあり、BMP280ライブラリはAdafruit社が公開しています。Arduino IDEのライブラリマネージャを立ち上げ、検索窓から「bmp280 adafruit」と検索して、BMP280ライブラリをインストールします。</p>
                 <p><img src="./images/installbmp280.jpg" width="90%" class="img-responsive center-block" alt=""></p>
-                <p>「Env」ユニットで温度、湿度、気圧を測るプログラムは次のようになります。</p>
+                <p>「環境センサユニット」で温度、湿度、気圧を測るプログラムは次のようになります。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/64368ad8528e5a9407bea03f9af4dacd.js"></script>
 
