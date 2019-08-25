@@ -137,6 +137,8 @@ V4: (-350, -112,  350)
                 <h3 id="dモデルをマウスで動かす">3Dモデルをマウスで動かす</h3>
                 <p>Processingを立ち上げて、次のプログラムを入力し、適当な名前、例えばM5Stack_front_mouseで保存します。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/0747b9ec780481a09561bc6acc906ad9.js"></script>
+
                 <p>プログラムを保存したフォルダの場所をProcessingの「環境設定」で確認します。Macの場合、標準では「/Users/ユーザー名/Documents/Processing/スケッチ名」です。このフォルダにdataというフォルダを作り、dataの中にM5Stack前面の画像ファイルをfront.jpgという名前で置きます。</p>
                 <p>Processingの「実行」ボタンを押すと、画像ウィンドウが現れ、中にM5Stack前面の画像が表示されます。マウスを動かすと、それに合わせてM5Stack前面の画像が動くのが確認できます。</p>
                 <p><img src="./images/m5stack_front_mouse.jpg" width="70%" class="img-responsive center-block" alt="M5Stack前面の画像をマウスで動かす"></p>
@@ -156,8 +158,7 @@ V4: (-350, -112,  350)
                 <p>ちなみに、この図のx軸、y軸、z軸の向きは右手系といって、右手の親指、人差し指、中指を互いに直交するように開いたとき、親指がx軸、人差し指がy軸、中指がz軸に対応します。M5Stackに内蔵されるIMU（MPU9520）のx軸、y軸、z軸の向きも同じように右手系です。</p>
                 <p>9軸加速度・ジャイロ・磁気センサや6軸加速度・ジャイロセンサの値から、ロール、ピッチ、ヨーを計算するMadgwickAHRSというライブラリがあります。AHRSはAttitude and Heading Reference Systemの略で、姿勢と方位を計算するシステムです。Madgwickという人が開発した、IMU値から姿勢と方位を計算するアルゴリズムを使っています。磁気センサの値を使わなくても十分な精度の姿勢データが得られたので、加速度・ジャイロセンサの値だけを使うことにします。</p>
                 <p>M5StackでMPU9250から加速度とジャイロの値を取得するArduinoのプログラムは次のようになります。</p>
-<pre><code>
-#include "utility/MPU9250.h"
+<pre><code>#include "utility/MPU9250.h"
 
 MPU9250 IMU;
 
@@ -185,8 +186,7 @@ void loop() {
 </code></pre>
                 <p>MPU9250のオブジェクト（IMU）を作り、setup関数の中で初期設定とキャリブレートをします。加速度データを取得するには、readAccelDataで生データを、getAresでスケール値を取得し、生データにスケール値を掛けて加速度値を計算します。ジャイロ値も同様です。</p>
                 <p>加速度値とジャイロ値から姿勢を計算するのは次のようにします。</p>
-<pre><code>
-#include &lt;MadgwickAHRS.h&gt;
+<pre><code>#include &lt;MadgwickAHRS.h&gt;
 
 Madgwick filter;  // 姿勢を計算するオブジェクトを作る
 
@@ -206,6 +206,8 @@ void loop() {
                 <p>loop関数で加速度値とジャイロ値を渡してfilterを更新（updateIMU）すると、getRoll、getPitch、getYaw関数でロール、ピッチ、ヨー値が取得できます。updateIMUを呼ぶ頻度は、初期設定で指定した周期に合わせます。</p>
                 <p>MPU9250から加速度、ジャイロデータを取得し、姿勢を計算してデータをシリアルに出力するプログラム（mpu9250_serial.ino）は次のようになります。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/eee12add2a84952f032fccfe97d140f6.js"></script>
+
                 <p>実際に動かしたところ、ロール、ピッチ、ヨーの値がふらついたので、区間5の移動平均を取って、値を平準化しています。</p>
 
                 <h2 id="姿勢データをパソコンに送り、3dモデルを制御する">姿勢データをパソコンに送り、3Dモデルを制御する</h2>
@@ -213,8 +215,7 @@ void loop() {
 
                 <h3 id="姿勢データをシリアルケーブルで送り、3dモデルを制御する">姿勢データをシリアルケーブルで送り、3Dモデルを制御する</h3>
                 <p>Processingでシリアルからのデータ取得は、次のようにします。</p>
-<pre><code>
-import processing.serial.*;
+<pre><code>import processing.serial.*;
 
 Serial port;
 
@@ -242,8 +243,7 @@ void draw() {
 }
 </code></pre>
                 <p>シリアルモジュールをインポートし、setup関数の中で、使用可能なシリアル回線のリストを出力しています。次のような結果がProcessing IDEのメッセージエリアに表示されます。</p>
-<pre><code>
-0: /dev/cu.Bluetooth-Incoming-Port
+<pre><code>0: /dev/cu.Bluetooth-Incoming-Port
 1: /dev/cu.SLAB_USBtoUART
 2: /dev/tty.Bluetooth-Incoming-Port
 3: /dev/tty.SLAB_USBtoUART
@@ -255,13 +255,14 @@ void draw() {
                 <p>roll、pitch、yawデータを元にProcessingのデータを回転するロジックはArduinoの「<a href="https://www.arduino.cc/en/Tutorial/Genuino101CurieIMUOrientationVisualiser">Arduino/Genuino 101  CurieIMU  Orientation Visualiser</a>」というチュートリアルを参考にしました。</p>
                 <p>Processingのスケッチ全体は次のようになります。</p>
 
+                <script src="https://gist.github.com/TakehikoShimojima/2b70d0d9b2b6518f5249cacdadf08614.js"></script>
+
                 <p>M5Stackを水平なところにおいて、先程のmpu9250_serial.inoを起動し、次いでProcessing側を動かすと、パソコンの画面にM5Stackの3Dモデルが現れ、実際のM5Stackの動きに合わせて3Dモデルが動くのが確認できます。</p>
 
                 <h3 id="姿勢データをbluetoothで送り、3dモデルを制御する">姿勢データをBluetoothで送り、3Dモデルを制御する</h3>
                 <p>ここまではM5StackとパソコンをUSBケーブルでつないで姿勢データを送っています。M5StackにはBluetoothモジュールが搭載されているので、次はBluetoothで姿勢データを送ります。</p>
                 <p>BluetoothにはSPP（Serial Port Profile）といって、Bluetoothを使って仮想のシリアルポートを作って通信をする規格があります。ArduinoではBluetoothSerialというライブラリを使うとBluetoothでのシリアル通信ができます。</p>
-<pre><code>
-#include "BluetoothSerial.h"
+<pre><code>#include "BluetoothSerial.h"
 
 BluetoothSerial SerialBT;
 
@@ -276,8 +277,7 @@ void setup() {
                 <p>このプログラムをビルドして、M5Stackで動かします。次に、パソコン側でM5Stackとペアリングします。Macの場合、システム環境設定のBluetoothを選択すると、次のようにSerialBT.beginで指定した名前のBluetoothデバイスが表示されるので、「接続」ボタンをクリックします。すると「M5Stack」の状態が「接続済み」に変わります。しばらくすると状態が「未接続」に変わりますが、問題ありません。</p>
                 <p><img src="./images/pairing.jpg" width="70%" class="img-responsive center-block" alt="M5Stackとペアリングする"></p>
                 <p>この状態でProcessingのM5Stack_serial.pdeを動かすと、使用可能なシリアル回線が次のように変化します。</p>
-<pre><code>
-0: /dev/cu.Bluetooth-Incoming-Port
+<pre><code>0: /dev/cu.Bluetooth-Incoming-Port
 1: /dev/cu.M5Stack-ESP32SPP
 2: /dev/cu.SLAB_USBtoUART
 3: /dev/tty.Bluetooth-Incoming-Port
