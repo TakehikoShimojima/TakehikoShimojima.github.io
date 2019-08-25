@@ -1,0 +1,353 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="rotateM5Stack - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>パソコン上のM5Stackの3Dモデルを、M5Stackの動きに合わせて動かす - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年8月28日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>パソコン上のM5Stackの3Dモデルを、M5Stackの動きに合わせて動かす</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>M5Stack GrayやFireには9軸加速度・ジャイロ・磁気センサ（IMU）が、M5StickCには6軸加速度・ジャイロが搭載されています。今回はこのIMUを使って端末の姿勢を計算します。さらに姿勢データをパソコンに送り、パソコン上に作ったM5Stackの3Dモデルを、実際のM5Stackの動きに合わせて動かしてみます。</p>
+                <p>まずは動画をご覧ください。</p>
+                <p>開発は次のステップで進めます。</p>
+                <ol>
+                <li>パソコン上にM5Stackの3Dモデルを作る</li>
+                <li>IMUを使い端末の姿勢を計算する</li>
+                <li>姿勢データをパソコンに送り、3Dモデルを制御する</li>
+                </ol>
+                <p>なお、M5Stack GrayやFireのIMUチップは出荷時期によってMPU9250が搭載されているものと、MPU6886が搭載されているものがあります。著者の手元にはMPU9250搭載のものがあるので、この記事はMPU9250版で書いています。搭載されているIMUチップは、M5Stackで次のプログラムを動かすと調べられます。</p>
+
+                <h2 id="パソコン上にm5stackの3dモデルを作る">パソコン上にM5Stackの3Dモデルを作る</h2>
+                <p>3Dモデルを作れるツールはいろいろありますが、センサデータを使ってモデルをグルグル回転させられる使いやすいツールということで、今回はProcessing（<a href="https://processing.org/">https://processing.org/</a>）を使うことにします。</p>
+                <p>Processingは線や図形、画像などが簡単に扱えるプログラミング言語と統合開発環境です。</p>
+                <h3 id="processingのインストール">Processingのインストール</h3>
+                <p>ProcessingはWindows、Mac OS X、Linuxで動作します。Processing公式サイトのDownload Processingページ（<a href="https://processing.org/download/">https://processing.org/download/</a>）から、お使いのOSに合わせたソフトウェアのZIPファイルをダウンロードします。Mac OSの場合、ダウンロードしたZIPファイルを展開し、出てきたアプリケーションファイルをアプリケーションフォルダーに入れればインストール完了です。</p>
+                <p>アプリケーションを起動すると、次のような画面が現れます。</p>
+                <p><img src="./images/processing.jpg" alt="Processing初期画面"></p>
+                <p>どこかで見たような画面ですね。画面が上下に分割されていて、上の方には実行ボタンのようなものがあり、タブには「sketch_190821a」と書かれています。そう、Arduino IDEにとてもよく似ています。WikipediaによるとProcessingは2001年に開発がスタートし、Arduinoにも大きな影響を与えているそうです。</p>
+                <p>プログラムの構造もArduinoとよく似ていて、setupという関数があると最初に一度だけ実行され、その後drawというArduinoのloop関数にあたる関数が繰り返し実行されます。setup関数で描画する画面サイズの設定などの初期設定をおこない、draw関数で線や図形などを実際に描画します。draw関数は繰り返し実行されるので、実行のたびに線や図形の位置や大きさなどを変えると動画を表示することも可能です。</p>
+                <h3 id="dモデルを作る">3Dモデルを作る</h3>
+                <p>まずM5Stackの3Dモデルを作ります。Processingでは、Shapes 3Dというライブラリを使うと、いろいろな形の3Dの物体にテクスチャを貼り付けることができます。しかし、Shapes 3Dは仕様に不明なところがあるので、もっと単純にM5Stackの前後、左右、上下、6枚の画像を3次元空間に貼り付けることにします。</p>
+                <p>まず最初に、M5Stackの前後、左右、上下、6面から写真を撮ります。撮った写真を調べると前後の写真は700 x 700ピクセル前後、上下左右の写真は700 x 225ピクセル前後だったので、M5Stackを表す直方体の大きさを700 x 700 x 225ピクセルに決めました。次に、前後の写真は700 x 700、上下左右の写真は700 x 225ピクセルぴったりになるように画像ソフト（Macであればプレビューなど）を使って画像サイズを調整しておきます。</p>
+                <p>次に、ProcessingでM5Stackのモデルを作ります。M5Stackを表す直方体を考えます。直方体の大きさはM5Stackの縦横高さと同じ比率にしますが、分かりやすいように写真のピクセル数に合わせて700 x 700 x 225にしました。</p>
+                <p><img src="./images/m5stackin3D.jpg" alt="3D空間の中のM5Stack"></p>
+                <p>この直方体の中心が3次元空間の原点にくるように置くと、M5Stackの前面の座標は左上からコの字の順番に次のようになります。</p>
+                <pre><code>V1: (-350, -112, -350)
+                V2: ( 350, -112, -350)
+                V3: ( 350, -112,  350)
+                V4: (-350, -112,  350)
+                </code></pre>
+                <p>この座標にM5Stackの前面の画像を貼り付け、マウスで動かしてみます。</p>
+                <h3 id="dモデルをマウスで動かす">3Dモデルをマウスで動かす</h3>
+                <p>Processingを立ち上げて、次のプログラムを入力し、適当な名前、例えばM5Stack_front_mouseで保存します。</p>
+
+                <p>プログラムを保存したフォルダの場所をProcessingの「環境設定」で確認します。Macの場合、標準では「/Users/ユーザー名/Documents/Processing/スケッチ名」です。このフォルダにdataというフォルダを作り、dataの中にM5Stack前面の画像ファイルをfront.jpgという名前で置きます。</p>
+                <p>Processingの「実行」ボタンを押すと、画像ウィンドウが現れ、中にM5Stack前面の画像が表示されます。マウスを動かすと、それに合わせてM5Stack前面の画像が動くのが確認できます。</p>
+                <p><img src="./images/m5stack_front_mouse.jpg" alt="M5Stack前面の画像をマウスで動かす"></p>
+                <p>前面の画像だけなので、角度によっては裏側が見えてしまうなど、変なところもありますが、画像を3次元空間において、マウスで回転させられました。他の5面についても同様に3D空間に貼り付けることで、M5Stackの3Dモデルを作り、マウスで動かせるようになります。</p>
+                <p>3Dモデルを作ってマウスで動かすプログラムは下記をご覧ください。<br>
+                <a href="https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0">https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0</a></p>
+                <p>プログラムを保存したフォルダにdataというフォルダを作り、今度は6面の画像ファイルをfront.jpg、back.jpg、right.jpg、left.jpg、top.jpg、bottom.jpgという名前で置きます。</p>
+                <p>プログラムを動かすと、次のような画像が表示され、マウスの動きに合わせて動くのが確認できます。</p>
+                <p><img src="./images/m5stack_mouse.jpg" alt="M5Stackの3Dモデルをマウスで動かす"></p>
+                <h2 id="imuを使い端末の姿勢を計算する">IMUを使い端末の姿勢を計算する</h2>
+                <p>ProcessingでM5Stackの3Dモデルができたので、次はM5StackのIMUを使って、M5Stack自身の姿勢を計算します。</p>
+                <h3 id="imuデータによる姿勢の計算">IMUデータによる姿勢の計算</h3>
+                <p>物体の姿勢を表すには、次の図のようにx軸を中心とした回転角度ロール（roll）、y軸を中心としたピッチ（pitch）、z軸を中心としたヨー（yaw）を使います。</p>
+                <p><img src="./images/rollpitchyaw.jpg" alt="姿勢を表す"></p>
+                <p>ちなみに、この図のx軸、y軸、z軸の向きは右手系といって、右手の親指、人差し指、中指を互いに直交するように開いたとき、親指がx軸、人差し指がy軸、中指がz軸に対応します。M5Stackに内蔵されるIMU（MPU9520）のx軸、y軸、z軸の向きも同じように右手系です。</p>
+                <p>9軸加速度・ジャイロ・磁気センサや6軸加速度・ジャイロセンサの値から、ロール、ピッチ、ヨーを計算するMadgwickAHRSというライブラリがあります。AHRSはAttitude and Heading Reference Systemの略で、姿勢と方位を計算するシステムです。Madgwickという人が開発した、IMU値から姿勢と方位を計算するアルゴリズムを使っています。磁気センサの値を使わなくても十分な精度の姿勢データが得られたので、加速度・ジャイロセンサの値だけを使うことにします。</p>
+                <p>M5StackでMPU9250から加速度とジャイロの値を取得するArduinoのプログラムは次のようになります。</p>
+                <pre><code>#include "utility/MPU9250.h"
+
+                MPU9250 IMU;
+
+                void setup() {
+                    IMU.initMPU9250();  // MPU9250を初期化する
+                    IMU.calibrateMPU9250(IMU.gyroBias, IMU.accelBias);  // キャリブレートする
+                }
+
+                void loop() {
+                        while (!(IMU.readByte(MPU9250_ADDRESS, INT_STATUS) &amp; 0x01)) ;
+                        IMU.readAccelData(IMU.accelCount);  // 加速度の生データーを取得する
+                        IMU.getAres();  // スケール値を取得する
+                        // x/y/z軸の加速度値を計算する
+                        IMU.ax = (float)IMU.accelCount[0] * IMU.aRes - IMU.accelBias[0];
+                        IMU.ay = (float)IMU.accelCount[1] * IMU.aRes - IMU.accelBias[1];
+                        IMU.az = (float)IMU.accelCount[2] * IMU.aRes - IMU.accelBias[2];
+
+                        IMU.readGyroData(IMU.gyroCount);  // ジャイロの生データーを取得する
+                        IMU.getGres();  // スケール値を取得する
+                        // x/y/z軸のジャイロ値を計算する
+                        IMU.gx = (float)IMU.gyroCount[0] * IMU.gRes;
+                        IMU.gy = (float)IMU.gyroCount[1] * IMU.gRes;
+                        IMU.gz = (float)IMU.gyroCount[2] * IMU.gRes;
+                }
+                </code></pre>
+                <p>MPU9250のオブジェクト（IMU）を作り、setup関数の中で初期設定とキャリブレートをします。加速度データを取得するには、readAccelDataで生データを、getAresでスケール値を取得し、生データにスケール値を掛けて加速度値を計算します。ジャイロ値も同様です。</p>
+                <p>加速度値とジャイロ値から姿勢を計算するのは次のようにします。</p>
+                <pre><code>#include &lt;MadgwickAHRS.h&gt;
+
+                Madgwick filter;  // 姿勢を計算するオブジェクトを作る
+
+                void setup() {
+                    filter.begin(10);  // 10Hz  filterを初期化する
+                }
+
+                void loop() {
+                        filter.updateIMU(IMU.gx, IMU.gy, IMU.gz, IMU.ax, IMU.ay, IMU.az);
+
+                        float roll  = filter.getRoll();
+                        float pitch = filter.getPitch();
+                        float yaw   = filter.getYaw();
+                }
+                </code></pre>
+                <p>姿勢を計算するMadgwickフィルタのオブジェクト（filter）を作り、setup関数で初期設定します。パラメータにはfilterを更新する周期をHz単位で渡します。</p>
+                <p>loop関数で加速度値とジャイロ値を渡してfilterを更新（updateIMU）すると、getRoll、getPitch、getYaw関数でロール、ピッチ、ヨー値が取得できます。updateIMUを呼ぶ頻度は、初期設定で指定した周期に合わせます。</p>
+                <p>MPU9250から加速度、ジャイロデータを取得し、姿勢を計算してデータをシリアルに出力するプログラム（mpu9250_serial.ino）は次のようになります。</p>
+
+                <p>実際に動かしたところ、ロール、ピッチ、ヨーの値がふらついたので、区間5の移動平均を取って、値を平準化しています。</p>
+                <h2 id="姿勢データをパソコンに送り、3dモデルを制御する">姿勢データをパソコンに送り、3Dモデルを制御する</h2>
+                <p>M5Stackで姿勢を計算してシリアルに送れるようになったので、データをパソコン上のProcessingで受信して、最初に作ったM5Stackの3Dモデルを動かしてみます。</p>
+                <h3 id="姿勢データをシリアルケーブルで送り、3dモデルを制御する">姿勢データをシリアルケーブルで送り、3Dモデルを制御する</h3>
+                <p>Processingでシリアルからのデータ取得は、次のようにします。</p>
+                <pre><code>import processing.serial.*;
+
+                Serial port;
+
+                void setup() {
+                  String[] ports = Serial.list();
+
+                  for (int i = 0; i &lt; ports.length; i++) {
+                    println(i + ": " + ports[i]);
+                  }
+                  port = new Serial(this, ports[1], 115200);
+                }
+
+                void draw() {
+                  if (port.available() == 0) return;  // 回線にデーターがなければリターン
+
+                  String str = port.readStringUntil('\n');  // 1行読み込み
+                  if (str == null) return;  // データーが空行ならリターン
+
+                  String toks[] = split(trim(str), ",");  // カンマ（,）で区切られたトークンを取得
+                  if (toks.length != 3) return;  // トークンが3でなければリターン
+
+                  float roll = float(toks[0]);  // トークン0をfloat数に変換
+                  float pitch = -float(toks[1]);  // トークン1をfloat数に変換
+                  float yaw = 180 - float(toks[2]);  // トークン2をfloat数に変換
+                }
+                </code></pre>
+                <p>シリアルモジュールをインポートし、setup関数の中で、使用可能なシリアル回線のリストを出力しています。次のような結果がProcessing IDEのメッセージエリアに表示されます。</p>
+                <pre><code>0: /dev/cu.Bluetooth-Incoming-Port
+                1: /dev/cu.SLAB_USBtoUART
+                2: /dev/tty.Bluetooth-Incoming-Port
+                3: /dev/tty.SLAB_USBtoUART
+                </code></pre>
+                <p>1番（/dev/cu.SLAB_USBtoUART）がM5StackとパソコンをつないでいるUSBシリアル回線なので、そのデバイスをオープンします。使用可能なシリアル回線はパソコンによって異なりますので、環境に合わせて回線の番号は変更してください。</p>
+                <p>文字データの読み込みは、available関数でデータがあることを確認し、データがあれば、readStringUntil(’\n’)関数で改行文字まで1行分のデータを読み込みます。</p>
+                <p>trim関数で空白文字を取り除き、split関数でカンマで区切られたトークンを取り出しています。</p>
+                <p>float関数で文字列をfloatデータに変換します。M5Stack上のx軸、y軸、z軸の向きとProcessingでの向きを合わせるために、pitchとyawの値は符号を反転させたり、180度反転させたりしています。</p>
+                <p>roll、pitch、yawデータを元にProcessingのデータを回転するロジックはArduinoの「<a href="https://www.arduino.cc/en/Tutorial/Genuino101CurieIMUOrientationVisualiser">Arduino/Genuino 101  CurieIMU  Orientation Visualiser</a>」というチュートリアルを参考にしました。</p>
+                <p>Processingのスケッチ全体は次のようになります。</p>
+
+                <p>M5Stackを水平なところにおいて、先程のmpu9250_serial.inoを起動し、次いでProcessing側を動かすと、パソコンの画面にM5Stackの3Dモデルが現れ、実際のM5Stackの動きに合わせて3Dモデルが動くのが確認できます。</p>
+                <h3 id="姿勢データをbluetoothで送り、3dモデルを制御する">姿勢データをBluetoothで送り、3Dモデルを制御する</h3>
+                <p>ここまではM5StackとパソコンをUSBケーブルでつないで姿勢データを送っています。M5StackにはBluetoothモジュールが搭載されているので、次はBluetoothで姿勢データを送ります。</p>
+                <p>BluetoothにはSPP（Serial Port Profile）といって、Bluetoothを使って仮想のシリアルポートを作って通信をする規格があります。ArduinoではBluetoothSerialというライブラリを使うとBluetoothでのシリアル通信ができます。</p>
+                <pre><code>#include "BluetoothSerial.h"
+
+                BluetoothSerial SerialBT;
+
+                void setup() {
+                  SerialBT.begin("M5Stack"); //Bluetoothデバイス名
+                }
+                </code></pre>
+                <p>BluetoothSerialの使い方は、最初にBluetoothSerial.hヘッダファイルをインクルードし、BluetoothSerialのオブジェクトを作ります。setup関数の中でSerialBTのbegin関数で初期設定をおこないます。パラメータにはデバイス名を渡します。</p>
+                <p>初期設定ができたら、あとは有線のSerialと同じようにprintやprintln、printfといった関数で文字の出力ができます。</p>
+                <p>先程のMPU9250から加速度、ジャイロデータを取得し、姿勢を計算してデータをシリアルに出力するプログラム（mpu9250_serial.ino）に、BluetoothSerialへの出力を追加したプログラム（mpu9250_bt.ino）は下記をご覧ください。<br>
+                <a href="https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d">https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d</a></p>
+                <p>このプログラムをビルドして、M5Stackで動かします。次に、パソコン側でM5Stackとペアリングします。Macの場合、システム環境設定のBluetoothを選択すると、次のようにSerialBT.beginで指定した名前のBluetoothデバイスが表示されるので、「接続」ボタンをクリックします。すると「M5Stack」の状態が「接続済み」に変わります。しばらくすると状態が「未接続」に変わりますが、問題ありません。</p>
+                <p><img src="./images/pairing.jpg" alt="M5Stackとペアリングする"></p>
+                <p>この状態でProcessingのM5Stack_serial.pdeを動かすと、使用可能なシリアル回線が次のように変化します。</p>
+                <pre><code>0: /dev/cu.Bluetooth-Incoming-Port
+                1: /dev/cu.M5Stack-ESP32SPP
+                2: /dev/cu.SLAB_USBtoUART
+                3: /dev/tty.Bluetooth-Incoming-Port
+                4: /dev/tty.M5Stack-ESP32SPP
+                5: /dev/tty.SLAB_USBtoUART
+                </code></pre>
+                <p>この例では1番に/dev/cu.M5Stack-ESP32SPPというデバイスが表示されていて、これがBluetoothSerialの回線ですので、この回線をオープンします。すると、最初に掲載した動画のように実際のM5Stackの動きに合わせてパソコン上の3Dモデルが動くのが確認できます。</p>
+                <p>パソコン側はBluetoothでM5Stackとペアリングする操作はシステム環境設定でやってしまうので、Processingは有線のシリアル回線からデータを受信するものと全く同じスケッチでBluetoothからデータを受信できます。</p>
+                <h2 id="まとめ">まとめ</h2>
+                <p>今回は、Processingを使ってM5Stackの3Dモデルを作り、それをM5Stackを使ってグルグル動かしてみました。Processingは簡単に画像が扱えるツールなので、いろいろと応用ができそうです。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">22.M5Stackで紫外線を測る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#紫外線">紫外線</a></li>
+                        <li><a href="#uvセンサ-1">UVセンサ</a></li>
+                        <li><a href="#veml6070">VEML6070</a></li>
+                        <li><a href="#veml6075">VEML6075</a></li>
+                        <li><a href="#si1145">SI1145</a></li>
+                        <li><a href="#3つのuvセンサを比較する">3つのUVセンサを比較する</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
