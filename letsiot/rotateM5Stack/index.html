@@ -91,54 +91,65 @@
 
             <div class="col-sm-9 col-lg-8">
 
-                <p>M5Stack GrayやFireには9軸加速度・ジャイロ・磁気センサ（IMU）が、M5StickCには6軸加速度・ジャイロが搭載されています。今回はこのIMUを使って端末の姿勢を計算します。さらに姿勢データをパソコンに送り、パソコン上に作ったM5Stackの3Dモデルを、実際のM5Stackの動きに合わせて動かしてみます。</p>
+                <p>M5Stack GrayやFireには9軸加速度・ジャイロ・磁気センサ（IMU）が、M5StickCには6軸加速度・ジャイロが搭載されています。
+                    今回はこのIMUを使って端末の姿勢を計算します。
+                    さらに姿勢データをパソコンに送り、パソコン上に作ったM5Stackの3Dモデルを、実際のM5Stackの動きに合わせて動かしてみます。</p>
                 <p>まずは動画をご覧ください。</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/0nCE_uYzwN4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <p>開発は次のステップで進めます。</p>
                 <ol>
                 <li>パソコン上にM5Stackの3Dモデルを作る</li>
                 <li>IMUを使い端末の姿勢を計算する</li>
                 <li>姿勢データをパソコンに送り、3Dモデルを制御する</li>
                 </ol>
-                <p>なお、M5Stack GrayやFireのIMUチップは出荷時期によってMPU9250が搭載されているものと、MPU6886が搭載されているものがあります。著者の手元にはMPU9250搭載のものがあるので、この記事はMPU9250版で書いています。搭載されているIMUチップは、M5Stackで次のプログラムを動かすと調べられます。</p>
+                <p>なお、M5Stack GrayやFireのIMUチップは出荷時期によってMPU9250が搭載されているものと、MPU6886が搭載されているものがあります。
+                    著者の手元にはMPU9250搭載のものがあるので、この記事はMPU9250版で書いています。
+                    搭載されているIMUチップは、M5Stackで次のプログラムを動かすと調べられます。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/c91f97a9241aad2f5c4ca4870ca58a7d.js"></script>
 
                 <h2 id="パソコン上にm5stackの3dモデルを作る">パソコン上にM5Stackの3Dモデルを作る</h2>
-                <p>3Dモデルを作れるツールはいろいろありますが、センサデータを使ってモデルをグルグル回転させられる使いやすいツールということで、今回はProcessing（<a href="https://processing.org/">https://processing.org/</a>）を使うことにします。</p>
+                <p>3Dモデルを作れるツールはいろいろありますが、センサデータを使ってモデルをグルグル回転させられる使いやすいツールということで、
+                    今回はProcessing（<a href="https://processing.org/">https://processing.org/</a>）を使うことにします。</p>
                 <p>Processingは線や図形、画像などが簡単に扱えるプログラミング言語と統合開発環境です。</p>
+
                 <h3 id="processingのインストール">Processingのインストール</h3>
-                <p>ProcessingはWindows、Mac OS X、Linuxで動作します。Processing公式サイトのDownload Processingページ（<a href="https://processing.org/download/">https://processing.org/download/</a>）から、お使いのOSに合わせたソフトウェアのZIPファイルをダウンロードします。Mac OSの場合、ダウンロードしたZIPファイルを展開し、出てきたアプリケーションファイルをアプリケーションフォルダーに入れればインストール完了です。</p>
+                <p>ProcessingはWindows、Mac OS X、Linuxで動作します。
+                    Processing公式サイトのDownload Processingページ（<a href="https://processing.org/download/">https://processing.org/download/</a>）から、お使いのOSに合わせたソフトウェアのZIPファイルをダウンロードします。Mac OSの場合、ダウンロードしたZIPファイルを展開し、出てきたアプリケーションファイルをアプリケーションフォルダーに入れればインストール完了です。</p>
                 <p>アプリケーションを起動すると、次のような画面が現れます。</p>
-                <p><img src="./images/processing.jpg" alt="Processing初期画面"></p>
+                <p><img src="./images/processing.jpg" width="70%" class="img-responsive center-block" alt="Processing初期画面"></p>
                 <p>どこかで見たような画面ですね。画面が上下に分割されていて、上の方には実行ボタンのようなものがあり、タブには「sketch_190821a」と書かれています。そう、Arduino IDEにとてもよく似ています。WikipediaによるとProcessingは2001年に開発がスタートし、Arduinoにも大きな影響を与えているそうです。</p>
                 <p>プログラムの構造もArduinoとよく似ていて、setupという関数があると最初に一度だけ実行され、その後drawというArduinoのloop関数にあたる関数が繰り返し実行されます。setup関数で描画する画面サイズの設定などの初期設定をおこない、draw関数で線や図形などを実際に描画します。draw関数は繰り返し実行されるので、実行のたびに線や図形の位置や大きさなどを変えると動画を表示することも可能です。</p>
+
                 <h3 id="dモデルを作る">3Dモデルを作る</h3>
                 <p>まずM5Stackの3Dモデルを作ります。Processingでは、Shapes 3Dというライブラリを使うと、いろいろな形の3Dの物体にテクスチャを貼り付けることができます。しかし、Shapes 3Dは仕様に不明なところがあるので、もっと単純にM5Stackの前後、左右、上下、6枚の画像を3次元空間に貼り付けることにします。</p>
                 <p>まず最初に、M5Stackの前後、左右、上下、6面から写真を撮ります。撮った写真を調べると前後の写真は700 x 700ピクセル前後、上下左右の写真は700 x 225ピクセル前後だったので、M5Stackを表す直方体の大きさを700 x 700 x 225ピクセルに決めました。次に、前後の写真は700 x 700、上下左右の写真は700 x 225ピクセルぴったりになるように画像ソフト（Macであればプレビューなど）を使って画像サイズを調整しておきます。</p>
                 <p>次に、ProcessingでM5Stackのモデルを作ります。M5Stackを表す直方体を考えます。直方体の大きさはM5Stackの縦横高さと同じ比率にしますが、分かりやすいように写真のピクセル数に合わせて700 x 700 x 225にしました。</p>
-                <p><img src="./images/m5stackin3D.jpg" alt="3D空間の中のM5Stack"></p>
+                <p><img src="./images/m5stackin3D.jpg" width="70%" class="img-responsive center-block" alt="3D空間の中のM5Stack"></p>
                 <p>この直方体の中心が3次元空間の原点にくるように置くと、M5Stackの前面の座標は左上からコの字の順番に次のようになります。</p>
-                <pre><code>V1: (-350, -112, -350)
-                V2: ( 350, -112, -350)
-                V3: ( 350, -112,  350)
-                V4: (-350, -112,  350)
-                </code></pre>
+<pre><code>V1: (-350, -112, -350)
+V2: ( 350, -112, -350)
+V3: ( 350, -112,  350)
+V4: (-350, -112,  350)
+</code></pre>
                 <p>この座標にM5Stackの前面の画像を貼り付け、マウスで動かしてみます。</p>
                 <h3 id="dモデルをマウスで動かす">3Dモデルをマウスで動かす</h3>
                 <p>Processingを立ち上げて、次のプログラムを入力し、適当な名前、例えばM5Stack_front_mouseで保存します。</p>
 
                 <p>プログラムを保存したフォルダの場所をProcessingの「環境設定」で確認します。Macの場合、標準では「/Users/ユーザー名/Documents/Processing/スケッチ名」です。このフォルダにdataというフォルダを作り、dataの中にM5Stack前面の画像ファイルをfront.jpgという名前で置きます。</p>
                 <p>Processingの「実行」ボタンを押すと、画像ウィンドウが現れ、中にM5Stack前面の画像が表示されます。マウスを動かすと、それに合わせてM5Stack前面の画像が動くのが確認できます。</p>
-                <p><img src="./images/m5stack_front_mouse.jpg" alt="M5Stack前面の画像をマウスで動かす"></p>
+                <p><img src="./images/m5stack_front_mouse.jpg" width="70%" class="img-responsive center-block" alt="M5Stack前面の画像をマウスで動かす"></p>
                 <p>前面の画像だけなので、角度によっては裏側が見えてしまうなど、変なところもありますが、画像を3次元空間において、マウスで回転させられました。他の5面についても同様に3D空間に貼り付けることで、M5Stackの3Dモデルを作り、マウスで動かせるようになります。</p>
                 <p>3Dモデルを作ってマウスで動かすプログラムは下記をご覧ください。<br>
                 <a href="https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0">https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0</a></p>
                 <p>プログラムを保存したフォルダにdataというフォルダを作り、今度は6面の画像ファイルをfront.jpg、back.jpg、right.jpg、left.jpg、top.jpg、bottom.jpgという名前で置きます。</p>
                 <p>プログラムを動かすと、次のような画像が表示され、マウスの動きに合わせて動くのが確認できます。</p>
-                <p><img src="./images/m5stack_mouse.jpg" alt="M5Stackの3Dモデルをマウスで動かす"></p>
+                <p><img src="./images/m5stack_mouse.jpg" width="70%" class="img-responsive center-block" alt="M5Stackの3Dモデルをマウスで動かす"></p>
                 <h2 id="imuを使い端末の姿勢を計算する">IMUを使い端末の姿勢を計算する</h2>
                 <p>ProcessingでM5Stackの3Dモデルができたので、次はM5StackのIMUを使って、M5Stack自身の姿勢を計算します。</p>
                 <h3 id="imuデータによる姿勢の計算">IMUデータによる姿勢の計算</h3>
                 <p>物体の姿勢を表すには、次の図のようにx軸を中心とした回転角度ロール（roll）、y軸を中心としたピッチ（pitch）、z軸を中心としたヨー（yaw）を使います。</p>
-                <p><img src="./images/rollpitchyaw.jpg" alt="姿勢を表す"></p>
+                <p><img src="./images/rollpitchyaw.jpg" width="70%" class="img-responsive center-block" alt="姿勢を表す"></p>
                 <p>ちなみに、この図のx軸、y軸、z軸の向きは右手系といって、右手の親指、人差し指、中指を互いに直交するように開いたとき、親指がx軸、人差し指がy軸、中指がz軸に対応します。M5Stackに内蔵されるIMU（MPU9520）のx軸、y軸、z軸の向きも同じように右手系です。</p>
                 <p>9軸加速度・ジャイロ・磁気センサや6軸加速度・ジャイロセンサの値から、ロール、ピッチ、ヨーを計算するMadgwickAHRSというライブラリがあります。AHRSはAttitude and Heading Reference Systemの略で、姿勢と方位を計算するシステムです。Madgwickという人が開発した、IMU値から姿勢と方位を計算するアルゴリズムを使っています。磁気センサの値を使わなくても十分な精度の姿勢データが得られたので、加速度・ジャイロセンサの値だけを使うことにします。</p>
                 <p>M5StackでMPU9250から加速度とジャイロの値を取得するArduinoのプログラムは次のようになります。</p>
@@ -252,7 +263,7 @@
                 <p>先程のMPU9250から加速度、ジャイロデータを取得し、姿勢を計算してデータをシリアルに出力するプログラム（mpu9250_serial.ino）に、BluetoothSerialへの出力を追加したプログラム（mpu9250_bt.ino）は下記をご覧ください。<br>
                 <a href="https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d">https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d</a></p>
                 <p>このプログラムをビルドして、M5Stackで動かします。次に、パソコン側でM5Stackとペアリングします。Macの場合、システム環境設定のBluetoothを選択すると、次のようにSerialBT.beginで指定した名前のBluetoothデバイスが表示されるので、「接続」ボタンをクリックします。すると「M5Stack」の状態が「接続済み」に変わります。しばらくすると状態が「未接続」に変わりますが、問題ありません。</p>
-                <p><img src="./images/pairing.jpg" alt="M5Stackとペアリングする"></p>
+                <p><img src="./images/pairing.jpg" width="70%" class="img-responsive center-block" alt="M5Stackとペアリングする"></p>
                 <p>この状態でProcessingのM5Stack_serial.pdeを動かすと、使用可能なシリアル回線が次のように変化します。</p>
                 <pre><code>0: /dev/cu.Bluetooth-Incoming-Port
                 1: /dev/cu.M5Stack-ESP32SPP
