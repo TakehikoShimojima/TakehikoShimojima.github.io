@@ -110,12 +110,12 @@
 
                 <h2 id="パソコン上にm5stackの3dモデルを作る">パソコン上にM5Stackの3Dモデルを作る</h2>
                 <p>3Dモデルを作れるツールはいろいろありますが、センサデータを使ってモデルをグルグル回転させられる使いやすいツールということで、
-                    今回はProcessing（<a href="https://processing.org/">https://processing.org/</a>）を使うことにします。</p>
+                    今回はProcessing（<a href="https://processing.org/" target="_blank">https://processing.org/</a>）を使うことにします。</p>
                 <p>Processingは線や図形、画像などが簡単に扱えるプログラミング言語と統合開発環境です。</p>
 
                 <h3 id="processingのインストール">Processingのインストール</h3>
                 <p>ProcessingはWindows、Mac OS X、Linuxで動作します。
-                    Processing公式サイトのDownload Processingページ（<a href="https://processing.org/download/">https://processing.org/download/</a>）から、お使いのOSに合わせたソフトウェアのZIPファイルをダウンロードします。Mac OSの場合、ダウンロードしたZIPファイルを展開し、出てきたアプリケーションファイルをアプリケーションフォルダーに入れればインストール完了です。</p>
+                    Processing公式サイトのDownload Processingページ（<a href="https://processing.org/download/" target="_blank">https://processing.org/download/</a>）から、お使いのOSに合わせたソフトウェアのZIPファイルをダウンロードします。Mac OSの場合、ダウンロードしたZIPファイルを展開し、出てきたアプリケーションファイルをアプリケーションフォルダーに入れればインストール完了です。</p>
                 <p>アプリケーションを起動すると、次のような画面が現れます。</p>
                 <p><img src="./images/processing.jpg" width="70%" class="img-responsive center-block" alt="Processing初期画面"></p>
                 <p>どこかで見たような画面ですね。画面が上下に分割されていて、上の方には実行ボタンのようなものがあり、タブには「sketch_190821a」と書かれています。そう、Arduino IDEにとてもよく似ています。WikipediaによるとProcessingは2001年に開発がスタートし、Arduinoにも大きな影響を与えているそうです。</p>
@@ -144,7 +144,7 @@ V4: (-350, -112,  350)
                 <p><img src="./images/m5stack_front_mouse.jpg" width="70%" class="img-responsive center-block" alt="M5Stack前面の画像をマウスで動かす"></p>
                 <p>前面の画像だけなので、角度によっては裏側が見えてしまうなど、変なところもありますが、画像を3次元空間において、マウスで回転させられました。他の5面についても同様に3D空間に貼り付けることで、M5Stackの3Dモデルを作り、マウスで動かせるようになります。</p>
                 <p>3Dモデルを作ってマウスで動かすプログラムは下記をご覧ください。<br>
-                <a href="https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0">https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0</a></p>
+                <a href="https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0" target="_blank">https://gist.github.com/TakehikoShimojima/f5b58a5bf7f5545fa27ae32d0d09e1a0</a></p>
                 <p>プログラムを保存したフォルダにdataというフォルダを作り、今度は6面の画像ファイルをfront.jpg、back.jpg、right.jpg、left.jpg、top.jpg、bottom.jpgという名前で置きます。</p>
                 <p>プログラムを動かすと、次のような画像が表示され、マウスの動きに合わせて動くのが確認できます。</p>
                 <p><img src="./images/m5stack_mouse.jpg" width="70%" class="img-responsive center-block" alt="M5Stackの3Dモデルをマウスで動かす"></p>
@@ -252,7 +252,7 @@ void draw() {
                 <p>文字データの読み込みは、available関数でデータがあることを確認し、データがあれば、readStringUntil(’\n’)関数で改行文字まで1行分のデータを読み込みます。</p>
                 <p>trim関数で空白文字を取り除き、split関数でカンマで区切られたトークンを取り出しています。</p>
                 <p>float関数で文字列をfloatデータに変換します。M5Stack上のx軸、y軸、z軸の向きとProcessingでの向きを合わせるために、pitchとyawの値は符号を反転させたり、180度反転させたりしています。</p>
-                <p>roll、pitch、yawデータを元にProcessingのデータを回転するロジックはArduinoの「<a href="https://www.arduino.cc/en/Tutorial/Genuino101CurieIMUOrientationVisualiser">Arduino/Genuino 101  CurieIMU  Orientation Visualiser</a>」というチュートリアルを参考にしました。</p>
+                <p>roll、pitch、yawデータを元にProcessingのデータを回転するロジックはArduinoの「<a href="https://www.arduino.cc/en/Tutorial/Genuino101CurieIMUOrientationVisualiser" target="_blank">Arduino/Genuino 101  CurieIMU  Orientation Visualiser</a>」というチュートリアルを参考にしました。</p>
                 <p>Processingのスケッチ全体は次のようになります。</p>
 
                 <script src="https://gist.github.com/TakehikoShimojima/2b70d0d9b2b6518f5249cacdadf08614.js"></script>
@@ -273,7 +273,7 @@ void setup() {
                 <p>BluetoothSerialの使い方は、最初にBluetoothSerial.hヘッダファイルをインクルードし、BluetoothSerialのオブジェクトを作ります。setup関数の中でSerialBTのbegin関数で初期設定をおこないます。パラメータにはデバイス名を渡します。</p>
                 <p>初期設定ができたら、あとは有線のSerialと同じようにprintやprintln、printfといった関数で文字の出力ができます。</p>
                 <p>先程のMPU9250から加速度、ジャイロデータを取得し、姿勢を計算してデータをシリアルに出力するプログラム（mpu9250_serial.ino）に、BluetoothSerialへの出力を追加したプログラム（mpu9250_bt.ino）は下記をご覧ください。<br>
-                <a href="https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d">https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d</a></p>
+                <a href="https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d" target="_blank">https://gist.github.com/TakehikoShimojima/e6792a05562d894f6477c8e8da797f6d</a></p>
                 <p>このプログラムをビルドして、M5Stackで動かします。次に、パソコン側でM5Stackとペアリングします。Macの場合、システム環境設定のBluetoothを選択すると、次のようにSerialBT.beginで指定した名前のBluetoothデバイスが表示されるので、「接続」ボタンをクリックします。すると「M5Stack」の状態が「接続済み」に変わります。しばらくすると状態が「未接続」に変わりますが、問題ありません。</p>
                 <p><img src="./images/pairing.jpg" width="70%" class="img-responsive center-block" alt="M5Stackとペアリングする"></p>
                 <p>この状態でProcessingのM5Stack_serial.pdeを動かすと、使用可能なシリアル回線が次のように変化します。</p>
@@ -302,14 +302,11 @@ void setup() {
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">22.M5Stackで紫外線を測る</a></li>
+                    <li class="open"><a href="index.html">23.パソコン上のM5Stackの3Dモデルを、M5Stackの動きに合わせて動かす</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#紫外線">紫外線</a></li>
-                        <li><a href="#uvセンサ-1">UVセンサ</a></li>
-                        <li><a href="#veml6070">VEML6070</a></li>
-                        <li><a href="#veml6075">VEML6075</a></li>
-                        <li><a href="#si1145">SI1145</a></li>
-                        <li><a href="#3つのuvセンサを比較する">3つのUVセンサを比較する</a></li>
+                        <li><a href="#パソコン上にm5stackの3dモデルを作る">パソコン上にM5Stackの3Dモデルを作る</a></li>
+                        <li><a href="#imuを使い端末の姿勢を計算する">IMUを使い端末の姿勢を計算する</a></li>
+                        <li><a href="#姿勢データをパソコンに送り、3dモデルを制御する">姿勢データをパソコンに送り、3Dモデルを制御する</a></li>
                         <li><a href="#まとめ">まとめ</a></li>
                     </ul>
                 </ul>
