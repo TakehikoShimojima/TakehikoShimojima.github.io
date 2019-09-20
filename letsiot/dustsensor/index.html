@@ -1,0 +1,239 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="dustsensor - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ダストセンサで空気中のホコリを測定する - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年9月26日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>ダストセンサで空気中のホコリを測定する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>M5StackとGrove ダストセンサを使い、空気中のホコリの量を測定します。</p>
+
+                <h2 id="grove-ダストセンサ">Grove ダストセンサ</h2>
+                <p>今回使用する<a href="https://www.switch-science.com/catalog/3081/">Grove ダストセンサ</a>は、直径1マイクロメートル（μm）以上の粒子を検出し、粒子状物質の濃度に対応したパルスを発生します。</p>
+                <p><img src="./images/dustsensor.jpg" alt="Groveダストセンサ"></p>
+                <p>ちなみに、大気汚染で注目されているPM2.5は2.5μmの粒子状物質、スギ花粉症の原因となるスギ花粉は30〜40μmの大きさとのことなので、このGrove ダストセンサはPM2.5が検出可能なようです。</p>
+                <h2 id="grove-ダストセンサをm5stackに接続する">Grove ダストセンサをM5Stackに接続する</h2>
+                <p>Grove ダストセンサには4ピンのGroveコネクタがついていて、各ピンはデジタル出力、未使用、5V、グランドです。</p>
+                <p>M5Stack BasicやGrayにはGroveポートがありますが、I<sup>2</sup>C接続用です。M5Stack内部でIP5306というI<sup>2</sup>Cで通信する電源制御用チップにもつながっているので、I<sup>2</sup>C以外の方法で使えません。つまり、GroveダストセンサのGroveコネクタはM5Stack BasicやGrayのGroveポートには挿せません。そこでGroveダストセンサをM5StackのGPIO2、5V、GNDに接続しました。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="center">Groveダストセンサ</th>
+                <th align="center">M5Stack</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="center">デジタル出力</td>
+                <td align="center">GPIO2</td>
+                </tr>
+                <tr>
+                <td align="center">未使用</td>
+                <td align="center">ー</td>
+                </tr>
+                <tr>
+                <td align="center">5V</td>
+                <td align="center">5V</td>
+                </tr>
+                <tr>
+                <td align="center">グランド</td>
+                <td align="center">GND</td>
+                </tr>
+                </tbody>
+                </table><p>空気中のホコリの量と合わせて温度と湿度も測るように、温湿度センサSi7021も接続しました。</p>
+                <p><img src="./images/M5Stack_dustsensor.jpg" alt="M5Stackとダストセンサ"></p>
+                <h2 id="grove-ダストセンサにアクセスする">Grove ダストセンサにアクセスする</h2>
+                <p>Grove ダストセンサは、測定時間中にパルスがLowレベルになった時間の比率が、粒子状物質の濃度に対応します。</p>
+                <p><img src="./images/lowpulseoccupancy.jpg" alt="粒子密度の計算"></p>
+                <p>Grove ダストセンサにアクセスしてホコリの粒子量を得るプログラムは、Seeed studui 社のサイトのサンプルコードを使いました。</p>
+
+                <p>pulseInはパルス幅を測るArduinoのシステム関数です。</p>
+                <pre><code>pulseIn(pin, value[, timeout]);
+                </code></pre>
+                <p>pinで指定するピンがHIGHまたはLOWである時間を測り、結果をマイクロ秒で返します。timeoutを指定した場合、timeout μ秒経過すると0が返ります。</p>
+                <p>pulseIn関数でパルスがLowである時間を測り、lowpulseoccupancyという変数にに積算していき、sampletime_ms秒経ったら比率（ratio）を計算します。</p>
+                <p>次の式で比率（ratio）から粒子の濃度（concentration）を計算しています。</p>
+                <pre><code>concentration = 1.1 * ratio ^3 - 3.8 * ratio ^2 + 520 * ratio + 0.62
+                </code></pre>
+                <p>60秒ごとにホコリの粒子量と温度、湿度を測定し、クラウドサービスAmbientに送信してデータを可視化するプログラムの全体は次のようになりました。</p>
+
+                <h2 id="測定">測定</h2>
+                <p>ダストセンサを自宅の居間において、何日か測定しました。</p>
+                <p><img src="./images/result.jpg" alt="測定結果"></p>
+                <p>左のグラフは青が温度、赤が湿度、右のグラフはオレンジがホコリの量で、単位は0.01立方フィートあたりのホコリの粒子量です。</p>
+                <p>9月18日は旅行にでていて、朝から不在で、18時40分ごろ帰宅して、部屋の空気を入れ替えました。そのタイミングで温度が下がり、相対湿度が上がっています。粒子量も少し増えています。20時ぐらいに夕食だったので、そのときに粒子量が増えています。</p>
+                <p>不思議なのは6時過ぎから10時ぐらいまでと12時ぐらいの粒子量の増加です。この時間は家には誰もいないのですが、粒子量が増えています。温度上昇と似た増え方をしているので、何か相関があるのかもしれません。</p>
+                <p>翌19日は7時ごろ起床しました。就寝中は粒子量が少なく、人が活動を始めると粒子量が増加しています。</p>
+                <h2 id="まとめ">まとめ</h2>
+                <p>ホコリの量は精密な作業をおこなう工場などでは重要な指標です。Grove ダストセンサは原稿執筆時点で1,987円と比較的安価です。ホコリの量と作業品質の相関を調べるならこういったセンサで十分意味のあるデータが取れそうです。</p>
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">22.M5Stackで紫外線を測る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#紫外線">紫外線</a></li>
+                        <li><a href="#uvセンサ-1">UVセンサ</a></li>
+                        <li><a href="#veml6070">VEML6070</a></li>
+                        <li><a href="#veml6075">VEML6075</a></li>
+                        <li><a href="#si1145">SI1145</a></li>
+                        <li><a href="#3つのuvセンサを比較する">3つのUVセンサを比較する</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
