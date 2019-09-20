@@ -155,12 +155,12 @@
 
                 <h3>デジタル温湿度センサSi7021にアクセスする</h3>
                 <p>温度と湿度の測定はSi7021というデジタル温湿度センサを使いました。
-                    Si7021はI<sup>2</sup>Cでマイコンと通信します。
-                    使い方は簡単で、最初にI<sup>2</sup>C通信のための `Wire.h` と `Adafruit_Si7021.h` というヘッダファイルをインクルードし、
-                    `Adafruit_Si7021` オブジェクトを初期化します。
-                    setup関数内で `Wire.begin` メソッドでI<sup>2</sup>Cを初期化し、 `begin` メソッドでセンサを初期化し、
-                    loop関数で `readTemperature` メソッドと `readHumidity` メソッドで温度と湿度のデータを読みます。
-                    Si7021のアクセスに関係する部分を抜き出すと、次のようになります。
+                    Si7021はI<sup>2</sup>Cでマイコンと通信します。</p>
+                <p>使い方は簡単で、最初にI<sup>2</sup>C通信のための <code>Wire.h</code> と <code>Adafruit_Si7021.h</code> というヘッダファイルをインクルードし、
+                    <code>Adafruit_Si7021</code> オブジェクトを初期化します。
+                    setup関数内で <code>Wire.begin</code> メソッドでI<sup>2</sup>Cを初期化し、 <code>begin</code> メソッドでセンサを初期化し、
+                    loop関数で <code>readTemperature</code> メソッドと <code>readHumidity</code> メソッドで温度と湿度のデータを読みます。</p>
+                <p>Si7021のアクセスに関係する部分を抜き出すと、次のようになります。</p>
 
 <pre><code>#include <Wire.h>
 #include "Adafruit_Si7021.h"
@@ -178,7 +178,31 @@ void loop() {
 }</code></pre>
 
                 <h3>データをAmbientに送信して可視化する</h3>
+                <p>データの可視化には<a href="https://ambidata.io" target="_blank">IoTデータ可視化サービスAmbient</a>を使いました。
+                    Ambientを使うにはユーザー登録（無料）が必要です。登録の流れなどは「<a href="http://pages.switch-science.com/letsiot/temphumidpress/">1.温度、湿度、気圧を測定し、記録する</a>」をご覧ください。</p>
+                <p>Ambientにデータを送って可視化するためには、最初に <code>Ambient.h</code> ヘッダファイルをインクルードし、<code>Ambient</code> オブジェクトを作ります。
+                    setup関数でチャネルIDとライトキーを指定してAmbientオブジェクトを初期設定し、loop関数で <code>set</code> メソッドで送りたいデータをセットし、<code>send</code> メソッドで送信します。
+                    これで送ったデータがリアルタイムにグラフ化されます。</p>
+                <p>Ambientにデータを送信する部分を抜き出すと、次のようになります。</p>
 
+<pre><code>#include "Ambient.h"
+
+Ambient ambient;
+
+unsigned int channelId = 100; // AmbientのチャネルID
+const char* writeKey = "writeKey"; // ライトキー
+
+void setup() {
+    ambient.begin(channelId, writeKey, &client); // チャネルIDとライトキーを指定してAmbientの初期化
+}
+
+void loop() {
+    ambient.set(1, temp);
+    ambient.set(2, humid);
+    ambient.set(3, concentration);
+
+    ambient.send();
+}</code></pre>
                 <p>60秒ごとにホコリの粒子量と温度、湿度を測定し、クラウドサービスAmbientに送信してデータを可視化するプログラムの全体は次のようになります。</p>
                 <script src="https://gist.github.com/TakehikoShimojima/4b11e3c78c4e50a79f63ca3db2ec90df.js"></script>
 
