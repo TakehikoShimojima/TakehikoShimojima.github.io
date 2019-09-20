@@ -104,37 +104,40 @@
                 <p>M5Stack BasicやGrayにはGroveポートがありますが、I<sup>2</sup>C接続用です。
                     M5Stack内部でIP5306というI<sup>2</sup>Cで通信する電源制御用チップにもつながっているので、I<sup>2</sup>C以外の方法で使えません。つまり、GroveダストセンサのGroveコネクタはM5Stack BasicやGrayのGroveポートには挿せません。そこでGroveダストセンサをM5StackのGPIO2、5V、GNDに接続しました。</p>
 
-                <table class="table table-bordered" style="width: 50%;">
-                <thead>
-                <tr>
-                <th align="center">Groveダストセンサ</th>
-                <th align="center">M5Stack</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td align="center">デジタル出力</td>
-                <td align="center">GPIO2</td>
-                </tr>
-                <tr>
-                <td align="center">未使用</td>
-                <td align="center">ー</td>
-                </tr>
-                <tr>
-                <td align="center">5V</td>
-                <td align="center">5V</td>
-                </tr>
-                <tr>
-                <td align="center">グランド</td>
-                <td align="center">GND</td>
-                </tr>
-                </tbody>
-                </table>
+                <div align="center">
+                    <table class="table table-bordered" style="width: 50%;">
+                    <thead>
+                    <tr>
+                    <th align="center">Groveダストセンサ</th>
+                    <th align="center">M5Stack</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td align="center">デジタル出力</td>
+                    <td align="center">GPIO2</td>
+                    </tr>
+                    <tr>
+                    <td align="center">未使用</td>
+                    <td align="center">ー</td>
+                    </tr>
+                    <tr>
+                    <td align="center">5V</td>
+                    <td align="center">5V</td>
+                    </tr>
+                    <tr>
+                    <td align="center">グランド</td>
+                    <td align="center">GND</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
                 <p>空気中のホコリの量と合わせて温度と湿度も測るように、温湿度センサSi7021も接続しました。
                     写真ではダストセンサーを水平に置いていますが、製造元のSeeed社のサイトには垂直に立てて使うようにとかかれているので、設置するときは垂直に置きます。</p>
-                <p><img src="./images/M5Stack_dustsensor.jpg" width="80%" class="img-responsive center-block" alt="M5Stackとダストセンサ"></p>
+                <p><img src="./images/M5Stack_dustsensor.jpg" width="100%" class="img-responsive center-block" alt="M5Stackとダストセンサ"></p>
 
-                <h2 id="grove-ダストセンサにアクセスする">Grove ダストセンサにアクセスする</h2>
+                <h2 id="プログラム">プログラム</h2>
+                <h3 id="grove-ダストセンサにアクセスする">Grove ダストセンサにアクセスする</h3>
                 <p>Grove ダストセンサは、測定時間中にパルスがLowレベルになった時間の比率が、粒子状物質の濃度に対応します。</p>
                 <p><img src="./images/lowpulseoccupancy.jpg" width="80%" class="img-responsive center-block" alt="粒子密度の計算"></p>
                 <p>図はShinyei Particle Sensor Model PPD42NS データーシートより</p>
@@ -149,7 +152,34 @@
                     sampletime_ms秒経ったら比率（ratio）を計算します。</p>
                 <p>次の式で比率（ratio）から粒子の濃度（concentration）を計算しています。</p>
 <pre><code>concentration = 1.1 * ratio ^3 - 3.8 * ratio ^2 + 520 * ratio + 0.62</code></pre>
-                <p>60秒ごとにホコリの粒子量と温度、湿度を測定し、クラウドサービスAmbientに送信してデータを可視化するプログラムの全体は次のようになりました。</p>
+
+                <h3>デジタル温湿度センサSi7021にアクセスする</h3>
+                <p>温度と湿度の測定はSi7021というデジタル温湿度センサを使いました。
+                    Si7021はI<sup>2</sup>Cでマイコンと通信します。
+                    使い方は簡単で、最初にI<sup>2</sup>C通信のための `Wire.h` と `Adafruit_Si7021.h` というヘッダファイルをインクルードし、
+                    `Adafruit_Si7021` オブジェクトを初期化します。
+                    setup関数内で `Wire.begin` メソッドでI<sup>2</sup>Cを初期化し、 `begin` メソッドでセンサを初期化し、
+                    loop関数で `readTemperature` メソッドと `readHumidity` メソッドで温度と湿度のデータを読みます。
+                    Si7021のアクセスに関係する部分を抜き出すと、次のようになります。
+
+<pre><code>#include <Wire.h>
+#include "Adafruit_Si7021.h"
+
+Adafruit_Si7021 sensor = Adafruit_Si7021();  // Adafruit_Si7021オブジェクトを初期化する
+
+void setup() {
+    Wire.begin();    // I2Cを初期化する
+    sensor.begin();  // Si7021を初期化する
+}
+
+void loop() {
+    float temp = sensor.readTemperature();  // Si7021から温度を読む
+    float humid = sensor.readHumidity();  // Si7021から湿度を読む
+}</code></pre>
+
+                <h3>データをAmbientに送信して可視化する</h3>
+
+                <p>60秒ごとにホコリの粒子量と温度、湿度を測定し、クラウドサービスAmbientに送信してデータを可視化するプログラムの全体は次のようになります。</p>
                 <script src="https://gist.github.com/TakehikoShimojima/4b11e3c78c4e50a79f63ca3db2ec90df.js"></script>
 
                 <h2 id="測定">測定</h2>
@@ -177,9 +207,9 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">24.ダストセンサで空気中のホコリを測定する</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#grove-ダストセンサ">Grove ダストセンサgrove-ダストセンサをm5stackに接続する</a></li>
+                        <li><a href="#grove-ダストセンサ">Grove ダストセンサ</a></li>
                         <li><a href="#grove-ダストセンサをm5stackに接続する">Grove ダストセンサをM5Stackに接続する</a></li>
-                        <li><a href="#grove-ダストセンサにアクセスする">Grove ダストセンサにアクセスする</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
                         <li><a href="#測定">測定</a></li>
                         <li><a href="#まとめ">まとめ</a></li>
                     </ul>
