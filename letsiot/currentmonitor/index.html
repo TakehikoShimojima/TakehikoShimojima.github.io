@@ -103,13 +103,14 @@
 
                 <h2 id="電流センサ">電流センサ</h2>
                 <p>電流センサモジュールとしては「<a href="https://www.switch-science.com/catalog/3857/">Conta™ 電流センサ max4A PAC1710搭載</a>」を使います。</p>
-                <p><img src="./images/conta_sensor.jpg" width="80%" class="img-responsive center-block" alt="Conta™ 電流センサ"></p>
+                <p><img src="./images/conta_sensor.jpg" width="40%" class="img-responsive center-block" alt="Conta™ 電流センサ"></p>
                 <p>この電流センサモジュールには、10mΩの抵抗（シャント抵抗）が搭載されています。バッテリと測定対象のデバイスの間にこのシャント抵抗を入れ、シャント抵抗の両端の電圧を測ることでバッテリからデバイスに流れる電流を測定します。シャント抵抗を流れる電流の測定にはPAC1710という電流センサが使われています。</p>
                 <p>PAC1710の電流測定には3つのパラメータがあります。一つは電流の測定範囲、もう一つは測定時間、3つ目は測定回数です。</p>
                 <p>測定範囲はシャント抵抗が10mΩの場合、±1A、±2A、±4A、±8Aの範囲が選択できます。今回はESP32など低消費電力のマイコンを測定対象にするので、±1Aのレンジで測定するように設定します。</p>
                 <p>測定時間は、測定にかける時間で、2.5ミリ秒から320ミリ秒まで設定できます。この測定時間は測定精度とトレードオフの関係にあります。測定範囲を±1Aにした場合、測定時間を2.5ミリ秒にすると15.6mAの精度で測定でき、20ミリ秒だと1.95mA、デフォルト設定の80ミリ秒だと0.49mAになります。マイコンの消費電流を測定する場合、細かい測定間隔で詳細な電流値を知りたいので、悩ましいトレードオフですが、今回は20ミリ秒、1.95mAの精度で測定することにします。</p>
                 <p>測定回数は、複数回測定して平均値を計算する機能で、1回（デフォルト）、2回、4回、8回が選択できます。今回はデフォルトの1回にします。</p>
                 <p>PAC1710はI2Cでマイコンと通信します。デフォルトのI2Cアドレスは0x18です。</p>
+
                 <h2 id="ハードウェア">ハードウェア</h2>
                 <p>M5StackとConta™ 電流センサモジュールはI2Cで通信するので、次のように接続します。モジュールにはプルアップ抵抗がついていないので、プログラムでプルアップします。</p>
 
@@ -142,10 +143,11 @@
                     </table>
                 </div>
                 <p>M5Stackに添付されているジャンパワイヤなどを使って接続します。</p>
-                <p><img src="./images/m5_conta.jpg" width="80%" class="img-responsive center-block" alt="M5StackとConta™ 電流センサ"></p>
+                <p><img src="./images/m5_conta.jpg" width="70%" class="img-responsive center-block" alt="M5StackとConta™ 電流センサ"></p>
                 <p>測定対象のバッテリとデバイスはConta™ 電流センサモジュールの端子台につなぎます。写真のように端子台を上に見たときに、電流が端子台の右から左に流れるようにつなぎます。この電流センサは逆方向の電流も測れるので、逆につないでもセンサが壊れることはありませんが、得られた値がプラスマイナス逆になってしまいます。</p>
                 <p>測定対象のバッテリとデバイスは、次の写真のようにバッテリのプラスを電流センサモジュールの右側の端子台につなぎ、左の端子台にデバイスをつなぎます。バッテリとデバイスのグランドは、電流センサのグランド（GND）につなぎます。</p>
                 <p><img src="./images/curmon_dev.jpg" width="80%" class="img-responsive center-block" alt="電流モニタと測定対象"></p>
+
                 <h2 id="プログラム">プログラム</h2>
                 <p>プログラム実行中の消費電流の積算値を測るために、10ミリ秒間隔で消費電流を測定し、1,000件のデータをメモリーに記録します。10ミリ秒間隔で1,000件なので、測定期間は10秒です。</p>
                 <p>周期的な処理は次のようにESP32 Arduinoのタイマー機能を使って実現します。 <code>sampling</code> ミリ秒ごとにタイマー割り込み処理関数 <code>onTimer0</code> が呼び出されるようにします。周期処理では、 <code>t0flag</code> という変数を0にしてタイマー割り込みを待ち、割り込み処理関数で <code>t0flag</code> を1にすることで待ちを解除し、 <code>sampling</code> ミリ秒ごとに周期処理がおこなわれるようにします。</p>
@@ -216,12 +218,13 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">24.ダストセンサで空気中のホコリを測定する</a></li>
+                    <li class="open"><a href="index.html">25.</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#grove-ダストセンサ">Grove ダストセンサ</a></li>
-                        <li><a href="#grove-ダストセンサをm5stackに接続する">Grove ダストセンサをM5Stackに接続する</a></li>
+                        <li><a href="#iotデバイスの消費電流">IoTデバイスの消費電流</a></li>
+                        <li><a href="#電流センサ">電流センサ</a></li>
+                        <li><a href="#ハードウェア">ハードウェア</a></li>
                         <li><a href="#プログラム">プログラム</a></li>
-                        <li><a href="#測定">測定</a></li>
+                        <li><a href="#espr-developer-32-の消費電流を測ってみた">ESPr Developer 32 の消費電流を測ってみた</a></li>
                         <li><a href="#まとめ">まとめ</a></li>
                     </ul>
                 </ul>
