@@ -113,32 +113,35 @@
                 <h2 id="ハードウェア">ハードウェア</h2>
                 <p>M5StackとConta™ 電流センサモジュールはI2Cで通信するので、次のように接続します。モジュールにはプルアップ抵抗がついていないので、プログラムでプルアップします。</p>
 
-                <table class="table table-bordered" style="width: 50%;">
-                <thead>
-                <tr>
-                <th align="center">M5Stack</th>
-                <th align="center">Conta™ 電流センサモジュール</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td align="center">3V3</td>
-                <td align="center">3.3V</td>
-                </tr>
-                <tr>
-                <td align="center">G</td>
-                <td align="center">GND</td>
-                </tr>
-                <tr>
-                <td align="center">SDA</td>
-                <td align="center">SDA</td>
-                </tr>
-                <tr>
-                <td align="center">SCL</td>
-                <td align="center">SCL</td>
-                </tr>
-                </tbody>
-                </table><p>M5Stackに添付されているジャンパワイヤなどを使って接続します。</p>
+                <div align="center">
+                    <table class="table table-bordered" style="width: 50%;">
+                    <thead>
+                    <tr>
+                    <th align="center">M5Stack</th>
+                    <th align="center">Conta™ 電流センサモジュール</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td align="center">3V3</td>
+                    <td align="center">3.3V</td>
+                    </tr>
+                    <tr>
+                    <td align="center">G</td>
+                    <td align="center">GND</td>
+                    </tr>
+                    <tr>
+                    <td align="center">SDA</td>
+                    <td align="center">SDA</td>
+                    </tr>
+                    <tr>
+                    <td align="center">SCL</td>
+                    <td align="center">SCL</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
+                <p>M5Stackに添付されているジャンパワイヤなどを使って接続します。</p>
                 <p><img src="./images/m5_conta.jpg" width="80%" class="img-responsive center-block" alt="M5StackとConta™ 電流センサ"></p>
                 <p>測定対象のバッテリとデバイスはConta™ 電流センサモジュールの端子台につなぎます。写真のように端子台を上に見たときに、電流が端子台の右から左に流れるようにつなぎます。この電流センサは逆方向の電流も測れるので、逆につないでもセンサが壊れることはありませんが、得られた値がプラスマイナス逆になってしまいます。</p>
                 <p>測定対象のバッテリとデバイスは、次の写真のようにバッテリのプラスを電流センサモジュールの右側の端子台につなぎ、左の端子台にデバイスをつなぎます。バッテリとデバイスのグランドは、電流センサのグランド（GND）につなぎます。</p>
@@ -148,24 +151,24 @@
                 <p>周期的な処理は次のようにESP32 Arduinoのタイマー機能を使って実現します。 <code>sampling</code> ミリ秒ごとにタイマー割り込み処理関数 <code>onTimer0</code> が呼び出されるようにします。周期処理では、 <code>t0flag</code> という変数を0にしてタイマー割り込みを待ち、割り込み処理関数で <code>t0flag</code> を1にすることで待ちを解除し、 <code>sampling</code> ミリ秒ごとに周期処理がおこなわれるようにします。</p>
 
                 <p>電流センサPAC1710にアクセスする部分は<a href="https://github.com/SWITCHSCIENCE/samplecodes/tree/master/Conta/3587_PAC1710_module">スイッチサイエンスのサンプルプログラム</a>を利用しました。ただし、スイッチサイエンスのサンプルプログラムではI2Cでデータを読み込むときに、 <code>requestFrom</code> に第3パラメータとして <code>false</code> を渡し、リード後にI2Cバスを開放しないようにしていますが、これだとデータが読めなかったので、第3パラメータを渡さず、バスを開放するようにしました。</p>
-                <pre><code>Wire.requestFrom(id, datasize, false);  // リクエスト後にI2Cバスを開放しない
-                    ↓
-                Wire.requestFrom(id, datasize);  // リクエスト後にI2Cバスを開放する
-                </code></pre>
+<pre><code>     Wire.requestFrom(id, datasize, false);  // リクエスト後にI2Cバスを開放しない
+        ↓
+    Wire.requestFrom(id, datasize);  // リクエスト後にI2Cバスを開放する
+</code></pre>
                 <p>PAC1710は、電流の測定範囲をデフォルトの±8Aから±1Aに変更します。また測定時間をデフォルトの80ミリ秒から20ミリ秒に変更します。</p>
-                <pre><code>void setup() {
-                    // ...
-                    // PAC1710の設定を変更する
-                    int c1cnf[] = {0B00110000};  // Sample time: 20ms, Range: ±10mV
-                    datasend(DEVID, PAC1710::REG::C1_VSAMP_CFG, c1cnf, 1);
-                </code></pre>
+<pre><code>void setup() {
+    // ...
+    // PAC1710の設定を変更する
+    int c1cnf[] = {0B00110000};  // Sample time: 20ms, Range: ±10mV
+    datasend(DEVID, PAC1710::REG::C1_VSAMP_CFG, c1cnf, 1);
+</code></pre>
                 <p>電流値は、次のように <code>dataread</code> 関数で生データを読み出します。測定範囲を±1Aに設定したので、最大値が1A（1000mA）、分解能が2047なので、生データに <code>(1000.0 / 2047)</code> を掛けて電流値を計算しています。データシートでは、測定時間を20ミリ秒に設定したときの分解能は9ビット（511）なので、511で割るべきだと思うのですが、実際に得られた値からすると2047で割ると正しい電流値が得られるようです。</p>
-                <pre><code>        int ch1Vsense[2] = {0};
+<pre><code>        int ch1Vsense[2] = {0};
 
-                        dataread(DEVID, PAC1710::REG::C1_SVRES_H, ch1Vsense, 2);
+        dataread(DEVID, PAC1710::REG::C1_SVRES_H, ch1Vsense, 2);
 
-                        float amp = ( (int16_t(ch1Vsense[0] &lt;&lt; 8 | (ch1Vsense[1])) &gt;&gt;4) * (1000.0 / 2047));
-                </code></pre>
+        float amp = ( (int16_t(ch1Vsense[0] &lt;&lt; 8 | (ch1Vsense[1])) &gt;&gt;4) * (1000.0 / 2047));
+</code></pre>
                 <p>周期処理本体では、電流センサPAC1710から電流値と電圧値を読み、メモリに記録していきます。電流値のしきい値を決め、そのしきい値を超えたら測定対象のIoTデバイスが動き出したと判断して、記録を開始するようにしています。</p>
 
                 <p>測定が終わったら、測定データをCSVファイルにしてSDカードに書き出します。最後に測定データをM5StackのLCDに表示してプログラムを終了します。</p>
