@@ -149,9 +149,9 @@
                 <h2 id="プログラム">プログラム</h2>
                 <p>プログラム実行中の消費電流の積算値を測るために、10ミリ秒間隔で消費電流を測定し、1,000件のデータをメモリーに記録します。10ミリ秒間隔で1,000件なので、測定期間は10秒です。</p>
                 <p>周期的な処理は次のようにESP32 Arduinoのタイマー機能を使って実現します。 <code>sampling</code> ミリ秒ごとにタイマー割り込み処理関数 <code>onTimer0</code> が呼び出されるようにします。周期処理では、 <code>t0flag</code> という変数を0にしてタイマー割り込みを待ち、割り込み処理関数で <code>t0flag</code> を1にすることで待ちを解除し、 <code>sampling</code> ミリ秒ごとに周期処理がおこなわれるようにします。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/66e3b3bfc704f0a40d02f401ca60a795.js"></script>
                 <p>電流センサPAC1710にアクセスする部分は<a href="https://github.com/SWITCHSCIENCE/samplecodes/tree/master/Conta/3587_PAC1710_module">スイッチサイエンスのサンプルプログラム</a>を利用しました。ただし、スイッチサイエンスのサンプルプログラムではI2Cでデータを読み込むときに、 <code>requestFrom</code> に第3パラメータとして <code>false</code> を渡し、リード後にI2Cバスを開放しないようにしていますが、これだとデータが読めなかったので、第3パラメータを渡さず、バスを開放するようにしました。</p>
-<pre><code>     Wire.requestFrom(id, datasize, false);  // リクエスト後にI2Cバスを開放しない
+<pre><code>    Wire.requestFrom(id, datasize, false);  // リクエスト後にI2Cバスを開放しない
         ↓
     Wire.requestFrom(id, datasize);  // リクエスト後にI2Cバスを開放する
 </code></pre>
@@ -161,6 +161,7 @@
     // PAC1710の設定を変更する
     int c1cnf[] = {0B00110000};  // Sample time: 20ms, Range: ±10mV
     datasend(DEVID, PAC1710::REG::C1_VSAMP_CFG, c1cnf, 1);
+}
 </code></pre>
                 <p>電流値は、次のように <code>dataread</code> 関数で生データを読み出します。測定範囲を±1Aに設定したので、最大値が1A（1000mA）、分解能が2047なので、生データに <code>(1000.0 / 2047)</code> を掛けて電流値を計算しています。データシートでは、測定時間を20ミリ秒に設定したときの分解能は9ビット（511）なので、511で割るべきだと思うのですが、実際に得られた値からすると2047で割ると正しい電流値が得られるようです。</p>
 <pre><code>        int ch1Vsense[2] = {0};
@@ -170,9 +171,10 @@
         float amp = ( (int16_t(ch1Vsense[0] &lt;&lt; 8 | (ch1Vsense[1])) &gt;&gt;4) * (1000.0 / 2047));
 </code></pre>
                 <p>周期処理本体では、電流センサPAC1710から電流値と電圧値を読み、メモリに記録していきます。電流値のしきい値を決め、そのしきい値を超えたら測定対象のIoTデバイスが動き出したと判断して、記録を開始するようにしています。</p>
-
+                <script src="https://gist.github.com/TakehikoShimojima/c9973f651210c3f15ff90d1fc93c03e6.js"></script>
                 <p>測定が終わったら、測定データをCSVファイルにしてSDカードに書き出します。最後に測定データをM5StackのLCDに表示してプログラムを終了します。</p>
                 <p>今回のプログラムは10秒間電流値を測定して、測定結果をSDカードに書き出し、LCDに表示して終わりなので、 <code>setup</code> 関数ですべての処理をおこない、<code>loop</code> 関数の中身は空です。プログラム全体は次のようになります。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/4783521b0d15a808bb2852aa8d44801c.js"></script>
 
                 <h2 id="espr-developer-32-の消費電流を測ってみた">ESPr Developer 32 の消費電流を測ってみた</h2>
                 <p>開発した電流モニタを使って、ESPr Developer 32の消費電流を測ってみました。</p>
@@ -196,6 +198,7 @@
                 <p>（もう一桁高い精度の電流センサで同様の測定をおこなったところ、ESPr Developer 32のDeep sleep時の消費電流は0.5mA程度でした。）</p>
                 <p>今回開発した電流モニタは1.95mAの精度なので、あまり詳細な測定にはなっていませんが、大まかな消費電流の傾向は把握できます。特に、Deep sleep機能を使ってIoTデバイスを間欠動作させることで、消費電流を下げられていることが具体的に確認できます。また、Wi-Fiアクセスポイントへの接続に大きな電流を消費していることも分かります。さらに消費電流を下げるためには、毎回Wi-Fi APに接続せず、通常はセンサデータを取得してメモリに保存してすぐにDeep sleepし、何回かに1回、まとめてデータをクラウドサービスに送信するといった工夫が有効です。</p>
                 <p>測定対象のプログラムは次のようなものです。</p>
+                <script src="https://gist.github.com/TakehikoShimojima/126ad63efcbfbd874bc7153788373674.js"></script>
 
                 <h2 id="まとめ">まとめ</h2>
                 <p>M5Stackと電流センサモジュールを使って、IoTデバイスの消費電流を測定する電流モニタを作りました。精度には課題がありますが、IoTデバイスの大まかな消費電流の傾向がつかめます。簡単な部品で作れるので、皆さんもご自分で作ったIoTデバイスの消費電流を見てみてはいかがでしょうか？</p>
