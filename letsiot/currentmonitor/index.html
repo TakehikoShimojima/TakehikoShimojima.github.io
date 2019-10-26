@@ -1,0 +1,283 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="currentmonitor - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackでマイコンの消費電流を測定する - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年11月1日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5Stackでマイコンの消費電流を測定する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+                <p>IoTデバイスをバッテリや太陽電池などで長期間動作させるためには、IoTデバイスを低消費電力化する必要があります。
+                    「AmbientでIoTをはじめよう」の第25回は、M5StackでIoTデバイスの消費電流を測定する電流モニタを作り、ESPr Developer 32の消費電流を測ってみます。</p>
+
+                <h2 id="iotデバイスの消費電流">IoTデバイスの消費電流</h2>
+                <p>IoTデバイスは、制御するマイコンの処理によって消費電流が変化します。
+                    特にWi-FiやBluetoothなどの無線通信は、比較的大きな電流を消費しますし、いくつかのセンサは大きな電流を消費するものがあります。
+                    従って、センサや通信モジュールにアクセスするプログラムによってIoTデバイスの消費電力は異なってきます。</p>
+                <p>IoTデバイスの低消費電力を知るには、ある瞬間の消費電流だけでなく、プログラム実行中の消費電流の積算値を調べる必要があります。
+                    例えばそのデバイスが5分周期でデータを測定し、クラウドサービスに送信しているとしたら、5分間トータルの消費電流を把握し、改善する必要があります。
+                    そのため、ある区間の総消費電流が測れる電流モニタを作ります。</p>
+
+                <h2 id="電流センサ">電流センサ</h2>
+                <p>電流センサモジュールとしては「<a href="https://www.switch-science.com/catalog/3857/">Conta™ 電流センサ max4A PAC1710搭載</a>」を使います。</p>
+                <p><img src="./images/conta_sensor.jpg" alt="Conta™ 電流センサ"></p>
+                <p>この電流センサモジュールには、10mΩの抵抗（シャント抵抗）が搭載されています。バッテリと測定対象のデバイスの間にこのシャント抵抗を入れ、シャント抵抗の両端の電圧を測ることでバッテリからデバイスに流れる電流を測定します。シャント抵抗を流れる電流の測定にはPAC1710という電流センサが使われています。</p>
+                <p>PAC1710の電流測定には3つのパラメータがあります。一つは電流の測定範囲、もう一つは測定時間、3つ目は測定回数です。</p>
+                <p>測定範囲はシャント抵抗が10mΩの場合、±1A、±2A、±4A、±8Aの範囲が選択できます。今回はESP32など低消費電力のマイコンを測定対象にするので、±1Aのレンジで測定するように設定します。</p>
+                <p>測定時間は、測定にかける時間で、2.5ミリ秒から320ミリ秒まで設定できます。この測定時間は測定精度とトレードオフの関係にあります。測定範囲を±1Aにした場合、測定時間を2.5ミリ秒にすると15.6mAの精度で測定でき、20ミリ秒だと1.95mA、デフォルト設定の80ミリ秒だと0.49mAになります。マイコンの消費電流を測定する場合、細かい測定間隔で詳細な電流値を知りたいので、悩ましいトレードオフですが、今回は20ミリ秒、1.95mAの精度で測定することにします。</p>
+                <p>測定回数は、複数回測定して平均値を計算する機能で、1回（デフォルト）、2回、4回、8回が選択できます。今回はデフォルトの1回にします。</p>
+                <p>PAC1710はI2Cでマイコンと通信します。デフォルトのI2Cアドレスは0x18です。</p>
+                <h2 id="ハードウェア">ハードウェア</h2>
+                <p>M5StackとConta™ 電流センサモジュールはI2Cで通信するので、次のように接続します。モジュールにはプルアップ抵抗がついていないので、プログラムでプルアップします。</p>
+
+                <table>
+                <thead>
+                <tr>
+                <th align="center">M5Stack</th>
+                <th align="center">Conta™ 電流センサモジュール</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td align="center">3V3</td>
+                <td align="center">3.3V</td>
+                </tr>
+                <tr>
+                <td align="center">G</td>
+                <td align="center">GND</td>
+                </tr>
+                <tr>
+                <td align="center">SDA</td>
+                <td align="center">SDA</td>
+                </tr>
+                <tr>
+                <td align="center">SCL</td>
+                <td align="center">SCL</td>
+                </tr>
+                </tbody>
+                </table><p>M5Stackに添付されているジャンパワイヤなどを使って接続します。</p>
+                <p><img src="./images/m5_conta.jpg" alt="M5StackとConta™ 電流センサ"></p>
+                <p>測定対象のバッテリとデバイスはConta™ 電流センサモジュールの端子台につなぎます。写真のように端子台を上に見たときに、電流が端子台の右から左に流れるようにつなぎます。この電流センサは逆方向の電流も測れるので、逆につないでもセンサが壊れることはありませんが、得られた値がプラスマイナス逆になってしまいます。</p>
+                <p>測定対象のバッテリとデバイスは、次の写真のようにバッテリのプラスを電流センサモジュールの右側の端子台につなぎ、左の端子台にデバイスをつなぎます。バッテリとデバイスのグランドは、電流センサのグランド（GND）につなぎます。</p>
+                <p><img src="./images/curmon_dev.jpg" alt="電流モニタと測定対象"></p>
+                <h2 id="プログラム">プログラム</h2>
+                <p>プログラム実行中の消費電流の積算値を測るために、10ミリ秒間隔で消費電流を測定し、1,000件のデータをメモリーに記録します。10ミリ秒間隔で1,000件なので、測定期間は10秒です。</p>
+                <p>周期的な処理は次のようにESP32 Arduinoのタイマー機能を使って実現します。 <code>sampling</code> ミリ秒ごとにタイマー割り込み処理関数 <code>onTimer0</code> が呼び出されるようにします。周期処理では、 <code>t0flag</code> という変数を0にしてタイマー割り込みを待ち、割り込み処理関数で <code>t0flag</code> を1にすることで待ちを解除し、 <code>sampling</code> ミリ秒ごとに周期処理がおこなわれるようにします。</p>
+
+                <p>電流センサPAC1710にアクセスする部分は<a href="https://github.com/SWITCHSCIENCE/samplecodes/tree/master/Conta/3587_PAC1710_module">スイッチサイエンスのサンプルプログラム</a>を利用しました。ただし、スイッチサイエンスのサンプルプログラムではI2Cでデータを読み込むときに、 <code>requestFrom</code> に第3パラメータとして <code>false</code> を渡し、リード後にI2Cバスを開放しないようにしていますが、これだとデータが読めなかったので、第3パラメータを渡さず、バスを開放するようにしました。</p>
+                <pre><code>Wire.requestFrom(id, datasize, false);  // リクエスト後にI2Cバスを開放しない
+                    ↓
+                Wire.requestFrom(id, datasize);  // リクエスト後にI2Cバスを開放する
+                </code></pre>
+                <p>PAC1710は、電流の測定範囲をデフォルトの±8Aから±1Aに変更します。また測定時間をデフォルトの80ミリ秒から20ミリ秒に変更します。</p>
+                <pre><code>void setup() {
+                    // ...
+                    // PAC1710の設定を変更する
+                    int c1cnf[] = {0B00110000};  // Sample time: 20ms, Range: ±10mV
+                    datasend(DEVID, PAC1710::REG::C1_VSAMP_CFG, c1cnf, 1);
+                </code></pre>
+                <p>電流値は、次のように <code>dataread</code> 関数で生データを読み出します。測定範囲を±1Aに設定したので、最大値が1A（1000mA）、分解能が2047なので、生データに <code>(1000.0 / 2047)</code> を掛けて電流値を計算しています。データシートでは、測定時間を20ミリ秒に設定したときの分解能は9ビット（511）なので、511で割るべきだと思うのですが、実際に得られた値からすると2047で割ると正しい電流値が得られるようです。</p>
+                <pre><code>        int ch1Vsense[2] = {0};
+
+                        dataread(DEVID, PAC1710::REG::C1_SVRES_H, ch1Vsense, 2);
+
+                        float amp = ( (int16_t(ch1Vsense[0] &lt;&lt; 8 | (ch1Vsense[1])) &gt;&gt;4) * (1000.0 / 2047));
+                </code></pre>
+                <p>周期処理本体では、電流センサPAC1710から電流値と電圧値を読み、メモリに記録していきます。電流値のしきい値を決め、そのしきい値を超えたら測定対象のIoTデバイスが動き出したと判断して、記録を開始するようにしています。</p>
+
+                <p>測定が終わったら、測定データをCSVファイルにしてSDカードに書き出します。最後に測定データをM5StackのLCDに表示してプログラムを終了します。</p>
+                <p>今回のプログラムは10秒間電流値を測定して、測定結果をSDカードに書き出し、LCDに表示して終わりなので、 <code>setup</code> 関数ですべての処理をおこない、<code>loop</code> 関数の中身は空です。プログラム全体は次のようになります。</p>
+
+                <h2 id="espr-developer-32-の消費電流を測ってみた">ESPr Developer 32 の消費電流を測ってみた</h2>
+                <p>開発した電流モニタを使って、ESPr Developer 32の消費電流を測ってみました。</p>
+                <p>測定対象にしたのは、ESP32を搭載した開発ボードESPr Developer 32で、温湿度センサーSi7021をI2Cで接続し、バッテリで駆動しました。温度、湿度を測定してデーターをクラウドサービスAmbientに送信し、Deep sleepするプログラムを動かして評価しました。プログラムは次のような流れです。プログラム全体は最後に掲載します。</p>
+                <ol>
+                <li>Wi-Fi アクセスポイントに接続する</li>
+                <li>Ambientオブジェクトの初期設定</li>
+                <li>Si7021を初期設定し、温度と湿度を取得</li>
+                <li>温度、湿度をAmbientに送信</li>
+                <li>Deep sleep</li>
+                </ol>
+                <p>バッテリとESPr Developer 32の間に電流モニタをつなぎ、電流モニタのプログラムを動かしてから、バッテリをセットしてESPr Developer 32を動かすと、プログラムの最初からの電流の様子が測定できます。測定データはSDカードに書かれるので、それをパソコンで読み、Excelでグラフ化してみました。</p>
+                <p><img src="./images/result.jpg" alt="測定結果"></p>
+                <p>測定結果からは次のようなことが分かります。</p>
+                <ul>
+                <li>電源投入直後にESP32の初期化時の250mA程度の大きな電流値が流れる</li>
+                <li>Wi-Fiアクセスポイント接続時にはWi-Fi送受信をおこなうため、160mA程度の電流が流れる</li>
+                <li>温度・湿度を測定しAmbientに送信する処理では、低いときで50mA、高いときで140mA程度の電流が流れる</li>
+                <li>動作開始から3.3秒程度でDeep sleepに入り、消費電流は5mA程度に下がる</li>
+                </ul>
+                <p>（もう一桁高い精度の電流センサで同様の測定をおこなったところ、ESPr Developer 32のDeep sleep時の消費電流は0.5mA程度でした。）</p>
+                <p>今回開発した電流モニタは1.95mAの精度なので、あまり詳細な測定にはなっていませんが、大まかな消費電流の傾向は把握できます。特に、Deep sleep機能を使ってIoTデバイスを間欠動作させることで、消費電流を下げられていることが具体的に確認できます。また、Wi-Fiアクセスポイントへの接続に大きな電流を消費していることも分かります。さらに消費電流を下げるためには、毎回Wi-Fi APに接続せず、通常はセンサデータを取得してメモリに保存してすぐにDeep sleepし、何回かに1回、まとめてデータをクラウドサービスに送信するといった工夫が有効です。</p>
+                <p>測定対象のプログラムは次のようなものです。</p>
+
+                <h2 id="まとめ">まとめ</h2>
+                <p>M5Stackと電流センサモジュールを使って、IoTデバイスの消費電流を測定する電流モニタを作りました。精度には課題がありますが、IoTデバイスの大まかな消費電流の傾向がつかめます。簡単な部品で作れるので、皆さんもご自分で作ったIoTデバイスの消費電流を見てみてはいかがでしょうか？</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">24.ダストセンサで空気中のホコリを測定する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#grove-ダストセンサ">Grove ダストセンサ</a></li>
+                        <li><a href="#grove-ダストセンサをm5stackに接続する">Grove ダストセンサをM5Stackに接続する</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#測定">測定</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
