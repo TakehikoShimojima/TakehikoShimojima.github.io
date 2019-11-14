@@ -96,7 +96,7 @@
                 <p>第1回は、最初なのでM5StickCでプログラムを作る準備をして、LEDを点滅させてみます。</p>
                 <h2 id="m5stackシリーズ">M5Stackシリーズ</h2>
                 <p>このコーナーで扱うM5StackやM5StickCは、M5Stack社が作っているマイコン端末です。M5Stack社はマイコン端末以外にも温度センサやGPS、カメラ、小型のロボットカーなど、M5StackやM5StickCと組み合わせて使ういろいろな拡張ユニットも作っています。</p>
-                <p><img src="./images/m5series.jpg" alt="M5Stackシリーズ"></p>
+                <p><img src="./images/m5series.jpg" width="80%" class="img-responsive center-block" alt="M5Stackシリーズ"></p>
                 <p>写真の左上がM5Stackの基本モデルのM5Stack Basic、その右がM5Stack Gray、M5GO、M5Stack Fireです。真ん中の列の左から3つはM5Stackに挟み込んで機能を拡張するモジュール、その右のオレンジ色の端末がM5StickC、右端の青い端末はM5StickVです。一番下の列はセンサなどの拡張ユニットです。</p>
                 <p>M5Stackは「エムファイブ・スタック」と読む人と、「エムゴ・スタック」と読む人がいるようで、どちらが正解ということではなさそうです。ちなみにM5Stack社CEOのJimmy Laiさんは「エムファイズ・スタック」と言っていましたが、社内では「エムウー（中国語の五）スタック」と言うこともあるそうなので、「エムゴ」でもいいのかもしれません。</p>
                 <p>この記事ではM5StackとM5StickCについて説明しますが、M5StackとM5StickCは共通なことも多いです。毎回「M5StackやM5StickC」と書くのは煩雑なので、特に断りがない場合は「M5Stack」と書いてあったら「M5StackやM5StickC」のことだと思ってください。</p>
@@ -108,7 +108,7 @@
                 <li>UIFlow(Blockly): UIFlowはM5Stack社が開発したプログラミング環境。ブロックを組み合わせてプログラムを作れる。M5Stackの液晶画面に絵や文字を描いたり、センサを扱ったりも簡単。</li>
                 <li>UIFlow(MicroPython): UIFlowではBlocklyの他にMicroPythonでもプログラミングできる。MicroPythonは人工知能や画像処理などでよく使われるPythonの処理系の一つ。</li>
                 </ul>
-                <p><img src="./images/lchika.jpg" alt="UIFlow(Blockly)の画面"></p>
+                <p><img src="./images/lchika.jpg" width="80%" class="img-responsive center-block" alt="UIFlow(Blockly)の画面"></p>
                 <p>今回は、比較的簡単にM5Stackを制御するプログラムが作れるUIFlow(Blockly)を使います。</p>
                 <h2 id="uiflowを使う準備">UIFlowを使う準備</h2>
                 <p>UIFlowを使うには次のような準備が必要です。ここからはM5StickCを対象にして説明します。</p>
@@ -134,19 +134,19 @@
                 <h3 id="パソコンにusbドライバをインストールする">1.パソコンにUSBドライバをインストールする</h3>
                 <p>初めてM5StickCをパソコンにUSBケーブルでつないで通信するときは、その前にパソコンにUSBドライバのインストールが必要です。ブラウザで次のページにアクセスし、「CP210X Driver」のWindows版をクリックしてダウンロードします。</p>
                 <p><a href="https://m5stack.com/pages/download">https://m5stack.com/pages/download</a></p>
-                <p><img src="./images/usbdriverdownload.jpg" alt="ダウンロードページ"></p>
+                <p><img src="./images/usbdriverdownload.jpg" width="80%" class="img-responsive center-block" alt="ダウンロードページ"></p>
                 <p>ZIPファイルがダウンロードされるので、それを展開し、64ビット用のインストーラ（CP210xVCPInstaller_x64_v6.7.0.0）をクリックして、USBドライバをインストールします。</p>
-                <p><img src="./images/usbdriverinstall.jpg" alt="USBドライバインストール"></p>
+                <p><img src="./images/usbdriverinstall.jpg" width="80%" class="img-responsive center-block" alt="USBドライバインストール"></p>
                 <p>インストールが完了したら、M5StickCに同梱されているType-C USBケーブルでM5StickCとパソコンをつなぎます。Windowsの設定から「デバイス」を選択すると、次の図のようにM5StickCが表示されます。図では「M5Stack Intf」と表示されています。これでドライバのインストールは完了です。</p>
-                <p><img src="./images/usbdrivercheck.jpg" alt="USBドライバの確認"></p>
+                <p><img src="./images/usbdrivercheck.jpg" width="80%" class="img-responsive center-block" alt="USBドライバの確認"></p>
                 <h3 id="パソコンにm5burnerをインストールする">2.パソコンにM5Burnerをインストールする</h3>
                 <p>次にパソコンにM5Burnerという、M5StickCにファームウェアを書き込むツールをインストールします。ファームウェアとはM5StickCを制御して、これから皆さんが作るプログラムのM5StickCへの司令をM5StickCに伝えてくれるプログラムです。</p>
                 <p>先程のダウンロードページの「M5Burner」のWindows版をクリックして、ダウンロードします。</p>
-                <p><img src="./images/m5burnerdownload.jpg" alt="M5Burnerのダウンロード"></p>
+                <p><img src="./images/m5burnerdownload.jpg" width="80%" class="img-responsive center-block" alt="M5Burnerのダウンロード"></p>
                 <p>ZIPファイルがダウンロードされるので、展開してその中にある M5Burner.exe を起動します。「.NET Frameworkが必要」というメッセージが出たら、それもインストールします。「PCを再起動する必要がある」というメッセージが出た場合は、メッセージに従ってPCを再起動して、PCが立ち上がったら M5Burner.exe を起動してください。</p>
                 <h3 id="m5stickcにファームウェアを書き込む">3.M5StickCにファームウェアを書き込む</h3>
                 <p>M5Burnerを起動すると、次のような画面が表示されます。</p>
-                <p><img src="./images/m5burner.jpg" alt="M5Burner"></p>
+                <p><img src="./images/m5burner.jpg" width="80%" class="img-responsive center-block" alt="M5Burner"></p>
                 <p>左のメニューからファームウェアのバージョンを選び、ファームウェア名の右のダウンロードボタンをクリックしてファームウェアをダウンロードします。今回は UIFlow-v1.4.1-beta を選択しました。</p>
                 <p>ダウンロードできるとファームウェア名が白い表示に変わり、右上の「Erase」ボタンの左に「Series: Stack-EN」が表示されます。「Series」の中から「StickC」を選択します。</p>
                 <p>M5StickCがUSBケーブルでパソコンにつながっていることを確認して、「Erase」ボタンをクリックし、「Finished」の表示がでたら、「Burn」ボタンをクリックします。最後に「Leaving…  Staying in bootloader.」と表示されたらファームウェアの書き込みは完了です。</p>
@@ -154,30 +154,30 @@
                 <h3 id="wi-fiの設定をする">4.Wi-Fiの設定をする</h3>
                 <p>ファームウェアを書き込んだら、Wi-Fiの設定をします。</p>
                 <p>まず、M5StickCの左側面にある電源スイッチを2秒押してオンにします。するとM5StickCの液晶画面に図のようにWi-Fiのアクセスポイント（AP）が表示されます。図では「M5-8da4」になっています。</p>
-                <p><img src="./images/wifisetup.jpg" alt="M5StickCのWi-Fi設定画面"></p>
+                <p><img src="./images/wifisetup.jpg" width="40%" class="img-responsive center-block" alt="M5StickCのWi-Fi設定画面"></p>
                 <p>パソコンでもスマホでもいいので、そのAPに接続します。パスワードはありません。接続したら、ブラウザから液晶画面に表示されているIPアドレス（図では「192.168.4.1」）にアクセスします。すると次のような画面が表示されるので、接続したいアクセスポイントのSSIDとパスワードを設定します。M5StickCは2.4GHzでしか通信できないので、2.4GHzのSSIDとパスワードを入力して「Configure」をクリックします。</p>
-                <p><img src="./images/wifisetupweb.jpg" alt="Wi-Fiの設定Web"></p>
+                <p><img src="./images/wifisetupweb.jpg" width="60%" class="img-responsive center-block" alt="Wi-Fiの設定Web"></p>
                 <p>するとM5StickCは自動的にWi-Fiアクセスポイントに接続します。これでM5StickC側の設定は終わりです。</p>
                 <h3 id="apiキーを使ってm5stickcとuiflowをつなぐ">5.APIキーを使ってM5StickCとUIFlowをつなぐ</h3>
                 <p>M5StickCがWi-Fiアクセスポイントに接続すると、液晶画面にAPIキーが表示されます。</p>
-                <p><img src="./images/apikey.jpg" alt="APIキー"></p>
+                <p><img src="./images/apikey.jpg" width="40%" class="img-responsive center-block" alt="APIキー"></p>
                 <p>APIキーは、M5StackやM5StickCに個別につけられたIDです。UIFlowにこのAPIキーを入力することで、UIFlowがそのAPIキーを持つM5Stackとやり取りするようになります。M5Stackが2つ以上あっても、どのM5Stackとやり取りすればいいか区別がつくようになります。</p>
                 <p>ブラウザで次のアドレスにアクセスします。</p>
                 <p><a href="flow.m5stack.com">flow.m5stack.com</a></p>
                 <p>すると次のように設定画面が現れます。</p>
-                <p><img src="./images/uiflowsetting.jpg" alt="UIFlow設定"></p>
+                <p><img src="./images/uiflowsetting.jpg" width="80%" class="img-responsive center-block" alt="UIFlow設定"></p>
                 <p>Api KeyにM5StickCに表示されたAPIキーを入力し、Deviceは「Stick-C」を選択します。ThemeはUIFlowのテーマカラーで、初期設定の青のままでも構いませんが、気分を盛り上げるためにM5StickCと同じオレンジを選択しました。OKボタンを押すと設定が終わり、UIFlowが立ち上がります。</p>
                 <p>画面左下に入力したAPIキーが表示され、[ Connected ]と表示されていれば、UIFlowはM5StickCと接続された状態です。</p>
                 <p>次に右上の「VER」というメニューをクリックして、「Beta」を選択してください。小さい画面が現れたら、真ん中の「Switch but don’t save」をクリックしてください。</p>
-                <p><img src="./images/uiflowstarted.jpg" alt="UIFlow起動"></p>
+                <p><img src="./images/uiflowstarted.jpg" width="80%" class="img-responsive center-block" alt="UIFlow起動"></p>
                 <h3 id="プログラムを作って動かしてみる">6.プログラムを作って動かしてみる</h3>
                 <p>ではさっそくプログラムを作ってみましょう。</p>
                 <p>UIFlowの画面中央のメニューの一番上にある「イベント」をクリックすると、イベント関係のブロック（機能部品）が現れます。この中から「くりかえし」というブロックをドラッグ＆ドロップして、右側のプログラムエリアに持っていきます。</p>
-                <p><img src="./images/loop.jpg" alt="くりかえし"></p>
+                <p><img src="./images/loop.jpg" width="80%" class="img-responsive center-block" alt="くりかえし"></p>
                 <p>プログラムエリアにある「setup」というブロックの出っ張った部分と「くりかえし」ブロックの凹んだ部分を近づけると、2つのブロックがつながり、「くりかえし」ブロックが「setup」ブロックと同じ色になります。</p>
-                <p><img src="./images/setuploog.jpg" alt="setupとくりかえし"></p>
+                <p><img src="./images/setuploog.jpg" width="80%" class="img-responsive center-block" alt="setupとくりかえし"></p>
                 <p>次に「ハードウェア」メニューの「LED」から「LED ON」をドラッグ＆ドロップして「くりかえし」ブロックの中にいれ、「タイマー」メニューの「1ミリ秒間停止」を「LED ON」の下につなげます。「1」の部分をクリックして「500」に書き換えてください。同様に、「LED OFF」と「1ミリ秒停止」をつなげて、次の図のようにします。</p>
-                <p><img src="./images/lchika.jpg" alt="Lチカ"></p>
+                <p><img src="./images/lchika.jpg" width="80%" class="img-responsive center-block" alt="Lチカ"></p>
                 <p>ここまでできたらUIFlowの右上の三角のアイコンをクリックしてみてください。M5StickCの左上の赤いLEDが点滅し始めました。</p>
                 <p>UIFlowはこんな感じで用意されたブロックを組み合わせてプログラムを作り、M5StickCに送って動かすことができます。</p>
                 <p>作ったプログラムを簡単に説明します。</p>
@@ -199,7 +199,7 @@
 
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
                 <div style="float: left; margin-right: 10px;">
-                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                    <img src="../images/master.jpg" width="50px;" class="img-responsive center-block">
                 </div>
                 <div style="overflow: hidden;">
                     <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
