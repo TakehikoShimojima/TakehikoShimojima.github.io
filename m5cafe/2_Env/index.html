@@ -130,12 +130,12 @@
                 <p><img src="./images/selecttemp.jpg" width="100%" class="img-responsive center-block" alt="温度ブロックの選択"></p>
                 <p>このブロックは「ENV Hat」というセンサから温度データを取得するブロックです。では取得した温度データをM5StickCの液晶画面に表示してみましょう。そのためには「グラフィック」メニューから「テキスト”　”をｘ0 ｙ0 に　色で表示」というブロックをドラッグ＆ドロップします。</p>
                 <p>「テキストを…」というブロックを「Setup」ブロックの下につなぎ、その中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。ここからはプログラムエリアの画面コピーを載せます。</p>
-                <p><img src="./images/gettemp1.jpg" width="100%" class="img-responsive center-block" alt="温度の取得1"></p>
+                <p><img src="./images/gettemp1.jpg" width="70%" class="img-responsive center-block" alt="温度の取得1"></p>
                 <p>画面右上の右三角をクリックして、プログラムを動かしてください。M5StickCの液晶画面に温度らしき数字が表示されます。</p>
                 <p><img src="./images/disptemp1.jpg" width="100%" class="img-responsive center-block" alt="温度の表示1"></p>
                 <p>このプログラムは温度を1回取得して液晶画面に表示したら終わりです。次に、このプログラムを改造して、5秒毎に繰り返し温度を取得して表示するようにしてみましょう。</p>
                 <p>そのためには、「イベント」メニューから「ずっと」ブロックを、「タイマー」メニューから「1[秒]停止」ブロックを選び、次のように組み合わせます。「1[秒]停止」ブロックの中の数字は5に変えます。</p>
-                <p><img src="./images/gettemp5s.jpg" width="100%" class="img-responsive center-block" alt="5秒ごとに温度を取得"></p>
+                <p><img src="./images/gettemp5s.jpg" width="80%" class="img-responsive center-block" alt="5秒ごとに温度を取得"></p>
                 <p>プログラムができたら、右上の右三角をクリックしてください。M5StickCの液晶画面の数字が5秒毎に更新されるようになりました。</p>
 
                 <h2 id="画面の表示を見やすくする">画面の表示を見やすくする</h2>
@@ -178,9 +178,11 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">2.温度計を作る</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#m5stackシリーズ">M5Stackシリーズ</a></li>
-                        <li><a href="#プログラムを作る方法">プログラムを作る方法</a></li>
-                        <li><a href="#uiflowを使う準備">UIFlowを使う準備</a></li>
+                        <li><a href="#今回使うもの">今回使うもの</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#温度を測って画面に表示する">温度を測って画面に表示する</a></li>
+                        <li><a href="#画面の表示を見やすくする">画面の表示を見やすくする</a></li>
+                        <li><a href="#温度と湿度を表示する">温度と湿度を表示する</a></li>
                         <li><a href="#マスターの一言">マスターの一言</a></li>
                     </ul>
                 </ul>
