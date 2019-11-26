@@ -1,0 +1,249 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="Env - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>温度計を作る - M5Stackカフェ</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年11月30日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>温度計を作る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <h1 id="温度計を作る">温度計を作る</h1>
+                <p>M5StackやM5StickCを使って、いろいろなものを作ったり、面白いものを作っている人を紹介したりするコーナー「M5Stackカフェ」。
+                    第2回はM5StickCを使って温度計を作ってみます。</p>
+
+                <h2 id="今回使うもの">今回使うもの</h2>
+                <p>温度を測るために、温度センサを使います。M5StickCには「<a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat</a>」という温度、湿度、気圧と磁界が測れるセンサがあるので、これを使ってみましょう。</p>
+                <ul>
+                <li><a href="https://www.switch-science.com/catalog/5517/">M5StickC</a></li>
+                <li><a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat（DHT12/BMP280/BMM150搭載）</a></li>
+                </ul>
+                <p>このセンサはHatといって、M5StickCの上部のソケットにHatのピンを挿して使います。Hatには温湿度・気圧センサの他に人感センサなどいろいろなセンサ類があり、これを使うことでコンパクトなセンサ端末が作れます。</p>
+                <p><img src="./images/m5stickc_hat.jpg" alt="M5StickCにHatを挿す"></p>
+
+                <h2 id="プログラム">プログラム</h2>
+                <p>M5StickCにENV Hatを挿しただけでは何もおこりません。プログラムを作ってM5StickCやENV Hatを制御する必要があります。</p>
+                <p>M5StackやM5StickCを制御するプログラムはいくつかの方法で作れます。その中で、比較的簡単にプログラムが作れるUIFlow(Blockly)を使います。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>をご覧ください。</p>
+                <p>UIFlowはWi-FiでM5StickCにプログラムを転送できるので、USBケーブルでM5StickCとパソコンをつなぐ必要はありませんが、しばらくM5StickCを触っていなかったら、充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎましょう。</p>
+                <p>M5StickCの左側面のスイッチを押すと、M5StickCがリセットされ、Wi-Fiに接続し、APIキーが表示されます。APIキーが表示されない時は、 <a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>に沿ってM5StickCを初期設定してください。</p>
+                <p>次にパソコンのブラウザで次のアドレスにアクセスします。</p>
+                <ul>
+                <li><a href="https://takehikoshimojima.github.io/m5cafe/1_Lchika/flow.m5stack.com">flow.m5stack.com</a></li>
+                </ul>
+                <p>ブラウザ画面左下のApi keyに、M5StickCの画面に表示されているAPIキーと同じものが表示されていることを確認します。Api keyが同じでない場合は、Api keyの欄をクリックして、M5StickCの画面に表示されているAPIキーを入力してください。Api keyの右の欄が[接続済み]になっていることを確認します。なっていない場合は、さらに右の更新ボタンをクリックして、UIFlowとM5StickCを接続します。</p>
+                <p>画面左側のM5StickCの下に「Hat」と表示されていることも確認します。表示されていない場合は、画面右上の「VER」というメニューをクリックして、「Lastest」を選択してください。小さい画面が現れたら、真ん中の「Switch but don’t save」をクリックしてください。</p>
+                <p><img src="./images/uiflow.jpg" alt="UIFlowの初期画面"></p>
+                <p>これでM5StickCのプログラムを作る準備は完了です。</p>
+
+                <h2 id="温度を測って画面に表示する">温度を測って画面に表示する</h2>
+                <p>これから新しいプログラムを作っていくので、画面左上の「プロジェクト」と書かれた右側の「main」の部分を「2_TempHumid」に変えておきましょう。</p>
+                <p>次に、「Hat」をクリックし、「＋」をクリックします。Hatの一覧が現れるので、ENVを選んで「OK」をクリックします。</p>
+                <p><img src="./images/selectenv.jpg" alt="ENV Hatの選択"></p>
+                <p>真ん中のメニューの「HAT」を選択すると、「環境」が現れます。それが環境（Environmental）センサです。それをクリックすると、「hat_env0の温度[℃]」「hat_env0の湿度[%]」「hat_env0の気圧[hPa]」というブロックが現れます。まず、「hat_env0の温度[℃]」を選んで、右側のプログラムエリアにドラッグ＆ドロップします。</p>
+                <p><img src="./images/selecttemp.jpg" alt="温度ブロックの選択"></p>
+                <p>このブロックは「ENV Hat」というセンサから温度データを取得するブロックです。では取得した温度データをM5StickCの液晶画面に表示してみましょう。そのためには「グラフィック」メニューから「テキスト”　”をｘ0 ｙ0 に　色で表示」というブロックをドラッグ＆ドロップします。</p>
+                <p>「テキストを…」というブロックを「Setup」ブロックの下につなぎ、その中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。ここからはプログラムエリアの画面コピーを載せます。</p>
+                <p><img src="./images/gettemp1.jpg" alt="温度の取得1"></p>
+                <p>画面右上の右三角をクリックして、プログラムを動かしてください。M5StickCの液晶画面に温度らしき数字が表示されます。</p>
+                <p><img src="./images/disptemp1.jpg" alt="温度の表示1"></p>
+                <p>このプログラムは温度を1回取得して液晶画面に表示したら終わりです。次に、このプログラムを改造して、5秒毎に繰り返し温度を取得して表示するようにしてみましょう。</p>
+                <p>そのためには、「イベント」メニューから「ずっと」ブロックを、「タイマー」メニューから「1[秒]停止」ブロックを選び、次のように組み合わせます。「1[秒]停止」ブロックの中の数字は5に変えます。</p>
+                <p><img src="./images/gettemp5s.jpg" alt="5秒ごとに温度を取得"></p>
+                <p>プログラムができたら、右上の右三角をクリックしてください。M5StickCの液晶画面の数字が5秒毎に更新されるようになりました。</p>
+
+                <h2 id="画面の表示を見やすくする">画面の表示を見やすくする</h2>
+                <p>今度は表示をもう少し見やすくしてみましょう。今は液晶画面の上に小さい字で小数点以下6桁の数字が表示されています。M5StickCの画面は縦長なので、90度回転させて、左（あるいは右）を上にして表示し、フォントも標準より大きなものに変えてみます。</p>
+                <p>画面を90度回転させるには「UI」メニューの「画面」の「画面の向きのモードを 0 に設定する」ブロックを使います。モードを1にするとM5StickCの右が上に、3にすると左が上になります。フォントは「グラフィック」メニューの「フォントを FONT_Default に設定」ブロックで設定します。「FONT_Default」の部分をいろいろ変えて、どんなフォントになるか試してみてください。</p>
+                <p>画面の向きとフォントの設定はプログラムが始まって1回だけ実行すればいいので、「Setup」ブロックと「ずっと」ブロックの間に置きます。</p>
+                <p>数字の桁数を指定するのは「テキスト」メニューの「□ の小数点以下 0 桁までのテキスト」ブロックを使います。数字の桁数なので「数学」メニューにあるかと思いましたが、「テキスト」メニューにありました。どのメニューにどんな機能ブロックがあるか、暇な時にいろいろと見ておくといいですね。</p>
+                <p>表示を見やすくしたプログラムは次のようになりました。</p>
+                <p><img src="./images/gettemp5s2.jpg" alt="表示改善版"></p>
+                <p>画面には次のように温度が表示されます。</p>
+                <p><img src="./images/disptemp2.jpg" alt="温度の表示2"></p>
+
+                <h2 id="温度と湿度を表示する">温度と湿度を表示する</h2>
+                <p>「HAT」メニューの「環境」には「hat_env0の温度[℃]」の他に「hat_env0の湿度[%]」というブロックがありました。これを使って、温度と湿度を測って、画面に表示してみましょう。</p>
+                <p>温度の下に湿度を表示するには、どうしたらいいでしょう？</p>
+                <p>これには、テキストを表示するのに使っている「テキスト”　”をｘ0 ｙ0 に　色で表示」ブロックのｘとｙを指定することで好きな位置にテキストを表示できます。M5StickCの液晶画面には座標があり、左上が x = 0、y = 0になります。座標を表す時は x = 0、y = 0 の代わりに (0, 0) と書くことにします。右下の座標は、画面を縦にしたときは (79, 159)、横にした時は (159, 79) です。</p>
+                <p><img src="./images/m5_display.jpg" alt="M5StickCの液晶画面の座標"></p>
+                <p>温度の表示位置も左上過ぎるので、温度を (10, 10)、湿度を (10, 40) の位置に書いてみます。数字だけだと分かりにくいので、温度の表示には「Temp: 25.5」というように先頭に「Temp: 」「Humid: 」という文字も付けてみます。文字を付け足すには「テキスト」メニューの「”　” ＋ □」というブロックを使います。</p>
+                <p>プログラムは次のようになります。</p>
+                <p><img src="./images/gettemphumid.jpg" alt="温度と湿度を取得"></p>
+                <p>実際の画面は次のように、温度と湿度が数字で表示されて、デジタル温湿度計のようになりました。</p>
+                <p><img src="./images/disttemphumid.jpg" alt="温度と湿度の表示"></p>
+                <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（2_TempHumid）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
+
+                <h2 id="マスターの一言">マスターの一言</h2>
+                <p>「M5Stackカフェ」の第2回は温湿度センサを使って、温湿度計を作ってみました。いかがだったでしょうか？Hatを使いUIFlowでプログラムを作ると、簡単にセンサ端末が作れることがお分かりいただけたと思います。次は、光るものとか動くものとか、少し目立つものをお出ししたいです。</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">2.温度計を作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#m5stackシリーズ">M5Stackシリーズ</a></li>
+                        <li><a href="#プログラムを作る方法">プログラムを作る方法</a></li>
+                        <li><a href="#uiflowを使う準備">UIFlowを使う準備</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
