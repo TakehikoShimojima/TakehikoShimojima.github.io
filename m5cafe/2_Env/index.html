@@ -106,7 +106,7 @@
                 <li><a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat（DHT12/BMP280/BMM150搭載）</a></li>
                 </ul>
                 <p>このセンサはHatといって、M5StickCの上部のソケットにHatのピンを挿して使います。Hatには温湿度・気圧センサの他に人感センサなどいろいろなセンサ類があり、これを使うことでコンパクトなセンサ端末が作れます。</p>
-                <p><img src="./images/m5stickc_hat.jpg" width="100%" class="img-responsive center-block" alt="M5StickCにHatを挿す"></p>
+                <p><img src="./images/m5stickc_hat.jpg" width="80%" class="img-responsive center-block" alt="M5StickCにHatを挿す"></p>
 
                 <h2 id="プログラム">プログラム</h2>
                 <p>M5StickCにENV Hatを挿しただけでは何もおこりません。プログラムを作ってM5StickCやENV Hatを制御する必要があります。</p>
@@ -132,7 +132,7 @@
                 <p>「テキストを…」というブロックを「Setup」ブロックの下につなぎ、その中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。ここからはプログラムエリアの画面コピーを載せます。</p>
                 <p><img src="./images/gettemp1.jpg" width="70%" class="img-responsive center-block" alt="温度の取得1"></p>
                 <p>画面右上の右三角をクリックしてください。プログラムがM5StickCに転送され、動き、M5StickCの液晶画面に温度らしき数字が表示されます。</p>
-                <p><img src="./images/disptemp1.jpg" width="100%" class="img-responsive center-block" alt="温度の表示1"></p>
+                <p><img src="./images/disptemp1.jpg" width="60%" class="img-responsive center-block" alt="温度の表示1"></p>
                 <p>このプログラムは温度を1回取得して液晶画面に表示したら終わりです。次に、このプログラムを改造して、5秒毎に繰り返し温度を取得して表示するようにしてみましょう。</p>
                 <p>そのためには、「イベント」メニューから「ずっと」ブロックを、「タイマー」メニューから「1[秒]停止」ブロックを選び、次のように組み合わせます。「1[秒]停止」ブロックの中の数字は5に変えます。</p>
                 <p><img src="./images/gettemp5s.jpg" width="80%" class="img-responsive center-block" alt="5秒ごとに温度を取得"></p>
@@ -147,7 +147,7 @@
                 <p>表示を見やすくしたプログラムは次のようになりました。</p>
                 <p><img src="./images/gettemp5s2.jpg" width="100%" class="img-responsive center-block" alt="表示改善版"></p>
                 <p>画面には次のように温度が表示されます。</p>
-                <p><img src="./images/disptemp2.jpg" width="100%" class="img-responsive center-block" alt="温度の表示2"></p>
+                <p><img src="./images/disptemp2.jpg" width="70%" class="img-responsive center-block" alt="温度の表示2"></p>
 
                 <h2 id="温度と湿度を表示する">温度と湿度を表示する</h2>
                 <p>「HAT」メニューの「環境」には「hat_env0の温度[℃]」の他に「hat_env0の湿度[%]」というブロックがありました。これを使って、温度と湿度を測って、画面に表示してみましょう。</p>
@@ -158,7 +158,7 @@
                 <p>プログラムは次のようになります。</p>
                 <p><img src="./images/gettemphumid.jpg" width="100%" class="img-responsive center-block" alt="温度と湿度を取得"></p>
                 <p>実際の画面は次のように、温度と湿度が数字で表示されて、デジタル温湿度計のようになりました。</p>
-                <p><img src="./images/disptemphumid.jpg" width="100%" class="img-responsive center-block" alt="温度と湿度の表示"></p>
+                <p><img src="./images/disptemphumid.jpg" width="70%" class="img-responsive center-block" alt="温度と湿度の表示"></p>
                 <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（2_TempHumid）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
 
                 <h2 id="マスターの一言">マスターの一言</h2>
