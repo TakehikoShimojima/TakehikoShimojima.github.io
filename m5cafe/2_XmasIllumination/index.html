@@ -110,6 +110,7 @@
                 </ul>
                 <p>M5Stack用LEDテープは一方の端に「A」と書かれています。この「A」とM5StickCをGroveケーブルでつなぎます。反対側の「B」と次のLEDテープの「A」をGroveケーブルでつなぐことで2本のLEDテープを連結して使うことができます。</p>
                 <p><img src="./images/m5stickc_ledtape.jpg" width="100%" class="img-responsive center-block"  alt="M5StickCとLEDテープ"></p>
+
                 <h2 id="とにかくledテープを光らせてみる">とにかくLEDテープを光らせてみる</h2>
                 <p>M5StickCにLEDテープをつないだだけでは何もおこりません。プログラムを作ってM5StickCやLEDテープを制御する必要があります。</p>
                 <p>M5StackやM5StickCを制御するプログラムはいくつかの方法で作れます。その中で、比較的簡単にプログラムが作れるUIFlow(Blockly)を使います。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>をご覧ください。</p>
@@ -134,11 +135,11 @@
                 <h2 id="光らせるLEDをプログラムで変える">光らせるLEDをプログラムで変える</h2>
                 <p>「何番目の」という数字を手で書き換える代わりに、プログラムで変えてみましょう。そのためには数字の部分を「変数」に変えて、その変数をプログラムで変化させます。</p>
                 <p>真ん中の「ループ」メニューから「iを□から□まで□ずつカウントする」というブロックを選択します。さらに「数学」メニューに「1」というブロックがあるので、それを3回ドラッグ&amp;ドロップして、ループから選択したブロックにはめ込み、「iを1から58まで1ずつカウントする」にします。「変数」メニューから「i」というブロックを選択し「neopixel0の 1 番目のLEDの色を□に設定」の「1」の部分にはめ込みます。この「neopixel0…」ブロックを「カウント」ブロックの実行と書かれた部分にはめ込みます。少しゆっくり変化させたいので、「タイマー」メニューから「1[秒]停止」ブロックを選択し、中の数字を0.2にして、「neopixel0…」ブロックに下につけて、次の図のようにします。</p>
-                <p><img src="./images/setithled.jpg" width="100%" class="img-responsive center-block"  alt="i番目のLEDを点ける"></p>
+                <p><img src="./images/setithled.jpg" class="img-responsive center-block"  alt="i番目のLEDを点ける"></p>
                 <p>実行ボタンを押して、様子を見てみましょう。</p>
                 <p>想像した通りになったでしょうか？数字を手で変えてLEDを点けたときは、その数字のLEDだけが点灯しましたが、今度はM5StickCに近いところから1つ、2つと赤く光るLEDが増えていき、最後は全部のLEDが点灯しました。LEDテープは「1番目を赤く光らせる」と設定すると、「消せ」という設定をしない限りずっとその色で光り続けるのですね。数字を手で変えてLEDを点けたときは、「Setup」ブロックの中で最初に全てのLEDを消してくれていたので、指定したLEDだけが光っていました。</p>
                 <p>では、順番に1つだけのLEDが光るようにプログラムを修正してみましょう。そのためには、「i番目のLEDを赤く」したあとに、一つ手前の「i - 1番目のLEDを黒く」設定します。「i - 1」番目は、「数学」メニューの「□ ＋ □」ブロックを使い、最初の□に「i」を入れ、「＋」を「−」に変え、次の□に「1」を入れます。プログラムは次のようになります。</p>
-                <p><img src="./images/setonlyithled.jpg" width="100%" class="img-responsive center-block"  alt="i番目のLEDだけを点ける"></p>
+                <p><img src="./images/setonlyithled.jpg" class="img-responsive center-block"  alt="i番目のLEDだけを点ける"></p>
                 <p>実行してみると、順番に1つだけのLEDが光るのが確認できます。</p>
 
                 <h2 id="クリスマス・イルミネーションを作る">クリスマス・イルミネーションを作る</h2>
