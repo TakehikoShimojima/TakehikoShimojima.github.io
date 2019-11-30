@@ -1,0 +1,241 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="XmasIllumination - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>クリスマスの飾り - M5Stackカフェ</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2019年12月5日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>クリスマスの飾り</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <p>M5StackやM5StickCを使って、いろいろなものを作ったり、面白いものを作っている人を紹介したりするコーナー「M5Stackカフェ」。
+                    第2回はM5StickCを使ってクリスマスの飾りつけをします。</p>
+                <p>クリスマスといえば赤と緑に輝くイルミネーション（かなり強引ですが）。
+                    M5Stackの拡張モジュールには「M5Stack用NeoPixel互換 LEDテープ」という、いろいろな色が光らせられるLEDがテープ状に並んだものがあります。
+                    今回はこれを使ってクリスマス・イルミネーションを作ってみます。</p>
+
+                <h2 id="今回使うもの">今回使うもの</h2>
+                <p>LEDテープをM5StickCにつないで、プログラムでクリスマスカラーに光らせます。M5Stack用LEDテープには10cm、20cm、50cm、1m、2mのものがあります。作るイルミネーションに合わせて適切な長さのものを選べばいいと思いますが、今回は実験として20cmのものを2本使いました。</p>
+                <ul>
+                <li><a href="https://www.switch-science.com/catalog/5517/">M5StickC</a></li>
+                <li><a href="https://www.switch-science.com/catalog/5209/">M5Stack用NeoPixel互換 LEDテープ 20cm</a></li>
+                </ul>
+                <p>M5Stack用LEDテープは一方の端に「A」と書かれています。この「A」とM5StickCをGroveケーブルでつなぎます。反対側の「B」と次のLEDテープの「A」をGroveケーブルでつなぐことで2本のLEDテープを連結して使うことができます。</p>
+                <p><img src="./images/m5stickc_ledtape.jpg" alt="M5StickCとLEDテープ"></p>
+                <h2 id="とにかくledテープを光らせてみる">とにかくLEDテープを光らせてみる</h2>
+                <p>M5StickCにLEDテープをつないだだけでは何もおこりません。プログラムを作ってM5StickCやLEDテープを制御する必要があります。</p>
+                <p>M5StackやM5StickCを制御するプログラムはいくつかの方法で作れます。その中で、比較的簡単にプログラムが作れるUIFlow(Blockly)を使います。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>をご覧ください。</p>
+                <p>UIFlowはWi-FiでM5StickCにプログラムを転送できるので、USBケーブルでM5StickCとパソコンをつなぐ必要はありませんが、しばらくM5StickCを触っていなかったら、充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎましょう。</p>
+                <p>M5StickCの左側面のスイッチを押すと、M5StickCがリセットされ、Wi-Fiに接続し、APIキーが表示されます。APIキーが表示されない時は、  <a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>に沿ってM5StickCを初期設定してください。</p>
+                <p>次にパソコンのブラウザで次のアドレスにアクセスします。</p>
+                <ul>
+                <li><a href="http://flow.m5stack.com/">flow.m5stack.com</a></li>
+                </ul>
+                <p>ブラウザ画面左下のApi keyに、M5StickCの画面に表示されているAPIキーと同じものが表示されていることを確認します。Api keyが同じでない場合は、Api keyの欄をクリックして、M5StickCの画面に表示されているAPIキーを入力してください。Api keyの右の欄が[接続済み]になっていることを確認します。なっていない場合は、さらに右の更新ボタンをクリックして、UIFlowとM5StickCを接続します。</p>
+                <p><img src="./images/uiflow.jpg" alt="UIFlowの初期画面"></p>
+                <p>これでM5StickCのプログラムを作る準備は完了です。</p>
+                <p>これから新しいプログラムを作っていくので、画面左上の「プロジェクト」と書かれた右側の「main」の部分を「2_XmasIllumination」に変えておきましょう。</p>
+                <p>次に「Units」を選択して、「＋」をクリックし、「RGB LED」を選択します。「port」はGroveポートの選択で、M5StickC本体にはAポートがついているので、「A」のままで大丈夫です。「count」はLEDテープについているLEDの個数を入力します。20cmのLEDテープには29個のLEDがついているので、1本つないでいるなら29と入力します。2本連結しているなら58と入力してください。</p>
+                <p><img src="./images/selectledtape.jpg" alt="LEDテープの選択"></p>
+                <p>「Units」メニューの「Neopixel」の「neopixel0の 1 番目のLEDの色を□に設定」ブロックを右側のプログラムエリアにドラッグ&amp;ドロップします。</p>
+                <p><img src="./images/selectled1.jpg" alt="LEDの色を設定の選択"></p>
+                <p>このブロックを「Setup」ブロックの下につけて、次の図のようにしたら、UIFlow画面の右上の右三角（実行ボタン）をクリックしてください。UIFlowがM5StickCに接続できない場合は、M5StickCの左側面のボタンを押して、M5StickCをリセットし、液晶画面にAPIキーが表示されたらもう一度UIFlowの実行ボタンをクリックしてください。</p>
+                <p><img src="./images/setled1.jpg" alt="1番目のLEDを点ける"></p>
+                <p>LEDテープのM5StickCに一番近いLEDが一つ赤く点灯したのが確認できます。ブロックの「1」を別の数字に置き換えて、実行ボタンをクリックして、数字で指定した位置のLEDが点灯するのを確認してください。</p>
+                <p>「何番目の」という数字を手で書き換える代わりに、プログラムで変えてみましょう。そのためには数字の部分を「変数」に変えて、その変数をプログラムで変化させます。</p>
+                <p>真ん中の「ループ」メニューから「iを□から□まで□ずつカウントする」というブロックを選択します。さらに「数学」メニューに「1」というブロックがあるので、それを3回ドラッグ&amp;ドロップして、ループから選択したブロックにはめ込み、「iを1から58まで1ずつカウントする」にします。「変数」メニューから「i」というブロックを選択し「neopixel0の 1 番目のLEDの色を□に設定」の「1」の部分にはめ込みます。この「neopixel0…」ブロックを「カウント」ブロックの実行と書かれた部分にはめ込みます。少しゆっくり変化させたいので、「タイマー」メニューから「1[秒]停止」ブロックを選択し、中の数字を0.2にして、「neopixel0…」ブロックに下につけて、次の図のようにします。</p>
+                <p><img src="./images/setithled.jpg" alt="i番目のLEDを点ける"></p>
+                <p>実行ボタンを押して、様子を見てみます。</p>
+                <p>想像した通りになったでしょうか？数字を手で変えてLEDを点けたときは、その数字のLEDだけが点灯しましたが、今度はM5StickCに近いところから1つ、2つと赤く光るLEDが増えていき、最後は全部のLEDが点灯しました。LEDテープは「1番目を赤く光らせる」と設定すると、「消せ」という設定をしない限りずっとその色で光り続けるのですね。数字を手で変えてLEDを点けたときは、「Setup」ブロックの中で最初に全てのLEDを消してくれていたので、指定したLEDだけが光っていました。</p>
+                <p>では、順番に1つだけのLEDが光るようにプログラムを修正してみましょう。そのためには、「i番目のLEDを赤く」したあとに「i - 1番目のLEDを黒く」設定します。「i - 1」番目は、「数学」メニューの「□ ＋ □」ブロックを使い、最初の□に「i」を入れ、「＋」を「−」に変え、次の□に「1」を入れます。プログラムは次のようになります。</p>
+                <p><img src="./images/setonlyithled.jpg" alt="i番目のLEDだけを点ける"></p>
+                <p>実行してみると、順番に1つだけのLEDが光るのが確認できます。</p>
+                <p>LEDテープの使い方が分かってきたので、いよいよクリスマス・イルミネーションを作ってみましょう。LEDを赤と緑に交互に点灯させると、それらしくなるはずです。</p>
+                <p>まず、1番目、3番目、5番目、つまり奇数番目のLEDを赤に、偶数番目のLEDを緑にしてみます。</p>
+                <p>先程のプログラムを参考に、「iを1から58まで2ずつカウントする」というループを作ります。するとiは1、3、5…と変化していきます。「i番目のLEDを赤く設定」し、「i + 1番目のLEDを緑に設定」します。色は「neopixel0の 1 番目のLEDの色を□に設定」の色の部分をクリックすると、カラーパレットが現れるので、設定したい色を選択します。</p>
+                <p><img src="./images/setredgreenleds.jpg" alt="赤と緑のLEDを点ける"></p>
+                <p>実行すると、奇数番目のLEDが赤、偶数番目のLEDが緑になります。これだけだと変化がないので面白くありません。赤と緑が交互に入れ替わるようにしてみましょう。</p>
+                <p>奇数番目のLEDを赤、偶数番目を緑にしたら、0.5秒待つように、「タイマー」メニューから「1[秒]停止」ブロックを選び、ループの下に付け、数字を0.5にします。</p>
+                <p>次に奇数番目を緑、偶数番目を赤にするループを作るのですが、最初のループを右クリックするとメニューが現れるので、その中から「複製」を選ぶと、ブロックの塊が複製されます。</p>
+                <p><img src="./images/showmenu.jpg" alt="右クリックでメニューを出す"></p>
+                <p>色を奇数番目を緑、偶数番目を赤に変え、こちらの下にも「0.5秒停止」ブロックをつけます。全体を「ずっと」ブロックで囲むと、赤と緑を交互に0.5秒ずつ繰り返すプログラムになります。</p>
+                <p><img src="./images/altredgreen.jpg" alt="LEDを交互に赤と緑に光らせる"></p>
+                <p>実行ボタンをクリックして、動作を確認してください。交互に赤と緑に光るクリスマスイルミネーションが出来ました。</p>
+                <p>赤と緑が入れ替わる時間は「0.5[秒]停止」という2つのブロックで指定しています。この時間を変えることで赤と緑が入れ替わるタイミングを調整できます。こういうときは2つの「0.5[秒]停止」ブロックの数字を直接書き換えてもいいのですが、停止する時間を変数、例えば「pauseT」にして、「pauseT[秒]停止」に変更し、プログラムの先頭でpauseTの値を設定すると、変更が1か所で済みます。</p>
+                <p><img src="./images/const.jpg" alt="停止時間を定数にする"></p>
+                <p>赤と緑が入れ替わる時間をいろいろと変えて、好みの時間を見つけてみてください。</p>
+                <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（2_XmasIllumination）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
+                <h2 id="マスターの一言">マスターの一言</h2>
+                <p>LEDテープという、いろいろな色に光るLEDが並んだテープを使って、クリスマスの飾りを作ってみました。LEDテープのマニュアルを探さなくてもプログラムが作れるのがUIFlowの便利なところです。お正月の飾りもLEDテープを使って作ってみようかな？松飾り？鏡もち？どれもLEDテープ向きじゃありませんね…</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">2.温度計を作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#m5stackシリーズ">M5Stackシリーズ</a></li>
+                        <li><a href="#プログラムを作る方法">プログラムを作る方法</a></li>
+                        <li><a href="#uiflowを使う準備">UIFlowを使う準備</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
