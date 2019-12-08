@@ -105,7 +105,7 @@
                 <li><a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat（DHT12/BMP280/BMM150搭載）</a></li>
                 </ul>
                 <p>このセンサはHatといって、M5StickCの上部のソケットにHatのピンを挿して使います。Hatには温湿度・気圧センサの他に人感センサなどいろいろなセンサ類があり、これを使うことでコンパクトなセンサ端末が作れます。</p>
-                <p><img src="./images/m5stickc_hat.jpg" width="100%" class="img-responsive center-block" alt="M5StickCにHatを挿す"></p>
+                <p><img src="./images/m5stickc_hat.jpg" width="80%" class="img-responsive center-block" alt="M5StickCにHatを挿す"></p>
 
                 <h2 id="プログラム">プログラム</h2>
                 <p>M5StickCでENV Hatを制御するプログラムをUIFlow(Blockly)で作ります。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>を、UIFlowの操作方法は<a href="http://pages.switch-science.com/m5cafe/%E2%97%8F%E2%97%8F%E2%97%8F">第2回の記事</a>もご覧ください。</p>
@@ -127,9 +127,9 @@
                 <p><img src="./images/selecttemp.jpg" width="100%" class="img-responsive center-block" alt="温度ブロックの選択"></p>
                 <p>このブロックは「ENV Hat」というセンサから温度データを取得するブロックです。では取得した温度データをM5StickCの液晶画面に表示してみましょう。そのためには「グラフィック」メニューから「テキスト”　”をｘ0 ｙ0 に　色で表示」というブロックをドラッグ＆ドロップします。</p>
                 <p>「テキストを…」というブロックの中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。</p>
-                <p><img src="./images/gettemp1.jpg" width="100%" class="img-responsive center-block" alt="温度の取得1"></p>
+                <p><img src="./images/gettemp1.jpg" width="80%" class="img-responsive center-block" alt="温度の取得1"></p>
                 <p>画面右上の右三角の実行ボタンをクリックして、プログラムを動かしてください。M5StickCの液晶画面に温度らしき数字が表示されます。</p>
-                <p><img src="./images/disptemp1.jpg" width="100%" class="img-responsive center-block" alt="温度の表示1"></p>
+                <p><img src="./images/disptemp1.jpg" width="50%" class="img-responsive center-block" alt="温度の表示1"></p>
                 <p>このプログラムは温度を1回取得して液晶画面に表示したら終わりです。次に、このプログラムを改造して、5秒毎に繰り返し温度を取得して表示するようにしてみましょう。</p>
                 <p>そのためには、「イベント」メニューから「ずっと」ブロックを、「タイマー」メニューから「1[秒]停止」ブロックを選び、次のように組み合わせます。「1[秒]停止」ブロックの中の数字は5に変えます。</p>
                 <p><img src="./images/gettemp5s.jpg" width="100%" class="img-responsive center-block" alt="5秒ごとに温度を取得"></p>
@@ -171,7 +171,7 @@
                 <p>「変数」メニューから「変数の作成…」で「temp」という変数を作り、「hat_env0の温度[℃]」に設定します。「temp」を「マップ」ブロックで1から15の値に変換し、その「マップ」ブロックを「neopixel0 の 1 から 5 番目のLEDの色を□に設定」ブロックの「5」の部分に入れます。こうすることで、温度に対応してLEDテープのLEDを光らせられます。</p>
                 <p><img src="./images/ledtapethermoprog.jpg" width="100%" class="img-responsive center-block" alt="LEDテープの温度計プログラム"></p>
                 <p>温度をLEDテープで表示する温度計の出来上がりです。</p>
-                <p><img src="./images/ledtapethermo.jpg" width="100%" class="img-responsive center-block" alt="LEDテープの温度計"></p>
+                <p><img src="./images/ledtapethermo.jpg" width="50%" class="img-responsive center-block" alt="LEDテープの温度計"></p>
                 <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（3_Thermometer）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
 
                 <h2 id="マスターの一言">マスターの一言</h2>
