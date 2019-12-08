@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="description" content="Env - M5cafe">
+<meta name="description" content="Thermo - M5cafe">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>温度計を作る - M5Stackカフェ</title>
 <link rel="shortcut icon" href="/favicon.ico" />
@@ -87,7 +87,7 @@
                 <h1>M5Stackカフェ</h1>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
-                <p class="text-right">2019年11月30日</p>
+                <p class="text-right">2019年12月●日</p>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
                 <h1>温度計を作る</h1>
@@ -96,8 +96,7 @@
             <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
 
 
-                <p>M5StackやM5StickCを使って、いろいろなものを作ったり、面白いものを作っている人を紹介したりするコーナー「M5Stackカフェ」。
-                    第2回はM5StickCを使って温度計を作ってみます。</p>
+                <p>M5StackやM5StickCを使って、面白いことをするコーナー「M5Stackカフェ」。第3回はM5StickCを使って温度計を作ってみます。</p>
 
                 <h2 id="今回使うもの">今回使うもの</h2>
                 <p>温度を測るために、温度センサを使います。M5StickCには「<a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat</a>」という温度、湿度、気圧と磁界が測れるセンサがあるので、これを使ってみましょう。</p>
@@ -106,38 +105,35 @@
                 <li><a href="https://www.switch-science.com/catalog/5755/">M5StickC ENV Hat（DHT12/BMP280/BMM150搭載）</a></li>
                 </ul>
                 <p>このセンサはHatといって、M5StickCの上部のソケットにHatのピンを挿して使います。Hatには温湿度・気圧センサの他に人感センサなどいろいろなセンサ類があり、これを使うことでコンパクトなセンサ端末が作れます。</p>
-                <p><img src="./images/m5stickc_hat.jpg" width="80%" class="img-responsive center-block" alt="M5StickCにHatを挿す"></p>
+                <p><img src="./images/m5stickc_hat.jpg" alt="M5StickCにHatを挿す"></p>
 
                 <h2 id="プログラム">プログラム</h2>
-                <p>M5StickCにENV Hatを挿しただけでは何もおこりません。プログラムを作ってM5StickCやENV Hatを制御する必要があります。</p>
-                <p>M5StackやM5StickCを制御するプログラムはいくつかの方法で作れます。その中で、比較的簡単にプログラムが作れるUIFlow(Blockly)を使います。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>をご覧ください。</p>
-                <p>UIFlowはWi-FiでM5StickCにプログラムを転送できるので、USBケーブルでM5StickCとパソコンをつなぐ必要はありませんが、しばらくM5StickCを触っていなかったら、充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎましょう。</p>
-                <p>M5StickCの左側面のスイッチを押すと、M5StickCがリセットされ、Wi-Fiに接続し、APIキーが表示されます。APIキーが表示されない時は、 <a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>に沿ってM5StickCを初期設定してください。</p>
+                <p>M5StickCでENV Hatを制御するプログラムをUIFlow(Blockly)で作ります。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>を、UIFlowの操作方法は<a href="http://pages.switch-science.com/m5cafe/%E2%97%8F%E2%97%8F%E2%97%8F">第2回の記事</a>もご覧ください。</p>
+                <p>しばらくM5StickCを触っていなかったら、充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎましょう。</p>
                 <p>次にパソコンのブラウザで次のアドレスにアクセスします。</p>
                 <ul>
-                <li><a href="https://takehikoshimojima.github.io/m5cafe/1_Lchika/flow.m5stack.com">flow.m5stack.com</a></li>
+                <li><a href="flow.m5stack.com">flow.m5stack.com</a></li>
                 </ul>
                 <p>ブラウザ画面左下のApi keyに、M5StickCの画面に表示されているAPIキーと同じものが表示されていることを確認します。Api keyが同じでない場合は、Api keyの欄をクリックして、M5StickCの画面に表示されているAPIキーを入力してください。Api keyの右の欄が[接続済み]になっていることを確認します。なっていない場合は、さらに右の更新ボタンをクリックして、UIFlowとM5StickCを接続します。</p>
-                <p>画面左側のM5StickCの下に「Hat」と表示されていることも確認します。表示されていない場合は、画面右上の「VER」というメニューをクリックして、「Lastest」を選択してください。小さい画面が現れたら、真ん中の「Switch but don’t save」をクリックしてください。</p>
-                <p><img src="./images/uiflow.jpg" width="100%" class="img-responsive center-block" alt="UIFlowの初期画面"></p>
+                <p>M5StickCの液晶画面にAPIキーが表示されていない場合は、 <a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>に沿ってM5StickCを初期設定してください。</p>
+                <p><img src="./images/uiflow.jpg" alt="UIFlowの初期画面"></p>
                 <p>これでM5StickCのプログラムを作る準備は完了です。</p>
 
                 <h2 id="温度を測って画面に表示する">温度を測って画面に表示する</h2>
-                <p>これから新しいプログラムを作っていくので、画面左上の「プロジェクト」と書かれた右側の「main」の部分を「2_TempHumid」に変えておきましょう。</p>
-                <p>次に、「Hat」をクリックし、「＋」をクリックします。Hatの一覧が現れるので、ENVを選んで「OK」をクリックします。</p>
-                <p><img src="./images/selectenv.jpg" width="100%" class="img-responsive center-block" alt="ENV Hatの選択"></p>
+                <p>画面左上の「プロジェクト」と書かれた右側の「main」の部分を「3_Thermometer」に変えておきましょう。</p>
+                <p>次に、「Hat」を選択して「＋」をクリックし、Hatの一覧から「ENV」を選んで「OK」をクリックします。</p>
+                <p><img src="./images/selectenv.jpg" alt="ENV Hatの選択"></p>
                 <p>真ん中のメニューの「HAT」を選択すると、「環境」が現れます。それが環境（Environmental）センサです。それをクリックすると、「hat_env0の温度[℃]」「hat_env0の湿度[%]」「hat_env0の気圧[hPa]」というブロックが現れます。まず、「hat_env0の温度[℃]」を選んで、右側のプログラムエリアにドラッグ＆ドロップします。</p>
-                <p><img src="./images/selecttemp.jpg" width="100%" class="img-responsive center-block" alt="温度ブロックの選択"></p>
+                <p><img src="./images/selecttemp.jpg" alt="温度ブロックの選択"></p>
                 <p>このブロックは「ENV Hat」というセンサから温度データを取得するブロックです。では取得した温度データをM5StickCの液晶画面に表示してみましょう。そのためには「グラフィック」メニューから「テキスト”　”をｘ0 ｙ0 に　色で表示」というブロックをドラッグ＆ドロップします。</p>
-                <p>「テキストを…」というブロックを「Setup」ブロックの下につなぎ、その中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。ここからはプログラムエリアの画面コピーを載せます。</p>
-                <p><img src="./images/gettemp1.jpg" width="70%" class="img-responsive center-block" alt="温度の取得1"></p>
-                <p>画面右上の右三角をクリックしてください。プログラムがM5StickCに転送され、動き、M5StickCの液晶画面に温度らしき数字が表示されます。</p>
-                <p><img src="./images/disptemp1.jpg" width="50%" class="img-responsive center-block" alt="温度の表示1"></p>
+                <p>「テキストを…」というブロックの中に「hat_env0の温度[℃]」ブロックを入れて、次の図のようにします。</p>
+                <p><img src="./images/gettemp1.jpg" alt="温度の取得1"></p>
+                <p>画面右上の右三角の実行ボタンをクリックして、プログラムを動かしてください。M5StickCの液晶画面に温度らしき数字が表示されます。</p>
+                <p><img src="./images/disptemp1.jpg" alt="温度の表示1"></p>
                 <p>このプログラムは温度を1回取得して液晶画面に表示したら終わりです。次に、このプログラムを改造して、5秒毎に繰り返し温度を取得して表示するようにしてみましょう。</p>
                 <p>そのためには、「イベント」メニューから「ずっと」ブロックを、「タイマー」メニューから「1[秒]停止」ブロックを選び、次のように組み合わせます。「1[秒]停止」ブロックの中の数字は5に変えます。</p>
-                <p><img src="./images/gettemp5s.jpg" width="80%" class="img-responsive center-block" alt="5秒ごとに温度を取得"></p>
-                <p>プログラムができたら、右上の右三角をクリックしてください。M5StickCの液晶画面の数字が5秒毎に更新されるようになりました。
-                    このプログラムは、ENV Hatから温度を読み込んで液晶画面に表示し、5秒待って、同じ動作をずっと繰り返します。</p>
+                <p><img src="./images/gettemp5s.jpg" alt="5秒ごとに温度を取得"></p>
+                <p>プログラムができたら、実行ボタンをクリックしてください。M5StickCの液晶画面の数字が5秒毎に更新されるようになりました。</p>
 
                 <h2 id="画面の表示を見やすくする">画面の表示を見やすくする</h2>
                 <p>今度は表示をもう少し見やすくしてみましょう。今は液晶画面の上に小さい字で小数点以下6桁の数字が表示されています。M5StickCの画面は縦長なので、90度回転させて、左（あるいは右）を上にして表示し、フォントも標準より大きなものに変えてみます。</p>
@@ -145,24 +141,41 @@
                 <p>画面の向きとフォントの設定はプログラムが始まって1回だけ実行すればいいので、「Setup」ブロックと「ずっと」ブロックの間に置きます。</p>
                 <p>数字の桁数を指定するのは「テキスト」メニューの「□ の小数点以下 0 桁までのテキスト」ブロックを使います。数字の桁数なので「数学」メニューにあるかと思いましたが、「テキスト」メニューにありました。どのメニューにどんな機能ブロックがあるか、暇な時にいろいろと見ておくといいですね。</p>
                 <p>表示を見やすくしたプログラムは次のようになりました。</p>
-                <p><img src="./images/gettemp5s2.jpg" width="100%" class="img-responsive center-block" alt="表示改善版"></p>
+                <p><img src="./images/gettemp5s2.jpg" alt="表示改善版"></p>
                 <p>画面には次のように温度が表示されます。</p>
-                <p><img src="./images/disptemp2.jpg" width="70%" class="img-responsive center-block" alt="温度の表示2"></p>
+                <p><img src="./images/disptemp2.jpg" alt="温度の表示2"></p>
 
                 <h2 id="温度と湿度を表示する">温度と湿度を表示する</h2>
                 <p>「HAT」メニューの「環境」には「hat_env0の温度[℃]」の他に「hat_env0の湿度[%]」というブロックがありました。これを使って、温度と湿度を測って、画面に表示してみましょう。</p>
                 <p>温度の下に湿度を表示するには、どうしたらいいでしょう？</p>
                 <p>これには、テキストを表示するのに使っている「テキスト”　”をｘ0 ｙ0 に　色で表示」ブロックのｘとｙを指定することで好きな位置にテキストを表示できます。M5StickCの液晶画面には座標があり、左上が x = 0、y = 0になります。座標を表す時は x = 0、y = 0 の代わりに (0, 0) と書くことにします。右下の座標は、画面を縦にしたときは (79, 159)、横にした時は (159, 79) です。</p>
-                <p><img src="./images/m5_display.jpg" width="100%" class="img-responsive center-block" alt="M5StickCの液晶画面の座標"></p>
+                <p><img src="./images/m5_display.jpg" alt="M5StickCの液晶画面の座標"></p>
                 <p>温度の表示位置も左上過ぎるので、温度を (10, 10)、湿度を (10, 40) の位置に書いてみます。数字だけだと分かりにくいので、温度の表示には「Temp: 25.5」というように先頭に「Temp: 」「Humid: 」という文字も付けてみます。文字を付け足すには「テキスト」メニューの「”　” ＋ □」というブロックを使います。</p>
                 <p>プログラムは次のようになります。</p>
-                <p><img src="./images/gettemphumid.jpg" width="100%" class="img-responsive center-block" alt="温度と湿度を取得"></p>
+                <p><img src="./images/gettemphumid.jpg" alt="温度と湿度を取得"></p>
                 <p>実際の画面は次のように、温度と湿度が数字で表示されて、デジタル温湿度計のようになりました。</p>
-                <p><img src="./images/disptemphumid.jpg" width="70%" class="img-responsive center-block" alt="温度と湿度の表示"></p>
-                <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（2_TempHumid）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
+                <p><img src="./images/disptemphumid.jpg" alt="温度と湿度の表示"></p>
+
+                <h2 id="ledテープで温度を表示する">LEDテープで温度を表示する</h2>
+                <p>M5StickCの液晶画面に温度と湿度が表示できるようになりました。離れたところからでも温度が分かるように、第2回の「<a href="http://pages.switch-science.com/m5cafe/%E2%97%8F%E2%97%8F%E2%97%8F">クリスマスの飾り</a>」で使ったLEDテープを使い、温度を表示してみましょう。</p>
+                <p>今回は10cmのLEDテープを使います。</p>
+                <ul>
+                <li><a href="https://www.switch-science.com/catalog/5208/">M5Stack用NeoPixel互換 LEDテープ 10cm</a></li>
+                <li><a href="https://www.switch-science.com/catalog/5213/">M5Stack用GROVE互換ケーブル 10 cm（5個入り）</a></li>
+                </ul>
+                <p>室温を測ることを想定し、0℃から40℃の温度を表示することにします。0℃のときは1番目のLEDだけを光らせ、40℃のときは15個全部のLEDを光らせるようにします。</p>
+                <p>LEDテープを制御するために、UIFlow画面左側の「Units」から「RGB LED」を選択します。「count」はLEDテープのLEDの個数に合わせて「15」に設定します。次に、真ん中の「Units」メニューの「Neopixel」から「neopixel0 の 1 から 5 番目のLEDの色を□に設定」を選びます。</p>
+                <p>0℃のときは1番目のLEDだけを光らせ、40℃のときは15個全部のLEDを光らせるには、真ん中の「高度なブロック」メニューの「Easy I/O」にある「マップ」ブロックを使います。</p>
+                <p><img src="./images/mapblock.jpg" alt="マップブロック"></p>
+                <p>「マップ」ブロックはセンサの値などを別の範囲に変換してくれる便利なブロックです。「マップ」ブロックを上の図のように設定すると、「マップ」の右側の値が0（変換前下限）のときは1（変換後下限）に、40（変換前上限）のときは15（変換後上限）に、その間の値のときは比例計算して変換してくれます。</p>
+                <p>「変数」メニューから「変数の作成…」で「temp」という変数を作り、「hat_env0の温度[℃]」に設定します。「temp」を「マップ」ブロックで1から15の値に変換し、その「マップ」ブロックを「neopixel0 の 1 から 5 番目のLEDの色を□に設定」ブロックの「5」の部分に入れます。こうすることで、温度に対応してLEDテープのLEDを光らせられます。</p>
+                <p><img src="./images/ledtapethermoprog.jpg" alt="LEDテープの温度計プログラム"></p>
+                <p>温度をLEDテープで表示する温度計の出来上がりです。</p>
+                <p><img src="./images/ledtapethermo.jpg" alt="LEDテープの温度計"></p>
+                <p>話が長くなってきたので、今回はこのくらいにします。作ったプログラムはUIFlowの下のフロッピーのアイコンをクリックして保存しておきましょう。プロジェクト名（3_Thermometer）に「.m5f」を付けたファイル名でダウンロードフォルダに保存されます。</p>
 
                 <h2 id="マスターの一言">マスターの一言</h2>
-                <p>「M5Stackカフェ」の第2回は温湿度センサを使って、温湿度計を作ってみました。いかがだったでしょうか？Hatを使いUIFlowでプログラムを作ると、簡単にセンサ端末が作れることがお分かりいただけたと思います。次は、光るものとか動くものとか、少し目立つものをお出ししたいです。</p>
+                <p>「M5Stackカフェ」第3回は温湿度・気圧センサHatを使って、温度計を作ってみました。またLEDテープをつないで、温度をLEDで表示してみました。いかがだったでしょうか？Hatを使いUIFlowでプログラムを作ると、簡単にセンサ端末が作れますね。</p>
 
 
             </div>
