@@ -109,7 +109,7 @@
                 <p>プログラムはUIFlow(Blockly)で作ります。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>を、UIFlowの操作方法は<a href="http://pages.switch-science.com/m5cafe/2_XmasIllumination">第2回の記事</a>もご覧ください。</p>
                 <p>充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎ、パソコンのブラウザで次のアドレスにアクセスします。</p>
                 <ul>
-                <li><a href="flow.m5stack.com">flow.m5stack.com</a></li>
+                <li><a href="http://flow.m5stack.com/">flow.m5stack.com</a></li>
                 </ul>
                 <p><a href="http://pages.switch-science.com/m5cafe/3_Thermometer/">第3回の記事</a>を参考にしてAPIキーを確認して、UIFlowとM5StickCを接続します。</p>
                 <p>これでUIFlowでM5StickCのプログラムを作る準備は完了です。</p>
@@ -118,10 +118,10 @@
                 <p>ストップウォッチの一番肝心な機能は時間を数えることです。ボタンを押してから次にボタンを押すまでの時間を数えて、表示すれば、ストップウォッチになります。</p>
                 <p>時間を数える方法はいくつかありますが、比較的簡単で正確なのは「タイマーイベント」を使う方法です。</p>
                 <p>タイマーイベントはUIFlowの「イベント」メニューの中にあります。</p>
-                <p><img src="./images/timerevent.jpg" width="80%" class="img-responsive center-block"  alt="タイマーイベント"></p>
+                <p><img src="./images/timerevent.jpg" width="90%" class="img-responsive center-block"  alt="タイマーイベント"></p>
                 <p>タイマーは時間と「ONE_SHOT」、「PERIODIC」どちらかの動作モードを指定して使います。「ONE_SHOT」は指定した時間が経過したら「あるブロック」を1回実行してくれます。「PERIODIC」は繰り返し「あるブロック」を実行してくれます。</p>
                 <p>指定した時間が経過した時に実行される「あるブロック」をタイマーハンドラといい、次のような形をしています。</p>
-                <p><img src="./images/timerhandler.jpg" width="80%" class="img-responsive center-block"  alt="タイマーハンドラ"></p>
+                <p><img src="./images/timerhandler.jpg" width="70%" class="img-responsive center-block"  alt="タイマーハンドラ"></p>
                 <p>今まで紹介したブロックは「Setup」ブロックから始まるブロックの列のどこかにつなげて、順番が来ると実行されました。タイマーハンドラはどこかにつなげて、順番がくると実行されるのではなく、タイマーで指定した時間が経過すると実行されるブロックです。</p>
                 <p>タイマーの使い方は、タイマーハンドラーの中身を作り、「タイマーを開始」するブロックで時間と動作モードを指定してタイマーを動かします。</p>
                 <p>では、「count」という変数を用意して、その値を0.1秒ごとに0.1増やして液晶画面に表示してみましょう。</p>
@@ -133,24 +133,24 @@
                 <p>「タイマーを開始する」ブロックをつなぎ、時間を100ミリ秒（0.1秒）、モードを「PERIODIC」にします。</p>
                 <p>「タイマーハンドラ」をドラッグ＆ドロップして、その中で「label0」に変数「count」の値を表示します。次に「変数」メニューの「countを1増やす」をつなげます。数字の「1」を「0.1」に変えれば、0.1秒ごとに「count」の値が0.1ずつ増やされ、その数字がLCDに表示できそうですが、「countを1増やす」ブロックは少数を入力するとうまく動きません。そこで、0.1秒ごとに「countを1増やす」ことにして、表示する時に「count」の値を10で割って表示します。割り算をするブロックは、「数学」メニューの「□ ＋ □」という足し算ブロックを使い、「＋」を「÷」に変えて割り算ブロックにします。さらに「テキスト」メニューから「□の小数点以下0桁までのテキスト」というブロックを使い、小数点以下1桁の数字を表示するようにします。</p>
                 <p>タイマーハンドラができたら、「タイマを開始する」ブロックのタイマーを「timer0」に指定します。プログラムは次のようになります。</p>
-                <p><img src="./images/counter.jpg" width="80%" class="img-responsive center-block"  alt="単純なカウンタ"></p>
+                <p><img src="./images/counter.jpg" width="90%" class="img-responsive center-block"  alt="単純なカウンタ"></p>
                 <p>これで0.1秒ごとの時間を数える単純なカウンタができました。このカウンタをボタンでスタート/ストップすればストップウォッチになりそうです。</p>
 
                 <h2 id="ボタンを扱う">ボタンを扱う</h2>
                 <p>M5StickCには図のようにボタンAとボタンBの2つのボタンがあります。</p>
                 <p><img src="./images/m5stickc_button.jpg" width="80%" class="img-responsive center-block"  alt="M5StickCのボタン"></p>
                 <p>UIFlowでボタンを扱うブロックも「イベント」メニューにあります。</p>
-                <p><img src="./images/btnevent.jpg" width="80%" class="img-responsive center-block"  alt="イベントメニュー"></p>
+                <p><img src="./images/btnevent.jpg" width="90%" class="img-responsive center-block"  alt="イベントメニュー"></p>
                 <p>ボタンの状態は「ボタンAがwasPressedである」ブロックで調べられます。「wasPressed」は前回調べたときから今までにボタンが押されたかどうかを調べます。「wasPressed」の他に「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）ことを調べられます。</p>
                 <p>試しに、次のようなプログラムでボタンの扱いを見てみましょう。</p>
                 <p><img src="./images/btnLED1.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDをつける"></p>
                 <p>ボタンAが押されていたらLEDを点け、ボタンAが離されたらLEDを消します。プログラムを実行してM5StickCのボタンAを押すと、押している間LEDが点灯し、ボタンを離すと消えることが確認できます。</p>
                 <p>もう一つのボタンの扱い方は、ボタンハンドラを使う方法です。</p>
-                <p><img src="./images/btnhandler.jpg" width="80%" class="img-responsive center-block"  alt="ボタンハンドラ"></p>
+                <p><img src="./images/btnhandler.jpg" width="70%" class="img-responsive center-block"  alt="ボタンハンドラ"></p>
                 <p>ボタンハンドラは、「wasPressed」（押された）という状態になったらハンドラの中のブロックが実行されるブロックです。</p>
                 <p>状態は「wasPressed」（押された）、「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）の4種類です。</p>
                 <p>押している間LEDが点灯し、離すと消えるプログラムは、ボタンハンドラを使うと次のようになります。</p>
-                <p><img src="./imgaes/btnLED2.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDを点ける"></p>
+                <p><img src="./images/btnLED2.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDを点ける"></p>
                 <p>ボタンハンドラは、何か別の処理をやりながら、ボタンがある状態になったらそれに対応した処理をするような動作を記述するときに便利です。</p>
 
                 <h2 id="ボタンでタイマーを制御する">ボタンでタイマーを制御する</h2>
@@ -159,7 +159,7 @@
                 <p>そして、ボタンハンドラを使い、ボタンAが押された時に、タイマーが止まっていたら、つまり「stop」が「true」ならタイマーを動かして、「stop」を「false」に設定し、逆にタイマーが動いていたらタイマーを止めて、「stop」を「true」に設定します。</p>
                 <p>これでボタンAでタイマーが制御できるようになります。また、ボタンBが押されたら、「count」変数を0にすることで、ストップウォッチをゼロクリアできます。</p>
                 <p>プログラムは次のようになります。</p>
-                <p><img src="./images/stopwatch.jpg" width="80%" class="img-responsive center-block"  alt="ストップウォッチ"></p>
+                <p><img src="./images/stopwatch.jpg" width="90%" class="img-responsive center-block"  alt="ストップウォッチ"></p>
                 <p>プログラムを実行すると、液晶画面に「0」という数字が表示され、ボタンAを押すと0.1秒毎に数字がカウントアップされ、もう一度押すと数字が止まります。ボタンBを押すと数字が0に戻ります。簡単なストップウォッチが出来上がりました。</p>
                 <p>M5StickCとUIFlowを使うと、比較的簡単に便利な道具が自作できます。しかも自分でプログラミングしているので、自分好みに改造することもできます。皆さんも是非試してみてはいかがでしょう？</p>
 
