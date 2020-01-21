@@ -1,0 +1,255 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="StopWatch - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ストップウォッチを作る - M5Stackカフェ</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年1月27日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>ストップウォッチを作る</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <p>M5StackやM5StickCを使って、面白いことをするコーナー「M5Stackカフェ」。第4回はM5StickCを使ってストップウォッチを作ってみます。</p>
+
+                <h2 id="今回使うもの">今回使うもの</h2>
+                <p>M5StickCは液晶画面（LCD）とボタンがついているので、M5StickCだけでストップウォッチが作れそうです。ということで、今回使うものはM5StickCだけです。</p>
+                <ul>
+                <li><a href="https://www.switch-science.com/catalog/5517/">M5StickC</a></li>
+                </ul>
+
+                <h2 id="プログラム">プログラム</h2>
+                <p>M5StickCのボタンAを押したらストップウォッチが動き出し、もう一度ボタンAを押したらストップウォッチを止めるようにします。ボタンBを押したら、ストップウォッチをゼロクリアするようにします。</p>
+                <p>プログラムはUIFlow(Blockly)で作ります。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>を、UIFlowの操作方法は<a href="http://pages.switch-science.com/m5cafe/2_XmasIllumination">第2回の記事</a>もご覧ください。</p>
+                <p>充電も兼ねてUSBケーブルでM5StickCとパソコンをつなぎ、パソコンのブラウザで次のアドレスにアクセスします。</p>
+                <ul>
+                <li><a href="flow.m5stack.com">flow.m5stack.com</a></li>
+                </ul>
+                <p><a href="http://pages.switch-science.com/m5cafe/3_Thermometer/">第3回の記事</a>を参考にしてAPIキーを確認して、UIFlowとM5StickCを接続します。</p>
+                <p>これでUIFlowでM5StickCのプログラムを作る準備は完了です。</p>
+
+                <h2 id="時間を数える">時間を数える</h2>
+                <p>ストップウォッチの一番肝心な機能は時間を数えることです。ボタンを押してから次にボタンを押すまでの時間を数えて、表示すれば、ストップウォッチになります。</p>
+                <p>時間を数える方法はいくつかありますが、比較的簡単で正確なのは「タイマーイベント」を使う方法です。</p>
+                <p>タイマーイベントはUIFlowの「イベント」メニューの中にあります。</p>
+                <p><img src="./images/timerevent.jpg" width="80%" class="img-responsive center-block"  alt="タイマーイベント"></p>
+                <p>タイマーは時間と「ONE_SHOT」、「PERIODIC」どちらかの動作モードを指定して使います。「ONE_SHOT」は指定した時間が経過したら「あるブロック」を1回実行してくれます。「PERIODIC」は繰り返し「あるブロック」を実行してくれます。</p>
+                <p>指定した時間が経過した時に実行される「あるブロック」をタイマーハンドラといい、次のような形をしています。</p>
+                <p><img src="./images/timerhandler.jpg" width="80%" class="img-responsive center-block"  alt="タイマーハンドラ"></p>
+                <p>今まで紹介したブロックは「Setup」ブロックから始まるブロックの列のどこかにつなげて、順番が来ると実行されました。タイマーハンドラはどこかにつなげて、順番がくると実行されるのではなく、タイマーで指定した時間が経過すると実行されるブロックです。</p>
+                <p>タイマーの使い方は、タイマーハンドラーの中身を作り、「タイマーを開始」するブロックで時間と動作モードを指定してタイマーを動かします。</p>
+                <p>では、「count」という変数を用意して、その値を0.1秒ごとに0.1増やして液晶画面に表示してみましょう。</p>
+                <p>まず、Labelを液晶画面にドラッグ＆ドロップします。</p>
+                <p><img src="./images/setLabel.jpg" width="80%" class="img-responsive center-block"  alt="Labelを置く"></p>
+                <p>「Text」という文字をクリックして「rotation」を270に指定して、横向きにします。適当な表示位置になるように「Text」をドラッグ＆ドロップしてください。</p>
+                <p><img src="./images/rotateLabel.jpg" width="80%" class="img-responsive center-block"  alt="Labelを回転させる"></p>
+                <p>「変数」メニューで「count」という名前の変数を作り、「countを□にする」ブロックを「Setup」ブロックの下につなぎ、値を「0」にします。</p>
+                <p>「タイマーを開始する」ブロックをつなぎ、時間を100ミリ秒（0.1秒）、モードを「PERIODIC」にします。</p>
+                <p>「タイマーハンドラ」をドラッグ＆ドロップして、その中で「label0」に変数「count」の値を表示します。次に「変数」メニューの「countを1増やす」をつなげます。数字の「1」を「0.1」に変えれば、0.1秒ごとに「count」の値が0.1ずつ増やされ、その数字がLCDに表示できそうですが、「countを1増やす」ブロックは少数を入力するとうまく動きません。そこで、0.1秒ごとに「countを1増やす」ことにして、表示する時に「count」の値を10で割って表示します。割り算をするブロックは、「数学」メニューの「□ ＋ □」という足し算ブロックを使い、「＋」を「÷」に変えて割り算ブロックにします。さらに「テキスト」メニューから「□の小数点以下0桁までのテキスト」というブロックを使い、小数点以下1桁の数字を表示するようにします。</p>
+                <p>タイマーハンドラができたら、「タイマを開始する」ブロックのタイマーを「timer0」に指定します。プログラムは次のようになります。</p>
+                <p><img src="./images/counter.jpg" width="80%" class="img-responsive center-block"  alt="単純なカウンタ"></p>
+                <p>これで0.1秒ごとの時間を数える単純なカウンタができました。このカウンタをボタンでスタート/ストップすればストップウォッチになりそうです。</p>
+
+                <h2 id="ボタンを扱う">ボタンを扱う</h2>
+                <p>M5StickCには図のようにボタンAとボタンBの2つのボタンがあります。</p>
+                <p><img src="./images/m5stickc_button.jpg" width="80%" class="img-responsive center-block"  alt="M5StickCのボタン"></p>
+                <p>UIFlowでボタンを扱うブロックも「イベント」メニューにあります。</p>
+                <p><img src="./images/btnevent.jpg" width="80%" class="img-responsive center-block"  alt="イベントメニュー"></p>
+                <p>ボタンの状態は「ボタンAがwasPressedである」ブロックで調べられます。「wasPressed」は前回調べたときから今までにボタンが押されたかどうかを調べます。「wasPressed」の他に「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）ことを調べられます。</p>
+                <p>試しに、次のようなプログラムでボタンの扱いを見てみましょう。</p>
+                <p><img src="./images/btnLED1.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDをつける"></p>
+                <p>ボタンAが押されていたらLEDを点け、ボタンAが離されたらLEDを消します。プログラムを実行してM5StickCのボタンAを押すと、押している間LEDが点灯し、ボタンを離すと消えることが確認できます。</p>
+                <p>もう一つのボタンの扱い方は、ボタンハンドラを使う方法です。</p>
+                <p><img src="./images/btnhandler.jpg" width="80%" class="img-responsive center-block"  alt="ボタンハンドラ"></p>
+                <p>ボタンハンドラは、「wasPressed」（押された）という状態になったらハンドラの中のブロックが実行されるブロックです。</p>
+                <p>状態は「wasPressed」（押された）、「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）の4種類です。</p>
+                <p>押している間LEDが点灯し、離すと消えるプログラムは、ボタンハンドラを使うと次のようになります。</p>
+                <p><img src="./imgaes/btnLED2.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDを点ける"></p>
+                <p>ボタンハンドラは、何か別の処理をやりながら、ボタンがある状態になったらそれに対応した処理をするような動作を記述するときに便利です。</p>
+
+                <h2 id="ボタンでタイマーを制御する">ボタンでタイマーを制御する</h2>
+                <p>ボタンの扱いを見てきたので、ボタンでタイマーの動きを制御してみましょう。</p>
+                <p>最初の単純なカウンターは、プログラムが始まるとタイマーを動かしていました。今度はボタンAが押されたら、タイマーを動かすようにします。もう一度ボタンAが押されたら、タイマーを止めます。この制御をするために、タイマーが動いているかどうかを示す変数「stop」を作り、最初は「true」、つまりタイマーが止まっているという状態にします。</p>
+                <p>そして、ボタンハンドラを使い、ボタンAが押された時に、タイマーが止まっていたら、つまり「stop」が「true」ならタイマーを動かして、「stop」を「false」に設定し、逆にタイマーが動いていたらタイマーを止めて、「stop」を「true」に設定します。</p>
+                <p>これでボタンAでタイマーが制御できるようになります。また、ボタンBが押されたら、「count」変数を0にすることで、ストップウォッチをゼロクリアできます。</p>
+                <p>プログラムは次のようになります。</p>
+                <p><img src="./images/stopwatch.jpg" width="80%" class="img-responsive center-block"  alt="ストップウォッチ"></p>
+                <p>プログラムを実行すると、液晶画面に「0」という数字が表示され、ボタンAを押すと0.1秒毎に数字がカウントアップされ、もう一度押すと数字が止まります。ボタンBを押すと数字が0に戻ります。簡単なストップウォッチが出来上がりました。</p>
+                <p>M5StickCとUIFlowを使うと、比較的簡単に便利な道具が自作できます。しかも自分でプログラミングしているので、自分好みに改造することもできます。皆さんも是非試してみてはいかがでしょう？</p>
+
+                <h2 id="マスターの一言">マスターの一言</h2>
+                <p>2020年になりました。今年の一大イベントではストップウォッチも大活躍するでしょう。ということで今回はストップウォッチを自作してみました。皆さんの日々のトレーニングにもご活用ください。</p>
+
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">3.温度計を作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#今回使うもの">今回使うもの</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#温度を測って画面に表示する">温度を測って画面に表示する</a></li>
+                        <li><a href="#画面の表示を見やすくする">画面の表示を見やすくする</a></li>
+                        <li><a href="#温度と湿度を表示する">温度と湿度を表示する</a></li>
+                        <li><a href="ledテープで温度を表示する">LEDテープで温度を表示する</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
