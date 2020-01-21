@@ -121,11 +121,11 @@
                 <p><img src="./images/timerevent.jpg" width="90%" class="img-responsive center-block"  alt="タイマーイベント"></p>
                 <p>タイマーは時間と「ONE_SHOT」、「PERIODIC」どちらかの動作モードを指定して使います。「ONE_SHOT」は指定した時間が経過したら「あるブロック」を1回実行してくれます。「PERIODIC」は繰り返し「あるブロック」を実行してくれます。</p>
                 <p>指定した時間が経過した時に実行される「あるブロック」をタイマーハンドラといい、次のような形をしています。</p>
-                <p><img src="./images/timerhandler.jpg" width="70%" class="img-responsive center-block"  alt="タイマーハンドラ"></p>
+                <p><img src="./images/timerhandler.jpg" width="60%" class="img-responsive center-block"  alt="タイマーハンドラ"></p>
                 <p>今まで紹介したブロックは「Setup」ブロックから始まるブロックの列のどこかにつなげて、順番が来ると実行されました。タイマーハンドラはどこかにつなげて、順番がくると実行されるのではなく、タイマーで指定した時間が経過すると実行されるブロックです。</p>
                 <p>タイマーの使い方は、タイマーハンドラーの中身を作り、「タイマーを開始」するブロックで時間と動作モードを指定してタイマーを動かします。</p>
                 <p>では、「count」という変数を用意して、その値を0.1秒ごとに0.1増やして液晶画面に表示してみましょう。</p>
-                <p>まず、Labelを液晶画面にドラッグ＆ドロップします。</p>
+                <p>まず、UIFlowの左上にあるLabelという部品をM5StickCの絵の液晶画面    にドラッグ＆ドロップします。</p>
                 <p><img src="./images/setLabel.jpg" width="80%" class="img-responsive center-block"  alt="Labelを置く"></p>
                 <p>「Text」という文字をクリックして「rotation」を270に指定して、横向きにします。適当な表示位置になるように「Text」をドラッグ＆ドロップしてください。</p>
                 <p><img src="./images/rotateLabel.jpg" width="80%" class="img-responsive center-block"  alt="Labelを回転させる"></p>
@@ -138,7 +138,7 @@
 
                 <h2 id="ボタンを扱う">ボタンを扱う</h2>
                 <p>M5StickCには図のようにボタンAとボタンBの2つのボタンがあります。</p>
-                <p><img src="./images/m5stickc_button.jpg" width="80%" class="img-responsive center-block"  alt="M5StickCのボタン"></p>
+                <p><img src="./images/m5stickcbtn.jpg" width="80%" class="img-responsive center-block"  alt="M5StickCのボタン"></p>
                 <p>UIFlowでボタンを扱うブロックも「イベント」メニューにあります。</p>
                 <p><img src="./images/btnevent.jpg" width="90%" class="img-responsive center-block"  alt="イベントメニュー"></p>
                 <p>ボタンの状態は「ボタンAがwasPressedである」ブロックで調べられます。「wasPressed」は前回調べたときから今までにボタンが押されたかどうかを調べます。「wasPressed」の他に「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）ことを調べられます。</p>
@@ -146,11 +146,11 @@
                 <p><img src="./images/btnLED1.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDをつける"></p>
                 <p>ボタンAが押されていたらLEDを点け、ボタンAが離されたらLEDを消します。プログラムを実行してM5StickCのボタンAを押すと、押している間LEDが点灯し、ボタンを離すと消えることが確認できます。</p>
                 <p>もう一つのボタンの扱い方は、ボタンハンドラを使う方法です。</p>
-                <p><img src="./images/btnhandler.jpg" width="70%" class="img-responsive center-block"  alt="ボタンハンドラ"></p>
+                <p><img src="./images/btnhandler.jpg" width="60%" class="img-responsive center-block"  alt="ボタンハンドラ"></p>
                 <p>ボタンハンドラは、「wasPressed」（押された）という状態になったらハンドラの中のブロックが実行されるブロックです。</p>
                 <p>状態は「wasPressed」（押された）、「wasReleased」（離された）、「longPress」（長押しされた）、「wasDoublePress」（2度押しされた）の4種類です。</p>
                 <p>押している間LEDが点灯し、離すと消えるプログラムは、ボタンハンドラを使うと次のようになります。</p>
-                <p><img src="./images/btnLED2.jpg" width="80%" class="img-responsive center-block"  alt="ボタンでLEDを点ける"></p>
+                <p><img src="./images/btnLED2.jpg" width="60%" class="img-responsive center-block"  alt="ボタンでLEDを点ける"></p>
                 <p>ボタンハンドラは、何か別の処理をやりながら、ボタンがある状態になったらそれに対応した処理をするような動作を記述するときに便利です。</p>
 
                 <h2 id="ボタンでタイマーを制御する">ボタンでタイマーを制御する</h2>
@@ -159,7 +159,7 @@
                 <p>そして、ボタンハンドラを使い、ボタンAが押された時に、タイマーが止まっていたら、つまり「stop」が「true」ならタイマーを動かして、「stop」を「false」に設定し、逆にタイマーが動いていたらタイマーを止めて、「stop」を「true」に設定します。</p>
                 <p>これでボタンAでタイマーが制御できるようになります。また、ボタンBが押されたら、「count」変数を0にすることで、ストップウォッチをゼロクリアできます。</p>
                 <p>プログラムは次のようになります。</p>
-                <p><img src="./images/stopwatch.jpg" width="90%" class="img-responsive center-block"  alt="ストップウォッチ"></p>
+                <p><img src="./images/stopwatch.jpg" width="100%" class="img-responsive center-block"  alt="ストップウォッチ"></p>
                 <p>プログラムを実行すると、液晶画面に「0」という数字が表示され、ボタンAを押すと0.1秒毎に数字がカウントアップされ、もう一度押すと数字が止まります。ボタンBを押すと数字が0に戻ります。簡単なストップウォッチが出来上がりました。</p>
                 <p>M5StickCとUIFlowを使うと、比較的簡単に便利な道具が自作できます。しかも自分でプログラミングしているので、自分好みに改造することもできます。皆さんも是非試してみてはいかがでしょう？</p>
 
@@ -180,14 +180,13 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">3.温度計を作る</a></li>
+                    <li class="open"><a href="index.html">4.ストップウォッチを作る</a></li>
                     <ul class="list-unstyled">
                         <li><a href="#今回使うもの">今回使うもの</a></li>
                         <li><a href="#プログラム">プログラム</a></li>
-                        <li><a href="#温度を測って画面に表示する">温度を測って画面に表示する</a></li>
-                        <li><a href="#画面の表示を見やすくする">画面の表示を見やすくする</a></li>
-                        <li><a href="#温度と湿度を表示する">温度と湿度を表示する</a></li>
-                        <li><a href="ledテープで温度を表示する">LEDテープで温度を表示する</a></li>
+                        <li><a href="#時間を数える">時間を数える</a></li>
+                        <li><a href="#ボタンを扱う">ボタンを扱う</a></li>
+                        <li><a href="#ボタンでタイマーを制御する">ボタンでタイマーを制御する</a></li>
                         <li><a href="#マスターの一言">マスターの一言</a></li>
                     </ul>
                 </ul>
