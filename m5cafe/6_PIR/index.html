@@ -1,0 +1,235 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="PIR - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人の動きを感知する - M5Stackカフェ</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年3月19日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>人の動きを感知する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <p>M5StackやM5StickCを使って、面白いことをするコーナー「M5Stackカフェ」。第6回はM5StickCを使って人の動きを感知するものを作ります。</p>
+
+                <h2 id="人感センサ">人感センサ</h2>
+                <p>人が近づくと自動的に点灯する防犯用の外灯とか、トイレに入ると自動的に点灯するライトや換気扇など、人の動きを感知して作動するものはいろいろあります。これらには人感センサと呼ばれるセンサが使われています。人感センサは人などが発する赤外線の「変化」、つまり人の動きを感知するセンサです。トイレに入って自動的にライトが点灯したあと、しばらくジッとしているとライトが消えてしまったことを経験した方もいるかと思います。これは人感センサが赤外線の「変化」を検出しているためで、トイレでジッとしていると赤外線は発していても、変化しないので、人感センサが人を検出できなくなるからです。少し動くと赤外線が変化し、人感センサが再び人を検出してライトを点けてくれます。</p>
+                <p>M5StickCには「<a href="https://www.switch-science.com/catalog/5756/">M5StickC PIR Hat（AS312搭載）</a>」という人感センサHatがあります。PIRはPassive Infrared Ray（パッシブ赤外線）の略で、自らは赤外線を出さず、受信するだけなのでパッシブ赤外線センサと呼ばれます。また、M5StackとM5StickCの両方で使える「<a href="https://www.switch-science.com/catalog/5697/">M5Stack用PIRセンサユニット</a>」もあります。これはGroveポートに接続するタイプで、名前には「M5Stack用」とありますが、M5StickCでも使えます。</p>
+                <p>今回は最初の作例では「<a href="https://www.switch-science.com/catalog/5756/">M5StickC PIR Hat（AS312搭載）</a>」を、次の作例では「<a href="https://www.switch-science.com/catalog/5697/">M5Stack用PIRセンサユニット</a>」を使います。</p>
+
+                <h2 id="人感センサにアクセスする">人感センサにアクセスする</h2>
+                <p>まず、人感センサの動きを調べてみましょう。</p>
+                <p>ハードウェアは、M5StickCに「<a href="https://www.switch-science.com/catalog/5756/">M5StickC PIR Hat（AS312搭載）</a>」を刺すだけです。</p>
+                <p><img src="./images/M5StickC_PIRHat.jpg" width="90%" class="img-responsive center-block" alt="M5StickC+PIR Hat"></p>
+
+                <h3 id="プログラムの準備">プログラムの準備</h3>
+                <p>今回もプログラムはUIFlow(Blockly)で作ります。UIFlow(Blockly)を使う準備方法は<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">第1回の記事</a>を、UIFlowの操作方法は<a href="http://pages.switch-science.com/m5cafe/2_XmasIllumination">第2回の記事</a>も合わせてご覧ください。</p>
+                <p>M5StickCの充電を兼ねてUSBケーブルでM5StickCとパソコンをつなぎ、パソコンのブラウザで次のアドレスにアクセスします。</p>
+                <ul>
+                <li><a href="http://flow.m5stack.com/">flow.m5stack.com</a></li>
+                </ul>
+                <p><a href="http://pages.switch-science.com/m5cafe/3_Thermometer/">第3回の記事</a>を参考にしてAPIキーを確認して、UIFlowとM5StickCを接続します。</p>
+                <p>これでUIFlowでM5StickCのプログラムを作る準備は完了です。</p>
+
+                <h3 id="人感センサにアクセスする-1">人感センサにアクセスする</h3>
+                <p>では、UIFlowで「<a href="https://www.switch-science.com/catalog/5756/">M5StickC PIR Hat（AS312搭載）</a>」にアクセスしてみましょう。</p>
+                <p>「Hat」を選択して「＋」をクリックし、Hatの一覧から「PIR」を選んで「OK」をクリックします。</p>
+                <p><img src="./images/selectpir.jpg" width="90%" class="img-responsive center-block" alt="PIRを選択"></p>
+                <p>真ん中のメニューの「HAT」を選択し、「PIR」をクリックすると、「Get hat_pir0 status」というブロックが現れます。次の図のようにLCDの上に「Label」をドラッグ＆ドロップし、右側のプログラムエリアでPIR Hatの値をLabelに表示します。</p>
+                <p><img src="./images/showpir.jpg" width="90%" class="img-responsive center-block" alt="人感センサの値を見る"></p>
+                <p>画面右上の右三角の実行ボタンをクリックして、プログラムを動かしてください。体を動かさなければLCDに「0」が表示されます。人感センサの前で体を動かすと、1〜2秒遅れてLCDに「1」が2〜3秒表示されます。人感センサは人の動きがないときは値が「0」、動きを感知すると2〜3秒間値が「1」になることが確認できました。</p>
+
+                <h2 id="作例1：人が近づいたらledを点ける">作例1：人が近づいたらLEDを点ける</h2>
+                <p>人感センサの動きがわかったので、人が近づいたらLEDを点けてみましょう。M5StickCの内蔵LEDを使います。</p>
+                <p>人感センサの値が0ならばLEDを消す、1ならばLEDを点けるという動作を繰り返せばよさそうです。</p>
+                <p>値によって処理を変えるには論理メニューの「もし〜であれば〜、そうでなければ〜」というブロックを使い、人感センサの値が「1」であれば「LEDをON」、そうでなければ「LEDをOFF」にします。</p>
+                <p><img src="./images/pirled.jpg" width="90%" class="img-responsive center-block" alt="人感センサでLED制御"></p>
+                <p>実行ボタンをクリックして、プログラムを動かします。体を動かすと内蔵LEDが点き、動きを止めるとLEDが消えるのが確認できます。防犯用の外灯は、人の動きを感知してから数秒間ライトが点灯します。同じような動作は、「LED ON」ブロックの下に「5秒停止」というブロックを付けることで実現できます。</p>
+
+                <h2 id="作例2：人が近づいたらブザーで知らせる">作例2：人が近づいたらブザーで知らせる</h2>
+                <p>次に人が近づいたらブザーで知らせるデバイスを作ってみましょう。M5StickCにはスピーカーが内蔵されていないので、スピーカーHat「<a href="https://www.switch-science.com/catalog/5754/">M5StickC Speaker Hat（PAM8303搭載）</a>」を使い、人感センサはGroveポートに接続する「<a href="https://www.switch-science.com/catalog/5697/">M5Stack用PIRセンサユニット</a>」を使います。</p>
+                <p><img src="./images/M5StickC_PIRUnit.jpg" width="90%" class="img-responsive center-block" alt="M5StickC+PIR Unit"></p>
+                <p>UIFlowで「Unit」を選択して「＋」をクリックし、Unitの一覧から「PIR」を選んで「OK」をクリックします。次に「Hat」を選択して「＋」をクリックし、Hatの一覧から「SPK」（スピーカー）を選んで「OK」をクリックします。</p>
+                <p>HATメニューの「Speaker」を選ぶと、「hat_spk0 Speaker.volume 1」というスピーカーの音量を設定するブロックがあります。また「hat_spk0 Speaker.beep freq: 1800 duration 200 ms」というブロックがあります。これはスピーカーを1800Hzの高さで200ミリ秒、つまり0.2秒間「ピッ」と鳴らすブロックです。この2つのブロックを使います。</p>
+                <p>Unitsメニューの「人感」には「pir0 ステータス」というブロックがあります。これが人感センサユニットの値を調べるブロックです。</p>
+                <p>これらのブロックを次の図のように組み合わせます。最初にスピーカーの音量を設定し、人感センサの値を調べて、値が「1」つまり人の動きが検出できたらLEDをONにして、スピーカーを「ピッ」と鳴らし、動きが検出できなければLEDをOFFにします。</p>
+                <p><img src="./images/pirspk1.jpg" width="90%" class="img-responsive center-block" alt="人が近づいたらブザーで知らせる1"></p>
+                <p>実行ボタンをクリックして、プログラムを動かします。人感センサの前で体を動かすと、スピーカーから「ピーッ」と3秒ぐらい音がでました。これは、人感センサが人の動きを検出すると数秒間「1」の値になるためで、0.2秒の音を数秒間出し続け、「ピッ」ではなく「ピーッ」と音がでたのです。</p>
+                <p>これでもよければ、これでプログラムは出来上がりですが、あくまでも当初の目論見通り「ピッ」と音を出したい場合は、プログラムを次のように変更します。人感センサの値を「pir」という変数に保存しておきます。人感センサの現在の値（変数「p」）が保存した値「pir」と違ったら、「pir」の値を現在の値に更新し、その値が「1」ならLEDをONにしてスピーカーを「ピッ」と鳴らします。こうすると、人感センサの値が数秒間「1」が続いても、「0」から「1」に変わったときだけスピーカーが「ピッ」と鳴り、「1」が続く間はスピーカーは鳴らず、「1」から「0」に変わったときにLEDがOFFになります。</p>
+                <p><img src="./images/pirspk2.jpg" width="90%" class="img-responsive center-block" alt="人が近づいたらブザーで知らせる2"></p>
+                <p>話が長くなってきたので、今回はこのくらいにします。</p>
+
+                <h2 id="マスターの一言">マスターの一言</h2>
+                <p>人の動きを感知して何かするというのは、防犯用の外灯やトイレの照明以外にもいろいろな応用が考えられそうです。私もカフェに1台設置して、お客さんがお店にみえたらブザーで知らせてくれるようにすれば、安心して居眠りができそうですｚｚｚ</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">4.ストップウォッチを作る</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#今回使うもの">今回使うもの</a></li>
+                        <li><a href="#プログラム">プログラム</a></li>
+                        <li><a href="#時間を数える">時間を数える</a></li>
+                        <li><a href="#ボタンを扱う">ボタンを扱う</a></li>
+                        <li><a href="#ボタンでタイマーを制御する">ボタンでタイマーを制御する</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
