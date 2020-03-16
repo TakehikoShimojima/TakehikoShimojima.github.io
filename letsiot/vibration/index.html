@@ -147,7 +147,7 @@ y = map((int)az, 600, 1400, 80, 0);  // 加速度値をy軸座標に変換する
                 <p>振動には揺れの周期があります。 1秒間に揺れる回数がその振動の周波数です。 一般的に振動はいくつかの要因が影響しているので、 周波数もいくつかの周波数が組み合わさっています。 また、傷や亀裂、ゆるみなどが発生すると周波数の分布が変わります。 そこで、振動の周波数ごとの強さ（周波数成分）を調べてみます。</p>
                 <p>振動の周波数成分を調べるには、FFT(高速フーリエ変換)解析がよく使われます。 Arduinoで動くFFTライブラリはいくつかありますが、 Arduino IDEのライブラリマネージャからインストールできるarduinoFFTを使います。</p>
                 <p>Arduino IDEの「ツール」メニューの「ライブラリを管理…」を選択して ライブラリマネージャを立ち上げ、右上の検索窓に「fft」と入力します。 いくつかFFTライブラリが表示されますが、その中の「arduinoFFT by Enrique Condes」を インストールします。</p>
-                <p><img src="./images/fftlibinstall.jpg" width="90%" class="img-responsive center-block" alt="arduinoFFTをインストール"></p>
+                <p><img src="./images/fftlibinstall.jpg" width="100%" class="img-responsive center-block" alt="arduinoFFTをインストール"></p>
                 <p>arduinoFFTライブラリには2種類のインタフェースがあります。例えば周波数ごとの信号強度を計算する<code>ComplexToMagnitude</code>という関数には次の2種類があります。</p>
 <pre><code>void ComplexToMagnitude();
 void ComplexToMagnitude(double *vReal, double *vImag, uint16_t samples);
