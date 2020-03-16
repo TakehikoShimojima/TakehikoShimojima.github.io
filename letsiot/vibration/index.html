@@ -92,7 +92,7 @@
             <div class="col-sm-9 col-lg-8">
 
                 <p>「変な音がする。」エアコンや洗濯機のような家電製品でも、工場の設備でも、音や振動の変化で異常に気がつくことがあります。多くの機械が動力としてモーターを使っていて、スムーズに回っているときは振動や音は少ないですが、軸がブレたり傷がついたりすると、通常とは違った振動や音がでることがあります。このように、機械が発する振動や音は故障の検知や予知のための基礎データです。</p>
-                <p>今回はM5StickCを使って振動を測定します。</p>
+                <p>そこで今回はM5StickCを使って振動を測定します。</p>
 
                 <h2 id="加速度センサ">加速度センサ</h2>
                 <p>振動はモノが揺れ動くことです。 モノは3次元の中で上下、前後左右に動くので、3軸加速度センサを使うと、 振動をx軸、y軸、z軸方向の加速度として測ることができます。</p>
@@ -104,71 +104,76 @@
 
                 <h2 id="揺れの値をlcdにグラフ表示する">揺れの値をLCDにグラフ表示する</h2>
                 <p>加速度センサMPU6886の値は次のようなライブラリ関数で読むことができます。</p>
-                <pre><code>void getAccelData(float* ax, float* ay, float* az);  // x、y、z軸の加速度値がax、ay、azにセットされる
-                </code></pre>
+<pre><code>void getAccelData(float* ax, float* ay, float* az);
+  // x、y、z軸の加速度値がax、ay、azにセットされる
+</code></pre>
                 <p>読み出せる加速度<code>ax</code>、<code>ay</code>、<code>az</code>の単位はGで、M5StickCをLCD画面を上にして水平に置いた時、x軸、y軸の値<code>ax</code>、<code>ay</code>がほぼ0(G)、z軸の値<code>az</code>は重力の影響を受けてほぼ1.0(G)です。加速度センサはとても敏感なセンサで、細かな揺れを検知して値が変化します。</p>
                 <p>では、加速度センサにアクセスして、加速度値をLCDにグラフ表示してみましょう。揺れは上下、前後左右の3次元の動きですが、LCD画面と垂直な方向、つまりz軸方向の動きに着目してグラフ表示してみます。プログラムは次のようになります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/d136e81e13eeea603a8e594a8f5ef90f.js"></script>
 
                 <p>M5StickCのLCD画面は横方向80ピクセル、縦方向160ピクセルですが、グラフが見やすくなるように、90度回転させて、横長にして表示します。</p>
                 <p><code>setup</code>関数の8行目でLCD画面を90度回転させ、9行目でMPU6886を初期設定しています。</p>
                 <p><code>loop</code>関数では、20ミリ秒ごとに<code>M5.MPU6886.getAccelData</code>関数で加速度センサの値を読み出しています。センサ値を折れ線グラフで表示するために、1つ前の値と現在の値を使います。折れ線グラフを表示するだけなら2つの値を覚えていればよいのですが、150個の配列を作り、z軸の加速度値を保持するようにしました。</p>
                 <p>MPU6886から読み出せる加速度値はGですが、1000倍してmG（ミリG）で扱います。机の上にM5StickCを置いて、机を叩いて実験したところ、値が600mGから1400mG程度に変化したので、その範囲でM5StickCのLCD画面に表示するようにしました。加速度値<code>az</code>（ミリG）の値を縦軸（y軸）の値に変換するには<code>map</code>関数を使います。</p>
-                <pre><code>map(value, low, high, toLow, toHigh);
+<pre><code>map(value, low, high, toLow, toHigh);
 
-                y = map((int)az, 600, 1400, 80, 0);  // 加速度値をy軸座標に変換する
-                </code></pre>
+y = map((int)az, 600, 1400, 80, 0);  // 加速度値をy軸座標に変換する
+</code></pre>
                 <p><code>map</code>関数は<code>low</code>から<code>high</code>までの値（<code>value</code>）を<code>toLow</code>から<code>toHigh</code>に比例計算してくれる関数です。LCD画面の場合、画面の左下が(0,80)なので、加速度値が600mGのときにy軸の値が80、加速度値が1400mGのときにy軸の値が0になるように変換します。</p>
                 <p>1つ前の加速度値と現在の加速度値をそれぞれy軸値に変換し、<code>M5.Lcd.drawLine</code>関数で1区間ずつ線を書いて、折れ線グラフにしています。</p>
                 <p>プログラムをビルドしてM5StickCに書き込みます。M5StickCを机の上に置いて、机をトントンと叩くと、LCD画面のグラフに振動が表示されるのが確認できます。</p>
                 <p><img src="./images/vibrationWave.jpg" width="60%" class="img-responsive center-block" alt="振動波形"></p>
                 <p>加速度センサから値を取得してから折れ線グラフを書くまでの時間を<code>micros</code>関数を使って次のようにして測定したところ、999マイクロ秒、約1ミリ秒でした。<code>micros</code>関数はプログラム開始からの経過時間をマイクロ秒で返す関数です。ある処理の前後で<code>micros</code>関数を呼んで経過時間を測り、その差を取ることで、その処理にかかる時間を測れます。</p>
-                <pre><code>    long t = micros();  // 開始時刻を記録
-                    加速度センサから値を取得;
-                    y軸の値を計算;
-                    折れ線グラフを書く;
-                    t = micros() - t;  // 開始時刻からの経過時間を取得
-                    M5.Lcd.print(t);   // 経過時間を表示
-                </code></pre>
+<pre><code>    long t = micros();  // 開始時刻を記録
+    加速度センサから値を取得;
+    y軸の値を計算;
+    折れ線グラフを書く;
+    t = micros() - t;  // 開始時刻からの経過時間を取得
+    M5.Lcd.print(t);   // 経過時間を表示
+</code></pre>
                 <p><code>delay</code>関数で20ミリ秒待つと、実際の測定間隔はセンサへのアクセスやグラフ描画にかかる約1ミリ秒が加わり約21ミリ秒になります。次のように<code>for</code>文の先頭で開始時刻を記録し、処理にかかる時間を計算し、処理時間を補正して待つようにすると、より正確に周期処理が実現できます。マイクロ秒単位で待つために<code>delay</code>関数の代わりに<code>delayMicroseconds</code>関数を使います。</p>
-                <pre><code>    for (int i = 0; i &lt; SAMPLE_SIZE; i++) {
-                        long t = micros();  // 開始時刻を記録
-                        加速度センサから値を取得;
-                        y軸の値を計算;
-                        折れ線グラフを書く;
-                        delayMicroseconds(SAMPLE_PERIOD * 1000 - (micros() - t));
-                    }
-                </code></pre>
+<pre><code>    for (int i = 0; i &lt; SAMPLE_SIZE; i++) {
+        long t = micros();  // 開始時刻を記録
+        加速度センサから値を取得;
+        y軸の値を計算;
+        折れ線グラフを書く;
+        delayMicroseconds(SAMPLE_PERIOD * 1000 - (micros() - t));
+    }
+</code></pre>
                 <p>さらに正確に周期処理を実現するには、タイマ割り込みを使う方法もありますが、今回は割愛します。</p>
 
                 <h2 id="振動の周波数ごとの強さを調べる">振動の周波数ごとの強さを調べる</h2>
                 <p>振動には揺れの周期があります。 1秒間に揺れる回数がその振動の周波数です。 一般的に振動はいくつかの要因が影響しているので、 周波数もいくつかの周波数が組み合わさっています。 また、傷や亀裂、ゆるみなどが発生すると周波数の分布が変わります。 そこで、振動の周波数ごとの強さ（周波数成分）を調べてみます。</p>
                 <p>振動の周波数成分を調べるには、FFT(高速フーリエ変換)解析がよく使われます。 Arduinoで動くFFTライブラリはいくつかありますが、 Arduino IDEのライブラリマネージャからインストールできるarduinoFFTを使います。</p>
                 <p>Arduino IDEの「ツール」メニューの「ライブラリを管理…」を選択して ライブラリマネージャを立ち上げ、右上の検索窓に「fft」と入力します。 いくつかFFTライブラリが表示されますが、その中の「arduinoFFT by Enrique Condes」を インストールします。</p>
-                <p><img src="./images/fftlibinstall.jpg" width="70%" class="img-responsive center-block" alt="arduinoFFTをインストール"></p>
+                <p><img src="./images/fftlibinstall.jpg" width="90%" class="img-responsive center-block" alt="arduinoFFTをインストール"></p>
                 <p>arduinoFFTライブラリには2種類のインタフェースがあります。例えば周波数ごとの信号強度を計算する<code>ComplexToMagnitude</code>という関数には次の2種類があります。</p>
-                <pre><code>void ComplexToMagnitude();
-                void ComplexToMagnitude(double *vReal, double *vImag, uint16_t samples);
-                </code></pre>
+<pre><code>void ComplexToMagnitude();
+void ComplexToMagnitude(double *vReal, double *vImag, uint16_t samples);
+</code></pre>
                 <p>ライブラリと一緒にインストールされるプログラム例は2行目のインタフェースを使っていますが、ライブラリのソースコードを見るとこのインタフェースは非推奨(deprecated)と書かれているので、この記事では1行目のインターフェースを使います。推奨されているインタフェースは次のようなものです。</p>
-                <pre><code>arduinoFFT(double *vReal, double *vImag, uint16_t samples, double samplingFrequency);  // コンストラクタ
-                void ComplexToMagnitude();  // 周波数ごとの信号強度を計算する
-                void Compute(uint8_t dir);  // FFTを計算する
-                double MajorPeak();  // ピーク周波数を返す
-                void MajorPeak(double *f, double *v);  // ピーク周波数と信号強度を返す
-                void Windowing(uint8_t windowType, uint8_t dir);  // 窓関数を適用する
-                		// windowTypeには以下の値が指定できる
-                #define FFT_WIN_TYP_RECTANGLE 0x00 /* rectangle (Box car) */
-                #define FFT_WIN_TYP_HAMMING 0x01 /* hamming */
-                #define FFT_WIN_TYP_HANN 0x02 /* hann */
-                #define FFT_WIN_TYP_TRIANGLE 0x03 /* triangle (Bartlett) */
-                #define FFT_WIN_TYP_NUTTALL 0x04 /* nuttall */
-                #define FFT_WIN_TYP_BLACKMAN 0x05 /* blackman */
-                #define FFT_WIN_TYP_BLACKMAN_NUTTALL 0x06 /* blackman nuttall */
-                #define FFT_WIN_TYP_BLACKMAN_HARRIS 0x07 /* blackman harris*/
-                #define FFT_WIN_TYP_FLT_TOP 0x08 /* flat top */
-                #define FFT_WIN_TYP_WELCH 0x09 /* welch */
-                </code></pre>
+<pre><code>arduinoFFT(double *vReal, double *vImag, uint16_t samples, double samplingFrequency);  // コンストラクタ
+void ComplexToMagnitude();  // 周波数ごとの信号強度を計算する
+void Compute(uint8_t dir);  // FFTを計算する
+double MajorPeak();  // ピーク周波数を返す
+void MajorPeak(double *f, double *v);  // ピーク周波数と信号強度を返す
+void Windowing(uint8_t windowType, uint8_t dir);  // 窓関数を適用する
+		// windowTypeには以下の値が指定できる
+#define FFT_WIN_TYP_RECTANGLE 0x00 /* rectangle (Box car) */
+#define FFT_WIN_TYP_HAMMING 0x01 /* hamming */
+#define FFT_WIN_TYP_HANN 0x02 /* hann */
+#define FFT_WIN_TYP_TRIANGLE 0x03 /* triangle (Bartlett) */
+#define FFT_WIN_TYP_NUTTALL 0x04 /* nuttall */
+#define FFT_WIN_TYP_BLACKMAN 0x05 /* blackman */
+#define FFT_WIN_TYP_BLACKMAN_NUTTALL 0x06 /* blackman nuttall */
+#define FFT_WIN_TYP_BLACKMAN_HARRIS 0x07 /* blackman harris*/
+#define FFT_WIN_TYP_FLT_TOP 0x08 /* flat top */
+#define FFT_WIN_TYP_WELCH 0x09 /* welch */
+</code></pre>
                 <p>加速度センサの値を取得して、FFT解析をおこない、周波数ごとの信号強度をLCDに表示するプログラムは次のようになります。</p>
+
+                <script src="https://gist.github.com/TakehikoShimojima/986f9431c3af4850ef5275213359d3d3.js"></script>
 
                 <p>10行目でFFT解析をおこなうオブジェクトを作り、52行目から59行目で加速度センサの値を取得しています。FFT解析は62行目から64行目でおこなっています。61行目の<code>DCRemoval</code>関数は信号の直流成分を除去する関数です。</p>
                 <p>これで<code>vReal[]</code>に周波数ごとの信号強度が計算されます。17行目からの<code>drawChart</code>関数で信号強度を棒グラフでLCDに表示しています。</p>
