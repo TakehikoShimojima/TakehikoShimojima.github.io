@@ -133,7 +133,7 @@
                     </table>
                 </div>
                 <p>空気中のホコリの量と合わせて温度と湿度も測るように、温湿度センサSi7021も接続しました。
-                    写真ではダストセンサーを水平に置いていますが、製造元のSeeed社のサイトには垂直に立てて使うようにとかかれているので、設置するときは垂直に置きます。</p>
+                    写真ではダストセンサーを水平に置いていますが、製造元のSeeed社のサイトには垂直に立てて使うようにと書かれているので、設置するときは垂直に置きます。</p>
                 <p><img src="./images/M5Stack_dustsensor.jpg" width="100%" class="img-responsive center-block" alt="M5Stackとダストセンサ"></p>
 
                 <h2 id="プログラム">プログラム</h2>
@@ -148,7 +148,7 @@
 <pre><code>pulseIn(pin, value[, timeout]);</code></pre>
                 <p>pinで指定するピンがHIGHまたはLOWである時間を測り、結果をマイクロ秒で返します。
                     timeoutを指定した場合、timeout μ秒経過すると0が返ります。</p>
-                <p>pulseIn関数でパルスがLowである時間を測り、lowpulseoccupancyという変数にに積算していき、
+                <p>pulseIn関数でパルスがLowである時間を測り、lowpulseoccupancyという変数に積算していき、
                     sampletime_ms秒経ったら比率（ratio）を計算します。</p>
                 <p>次の式で比率（ratio）から粒子の濃度（concentration）を計算しています。</p>
 <pre><code>concentration = 1.1 * ratio ^3 - 3.8 * ratio ^2 + 520 * ratio + 0.62</code></pre>
@@ -162,7 +162,7 @@
                     loop関数で <code>readTemperature</code> メソッドと <code>readHumidity</code> メソッドで温度と湿度のデータを読みます。</p>
                 <p>Si7021のアクセスに関係する部分を抜き出すと、次のようになります。</p>
 
-<pre><code>#include <Wire.h>
+<pre><code>#include &lt;Wire.h&gt;
 #include "Adafruit_Si7021.h"
 
 Adafruit_Si7021 sensor = Adafruit_Si7021();  // Adafruit_Si7021オブジェクトを初期化する

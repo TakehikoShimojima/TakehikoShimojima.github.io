@@ -1,0 +1,267 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="vibration - LetsIoT">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5StickCで振動を測定する - AmbientでIoTをはじめよう</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>AmbientでIoTをはじめよう</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年3月20日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>M5StickCで振動を測定する</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8">
+
+                <p>「変な音がする。」エアコンや洗濯機のような家電製品でも、工場の設備でも、音や振動の変化で異常に気がつくことがあります。多くの機械が動力としてモーターを使っていて、スムーズに回っているときは振動や音は少ないですが、軸がブレたり傷がついたりすると、通常とは違った振動や音がでることがあります。このように、機械が発する振動や音は故障の検知や予知のための基礎データです。</p>
+                <p>今回はM5StickCを使って振動を測定します。</p>
+
+                <h2 id="加速度センサ">加速度センサ</h2>
+                <p>振動はモノが揺れ動くことです。 モノは3次元の中で上下、前後左右に動くので、3軸加速度センサを使うと、 振動をx軸、y軸、z軸方向の加速度として測ることができます。</p>
+                <p>M5Stackシリーズでは、Basicを除くGray、M5GO、Fireに9軸センサが内蔵されています。 9軸というのは3軸(3次元)加速度センサ、3軸ジャイロセンサ、3軸磁気センサのことです。またM5StickCには6軸センサ（3軸加速度センサ＋3軸ジャイロセンサ）が内蔵されています。</p>
+                <p>今回はM5StickCで振動を測ります。M5StickCは初期モデルにはSH200Qという6軸センサが搭載されていましたが、2019年7月以降のモデルにはMPU6886という6軸センサが搭載されています。この記事ではMPU6886を対象にします。搭載されているセンサはM5StickCの裏面のシールに書かれているので、確認できます。</p>
+                <p><img src="./images/m5stickcBack.jpg" width="50%" class="img-responsive center-block" alt="M5StickC裏面"></p>
+                <p>M5StickCの加速度センサは、図のように左右方向がx軸、上下方向がy軸、LCD画面と垂直な方向がz軸になっています。</p>
+                <p><img src="./images/accelDirection.jpg" width="60%" class="img-responsive center-block" alt="加速度センサの方向"></p>
+
+                <h2 id="揺れの値をlcdにグラフ表示する">揺れの値をLCDにグラフ表示する</h2>
+                <p>加速度センサMPU6886の値は次のようなライブラリ関数で読むことができます。</p>
+                <pre><code>void getAccelData(float* ax, float* ay, float* az);  // x、y、z軸の加速度値がax、ay、azにセットされる
+                </code></pre>
+                <p>読み出せる加速度<code>ax</code>、<code>ay</code>、<code>az</code>の単位はGで、M5StickCをLCD画面を上にして水平に置いた時、x軸、y軸の値<code>ax</code>、<code>ay</code>がほぼ0(G)、z軸の値<code>az</code>は重力の影響を受けてほぼ1.0(G)です。加速度センサはとても敏感なセンサで、細かな揺れを検知して値が変化します。</p>
+                <p>では、加速度センサにアクセスして、加速度値をLCDにグラフ表示してみましょう。揺れは上下、前後左右の3次元の動きですが、LCD画面と垂直な方向、つまりz軸方向の動きに着目してグラフ表示してみます。プログラムは次のようになります。</p>
+
+                <p>M5StickCのLCD画面は横方向80ピクセル、縦方向160ピクセルですが、グラフが見やすくなるように、90度回転させて、横長にして表示します。</p>
+                <p><code>setup</code>関数の8行目でLCD画面を90度回転させ、9行目でMPU6886を初期設定しています。</p>
+                <p><code>loop</code>関数では、20ミリ秒ごとに<code>M5.MPU6886.getAccelData</code>関数で加速度センサの値を読み出しています。センサ値を折れ線グラフで表示するために、1つ前の値と現在の値を使います。折れ線グラフを表示するだけなら2つの値を覚えていればよいのですが、150個の配列を作り、z軸の加速度値を保持するようにしました。</p>
+                <p>MPU6886から読み出せる加速度値はGですが、1000倍してmG（ミリG）で扱います。机の上にM5StickCを置いて、机を叩いて実験したところ、値が600mGから1400mG程度に変化したので、その範囲でM5StickCのLCD画面に表示するようにしました。加速度値<code>az</code>（ミリG）の値を縦軸（y軸）の値に変換するには<code>map</code>関数を使います。</p>
+                <pre><code>map(value, low, high, toLow, toHigh);
+
+                y = map((int)az, 600, 1400, 80, 0);  // 加速度値をy軸座標に変換する
+                </code></pre>
+                <p><code>map</code>関数は<code>low</code>から<code>high</code>までの値（<code>value</code>）を<code>toLow</code>から<code>toHigh</code>に比例計算してくれる関数です。LCD画面の場合、画面の左下が(0,80)なので、加速度値が600mGのときにy軸の値が80、加速度値が1400mGのときにy軸の値が0になるように変換します。</p>
+                <p>1つ前の加速度値と現在の加速度値をそれぞれy軸値に変換し、<code>M5.Lcd.drawLine</code>関数で1区間ずつ線を書いて、折れ線グラフにしています。</p>
+                <p>プログラムをビルドしてM5StickCに書き込みます。M5StickCを机の上に置いて、机をトントンと叩くと、LCD画面のグラフに振動が表示されるのが確認できます。</p>
+                <p><img src="./images/vibrationWave.jpg" width="60%" class="img-responsive center-block" alt="振動波形"></p>
+                <p>加速度センサから値を取得してから折れ線グラフを書くまでの時間を<code>micros</code>関数を使って次のようにして測定したところ、999マイクロ秒、約1ミリ秒でした。<code>micros</code>関数はプログラム開始からの経過時間をマイクロ秒で返す関数です。ある処理の前後で<code>micros</code>関数を呼んで経過時間を測り、その差を取ることで、その処理にかかる時間を測れます。</p>
+                <pre><code>    long t = micros();  // 開始時刻を記録
+                    加速度センサから値を取得;
+                    y軸の値を計算;
+                    折れ線グラフを書く;
+                    t = micros() - t;  // 開始時刻からの経過時間を取得
+                    M5.Lcd.print(t);   // 経過時間を表示
+                </code></pre>
+                <p><code>delay</code>関数で20ミリ秒待つと、実際の測定間隔はセンサへのアクセスやグラフ描画にかかる約1ミリ秒が加わり約21ミリ秒になります。次のように<code>for</code>文の先頭で開始時刻を記録し、処理にかかる時間を計算し、処理時間を補正して待つようにすると、より正確に周期処理が実現できます。マイクロ秒単位で待つために<code>delay</code>関数の代わりに<code>delayMicroseconds</code>関数を使います。</p>
+                <pre><code>    for (int i = 0; i &lt; SAMPLE_SIZE; i++) {
+                        long t = micros();  // 開始時刻を記録
+                        加速度センサから値を取得;
+                        y軸の値を計算;
+                        折れ線グラフを書く;
+                        delayMicroseconds(SAMPLE_PERIOD * 1000 - (micros() - t));
+                    }
+                </code></pre>
+                <p>さらに正確に周期処理を実現するには、タイマ割り込みを使う方法もありますが、今回は割愛します。</p>
+
+                <h2 id="振動の周波数ごとの強さを調べる">振動の周波数ごとの強さを調べる</h2>
+                <p>振動には揺れの周期があります。 1秒間に揺れる回数がその振動の周波数です。 一般的に振動はいくつかの要因が影響しているので、 周波数もいくつかの周波数が組み合わさっています。 また、傷や亀裂、ゆるみなどが発生すると周波数の分布が変わります。 そこで、振動の周波数ごとの強さ（周波数成分）を調べてみます。</p>
+                <p>振動の周波数成分を調べるには、FFT(高速フーリエ変換)解析がよく使われます。 Arduinoで動くFFTライブラリはいくつかありますが、 Arduino IDEのライブラリマネージャからインストールできるarduinoFFTを使います。</p>
+                <p>Arduino IDEの「ツール」メニューの「ライブラリを管理…」を選択して ライブラリマネージャを立ち上げ、右上の検索窓に「fft」と入力します。 いくつかFFTライブラリが表示されますが、その中の「arduinoFFT by Enrique Condes」を インストールします。</p>
+                <p><img src="./images/fftlibinstall.jpg" width="70%" class="img-responsive center-block" alt="arduinoFFTをインストール"></p>
+                <p>arduinoFFTライブラリには2種類のインタフェースがあります。例えば周波数ごとの信号強度を計算する<code>ComplexToMagnitude</code>という関数には次の2種類があります。</p>
+                <pre><code>void ComplexToMagnitude();
+                void ComplexToMagnitude(double *vReal, double *vImag, uint16_t samples);
+                </code></pre>
+                <p>ライブラリと一緒にインストールされるプログラム例は2行目のインタフェースを使っていますが、ライブラリのソースコードを見るとこのインタフェースは非推奨(deprecated)と書かれているので、この記事では1行目のインターフェースを使います。推奨されているインタフェースは次のようなものです。</p>
+                <pre><code>arduinoFFT(double *vReal, double *vImag, uint16_t samples, double samplingFrequency);  // コンストラクタ
+                void ComplexToMagnitude();  // 周波数ごとの信号強度を計算する
+                void Compute(uint8_t dir);  // FFTを計算する
+                double MajorPeak();  // ピーク周波数を返す
+                void MajorPeak(double *f, double *v);  // ピーク周波数と信号強度を返す
+                void Windowing(uint8_t windowType, uint8_t dir);  // 窓関数を適用する
+                		// windowTypeには以下の値が指定できる
+                #define FFT_WIN_TYP_RECTANGLE 0x00 /* rectangle (Box car) */
+                #define FFT_WIN_TYP_HAMMING 0x01 /* hamming */
+                #define FFT_WIN_TYP_HANN 0x02 /* hann */
+                #define FFT_WIN_TYP_TRIANGLE 0x03 /* triangle (Bartlett) */
+                #define FFT_WIN_TYP_NUTTALL 0x04 /* nuttall */
+                #define FFT_WIN_TYP_BLACKMAN 0x05 /* blackman */
+                #define FFT_WIN_TYP_BLACKMAN_NUTTALL 0x06 /* blackman nuttall */
+                #define FFT_WIN_TYP_BLACKMAN_HARRIS 0x07 /* blackman harris*/
+                #define FFT_WIN_TYP_FLT_TOP 0x08 /* flat top */
+                #define FFT_WIN_TYP_WELCH 0x09 /* welch */
+                </code></pre>
+                <p>加速度センサの値を取得して、FFT解析をおこない、周波数ごとの信号強度をLCDに表示するプログラムは次のようになります。</p>
+
+                <p>10行目でFFT解析をおこなうオブジェクトを作り、52行目から59行目で加速度センサの値を取得しています。FFT解析は62行目から64行目でおこなっています。61行目の<code>DCRemoval</code>関数は信号の直流成分を除去する関数です。</p>
+                <p>これで<code>vReal[]</code>に周波数ごとの信号強度が計算されます。17行目からの<code>drawChart</code>関数で信号強度を棒グラフでLCDに表示しています。</p>
+                <p>プログラムをビルドしてM5StickCで実行し、机をトントンと叩くと、次のように振動の周波数ごとの強度が表示されます。</p>
+                <p><img src="./images/FFTdisp.jpg" width="60%" class="img-responsive center-block" alt="振動の周波数成分"></p>
+                <p>このプログラムでは5ミリ秒ごとに加速度センサの値を調べています。このように一定の間隔でデータを調べることをサンプリングといい、1秒間にサンプリングする回数をサンプリング周波数といいます。5ミリ秒ごとにデータを調べたときのサンプリング周波数は200Hzになります。</p>
+                <p>加速度センサから加速度を取得する<code>M5.MPU6886.getAccelData</code>関数の処理時間を<code>micros</code>関数で調べたところ942マイクロ秒だったので、1ミリ秒ごとにサンプリングすることができそうです。このときのサンプリング周波数は1kHzになります。</p>
+                <p>サンプリングでは、サンプリング周波数の半分の周波数の信号が解析できることが知られています。サンプリング周波数が200Hzの場合、100Hzまでの振動が解析できます。</p>
+                <p>このプログラムにはもう一つ、サンプル数<code>FFTsamples</code>というパラメータがあります。このプログラムでは64にしています。この数を多くすると解析に時間がかかりますが、細かい周波数の幅で振動の強さを調べることができます。サンプル数64の場合、直流分を除去して（<code>DCRemovel</code>）、窓関数を適用し（<code>FFT.Windowing</code>）、FFT解析をおこない（<code>FFT.Compute</code>）、複素数を実数に変換する（<code>FFT.ComplexToMagnitude</code>）までの時間は1916マイクロ秒でした。これで32区間の周波数帯で振動の強さが調べられます。</p>
+
+                <h2 id="まとめ">まとめ</h2>
+                <p>M5StickCは加速度センサが内蔵されているので、本体だけで簡単に振動を測定できます。振動は機械などの稼働や故障を検出するための基礎になるデータです。振動の測定にM5StickCを活用してみてはいかがでしょうか？</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/myphoto3.jpg" width="50px;" class="img-responsive center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">26.M5StickCで振動を測定する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#加速度センサ">加速度センサ</a></li>
+                        <li><a href="#揺れの値をlcdにグラフ表示する">揺れの値をLCDにグラフ表示する</a></li>
+                        <li><a href="#振動の周波数ごとの強さを調べる">振動の周波数ごとの強さを調べる</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
