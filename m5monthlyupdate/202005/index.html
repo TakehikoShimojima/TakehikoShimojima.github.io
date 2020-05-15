@@ -96,8 +96,8 @@
             <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
 
 
-                <h1 id="m5stackマンスリーアップデート-2020年5月">M5Stackマンスリーアップデート　2020年5月</h1>
                 <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナーです。</p>
+
                 <h2 id="年4月の新製品">2020年4月の新製品</h2>
                 <p>2020年4月は次の製品の販売が始まりました。</p>
                 <ul>
@@ -112,14 +112,16 @@
                 <li>Mini Fan Unit：ファンユニット。GroveケーブルでM5Stack、M5StickCなどにつないで使う。</li>
                 </ul>
                 <p>中でも一番のニュースは、国内でATOM Matrix、ATOM Liteの販売が始まったことです。</p>
+                <p><a href="./images/stack-stickc-atom.jpg">stack-stickc-atom</a></p>
+
                 <h2 id="atom-matrix、lite">ATOM Matrix、Lite</h2>
                 <p>ATOM Matrix、ATOM LiteはM5Stack、M5StickCに続く新しい開発モジュールです。M5Stack、M5StickCにあった液晶画面がなくなり、24 x 24ミリと小さくなりました。M5Stack、M5StickCと比べるとその小ささが分かります。おもちゃやIoT端末などのコントローラとしてとても便利に使えそうです。</p>
-                <p><a href="./images/stack-stickc-atom.jpg">stack-stickc-atom</a></p>
                 <p>内部にはM5StackやM5StickCと同じESP32というマイコンが搭載されています。ESP32に内蔵される通信モジュールにより、Wi-FiとBluetoothで通信できます。プログラムはArduino、UI Flow、MicroPythonで作ることができます。</p>
                 <p>ATOMの主なスペックをM5Stack、M5StickCと比べてみました。</p>
                 <p><a href="./images/m5stack-spec.jpg">M5stack-spec</a></p>
+
                 <h3 id="ui-flowでのプログラミング">UI FLOWでのプログラミング</h3>
-                <p>まずUI FlowでATOMを動かす方法を見てみます。UI Flowの準備や使い方はM5Stackカフェ「<a href="https://takehikoshimojima.github.io/m5cafe/1_Lchika/">LEDを点滅させる</a>」をご覧ください。</p>
+                <p>まずUI FlowでATOMを動かす方法を見てみます。UI Flowの準備や使い方はM5Stackカフェ「<a href="https://pages.switch-science.com/m5cafe/1_Lchika/">LEDを点滅させる</a>」をご覧ください。</p>
                 <p>最初にM5BurnerでATOMにファームウェアを書き込みます。2020年5月時点で最新のUIFlow-v1.5.1、v1.5.2というバージョンでは書き込むデバイスとしてATOMが選択肢に現れないので、UIFlow-v1.4.5.1を選びます。ATOMをUSBケーブルでパソコンに接続し、M5BurnerでUSBデバイスを選び、右上の「Series」から「ATOM-Matrix」を選びます。</p>
                 <p><a href="./imgaes/selectDev.jpg">デバイスを選択</a></p>
                 <p>「Erase」ボタンをクリックしてファームウェアを消去し、「Burn」ボタンでファームウェアを書き込みます。ファームウェアを書き込んだら、ターミナルソフトを立ち上げてATOMがつながっているUSB回線を選び、ATOMのリセットボタンを押します。すると次のようなメッセージが表示され、その中にAPIキーが表示されます。</p>
@@ -129,6 +131,7 @@
                 <p>左側のUI画面にはATOMが表示され、「ハードウェア」メニューにはRGBカラーと加速度＆ジャイロが現れます。RGBカラーを見ると、5 x 5 のマトリックスLEDを制御するためのブロックが表示されます。</p>
                 <p><a href="./images/RGBcolormenu.jpg">RGBカラーメニュー</a></p>
                 <p>あとは好きなブロックを選んで組み合わせることで、ATOMを動かすことができます。</p>
+
                 <h3 id="arduinoでのプログラミング">Arduinoでのプログラミング</h3>
                 <p>Arduinoでのプログラミングの方法です。</p>
                 <p>Arduino IDEを立ち上げて、「ツール」メニューから「ライブラリを管理…」を選んで、ライブラリマネージャを立ち上げます。検索窓に「atom」と入力して、「M5Atom」ライブラリをインストールします。</p>
@@ -203,7 +206,7 @@
             </div>
         </div>
         <div id="copyright">
-            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+            &copy; 2020 Switch Scinece, inc. &copy; 2020 AmbientData, Inc.
         </div>
     </div>
 </div>
