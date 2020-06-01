@@ -159,7 +159,7 @@
 
                 <h2 id="bugcの移動の仕組み">BugCの移動の仕組み</h2>
                 <p>BugCには写真のように4つの小さなモーターが少し外側に向けてついていて、モーターの軸が床などの面に斜めに接しています。モーターはM5StickCで制御して回転させますが、どちらにも回すことができます。モーターを図のような向きに回転させたとき、この脚は画面の点前から奥に向かって移動します。</p>
-                <p><img src="./images/bugcmotor.jpg" width="100%" class="img-responsive center-block" alt="bugcmotor"></p>
+                <p><img src="./images/bugcmotor.jpg" width="70%" class="img-responsive center-block" alt="bugcmotor"></p>
                 <p>4つのモーターを図のように回すことで、前進、後退、その場で回転といった動作ができます。</p>
                 <p>BugCの前進後退・回転</p>
 
@@ -168,7 +168,8 @@
 
                 <h3 id="まっすぐ進まない">まっすぐ進まない</h3>
                 <p>Arduinoのサンプルプログラムを参考に、UI FlowでAボタンを押すと前進し、Bボタンを押すと止まるプログラムを作りました。</p>
-                <p>moveforward</p>
+
+                <p><img src="./images/moveforward.jpg" width="70%" class="img-responsive center-block" alt="moveforward"></p>
                 <p>動かしてみると、BugCは左前の方にカーブして進んでしまいました。プログラムとしては4つのモーターを同じ速度で回転させていますが、重さのバランスなどで床に伝わる推進力が同じにならず、直進しないのだと思います。4つのモーターの速度をいろいろと調整しましたが、まっすぐに前進・後退させることはできませんでした。</p>
                 <p>その場で回転するのは右回転も左回転もほぼ同じ場所で回転しました。</p>
 
@@ -176,13 +177,15 @@
                 <p>まっすぐ進まないのはBugCの個性だと諦めて、次はもう1台のM5StickCでコントロールしてみます。</p>
                 <p>サンプルプログラムではジョイスティックHatを使っているのですが、手元にジョイスティックHatがなかったので、M5StickCを傾けて、傾きを加速度センサで検知してBugCをコントロールしました。</p>
                 <p>どちらもUI Flowでプログラミングしました。BugC側のプログラムは次のような感じです。</p>
-                <p>bugcside</p>
+                <p><img src="./images/bugcside.jpg" width="70%" class="img-responsive center-block" alt="bugcside"></p>
+
                 <p>コントローラ側は次のような感じです。</p>
-                <p>bugc_ctl</p>
+                <p><img src="./images/bugc_ctl.jpg" width="70%" class="img-responsive center-block" alt="bugc_ctl"></p>
+
                 <p>コントローラとBugCの通信にはEspNowという通信方法を使っています。詳細は省きますが、EspNowはWi-Fiパケットを使って非常に高速な通信ができ、このような小型ロボットの制御などには適しています。</p>
                 <p>M5StickCを傾けてBugCをコントロールしている様子は次の動画をご覧ください。</p>
 
-
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/oBU6d-HOb8o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             </div>
 
