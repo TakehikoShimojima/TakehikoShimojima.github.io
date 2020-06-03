@@ -101,59 +101,61 @@
 
                 <h2 id="本足の小型ロボットbugc">4本足の小型ロボットBugC</h2>
                 <p>BugCはM5StickCで制御する小型ロボットです。4本の足がついていて、前進・後退、その場で回転など、とても機敏に動きます。
-                    このBugCをもう1台のM5StickCでコントロールしてみました。</p>
-                <p><img src="./images/bugc.jpg" alt="BugC"></p>
+                    このBugCをもう1台のM5StickCを使ってコントロールしてみました。</p>
+                <p><img src="./images/bugc.jpg" width="85%" class="img-responsive center-block" alt="BugC"></p>
 
                 <h2 id="bugcが動く仕組み">BugCが動く仕組み</h2>
                 <p>BugCが動く仕組みはとてもユニークです。
-                    BugCには写真のように4つの小さなモーターが少し外側に向けてついていて、モーターの軸が床などの面に斜めに接しています。
+                    BugCには上の写真のように4つの小さなモーターが少し外側に向けてついていて、モーターの軸が床などの面に斜めに接しています。
                     モーターはM5StickCで制御して回転させますが、どちらにも回すことができます。
                     モーターを図のような向きに回転させたとき、この足は画面の手前から奥に向かって移動します。</p>
-                <p><img src="./images/bugcmotor.jpg" alt="bugcmotor"></p>
+                <p><img src="./images/bugcmotor.jpg" width="50%" class="img-responsive center-block" alt="bugcmotor"></p>
                 <p>4つのモーターを図のように回すことで、前進、後退、その場で回転といった動作ができます。</p>
-                <p><img src="./images/" alt="BugCの前進後退・回転"></p>
+                <p><img src="./images/" width="90%" class="img-responsive center-block" alt="BugCの前進後退・回転"></p>
 
                 <h2 id="bugcのプログラミング">BugCのプログラミング</h2>
                 <p>BugCはM5StickCを接続し、I<sup>2</sup>Cで制御します。プログラムはArduino、UI Flow、どちらでも可能です。
                     サンプルプログラムが次のサイトに公開されています。</p>
-                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Hat/BugC">BugCサンプルプログラム</a></p>
+                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Hat/BugC">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Hat/BugC</a></p>
 
                 <p>またArduinoのサンプルプログラムはArduino IDEの「ファイル」メニューの「スケッチ例」→「M5StickC」→「Hat」→「BUGC」にもあります。
                     ライブラリマネージャでM5StickCライブラリの0.2.0以上をインストールするとスケッチ例に現れます。</p>
-                <p><img src="./images/selectexamples.jpg" alt="BugCの前進後退・回転"></p>
+                <p><img src="./images/selectexamples.jpg" width="70%" class="img-responsive center-block" alt="スケッチ例の選択"></p>
 
                 <p>Arduinoのサンプルプログラムは、M5StickCのAボタンを押すと後退し、Bボタンを押すと止まるという簡単なものです。
                     UI Flowのサンプルプログラムは2台のM5StickCを使い、1台でBugCを制御し、もう1台にジョイスティックをつけてコントローラーにして、BugCをリモート制御するものです。</p>
 
                 <h3 id="まっすぐ進まない">まっすぐ進まない</h3>
                 <p>Arduinoのサンプルプログラムを参考に、UI FlowでAボタンを押すと前進し、Bボタンを押すと止まるプログラムを作りました。</p>
-                <p><img src="./images/moveforward.jpg" alt="前進"></p>
+                <p><img src="./images/moveforward.jpg" width="100%" class="img-responsive center-block" alt="前進"></p>
                 <p>動かしてみると、BugCは左前の方にカーブして進んでしまいました。プログラムとしては4つのモーターを同じ速度で回転させていますが、重さのバランスなどで床に伝わる推進力が同じにならず、直進しないのだと思います。4つのモーターの速度をいろいろと調整しましたが、まっすぐに前進・後退させることはできませんでした。</p>
-                <p>その場での回転は右回転も左回転もほぼ同じ場所でうまく回転しました。</p>
+                <p>その場での回転は、右回転も左回転もほぼ同じ場所でうまく回転しました。</p>
 
                 <h3 id="スマホでコントロールする">スマホでコントロールする</h3>
                 <p>まっすぐ進まないのはBugCの個性だと諦めて、BugCを別のデバイスでコントロールしてみます。UI Flowのメニューを見ると「リモコン」というブロックがあります。スマホの画面にボタンやスイッチなどを表示して、M5StickCやM5Stackを制御できるブロックです。これを使って、次のようなプログラムを作りました。</p>
-                <p><img src="./images/bugcRemote.jpg" alt="リモート"></p>
+                <p><img src="./images/bugcRemote.jpg" width="90%" class="img-responsive center-block" alt="リモート"></p>
                 <p>UI Flowのプログラムを作る画面の右側に薄くQRコードのアイコンが表示されていて、それをクリックするとQRコードが表示されます。このQRコードをスマホで読んでページを表示すると、次のようにプログラムで設定したボタンが並んだページが表示されます。</p>
-                <p><img src="./images/remote.jpg" alt="スマホ画面"></p>
+                <p><img src="./images/remote.jpg" width="60%" class="img-responsive center-block" alt="スマホ画面"></p>
                 <p>スマホの「前進」ボタンをタップすると、BugCが勢いよく動き出しました。「停止」ボタンを押しましたが、1秒ぐらい遅れて止まります。「リモート」はスマホとM5StickCがクラウドを経由して通信するので、1秒程度の遅延はしかたないのでしょうが、BugCはとても機敏に動くので、この反応の悪さはいただけません。</p>
 
                 <h3 id="もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</h3>
                 <p>Githubに公開されているUI FlowのサンプルプログラムはBugCに接続したM5StickCをもう1台のM5StickCでコントロールしています。2台のM5StickCは「EspNow」という方法で通信しているので、これを試してみます。</p>
                 <p>サンプルプログラムではジョイスティックHatを使っているのですが、手元にジョイスティックHatがなかったので、その代わりにM5StickCを傾けて、傾きを加速度センサで検知してBugCをコントロールしました。</p>
                 <p>コントローラ側のプログラムは次のようになりました。</p>
-                <p><img src="./images/bugc_ctl.jpg" alt="コントローラ側"></p>
+                <p><img src="./images/bugc_ctl.jpg" width="90%" class="img-responsive center-block" alt="コントローラ側"></p>
                 <p>M5StickCを前後に傾けるとy軸の加速度値が-1.0から+1.0まで変化します。-0.5以下になったら「前進（Forward）」メッセージを、+0.5以上になったら「後退（Back）」メッセージを送ります。左右に傾けるとx軸の加速度値が変化するので、-0.5以下になったら「右回転（Right）」を、+0.5以上になったら「左回転（Left）」を送るようにしました。</p>
                 <p>BugC側のプログラムは次のようになりました。</p>
-                <p><img src="./images/bugcside.jpg" alt="BugC側"></p>
+                <p><img src="./images/bugcside.jpg" width="90%" class="img-responsive center-block" alt="BugC側"></p>
                 <p>EspNowで送られたメッセージに応じて、BugCを動かしています。</p>
                 <p>通信方法の詳細は省きますが、EspNowはWi-Fiパケットを直接使って非常に高速な通信ができ、このような小型ロボットの制御などには適しています。</p>
                 <p>M5StickCを傾けてBugCをコントロールしている様子は次の動画をご覧ください。</p>
 
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/oBU6d-HOb8o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
                 <p>話が長くなってきたので、今回はこのくらいにします。</p>
 
                 <h2 id="マスターの一言">マスターの一言</h2>
-                <p>人の動きを感知して何かするというのは、防犯用の外灯やトイレの照明以外にもいろいろな応用が考えられそうです。私もカフェに1台設置して、お客さんがお店にみえたらブザーで知らせてくれるようにすれば、安心して居眠りができそうですｚｚｚ</p>
+                <p>動くものには個性を感じますし、しばらく付き合っていると愛着も湧きます。しかしまっすぐ進んでくれないなぁ。</p>
 
 
             </div>
@@ -168,12 +170,14 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">6.人の動きを感知する</a></li>
+                    <li class="open"><a href="index.html">7.小型ロボットBugCをもう1台のM5StickCでコントロールする</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#人感センサ">人感センサ</a></li>
-                        <li><a href="#人感センサにアクセスする">人感センサにアクセスする</a></li>
-                        <li><a href="#作例1：人が近づいたらledを点ける">作例1：人が近づいたらLEDを点ける</a></li>
-                        <li><a href="#作例2：人が近づいたらブザーで知らせる">作例2：人が近づいたらブザーで知らせる</a></li>
+                        <li><a href="#本足の小型ロボットbugc">4本足の小型ロボットBugC</a></li>
+                        <li><a href="#BugCが動く仕組み">BugCが動く仕組み</a></li>
+                        <li><a href="#bugcのプログラミング">BugCのプログラミング</a></li>
+                        <li><a href="#まっすぐ進まない">まっすぐ進まない</a></li>
+                        <li><a href="#スマホでコントロールする">スマホでコントロールする</a></li>
+                        <li><a href="#もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</a></li>
                         <li><a href="#マスターの一言">マスターの一言</a></li>
                     </ul>
                 </ul>
