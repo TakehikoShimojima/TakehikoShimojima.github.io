@@ -1,0 +1,241 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="BugC - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小型ロボットBugCをもう1台のM5StickCでコントロールする - M5Stackカフェ</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年6月5日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1>小型ロボットBugCをもう1台のM5StickCでコントロールする</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <p>M5StackやM5StickCを使って、面白いことをするコーナー「M5Stackカフェ」。
+                    第7回は小型ロボットBugCをもう1台のM5StickCでコントロールします。</p>
+
+                <h2 id="本足の小型ロボットbugc">4本足の小型ロボットBugC</h2>
+                <p>BugCはM5StickCで制御する小型ロボットです。4本の足がついていて、前進・後退、その場で回転など、とても機敏に動きます。
+                    このBugCをもう1台のM5StickCでコントロールしてみました。</p>
+                <p><img src="./images/bugc.jpg" alt="BugC"></p>
+
+                <h2 id="bugcが動く仕組み">BugCが動く仕組み</h2>
+                <p>BugCが動く仕組みはとてもユニークです。
+                    BugCには写真のように4つの小さなモーターが少し外側に向けてついていて、モーターの軸が床などの面に斜めに接しています。
+                    モーターはM5StickCで制御して回転させますが、どちらにも回すことができます。
+                    モーターを図のような向きに回転させたとき、この足は画面の手前から奥に向かって移動します。</p>
+                <p><img src="./images/bugcmotor.jpg" alt="bugcmotor"></p>
+                <p>4つのモーターを図のように回すことで、前進、後退、その場で回転といった動作ができます。</p>
+                <p><img src="./images/" alt="BugCの前進後退・回転"></p>
+
+                <h2 id="bugcのプログラミング">BugCのプログラミング</h2>
+                <p>BugCはM5StickCを接続し、I<sup>2</sup>Cで制御します。プログラムはArduino、UI Flow、どちらでも可能です。
+                    サンプルプログラムが次のサイトに公開されています。</p>
+                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Hat/BugC">BugCサンプルプログラム</a></p>
+
+                <p>またArduinoのサンプルプログラムはArduino IDEの「ファイル」メニューの「スケッチ例」→「M5StickC」→「Hat」→「BUGC」にもあります。
+                    ライブラリマネージャでM5StickCライブラリの0.2.0以上をインストールするとスケッチ例に現れます。</p>
+                <p><img src="./images/selectexamples.jpg" alt="BugCの前進後退・回転"></p>
+
+                <p>Arduinoのサンプルプログラムは、M5StickCのAボタンを押すと後退し、Bボタンを押すと止まるという簡単なものです。
+                    UI Flowのサンプルプログラムは2台のM5StickCを使い、1台でBugCを制御し、もう1台にジョイスティックをつけてコントローラーにして、BugCをリモート制御するものです。</p>
+
+                <h3 id="まっすぐ進まない">まっすぐ進まない</h3>
+                <p>Arduinoのサンプルプログラムを参考に、UI FlowでAボタンを押すと前進し、Bボタンを押すと止まるプログラムを作りました。</p>
+                <p><img src="./images/moveforward.jpg" alt="前進"></p>
+                <p>動かしてみると、BugCは左前の方にカーブして進んでしまいました。プログラムとしては4つのモーターを同じ速度で回転させていますが、重さのバランスなどで床に伝わる推進力が同じにならず、直進しないのだと思います。4つのモーターの速度をいろいろと調整しましたが、まっすぐに前進・後退させることはできませんでした。</p>
+                <p>その場での回転は右回転も左回転もほぼ同じ場所でうまく回転しました。</p>
+
+                <h3 id="スマホでコントロールする">スマホでコントロールする</h3>
+                <p>まっすぐ進まないのはBugCの個性だと諦めて、BugCを別のデバイスでコントロールしてみます。UI Flowのメニューを見ると「リモコン」というブロックがあります。スマホの画面にボタンやスイッチなどを表示して、M5StickCやM5Stackを制御できるブロックです。これを使って、次のようなプログラムを作りました。</p>
+                <p><img src="./images/bugcRemote.jpg" alt="リモート"></p>
+                <p>UI Flowのプログラムを作る画面の右側に薄くQRコードのアイコンが表示されていて、それをクリックするとQRコードが表示されます。このQRコードをスマホで読んでページを表示すると、次のようにプログラムで設定したボタンが並んだページが表示されます。</p>
+                <p><img src="./images/remote.jpg" alt="スマホ画面"></p>
+                <p>スマホの「前進」ボタンをタップすると、BugCが勢いよく動き出しました。「停止」ボタンを押しましたが、1秒ぐらい遅れて止まります。「リモート」はスマホとM5StickCがクラウドを経由して通信するので、1秒程度の遅延はしかたないのでしょうが、BugCはとても機敏に動くので、この反応の悪さはいただけません。</p>
+
+                <h3 id="もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</h3>
+                <p>Githubに公開されているUI FlowのサンプルプログラムはBugCに接続したM5StickCをもう1台のM5StickCでコントロールしています。2台のM5StickCは「EspNow」という方法で通信しているので、これを試してみます。</p>
+                <p>サンプルプログラムではジョイスティックHatを使っているのですが、手元にジョイスティックHatがなかったので、その代わりにM5StickCを傾けて、傾きを加速度センサで検知してBugCをコントロールしました。</p>
+                <p>コントローラ側のプログラムは次のようになりました。</p>
+                <p><img src="./images/bugc_ctl.jpg" alt="コントローラ側"></p>
+                <p>M5StickCを前後に傾けるとy軸の加速度値が-1.0から+1.0まで変化します。-0.5以下になったら「前進（Forward）」メッセージを、+0.5以上になったら「後退（Back）」メッセージを送ります。左右に傾けるとx軸の加速度値が変化するので、-0.5以下になったら「右回転（Right）」を、+0.5以上になったら「左回転（Left）」を送るようにしました。</p>
+                <p>BugC側のプログラムは次のようになりました。</p>
+                <p><img src="./images/bugcside.jpg" alt="BugC側"></p>
+                <p>EspNowで送られたメッセージに応じて、BugCを動かしています。</p>
+                <p>通信方法の詳細は省きますが、EspNowはWi-Fiパケットを直接使って非常に高速な通信ができ、このような小型ロボットの制御などには適しています。</p>
+                <p>M5StickCを傾けてBugCをコントロールしている様子は次の動画をご覧ください。</p>
+
+                <p>話が長くなってきたので、今回はこのくらいにします。</p>
+
+                <h2 id="マスターの一言">マスターの一言</h2>
+                <p>人の動きを感知して何かするというのは、防犯用の外灯やトイレの照明以外にもいろいろな応用が考えられそうです。私もカフェに1台設置して、お客さんがお店にみえたらブザーで知らせてくれるようにすれば、安心して居眠りができそうですｚｚｚ</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">6.人の動きを感知する</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#人感センサ">人感センサ</a></li>
+                        <li><a href="#人感センサにアクセスする">人感センサにアクセスする</a></li>
+                        <li><a href="#作例1：人が近づいたらledを点ける">作例1：人が近づいたらLEDを点ける</a></li>
+                        <li><a href="#作例2：人が近づいたらブザーで知らせる">作例2：人が近づいたらブザーで知らせる</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
