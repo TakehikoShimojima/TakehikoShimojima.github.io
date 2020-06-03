@@ -127,15 +127,15 @@
 
                 <h3 id="まっすぐ進まない">まっすぐ進まない</h3>
                 <p>Arduinoのサンプルプログラムを参考に、UI FlowでAボタンを押すと前進し、Bボタンを押すと止まるプログラムを作りました。</p>
-                <p><img src="./images/moveforward.jpg" width="100%" class="img-responsive center-block" alt="前進"></p>
+                <p><img src="./images/moveforward.jpg" width="60%" class="img-responsive center-block" alt="前進"></p>
                 <p>動かしてみると、BugCは左前の方にカーブして進んでしまいました。プログラムとしては4つのモーターを同じ速度で回転させていますが、重さのバランスなどで床に伝わる推進力が同じにならず、直進しないのだと思います。4つのモーターの速度をいろいろと調整しましたが、まっすぐに前進・後退させることはできませんでした。</p>
                 <p>その場での回転は、右回転も左回転もほぼ同じ場所でうまく回転しました。</p>
 
                 <h3 id="スマホでコントロールする">スマホでコントロールする</h3>
                 <p>まっすぐ進まないのはBugCの個性だと諦めて、BugCを別のデバイスでコントロールしてみます。UI Flowのメニューを見ると「リモコン」というブロックがあります。スマホの画面にボタンやスイッチなどを表示して、M5StickCやM5Stackを制御できるブロックです。これを使って、次のようなプログラムを作りました。</p>
-                <p><img src="./images/bugcRemote.jpg" width="90%" class="img-responsive center-block" alt="リモート"></p>
+                <p><img src="./images/bugcRemote.jpg" width="80%" class="img-responsive center-block" alt="リモート"></p>
                 <p>UI Flowのプログラムを作る画面の右側に薄くQRコードのアイコンが表示されていて、それをクリックするとQRコードが表示されます。このQRコードをスマホで読んでページを表示すると、次のようにプログラムで設定したボタンが並んだページが表示されます。</p>
-                <p><img src="./images/remote.jpg" width="60%" class="img-responsive center-block" alt="スマホ画面"></p>
+                <p><img src="./images/remote.jpg" width="45%" class="img-responsive center-block" alt="スマホ画面"></p>
                 <p>スマホの「前進」ボタンをタップすると、BugCが勢いよく動き出しました。「停止」ボタンを押しましたが、1秒ぐらい遅れて止まります。「リモート」はスマホとM5StickCがクラウドを経由して通信するので、1秒程度の遅延はしかたないのでしょうが、BugCはとても機敏に動くので、この反応の悪さはいただけません。</p>
 
                 <h3 id="もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</h3>
@@ -145,7 +145,7 @@
                 <p><img src="./images/bugc_ctl.jpg" width="90%" class="img-responsive center-block" alt="コントローラ側"></p>
                 <p>M5StickCを前後に傾けるとy軸の加速度値が-1.0から+1.0まで変化します。-0.5以下になったら「前進（Forward）」メッセージを、+0.5以上になったら「後退（Back）」メッセージを送ります。左右に傾けるとx軸の加速度値が変化するので、-0.5以下になったら「右回転（Right）」を、+0.5以上になったら「左回転（Left）」を送るようにしました。</p>
                 <p>BugC側のプログラムは次のようになりました。</p>
-                <p><img src="./images/bugcside.jpg" width="90%" class="img-responsive center-block" alt="BugC側"></p>
+                <p><img src="./images/bugcside.jpg" width="85%" class="img-responsive center-block" alt="BugC側"></p>
                 <p>EspNowで送られたメッセージに応じて、BugCを動かしています。</p>
                 <p>通信方法の詳細は省きますが、EspNowはWi-Fiパケットを直接使って非常に高速な通信ができ、このような小型ロボットの制御などには適しています。</p>
                 <p>M5StickCを傾けてBugCをコントロールしている様子は次の動画をご覧ください。</p>
