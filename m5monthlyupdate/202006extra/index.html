@@ -133,27 +133,27 @@
                 <p>そこで、Google翻訳で「こんにちは」を中国語の「你好」に変換してパソコンにそれを発音してもらい、それをATOM ECHOで録音して、変換してみました。</p>
                 <p><img src="./images/helloCN.jpg" width="80%" class="img-responsive center-block" alt="Hello"></p>
                 <p>シリアルモニタに次のようなメッセージが出力され、認識に成功しました！時間が5.5秒かかっています。</p>
-                <pre><code>Init i2s_driver_install
-                Init i2s_set_pin
-                Init i2s_set_clk
-                end
-                Time 5449ms
-                {"corpus_no":"6835388874622027464","err_msg":"success.","err_no":0,"result":["你好。"],"sn":"415838341021591487991"}
-                你好。
-                </code></pre>
+<pre><code>Init i2s_driver_install
+Init i2s_set_pin
+Init i2s_set_clk
+end
+Time 5449ms
+{"corpus_no":"6835388874622027464","err_msg":"success.","err_no":0,"result":["你好。"],"sn":"415838341021591487991"}
+你好。</code></pre>
                 <p>次に「私は日本人です」を中国語（我是日本人）に変換し、パソコンで発音した音を認識させたところ、次のような結果でした。</p>
                 <p>1回目：我是你奶奶（私はあなたのおばあちゃんです）<br>
                 2回目：我是你的音（私はあなたの声です）</p>
                 <p>認識はなかなか難しいようです。といっても音声認識の精度や時間はBaidoの性能を反映しているわけですが。</p>
                 <p>さらに、136行目の <code>DEV_PID_MANDARIN</code> を <code>DEV_PID_ENGLISH</code>  に変えて、Google翻訳に「Hello」と発音してもらい、ATOM ECHOに認識させたところ、2回は認識に失敗しましたが、3回目に次のように認識に成功しました。</p>
-                <pre><code>Time 7728ms
-                {"corpus_no":"6835423719643684069","err_msg":"success.","err_no":0,"result":["hello"],"sn":"180038331121591496104"}
-                hello
-                </code></pre>
+<pre><code>Time 7728ms
+{"corpus_no":"6835423719643684069","err_msg":"success.","err_no":0,"result":["hello"],"sn":"180038331121591496104"}
+hello</code></pre>
                 <p>「Factory_Test」というサンプルプログラムは、ビルドして動かすとファンファーレが鳴り、その後周囲の音を周波数変換（FFT）し、結果をシリアルモニタに出力します。スイッチを押したままリセットすると、ファンファーレが鳴り続けます。</p>
                 <p>「Repeater」はボタンを押している間、音を録音し、離すと再生するサンプルです。</p>
                 <p>「StreamHttpClient_ECHO」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
-                <p>サンプルプログラムは今ひとつですが、これだけ小さくて、音が扱えるデバイスはおもちゃの制御やIoT端末としての可能性を感じます。皆さんのアイデアを実現するときの強力な部品になりそうです。</p>
+
+                <p>M5StickCを使ったときに「スピーカーが内蔵されてたら便利だな」と感じていてものがATOMシリーズで実現されました。
+                    これだけ小さくて、音が扱えるデバイスはおもちゃの制御やIoT端末としての可能性を感じます。皆さんのアイデアを実現するときの強力な部品になりそうです。</p>
 
 
             </div>
@@ -168,10 +168,11 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">2020年6月</a></li>
+                    <li class="open"><a href="index.html">2020年6月【号外】</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#m5atomのサンプルプログラム「leddisplay」が何も表示しない件">M5ATOMのサンプルプログラム「LEDDisplay」が何も表示しない件</a></li>
-                        <li><a href="#月に発売された3種類の小型ロボット">4月に発売された3種類の小型ロボット</a></li>
+                        <li><a href="#スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</a></li>
+                        <li><a href="#開封">開封</a></li>
+                        <li><a href="#arduinoで使う">Arduinoで使う</a></li>
                     </ul>
                 </ul>
             </div>
