@@ -1,0 +1,237 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="M5MonthlyUpdate202006extra">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M5Stackマンスリーアップデート 2020年6月【号外】</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackマンスリーアップデート</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年6月8日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h2>2020年6月【号外】</h2>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+                <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナー、今回は号外です！</p>
+                <p>2020年6月5日、M5Stack社から新製品「ATOM ECHO」が発売されました。世界同時発売とのことで、日本でもスイッチサイエンスで販売がスタートしました。</p>
+
+                <h2 id="スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</h2>
+                <p>ATOM ECHOはMatrix、Liteに続くATOMシリーズの3つ目のデバイスで、スピーカーとマイクが搭載されているのが最大の特徴です。ATOM ECHOのスペックをMatrix、Liteと比較しました。Matrixには5 x 5 のRGB LEDがついていますが、ECHOは1個のRGB LEDに変わっています。またMatrixには6軸IMU（加速度、ジャイロセンサ）がありますが、ECHOにはそれがなく、その代わりにスピーカーとマイクがついています。</p>
+                <p><img src="./images/atomspec.jpg" width="100%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
+                <p>*: ECHOのG19、G22、G23、G33はスピーカー・マイクに接続されるため、GPIOとして使うと破損することがあるとのことで、注意が必要です。</p>
+                <p>M5Stack、M5StickC、ATOM Matrix、ATOM ECHOを並べてみました。ATOM Matrix、ATOM ECHOの小ささがよく分かります。</p>
+                <p><img src="./images/m5family.jpg" width="100%" class="img-responsive center-block" alt="M5ファミリー"></p>
+
+                <h2 id="開封">開封</h2>
+                <p>ATOM ECHOはプラスチックのケースに入って届きます。ATOM Matrixは白い台紙にセットされていましたが、ATOM ECHOは楽しそうなプリントの台紙にセットされていて、使う前からワクワクします。</p>
+                <p><img src="./images/atomonmount.jpg" width="100%" class="img-responsive center-block" alt="台紙のATOM"></p>
+                <p>出荷時は、ATOM ECHOをブルートゥーススピーカーにするファームウェアがインストールされています。ATOM ECHOをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」というATOM ECHOが検出されます。</p>
+                <p><img src="./images/ble.jpg" width="100%" class="img-responsive center-block" alt="BLE接続"></p>
+                <p>「接続」するとATOM ECHOがブルートゥーススピーカーとして使えます。YouTubeの音楽の音を出力したところ、小さいケースなので迫力のある音ではありませんが、きれいな音が聞こえました。</p>
+
+                <h2 id="arduinoで使う">Arduinoで使う</h2>
+                <p>ATOM ECHOのスケッチ例が次のサイトに公開されています。この原稿を書いている6月8日時点ではm5atomライブラリの最新版は0.0.1ですが、このバージョンをインストールしてもArduino IDEのスケッチ例には現れないようです。</p>
+                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Core/Atom/AtomEcho">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Core/Atom/AtomEcho</a></p>
+                <p>公開されているスケッチ例には以下のものが含まれています。</p>
+                <ul>
+                <li>EchoSTT：音声認識（speech to text）</li>
+                <li>Factory_Test：ファンファーレを鳴らし、周波数変換（FFT）する</li>
+                <li>Repeater：音を録音して再生する</li>
+                <li>StreamHttpClient_ECHO：サーバー上のMP3ファイルを再生する</li>
+                </ul>
+                <p>EchoSTT（音声認識は）ATOM ECHOのマイクで音声を録音し、それをBaiduの音声認識APIに渡して認識し、文字列に変換しています。サンプルプログラムの16、17行目にWifiSSID、WifiPWDがあるので、それを自分の環境に合わせて変更します。さらに、M5Burnerの最新版（2.0.0）をインストールし、デバイスとしてATOMを選択してファームウェアのEchoSTTの「Get Token」をクリックしてトークンを取得し、106行目の <code>YOUR-TOKEN</code> に書き込みます。</p>
+                <pre><code>    rest.settoken("YOUR-TOKEN");
+                </code></pre>
+                <p>Arduino IDEのボードとしてM5StickCを選択してビルドし、ATOM ECHOに書き込みます。ATOM ECHOのボタンを押しながら何か話すと、それが文字列に変換されます。</p>
+                <p>プログラムの136行目にBaidu APIを呼んでいる部分があり、引数に <code>DEV_PID_MANDARIN</code>  を渡しているので、中国語を認識して文字に変換するようです。</p>
+                <pre><code>if (rest.Pcm2String(microphonedata0, data_offset, DEV_PID_MANDARIN, &amp;SpakeStr) != -1)
+                </code></pre>
+                <p>そこで、Google翻訳で「こんにちは」を中国語の「你好」に変換してパソコンにそれを発音してもらい、それをATOM ECHOで録音して、変換してみました。</p>
+                <p><img src="./images/helloCN.jpg" width="100%" class="img-responsive center-block" alt="Hello"></p>
+                <p>シリアルモニタに次のようなメッセージが出力され、認識に成功しました！時間が5.5秒かかっています。</p>
+                <pre><code>Init i2s_driver_install
+                Init i2s_set_pin
+                Init i2s_set_clk
+                end
+                Time 5449ms
+                {"corpus_no":"6835388874622027464","err_msg":"success.","err_no":0,"result":["你好。"],"sn":"415838341021591487991"}
+                你好。
+                </code></pre>
+                <p>次に「私は日本人です」を中国語（我是日本人）に変換し、パソコンで発音した音を認識させたところ、次のような結果でした。</p>
+                <p>1回目：我是你奶奶（私はあなたのおばあちゃんです）<br>
+                2回目：我是你的音（私はあなたの声です）</p>
+                <p>認識はなかなか難しいようです。といっても音声認識の精度や時間はBaidoの性能を反映しているわけですが。</p>
+                <p>さらに、136行目の <code>DEV_PID_MANDARIN</code> を <code>DEV_PID_ENGLISH</code>  に変えて、Google翻訳に「Hello」と発音してもらい、ATOM ECHOに認識させたところ、2回は認識に失敗しましたが、3回目に次のように認識に成功しました。</p>
+                <pre><code>Time 7728ms
+                {"corpus_no":"6835423719643684069","err_msg":"success.","err_no":0,"result":["hello"],"sn":"180038331121591496104"}
+                hello
+                </code></pre>
+                <p>「Factory_Test」というサンプルプログラムは、ビルドして動かすとファンファーレが鳴り、その後周囲の音を周波数変換（FFT）し、結果をシリアルモニタに出力します。スイッチを押したままリセットすると、ファンファーレが鳴り続けます。</p>
+                <p>「Repeater」はボタンを押している間、音を録音し、離すと再生するサンプルです。</p>
+                <p>「StreamHttpClient_ECHO」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
+                <p>サンプルプログラムは今ひとつですが、これだけ小さくて、音が扱えるデバイスはおもちゃの制御やIoT端末としての可能性を感じます。皆さんのアイデアを実現するときの強力な部品になりそうです。</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">2020年6月</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#m5atomのサンプルプログラム「leddisplay」が何も表示しない件">M5ATOMのサンプルプログラム「LEDDisplay」が何も表示しない件</a></li>
+                        <li><a href="#月に発売された3種類の小型ロボット">4月に発売された3種類の小型ロボット</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2020 Switch Scinece, inc. &copy; 2020 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
