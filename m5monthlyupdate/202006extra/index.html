@@ -109,7 +109,8 @@
                 <h2 id="開封">開封</h2>
                 <p>ATOM ECHOはプラスチックのケースに入って届きます。ATOM Matrixは白い台紙にセットされていましたが、ATOM ECHOは楽しそうなプリントの台紙にセットされていて、使う前からワクワクします。</p>
                 <p><img src="./images/atomonmount.jpg" width="100%" class="img-responsive center-block" alt="台紙のATOM"></p>
-                <p>出荷時は、ATOM ECHOをブルートゥーススピーカーにするファームウェアがインストールされています。ATOM ECHOをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」というATOM ECHOが検出されます。</p>
+                <p>出荷時は、ATOM ECHOをブルートゥーススピーカーにするファームウェアがインストールされています。
+                    ATOM ECHOをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」という名前でATOM ECHOが検出されます。</p>
                 <p><img src="./images/ble.jpg" width="80%" class="img-responsive center-block" alt="BLE接続"></p>
                 <p>「接続」するとATOM ECHOがブルートゥーススピーカーとして使えます。YouTubeの音楽の音を出力したところ、小さいケースなので迫力のある音ではありませんが、きれいな音が聞こえました。</p>
 
@@ -123,9 +124,12 @@
                 <li>Repeater：音を録音して再生する</li>
                 <li>StreamHttpClient_ECHO：サーバー上のMP3ファイルを再生する</li>
                 </ul>
-                <p>EchoSTT（音声認識は）ATOM ECHOのマイクで音声を録音し、それをBaiduの音声認識APIに渡して認識し、文字列に変換しています。サンプルプログラムの16、17行目にWifiSSID、WifiPWDがあるので、それを自分の環境に合わせて変更します。さらに、M5Burnerの最新版（2.0.0）をインストールし、デバイスとしてATOMを選択してファームウェアのEchoSTTの「Get Token」をクリックしてトークンを取得し、106行目の <code>YOUR-TOKEN</code> に書き込みます。</p>
-                <pre><code>    rest.settoken("YOUR-TOKEN");
-                </code></pre>
+
+                <h3>EchoSTT</h3>
+                <p>EchoSTT（音声認識は）ATOM ECHOのマイクで音声を録音し、それをBaiduの音声認識APIに渡して認識し、文字列に変換するサンプルです。
+                    プログラムの16、17行目にWifiSSID、WifiPWDがあるので、それを自分の環境に合わせて変更します。
+                    さらに、M5Burnerの最新版（2.0.0）をインストールし、デバイスとしてATOMを選択してファームウェアのEchoSTTの「Get Token」をクリックしてトークンを取得し、106行目の <code>YOUR-TOKEN</code> に書き込みます。</p>
+<pre><code>    rest.settoken("YOUR-TOKEN");</code></pre>
                 <p>Arduino IDEのボードとしてM5StickCを選択してビルドし、ATOM ECHOに書き込みます。ATOM ECHOのボタンを押しながら何か話すと、それが文字列に変換されます。</p>
                 <p>プログラムの136行目にBaidu APIを呼んでいる部分があり、引数に <code>DEV_PID_MANDARIN</code>  を渡しているので、中国語を認識して文字に変換するようです。</p>
                 <pre><code>if (rest.Pcm2String(microphonedata0, data_offset, DEV_PID_MANDARIN, &amp;SpakeStr) != -1)
@@ -148,10 +152,15 @@ Time 5449ms
 <pre><code>Time 7728ms
 {"corpus_no":"6835423719643684069","err_msg":"success.","err_no":0,"result":["hello"],"sn":"180038331121591496104"}
 hello</code></pre>
+
+                <h3>Factory_Test</h3>
                 <p>「Factory_Test」というサンプルプログラムは、ビルドして動かすとファンファーレが鳴り、その後周囲の音を周波数変換（FFT）し、結果をシリアルモニタに出力します。スイッチを押したままリセットすると、ファンファーレが鳴り続けます。</p>
+                <h3>Repeater</h3>
                 <p>「Repeater」はボタンを押している間、音を録音し、離すと再生するサンプルです。</p>
+                <h3>StreamHttpClient_ECHO</h3>
                 <p>「StreamHttpClient_ECHO」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
 
+                <h2 id="まとめ">まとめ</h2>
                 <p>M5StickCを使ったときに「スピーカーが内蔵されてたら便利だな」と感じていてものがATOMシリーズで実現されました。
                     これだけ小さくて、音が扱えるデバイスはおもちゃの制御やIoT端末としての可能性を感じます。皆さんのアイデアを実現するときの強力な部品になりそうです。</p>
 
@@ -173,6 +182,7 @@ hello</code></pre>
                         <li><a href="#スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</a></li>
                         <li><a href="#開封">開封</a></li>
                         <li><a href="#arduinoで使う">Arduinoで使う</a></li>
+                        <li><a href="#まとめ">まとめ</a></li>
                     </ul>
                 </ul>
             </div>
