@@ -97,19 +97,20 @@
 
                 <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナー、今回は号外です！</p>
                 <p>2020年6月5日、M5Stack社から新製品「ATOM ECHO」が発売されました。世界同時発売とのことで、日本でもスイッチサイエンスで販売がスタートしました。</p>
+                <p><img src="./images/atomecho.jpg" width="100%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
 
                 <h2 id="スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</h2>
                 <p>ATOM ECHOはMatrix、Liteに続くATOMシリーズの3つ目のデバイスで、スピーカーとマイクが搭載されているのが最大の特徴です。ATOM ECHOのスペックをMatrix、Liteと比較しました。Matrixには5 x 5 のRGB LEDがついていますが、ECHOは1個のRGB LEDに変わっています。またMatrixには6軸IMU（加速度、ジャイロセンサ）がありますが、ECHOにはそれがなく、その代わりにスピーカーとマイクがついています。</p>
                 <p><img src="./images/atomspec.jpg" width="100%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
                 <p>*: ECHOのG19、G22、G23、G33はスピーカー・マイクに接続されるため、GPIOとして使うと破損することがあるとのことで、注意が必要です。</p>
                 <p>M5Stack、M5StickC、ATOM Matrix、ATOM ECHOを並べてみました。ATOM Matrix、ATOM ECHOの小ささがよく分かります。</p>
-                <p><img src="./images/m5family.jpg" width="100%" class="img-responsive center-block" alt="M5ファミリー"></p>
+                <p><img src="./images/m5family.jpg" width="80%" class="img-responsive center-block" alt="M5ファミリー"></p>
 
                 <h2 id="開封">開封</h2>
                 <p>ATOM ECHOはプラスチックのケースに入って届きます。ATOM Matrixは白い台紙にセットされていましたが、ATOM ECHOは楽しそうなプリントの台紙にセットされていて、使う前からワクワクします。</p>
                 <p><img src="./images/atomonmount.jpg" width="100%" class="img-responsive center-block" alt="台紙のATOM"></p>
                 <p>出荷時は、ATOM ECHOをブルートゥーススピーカーにするファームウェアがインストールされています。ATOM ECHOをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」というATOM ECHOが検出されます。</p>
-                <p><img src="./images/ble.jpg" width="100%" class="img-responsive center-block" alt="BLE接続"></p>
+                <p><img src="./images/ble.jpg" width="80%" class="img-responsive center-block" alt="BLE接続"></p>
                 <p>「接続」するとATOM ECHOがブルートゥーススピーカーとして使えます。YouTubeの音楽の音を出力したところ、小さいケースなので迫力のある音ではありませんが、きれいな音が聞こえました。</p>
 
                 <h2 id="arduinoで使う">Arduinoで使う</h2>
@@ -130,7 +131,7 @@
                 <pre><code>if (rest.Pcm2String(microphonedata0, data_offset, DEV_PID_MANDARIN, &amp;SpakeStr) != -1)
                 </code></pre>
                 <p>そこで、Google翻訳で「こんにちは」を中国語の「你好」に変換してパソコンにそれを発音してもらい、それをATOM ECHOで録音して、変換してみました。</p>
-                <p><img src="./images/helloCN.jpg" width="100%" class="img-responsive center-block" alt="Hello"></p>
+                <p><img src="./images/helloCN.jpg" width="80%" class="img-responsive center-block" alt="Hello"></p>
                 <p>シリアルモニタに次のようなメッセージが出力され、認識に成功しました！時間が5.5秒かかっています。</p>
                 <pre><code>Init i2s_driver_install
                 Init i2s_set_pin
