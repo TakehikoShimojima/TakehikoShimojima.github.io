@@ -97,7 +97,7 @@
 
                 <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナー、今回は号外です！</p>
                 <p>2020年6月5日、M5Stack社から新製品「ATOM ECHO」が発売されました。世界同時発売とのことで、日本でもスイッチサイエンスで販売がスタートしました。</p>
-                <p><img src="./images/atomecho.jpg" width="100%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
+                <p><img src="./images/atomecho.jpg" width="80%" class="img-responsive center-block" alt="ATOM ECHO"></p>
 
                 <h2 id="スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</h2>
                 <p>ATOM ECHOはMatrix、Liteに続くATOMシリーズの3つ目のデバイスで、スピーカーとマイクが搭載されているのが最大の特徴です。ATOM ECHOのスペックをMatrix、Liteと比較しました。Matrixには5 x 5 のRGB LEDがついていますが、ECHOは1個のRGB LEDに変わっています。またMatrixには6軸IMU（加速度、ジャイロセンサ）がありますが、ECHOにはそれがなく、その代わりにスピーカーとマイクがついています。</p>
@@ -166,13 +166,17 @@ hello</code></pre>
                     さらに別のM5StackやM5StickCを使い、UI Flowで音声認識の結果を受け取ることができます。</p>
                 <p>このためには、M5Burnerというツールでファームウェアをインストールする必要があります。
                     M5Burnerも新しくなっているので、M5Stackサイトの<a href="https://m5stack.com/pages/download">ダウンロードページ</a> で最新版（2.0.0）をダウンロードしてPCにインストールします。</p>
-                <p><img src="./images/m5burner.jpg" width="80%" class="img-responsive center-block" alt="M5Burner"></p>
-                <p>M5BurnerのUIも新しくなっています。ATOMを選択すると、UI FLOWとEchoSTTというファームウェアが表示されます。UI Flowは名前の通り、UI Flow用のファームウェア、EchoSTTは音声認識（speech to text）のファームウェアです。</p>
-                <p>M5BurnerでATOM ECHOにEchoSTTを書き込みます。M5Burner上部のSSIDとPasswordにお使いのWi-Fiルーターのものを設定し、ATOM ECHOをUSBケーブルでパソコンにつないで、ポート番号（Macならデバイス名）をCOMに設定します。EchoSTTには英語版と中国語版がありますが、中国語版（v1.0-cn）を選び、最初に「Erase」をクリックして消去してから「Burn」をクリックして書き込みます。書き込みが終わったら「Get Token」をクリックしてトークンを取得しておきます。</p>
-                <p><img src="./images/gettoken.jpg" width="80%" class="img-responsive center-block" alt="トークン取得"></p>
+                <p><img src="./images/m5burner.jpg" width="90%" class="img-responsive center-block" alt="M5Burner"></p>
+                <p>M5BurnerのUIも新しくなっています。ATOMを選択すると、UI FLOWとEchoSTTというファームウェアが表示されます。
+                    UI Flowは名前の通り、UI Flow用のファームウェア、EchoSTTは音声認識（speech to text）のファームウェアです。</p>
+                <p>M5BurnerでATOM ECHOにEchoSTTを書き込みます。
+                    M5Burner上部のSSIDとPasswordにお使いのWi-Fiルーターのものを設定し、ATOM ECHOをUSBケーブルでパソコンにつないで、ポート番号（Macならデバイス名）をCOMに設定します。
+                    EchoSTTには英語版と中国語版がありますが、中国語版（v1.0-cn）を選び、最初に「Erase」をクリックして消去してから「Burn」をクリックして書き込みます。
+                    書き込みが終わったら「Get Token」をクリックしてトークンを取得しておきます。</p>
+                <p><img src="./images/gettoken.jpg" width="60%" class="img-responsive center-block" alt="トークン取得"></p>
                 <p>ATOM ECHOはBaiduからの認識結果をシリアルに出力するので、M5BurnerのCOM Monitorを立ち上げておきます。</p>
                 <p>著者は中国語ができないので、Google翻訳で適当な言葉を中国語にして、それをパソコンで発音させました。</p>
-                <p><img src="./images/lighton.jpg" width="80%" class="img-responsive center-block" alt="lighton"></p>
+                <p><img src="./images/lighton.jpg" width="70%" class="img-responsive center-block" alt="lighton"></p>
                 <p>ATOM ECHOのボタンを押して発音を録音し、ボタンを離すと音声がBaiduに送られ、結果が表示されます。</p>
 <pre><code>Init i2s_driver_install
 Init i2s_set_pin
@@ -190,7 +194,7 @@ Time 4169ms
 {"corpus_no":"6836131792467209458","err_msg":"success.","err_no":0,"result":["关灯。"],"sn":"768037177181591660965"}
 关灯。</code></pre>
                 <p>UI Flowの最新版（V1.5.4）には「高度なブロック」の中に「Echo STT」というブロックが用意されています。最新版はUI Flowのメニューバーの「VER」で「Beta」を選ぶと切り替えられます。Echo STTにはトークンを使って初期化するブロック、ECHOのデータを受信するなどのブロックがあります。これらを使うと、次のようにATOM ECHOで音声を録音、認識し、その結果を別のM5StackやM5StickCで受信して、認識した単語によって制御するようなプログラムが作れます。</p>
-                <p><img src="./images/uiflow.jpg" alt="UIFlow"></p>
+                <p><img src="./images/uiflow.jpg" width="70%" class="img-responsive center-block" alt="UIFlow"></p>
                 <p>Jimmyさんの声を使い、ATOM ECHOで録音して音声認識し、その結果をM5StickCで受信してLEDを制御してみたのが次の動画です。</p>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/uYGPdKam2l8" allowfullscreen=""></iframe>
 
