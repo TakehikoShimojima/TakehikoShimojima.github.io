@@ -160,6 +160,40 @@ hello</code></pre>
                 <h3>StreamHttpClient_ECHO</h3>
                 <p>「StreamHttpClient_ECHO」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
 
+                <h2 id="atom-echoで音声認識してみる">ATOM ECHOで音声認識してみる</h2>
+                <p>ATOM ECHOでは、Baiduの音声認識APIを使って音声認識するサンプルがあります。
+                    ATOM ECHOは音声を録音し、それをBaiduの音声認識APIに渡し、結果を受け取るという流れです。
+                    さらに別のM5StackやM5StickCを使い、UI Flowで音声認識の結果を受け取ることができます。</p>
+                <p>このためには、M5Burnerというツールでファームウェアをインストールする必要があります。
+                    M5Burnerも新しくなっているので、M5Stackサイトの<a href="https://m5stack.com/pages/download">ダウンロードページ</a> で最新版（2.0.0）をダウンロードしてPCにインストールします。</p>
+                <p><img src="./images/m5burner.jpg" width="80%" class="img-responsive center-block" alt="M5Burner"></p>
+                <p>M5BurnerのUIも新しくなっています。ATOMを選択すると、UI FLOWとEchoSTTというファームウェアが表示されます。UI Flowは名前の通り、UI Flow用のファームウェア、EchoSTTは音声認識（speech to text）のファームウェアです。</p>
+                <p>M5BurnerでATOM ECHOにEchoSTTを書き込みます。M5Burner上部のSSIDとPasswordにお使いのWi-Fiルーターのものを設定し、ATOM ECHOをUSBケーブルでパソコンにつないで、ポート番号（Macならデバイス名）をCOMに設定します。EchoSTTには英語版と中国語版がありますが、中国語版（v1.0-cn）を選び、最初に「Erase」をクリックして消去してから「Burn」をクリックして書き込みます。書き込みが終わったら「Get Token」をクリックしてトークンを取得しておきます。</p>
+                <p><img src="./images/gettoken.jpg" width="80%" class="img-responsive center-block" alt="トークン取得"></p>
+                <p>ATOM ECHOはBaiduからの認識結果をシリアルに出力するので、M5BurnerのCOM Monitorを立ち上げておきます。</p>
+                <p>著者は中国語ができないので、Google翻訳で適当な言葉を中国語にして、それをパソコンで発音させました。</p>
+                <p><img src="./images/lighton.jpg" width="80%" class="img-responsive center-block" alt="lighton"></p>
+                <p>ATOM ECHOのボタンを押して発音を録音し、ボタンを離すと音声がBaiduに送られ、結果が表示されます。</p>
+<pre><code>Init i2s_driver_install
+Init i2s_set_pin
+Init i2s_set_clk
+end
+Time 6160ms
+{"corpus_no":"6836131087810952731","err_msg":"success.","err_no":0,"result":["黑的。"],"sn":"161096290031591660801"}
+黑的。</code></pre>
+                <p>开灯（Kāi dēng、電気をつける）が黑的（Hēi de、黒）と認識されてしまいました。いろいろ試しましたが、Google翻訳で発音させた単語はうまく認識されませんでした。M5Stack社CEOのJimmyさんに开灯（電気をつける）、关灯（電気を消す）と発音してもらい、その音声ファイルを再生してATOM ECHOに聞かせたところ、次のように認識できました。</p>
+<pre><code>Time 43822ms
+{"corpus_no":"6836131688517212836","err_msg":"success.","err_no":0,"result":["开灯。"],"sn":"7165438761591660941"}
+开灯。
+
+Time 4169ms
+{"corpus_no":"6836131792467209458","err_msg":"success.","err_no":0,"result":["关灯。"],"sn":"768037177181591660965"}
+关灯。</code></pre>
+                <p>UI Flowの最新版（V1.5.4）には「高度なブロック」の中に「Echo STT」というブロックが用意されています。最新版はUI Flowのメニューバーの「VER」で「Beta」を選ぶと切り替えられます。Echo STTにはトークンを使って初期化するブロック、ECHOのデータを受信するなどのブロックがあります。これらを使うと、次のようにATOM ECHOで音声を録音、認識し、その結果を別のM5StackやM5StickCで受信して、認識した単語によって制御するようなプログラムが作れます。</p>
+                <p><img src="./images/uiflow.jpg" alt="UIFlow"></p>
+                <p>Jimmyさんの声を使い、ATOM ECHOで録音して音声認識し、その結果をM5StickCで受信してLEDを制御してみたのが次の動画です。</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/uYGPdKam2l8" allowfullscreen=""></iframe>
+
                 <h2 id="まとめ">まとめ</h2>
                 <p>M5StickCを使ったときに「スピーカーが内蔵されてたら便利だな」と感じていてものがATOMシリーズで実現されました。
                     これだけ小さくて、音が扱えるデバイスはおもちゃの制御やIoT端末としての可能性を感じます。皆さんのアイデアを実現するときの強力な部品になりそうです。</p>
