@@ -96,45 +96,45 @@
             <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
 
                 <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナー、今回は号外です！</p>
-                <p>2020年6月5日、M5Stack社から新製品「ATOM ECHO」が発売されました。世界同時発売とのことで、日本でもスイッチサイエンスで販売がスタートしました。</p>
-                <p><img src="./images/atomecho.jpg" width="80%" class="img-responsive center-block" alt="ATOM ECHO"></p>
+                <p>2020年6月5日、M5Stack社から新製品「ATOM Echo」が発売されました。世界同時発売とのことで、日本でもスイッチサイエンスで販売がスタートしました。</p>
+                <p><img src="./images/atomecho.jpg" width="80%" class="img-responsive center-block" alt="ATOM Echo"></p>
 
-                <h2 id="スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</h2>
-                <p>ATOM ECHOはMatrix、Liteに続くATOMシリーズの3つ目のデバイスで、スピーカーとマイクが搭載されているのが最大の特徴です。ATOM ECHOのスペックをMatrix、Liteと比較しました。Matrixには5 x 5 のRGB LEDがついていますが、ECHOは1個のRGB LEDに変わっています。またMatrixには6軸IMU（加速度、ジャイロセンサ）がありますが、ECHOにはそれがなく、その代わりにスピーカーとマイクがついています。</p>
+                <h2 id="スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM Echo</h2>
+                <p>ATOM EchoはMatrix、Liteに続くATOMシリーズの3つ目のデバイスで、スピーカーとマイクが搭載されているのが最大の特徴です。ATOM EchoのスペックをMatrix、Liteと比較しました。Matrixには5 x 5 のRGB LEDがついていますが、Echoは1個のRGB LEDに変わっています。またMatrixには6軸IMU（加速度、ジャイロセンサ）がありますが、Echoにはそれがなく、その代わりにスピーカーとマイクがついています。</p>
                 <p><img src="./images/atomspec.jpg" width="100%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
-                <p>*: ECHOのG19、G22、G23、G33はスピーカー・マイクに接続されるため、GPIOとして使うと破損することがあるとのことで、注意が必要です。</p>
-                <p>M5Stack、M5StickC、ATOM Matrix、ATOM ECHOを並べてみました。ATOM Matrix、ATOM ECHOの小ささがよく分かります。</p>
+                <p>*: EchoのG19、G22、G23、G33はスピーカー・マイクに接続されるため、GPIOとして使うと破損することがあるとのことで、注意が必要です。</p>
+                <p>M5Stack、M5StickC、ATOM Matrix、ATOM Echoを並べてみました。ATOM Matrix、ATOM Echoの小ささがよく分かります。</p>
                 <p><img src="./images/m5family.jpg" width="80%" class="img-responsive center-block" alt="M5ファミリー"></p>
 
                 <h2 id="開封">開封</h2>
-                <p>ATOM ECHOはプラスチックのケースに入って届きます。ATOM Matrixは白い台紙にセットされていましたが、ATOM ECHOは楽しそうなプリントの台紙にセットされていて、使う前からワクワクします。</p>
+                <p>ATOM Echoはプラスチックのケースに入って届きます。ATOM Matrixは白い台紙にセットされていましたが、ATOM Echoは楽しそうなプリントの台紙にセットされていて、使う前からワクワクします。</p>
                 <p><img src="./images/atomonmount.jpg" width="100%" class="img-responsive center-block" alt="台紙のATOM"></p>
-                <p>出荷時は、ATOM ECHOをブルートゥーススピーカーにするファームウェアがインストールされています。
-                    ATOM ECHOをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」という名前でATOM ECHOが検出されます。</p>
+                <p>出荷時は、ATOM Echoをブルートゥーススピーカーにするファームウェアがインストールされています。
+                    ATOM EchoをUSBケーブルにつないで、パソコンでブルートゥースデバイスを探すと、次のように「M5_SPEAKER_T1」という名前でATOM Echoが検出されます。</p>
                 <p><img src="./images/ble.jpg" width="80%" class="img-responsive center-block" alt="BLE接続"></p>
-                <p>「接続」するとATOM ECHOがブルートゥーススピーカーとして使えます。YouTubeの音楽の音を出力したところ、小さいケースなので迫力のある音ではありませんが、きれいな音が聞こえました。</p>
+                <p>「接続」するとATOM Echoがブルートゥーススピーカーとして使えます。YouTubeの音楽の音を出力したところ、小さいケースなので迫力のある音ではありませんが、きれいな音が聞こえました。</p>
 
                 <h2 id="arduinoで使う">Arduinoで使う</h2>
-                <p>ATOM ECHOのスケッチ例が次のサイトに公開されています。この原稿を書いている6月8日時点ではm5atomライブラリの最新版は0.0.1ですが、このバージョンをインストールしてもArduino IDEのスケッチ例には現れないようです。</p>
+                <p>ATOM Echoのスケッチ例が次のサイトに公開されています。この原稿を書いている6月8日時点ではm5atomライブラリの最新版は0.0.1ですが、このバージョンをインストールしてもArduino IDEのスケッチ例には現れないようです。</p>
                 <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Core/Atom/AtomEcho">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Core/Atom/AtomEcho</a></p>
                 <p>公開されているスケッチ例には以下のものが含まれています。</p>
                 <ul>
                 <li>EchoSTT：音声認識（speech to text）</li>
                 <li>Factory_Test：ファンファーレを鳴らし、周波数変換（FFT）する</li>
                 <li>Repeater：音を録音して再生する</li>
-                <li>StreamHttpClient_ECHO：サーバー上のMP3ファイルを再生する</li>
+                <li>StreamHttpClient_Echo：サーバー上のMP3ファイルを再生する</li>
                 </ul>
 
                 <h3>EchoSTT</h3>
-                <p>EchoSTT（音声認識は）ATOM ECHOのマイクで音声を録音し、それをBaiduの音声認識APIに渡して認識し、文字列に変換するサンプルです。
+                <p>EchoSTT（音声認識は）ATOM Echoのマイクで音声を録音し、それをBaiduの音声認識APIに渡して認識し、文字列に変換するサンプルです。
                     プログラムの16、17行目にWifiSSID、WifiPWDがあるので、それを自分の環境に合わせて変更します。
                     さらに、M5Burnerの最新版（2.0.0）をインストールし、デバイスとしてATOMを選択してファームウェアのEchoSTTの「Get Token」をクリックしてトークンを取得し、106行目の <code>YOUR-TOKEN</code> に書き込みます。</p>
 <pre><code>    rest.settoken("YOUR-TOKEN");</code></pre>
-                <p>Arduino IDEのボードとしてM5StickCを選択してビルドし、ATOM ECHOに書き込みます。ATOM ECHOのボタンを押しながら何か話すと、それが文字列に変換されます。</p>
+                <p>Arduino IDEのボードとしてM5StickCを選択してビルドし、ATOM Echoに書き込みます。ATOM Echoのボタンを押しながら何か話すと、それが文字列に変換されます。</p>
                 <p>プログラムの136行目にBaidu APIを呼んでいる部分があり、引数に <code>DEV_PID_MANDARIN</code>  を渡しているので、中国語を認識して文字に変換するようです。</p>
                 <pre><code>if (rest.Pcm2String(microphonedata0, data_offset, DEV_PID_MANDARIN, &amp;SpakeStr) != -1)
                 </code></pre>
-                <p>そこで、Google翻訳で「こんにちは」を中国語の「你好」に変換してパソコンにそれを発音してもらい、それをATOM ECHOで録音して、変換してみました。</p>
+                <p>そこで、Google翻訳で「こんにちは」を中国語の「你好」に変換してパソコンにそれを発音してもらい、それをATOM Echoで録音して、変換してみました。</p>
                 <p><img src="./images/helloCN.jpg" width="80%" class="img-responsive center-block" alt="Hello"></p>
                 <p>シリアルモニタに次のようなメッセージが出力され、認識に成功しました！時間が5.5秒かかっています。</p>
 <pre><code>Init i2s_driver_install
@@ -148,7 +148,7 @@ Time 5449ms
                 <p>1回目：我是你奶奶（私はあなたのおばあちゃんです）<br>
                 2回目：我是你的音（私はあなたの声です）</p>
                 <p>認識はなかなか難しいようです。といっても音声認識の精度や時間はBaidoの性能を反映しているわけですが。</p>
-                <p>さらに、136行目の <code>DEV_PID_MANDARIN</code> を <code>DEV_PID_ENGLISH</code>  に変えて、Google翻訳に「Hello」と発音してもらい、ATOM ECHOに認識させたところ、2回は認識に失敗しましたが、3回目に次のように認識に成功しました。</p>
+                <p>さらに、136行目の <code>DEV_PID_MANDARIN</code> を <code>DEV_PID_ENGLISH</code>  に変えて、Google翻訳に「Hello」と発音してもらい、ATOM Echoに認識させたところ、2回は認識に失敗しましたが、3回目に次のように認識に成功しました。</p>
 <pre><code>Time 7728ms
 {"corpus_no":"6835423719643684069","err_msg":"success.","err_no":0,"result":["hello"],"sn":"180038331121591496104"}
 hello</code></pre>
@@ -157,27 +157,27 @@ hello</code></pre>
                 <p>「Factory_Test」というサンプルプログラムは、ビルドして動かすとファンファーレが鳴り、その後周囲の音を周波数変換（FFT）し、結果をシリアルモニタに出力します。スイッチを押したままリセットすると、ファンファーレが鳴り続けます。</p>
                 <h3>Repeater</h3>
                 <p>「Repeater」はボタンを押している間、音を録音し、離すと再生するサンプルです。</p>
-                <h3>StreamHttpClient_ECHO</h3>
-                <p>「StreamHttpClient_ECHO」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
+                <h3>StreamHttpClient_Echo</h3>
+                <p>「StreamHttpClient_Echo」は、サーバー上のMP3ファイルを再生するサンプルで、とあるサーバー上のファンファーレのMP3ファイルを再生するようですが、コンパイルエラーになり、実行できませんでした。</p>
 
-                <h2 id="atom-echoで音声認識してみる">ATOM ECHOで音声認識してみる</h2>
-                <p>ATOM ECHOでは、Baiduの音声認識APIを使って音声認識するサンプルがあります。
-                    ATOM ECHOは音声を録音し、それをBaiduの音声認識APIに渡し、結果を受け取るという流れです。
+                <h2 id="atom-echoで音声認識してみる">ATOM Echoで音声認識してみる</h2>
+                <p>ATOM Echoでは、Baiduの音声認識APIを使って音声認識するサンプルがあります。
+                    ATOM Echoは音声を録音し、それをBaiduの音声認識APIに渡し、結果を受け取るという流れです。
                     さらに別のM5StackやM5StickCを使い、UI Flowで音声認識の結果を受け取ることができます。</p>
                 <p>このためには、M5Burnerというツールでファームウェアをインストールする必要があります。
                     M5Burnerも新しくなっているので、M5Stackサイトの<a href="https://m5stack.com/pages/download">ダウンロードページ</a> で最新版（2.0.0）をダウンロードしてPCにインストールします。</p>
                 <p><img src="./images/m5burner.jpg" width="90%" class="img-responsive center-block" alt="M5Burner"></p>
                 <p>M5BurnerのUIも新しくなっています。ATOMを選択すると、UI FLOWとEchoSTTというファームウェアが表示されます。
                     UI Flowは名前の通り、UI Flow用のファームウェア、EchoSTTは音声認識（speech to text）のファームウェアです。</p>
-                <p>M5BurnerでATOM ECHOにEchoSTTを書き込みます。
-                    M5Burner上部のSSIDとPasswordにお使いのWi-Fiルーターのものを設定し、ATOM ECHOをUSBケーブルでパソコンにつないで、ポート番号（Macならデバイス名）をCOMに設定します。
+                <p>M5BurnerでATOM EchoにEchoSTTを書き込みます。
+                    M5Burner上部のSSIDとPasswordにお使いのWi-Fiルーターのものを設定し、ATOM EchoをUSBケーブルでパソコンにつないで、ポート番号（Macならデバイス名）をCOMに設定します。
                     EchoSTTには英語版と中国語版がありますが、中国語版（v1.0-cn）を選び、最初に「Erase」をクリックして消去してから「Burn」をクリックして書き込みます。
                     書き込みが終わったら「Get Token」をクリックしてトークンを取得しておきます。</p>
                 <p><img src="./images/gettoken.jpg" width="60%" class="img-responsive center-block" alt="トークン取得"></p>
-                <p>ATOM ECHOはBaiduからの認識結果をシリアルに出力するので、M5BurnerのCOM Monitorを立ち上げておきます。</p>
+                <p>ATOM EchoはBaiduからの認識結果をシリアルに出力するので、M5BurnerのCOM Monitorを立ち上げておきます。</p>
                 <p>著者は中国語ができないので、Google翻訳で適当な言葉を中国語にして、それをパソコンで発音させました。</p>
                 <p><img src="./images/lighton.jpg" width="70%" class="img-responsive center-block" alt="lighton"></p>
-                <p>ATOM ECHOのボタンを押して発音を録音し、ボタンを離すと音声がBaiduに送られ、結果が表示されます。</p>
+                <p>ATOM Echoのボタンを押して発音を録音し、ボタンを離すと音声がBaiduに送られ、結果が表示されます。</p>
 <pre><code>Init i2s_driver_install
 Init i2s_set_pin
 Init i2s_set_clk
@@ -185,7 +185,7 @@ end
 Time 6160ms
 {"corpus_no":"6836131087810952731","err_msg":"success.","err_no":0,"result":["黑的。"],"sn":"161096290031591660801"}
 黑的。</code></pre>
-                <p>开灯（Kāi dēng、電気をつける）が黑的（Hēi de、黒）と認識されてしまいました。いろいろ試しましたが、Google翻訳で発音させた単語はうまく認識されませんでした。M5Stack社CEOのJimmyさんに开灯（電気をつける）、关灯（電気を消す）と発音してもらい、その音声ファイルを再生してATOM ECHOに聞かせたところ、次のように認識できました。</p>
+                <p>开灯（Kāi dēng、電気をつける）が黑的（Hēi de、黒）と認識されてしまいました。いろいろ試しましたが、Google翻訳で発音させた単語はうまく認識されませんでした。M5Stack社CEOのJimmyさんに开灯（電気をつける）、关灯（電気を消す）と発音してもらい、その音声ファイルを再生してATOM Echoに聞かせたところ、次のように認識できました。</p>
 <pre><code>Time 43822ms
 {"corpus_no":"6836131688517212836","err_msg":"success.","err_no":0,"result":["开灯。"],"sn":"7165438761591660941"}
 开灯。
@@ -193,9 +193,9 @@ Time 6160ms
 Time 4169ms
 {"corpus_no":"6836131792467209458","err_msg":"success.","err_no":0,"result":["关灯。"],"sn":"768037177181591660965"}
 关灯。</code></pre>
-                <p>UI Flowの最新版（V1.5.4）には「高度なブロック」の中に「Echo STT」というブロックが用意されています。最新版はUI Flowのメニューバーの「VER」で「Beta」を選ぶと切り替えられます。Echo STTにはトークンを使って初期化するブロック、ECHOのデータを受信するなどのブロックがあります。これらを使うと、次のようにATOM ECHOで音声を録音、認識し、その結果を別のM5StackやM5StickCで受信して、認識した単語によって制御するようなプログラムが作れます。</p>
-                <p><img src="./images/uiflow.jpg" width="70%" class="img-responsive center-block" alt="UIFlow"></p>
-                <p>Jimmyさんの声を使い、ATOM ECHOで録音して音声認識し、その結果をM5StickCで受信してLEDを制御してみたのが次の動画です。</p>
+                <p>UI Flowの最新版（V1.5.4）には「高度なブロック」の中に「Echo STT」というブロックが用意されています。最新版はUI Flowのメニューバーの「VER」で「Beta」を選ぶと切り替えられます。Echo STTにはトークンを使って初期化するブロック、Echoのデータを受信するなどのブロックがあります。これらを使うと、次のようにATOM Echoで音声を録音、認識し、その結果を別のM5StackやM5StickCで受信して、認識した単語によって制御するようなプログラムが作れます。</p>
+                <p><img src="./images/uiflow.jpg" width="85%" class="img-responsive center-block" alt="UIFlow"></p>
+                <p>Jimmyさんの声を使い、ATOM Echoで録音して音声認識し、その結果をM5StickCで受信してLEDを制御してみたのが次の動画です。</p>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/uYGPdKam2l8" allowfullscreen=""></iframe>
 
                 <h2 id="まとめ">まとめ</h2>
@@ -217,9 +217,10 @@ Time 4169ms
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">2020年6月【号外】</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM ECHO</a></li>
+                        <li><a href="#スピーカーとマイク搭載のatom-echo">スピーカーとマイク搭載のATOM Echo</a></li>
                         <li><a href="#開封">開封</a></li>
                         <li><a href="#arduinoで使う">Arduinoで使う</a></li>
+                        <li><a href="#atom-echoで音声認識してみる">ATOM Echoで音声認識してみる</a></li>
                         <li><a href="#まとめ">まとめ</a></li>
                     </ul>
                 </ul>
