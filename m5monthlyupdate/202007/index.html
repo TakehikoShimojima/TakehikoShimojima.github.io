@@ -139,9 +139,10 @@
                     </table>
                 </div>
 
-                <p><a href="https://www.switch-science.com/catalog/6347/">ATOM Echo</a> は<a href="http://pages.switch-science.com/m5monthlyupdate/202006extra/">6月の号外</a> で紹介したので、今月はATOMプロトキットとM5Stack用環境センサユニット ver.2（ENV II）を紹介します。</p>
-                <h2 id="atomプロトキット"><a href="https://www.switch-science.com/catalog/6345/">ATOMプロトキット</a></h2>
-                <p>ATOMプロトキットは、ATOMシリーズ向けに設計された、簡単なプロトタイプを開発するのに便利なキットです。</p>
+                <p><a href="https://www.switch-science.com/catalog/6347/">ATOM Echo</a> は<a href="http://pages.switch-science.com/m5monthlyupdate/202006extra/">6月の号外</a> で紹介したので、今月はATOMICプロトキットとM5Stack用環境センサユニット ver.2（ENV II）を紹介します。</p>
+
+                <h2 id="atomicプロトキット"><a href="https://www.switch-science.com/catalog/6345/">ATOMICプロトキット</a></h2>
+                <p>AATOMICプロトキットは、ATOMシリーズ向けに設計された、簡単なプロトタイプを開発するのに便利なキットです。</p>
                 <p>キットは黒いシールの貼られたケースに入っていて、中には次のものが含まれています。</p>
                 <ul>
                 <li>試作用基板</li>
@@ -153,14 +154,16 @@
                 <li>M2*3 mm タッピングネジ</li>
                 <li>M2*8 mm ネジ</li>
                 </ul>
-                <p><img src="./images/protokit.jpg" alt="ProtoKit"></p>
+                <p><img src="./images/protokit.jpg" width="100%" class="img-responsive center-block" alt="ProtoKit"></p>
                 <p>4Pと5Pのピンは、資料には2.0mmと書かれていますが、実際には2.54mmピッチのようです。ATOMシリーズは基板上のこの4Pと5Pのピンで接続します。ケースの大きさは47 x 34 x 18 mmで、長さ、幅はM5StickCとほぼ同じです。</p>
-                <p><img src="./images/atomonproto.jpg" alt="ATOMonProtoKit"></p>
+                <p><img src="./images/atomonproto.jpg" width="100%" class="img-responsive center-block" alt="ATOMonProtoKit"></p>
+                <p>ATOMICプロトキットにはATOM Matrixは含まれていません</p>
                 <p>試作用基板には50ホールのエリアがあり、はんだ付けが必要ですが、簡単な回路が作れます。オレンジ色の4Pコネクタは配線をネジ止めできるようになっていて、外部にセンサなどをつけるときに便利です。</p>
                 <p>小さなセンサ端末やコントローラを試作するときに便利に使えるキットです。</p>
+
                 <h2 id="m5stack用環境センサユニット-ver.2（env-ii）"><a href="https://www.switch-science.com/catalog/6344/">M5Stack用環境センサユニット ver.2（ENV II）</a></h2>
                 <p>「M5Stack用環境センサユニット ver.2（ENV II）」は、ENV IIという名前が示すように、以前あった「M5Stack用環境センサユニット」の後継品です。「M5Stack用環境センサユニット」は搭載されていた温湿度センサDHT12が製造中止になったため販売が終了され、「ENV II」は温湿度センサがSHT30というセンサに変わりました。気圧センサは新旧ともBMP280というセンサが使われています。新旧のスペックを比べてみました。</p>
-                <p><img src="./images/ENVUnitSpec.jpg" alt="ENV Unit Spec"></p>
+                <p><img src="./images/ENVUnitSpec.jpg" width="100%" class="img-responsive center-block" alt="ENV Unit Spec"></p>
                 <p>「ENV II」の方が温度の測定範囲が広がり、湿度、気圧の測定はほぼ同スペックなので、より使いやすくなったと思います。</p>
                 <h3 id="プログラム・サポート">プログラム・サポート</h3>
                 <p>Arduinoは原稿を書いている7月3日時点の最新版M5Stackライブラリ（0.3.0）のスケッチ例には、ENVセンサの例は含まれていますが、ENV IIの例はまだ含まれていません。GithubにはENV IIをアクセスするプログラムが公開されているので、これを使えば、ENV IIにアクセスできます。</p>
@@ -168,10 +171,7 @@
                 <li><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII</a></li>
                 </ul>
                 <p>UI Flowは最新版のV1.5.4はENV IIに対応していて、Unitの選択肢にENV IIが現れます。選択すると、温度、湿度、気圧を取得するブロックが使えるようになっています。</p>
-                <p><img src="./images/UIFlowENVUnit.jpg" alt="ENV II Unit UI Flow"></p>
-
-
-
+                <p><img src="./images/UIFlowENVUnit.jpg" width="100%" class="img-responsive center-block" alt="ENV II Unit UI Flow"></p>
 
             </div>
 
@@ -187,10 +187,9 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li class="open"><a href="index.html">2020年7月</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#2020年4月の新製品">2020年4月の新製品</a></li>
-                        <li><a href="#atom-matrix、lite">ATOM Matrix、Lite</a></li>
-                        <li><a href="#ui-flowでのプログラミング">UI FLOWでのプログラミング</a></li>
-                        <li><a href="#arduinoでのプログラミング">Arduinoでのプログラミング</a></li>
+                        <li><a href="#年6月の新製品">2020年6月の新製品</a></li>
+                        <li><a href="#atomicプロトキット">ATOMICプロトキット</a></li>
+                        <li><a href="#m5stack用環境センサユニット-ver.2（env-ii）M5Stack用環境センサユニット ver.2（ENV II）">M5Stack用環境センサユニット ver.2（ENV II）</a></li>
                     </ul>
                 </ul>
             </div>
