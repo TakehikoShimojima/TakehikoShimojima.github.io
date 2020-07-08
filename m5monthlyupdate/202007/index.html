@@ -165,13 +165,37 @@
                 <p>「M5Stack用環境センサユニット ver.2（ENV II）」は、ENV IIという名前が示すように、以前あった「M5Stack用環境センサユニット」の後継品です。「M5Stack用環境センサユニット」は搭載されていた温湿度センサDHT12が製造中止になったため販売が終了され、「ENV II」は温湿度センサがSHT30というセンサに変わりました。気圧センサは新旧ともBMP280というセンサが使われています。新旧のスペックを比べてみました。</p>
                 <p><img src="./images/ENVUnitSpec.jpg" width="100%" class="img-responsive center-block" alt="ENV Unit Spec"></p>
                 <p>「ENV II」の方が温度の測定範囲が広がり、湿度、気圧の測定はほぼ同スペックなので、より使いやすくなったと思います。</p>
+
                 <h3 id="プログラム・サポート">プログラム・サポート</h3>
-                <p>Arduinoは原稿を書いている7月3日時点の最新版M5Stackライブラリ（0.3.0）のスケッチ例には、ENVセンサの例は含まれていますが、ENV IIの例はまだ含まれていません。GithubにはENV IIをアクセスするプログラムが公開されているので、これを使えば、ENV IIにアクセスできます。</p>
-                <ul>
-                <li><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII</a></li>
-                </ul>
-                <p>UI Flowは最新版のV1.5.4はENV IIに対応していて、Unitの選択肢にENV IIが現れます。選択すると、温度、湿度、気圧を取得するブロックが使えるようになっています。</p>
-                <p><img src="./images/UIFlowENVUnit.jpg" width="100%" class="img-responsive center-block" alt="ENV II Unit UI Flow"></p>
+                <p>「M5Stack用環境センサユニット ver.2（ENV II）」をアクセスするために、ArduinoのライブラリとUI Flowのブロックが用意されています。</p>
+                <p>Arduinoは原稿を書いている7月8日時点の最新版M5Stackライブラリ（0.3.0）のスケッチ例には、ENVセンサの例は含まれていますが、ENV IIの例はまだ含まれていません。GithubにはENV IIをアクセスするプログラムが公開されているので、これを使えば、ENV IIにアクセスできます。</p>
+                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII</a></p>
+                <p>このURLにある <code>ENVII.ino</code> 、 <code>Adafruit_Sensor.h</code> 、 <code>SHT3X.cpp</code> 、 <code>SHT3X.h</code> の4つのファイルをダウンロードして、Arduino IDEで <code>ENVII.ino</code> を開くと、サンプルプログラムが見られます。「ENV II」をアクセスするには、次のように温湿度センサSHT30と気圧センサBMP280のオブジェクトを作り（①、②）、BMP280は <code>bme.begin(0x76)</code> で初期化をおこないます（③）。BMP280は <code>readPressure</code> というメソッドで気圧データを読むことができます（④）。SHT30は最初に <code>get</code> メソッドでセンサデータを読み（⑤）、次に <code>cTemp</code> と <code>humidity</code> というメソッドで温度と湿度を取得できます（⑥、⑦）。</p>
+<pre><code>SHT3X sht30;        // ①
+Adafruit_BMP280 bme;  // ②
+
+void setup() {
+    bme.begin(0x76);  // ③
+}
+
+void loop() {
+    float tmp;
+    float hum;
+    float pressure;
+
+    pressure = bme.readPressure();  // ④
+    if(sht30.get()==0){  // ⑤
+        tmp = sht30.cTemp;  // ⑥
+        hum = sht30.humidity;  // ⑦
+    }
+}
+</code></pre>
+                <p>UI Flowは最新版のV1.5.4はENV IIに対応しています。UI Flow（ <a href="https://flow.m5stack.com/">https://flow.m5stack.com/</a> ）画面左のUnitの選択ボタン「＋」をクリックすると、ENVユニットの右にENV IIが現れます。</p>
+                <p><img src="./images/UIFlowENVUnit.jpg" width="100%" class="img-responsive center-block" alt="UI Flow ENV II"></p>
+                <p>ENV IIを選択すると、画面中央の「Units」メニューに「環境」が追加され、そこをクリックすると温度、湿度、気圧を取得するブロックが現れます。</p>
+                <p><img src="./images/ENVBlock.jpg" width="100%" class="img-responsive center-block" alt="UI Flow ENV II選択"></p>
+                <p>次のようなプログラムでENV IIユニットから60秒ごとに温度、湿度、気圧を読み取ってLCD画面に表示できます。</p>
+                <p><img src="./images/ENVprogram.jpg" width="100%" class="img-responsive center-block" alt="ENV IIプログラム"></p>
 
             </div>
 
