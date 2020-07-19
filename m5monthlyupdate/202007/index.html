@@ -87,15 +87,12 @@
                 <h1>M5Stackマンスリーアップデート</h1>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
-                <p class="text-right">2020年7月7日</p>
-            </div>
-            <div class="col-lg-8 col-sm-9 hidden-xs">
                 <h2>2020年7月</h2>
             </div>
 
             <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
 
-                <p>M5Stack社の製品にまつわる新情報をまとめてお届けする「M5Stackマンスリーアップデート」のコーナーです。</p>
+                <p>M5Stack社の製品にまつわる新情報を月単位にまとめてお届けするコーナーです。</p>
                 <h2 id="年6月の新製品">2020年6月の新製品</h2>
                 <p>2020年6月は次の製品の販売が始まりました。</p>
 
@@ -142,8 +139,7 @@
                 <p><a href="https://www.switch-science.com/catalog/6347/">ATOM Echo</a> は<a href="http://pages.switch-science.com/m5monthlyupdate/202006extra/">6月の号外</a> で紹介したので、今月はATOMICプロトキットとM5Stack用環境センサユニット ver.2（ENV II）を紹介します。</p>
 
                 <h2 id="atomicプロトキット"><a href="https://www.switch-science.com/catalog/6345/">ATOMICプロトキット</a></h2>
-                <p>AATOMICプロトキットは、ATOMシリーズ向けに設計された、簡単なプロトタイプを開発するのに便利なキットです。</p>
-                <p>キットは黒いシールの貼られたケースに入っていて、中には次のものが含まれています。</p>
+                <p>ATOMICプロトキットは黒いシールの貼られたケースに入っていて、中には次のものが含まれています。</p>
                 <ul>
                 <li>試作用基板</li>
                 <li>試作用基板（ピンはんだ済み/完成品）</li>
@@ -153,53 +149,38 @@
                 <li>ATOMICケース</li>
                 <li>M2*3 mm タッピングネジ</li>
                 <li>M2*8 mm ネジ</li>
+                <li>Hex Key（六角スパナ）</li>
                 </ul>
                 <p><img src="./images/protokit.jpg" width="100%" class="img-responsive center-block" alt="ProtoKit"></p>
-                <p>ATOMシリーズは基板上の4Pと5Pのピンで接続します。ケースの大きさは47 x 34 x 18 mmで、長さ、幅はM5StickCとほぼ同じです。</p>
+                <p>ATOMシリーズは基板上の4Pと5Pのピンで接続します。ケースの大きさは47 x 34 x 18 mmで、下の写真（右）のように長さ、幅はM5StickCとほぼ同じです。</p>
                 <p><img src="./images/atomonproto.jpg" width="100%" class="img-responsive center-block" alt="ATOMonProtoKit"></p>
                 <p>ATOMICプロトキットにはATOM Matrixは含まれていません</p>
-                <p>試作用基板には50ホールのエリアがあり、はんだ付けが必要ですが、簡単な回路が作れます。オレンジ色の4Pコネクタは配線をネジ止めできるようになっていて、外部にセンサなどをつけるときに便利です。</p>
-                <p>小さなセンサ端末やコントローラを試作するときに便利に使えるキットです。</p>
+                <p>試作用基板には60ホール以上のエリアがあり、はんだ付けが必要ですが、簡単な回路が作れます。
+                    オレンジ色の4Pコネクタは配線をネジ止めできるようになっていて、外部にセンサをつけたり、別の機器と接続するときに便利です。</p>
+                <p>キットの裏面には取り付け穴、LEGOとの接続、ネジ穴があり、プロトタイプ開発キットとはいえ、設置のこともよく考えられた設計になっています。</p>
 
                 <h2 id="m5stack用環境センサユニット-ver.2（env-ii）"><a href="https://www.switch-science.com/catalog/6344/">M5Stack用環境センサユニット ver.2（ENV II）</a></h2>
-                <p>「M5Stack用環境センサユニット ver.2（ENV II）」は、ENV IIという名前が示すように、以前あった「M5Stack用環境センサユニット」の後継品です。「M5Stack用環境センサユニット」は搭載されていた温湿度センサDHT12が製造中止になったため販売が終了され、「ENV II」は温湿度センサがSHT30というセンサに変わりました。気圧センサは新旧ともBMP280というセンサが使われています。新旧のスペックを比べてみました。</p>
+                <p>M5Stack用環境センサユニットは以前からありましたが、搭載されていた温湿度センサDHT12が製造中止になったため、その後継品として登場したのが「ENV II」です。
+                    温湿度センサがSHT30というセンサに変わりました。気圧センサは新旧ともBMP280というセンサが使われています。</p>
                 <p><img src="./images/ENVUnitSpec.jpg" width="100%" class="img-responsive center-block" alt="ENV Unit Spec"></p>
-                <p>「ENV II」の方が温度の測定範囲が広がり、湿度、気圧の測定はほぼ同スペックなので、より使いやすくなったと思います。</p>
+                <p>「ENV II」の方が温度の測定範囲が広くなっています。</p>
 
-                <h3 id="プログラム・サポート">プログラム・サポート</h3>
-                <p>「M5Stack用環境センサユニット ver.2（ENV II）」をアクセスするために、ArduinoのライブラリとUI Flowのブロックが用意されています。</p>
-
-                <h4>Arduino</h4>
-                <p>Arduinoは原稿を書いている7月8日時点の最新版M5Stackライブラリ（0.3.0）のスケッチ例には、ENVセンサの例は含まれていますが、ENV IIの例はまだ含まれていません。GithubにはENV IIをアクセスするプログラムが公開されているので、これを使えば、ENV IIにアクセスできます。</p>
-                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII</a></p>
-                <p>このURLにある <code>ENVII.ino</code> 、 <code>Adafruit_Sensor.h</code> 、 <code>SHT3X.cpp</code> 、 <code>SHT3X.h</code> の4つのファイルをダウンロードして、Arduino IDEで <code>ENVII.ino</code> を開くと、サンプルプログラムが見られます。「ENV II」をアクセスするには、次のように温湿度センサSHT30と気圧センサBMP280のオブジェクトを作り（①、②）、BMP280は <code>bme.begin(0x76)</code> で初期化をおこないます（③）。BMP280は <code>readPressure</code> というメソッドで気圧データを読むことができます（④）。SHT30は最初に <code>get</code> メソッドでセンサデータを読み（⑤）、次に <code>cTemp</code> と <code>humidity</code> というメソッドで温度と湿度を取得できます（⑥、⑦）。</p>
-<pre><code>SHT3X sht30;        // ①
-Adafruit_BMP280 bme;  // ②
-
-void setup() {
-    bme.begin(0x76);  // ③
-}
-
-void loop() {
-    float tmp;
-    float hum;
-    float pressure;
-
-    pressure = bme.readPressure();  // ④
-    if(sht30.get()==0){  // ⑤
-        tmp = sht30.cTemp;  // ⑥
-        hum = sht30.humidity;  // ⑦
-    }
-}
-</code></pre>
+                <h3 id="サンプルプログラムの紹介">サンプルプログラムの紹介</h3>
+                <p>「M5Stack用環境センサユニット ver.2（ENV II）」にアクセスするために、ArduinoのライブラリとUI Flowのブロックが用意されています。</p>
 
                 <h4>UI Flow</h4>
-                <p>UI Flowは最新版のV1.5.4はENV IIに対応しています。UI Flow（ <a href="https://flow.m5stack.com/">https://flow.m5stack.com/</a> ）画面左のUnitの選択ボタン「＋」をクリックすると、ENVユニットの右にENV IIが現れます。</p>
+                <p>UI Flowは最新版のV1.5.4はENV IIに対応しています。UI Flowの準備や使い方はM5Stackカフェ「<a href="http://pages.switch-science.com/m5cafe/1_Lchika/">LEDを点滅させる</a>」をご覧ください。</p>
+                <p>UI Flow（ <a href="https://flow.m5stack.com/">https://flow.m5stack.com/</a> ）画面左のUnitの選択ボタン「＋」をクリックすると、ENVユニットの右にENV IIが現れます。</p>
                 <p><img src="./images/UIFlowENVUnit.jpg" width="100%" class="img-responsive center-block" alt="UI Flow ENV II"></p>
                 <p>ENV IIを選択すると、画面中央の「Units」メニューに「環境」が追加され、そこをクリックすると温度、湿度、気圧を取得するブロックが現れます。</p>
                 <p><img src="./images/ENVBlock.jpg" width="80%" class="img-responsive center-block" alt="UI Flow ENV II選択"></p>
                 <p>次のようなプログラムでENV IIユニットから60秒ごとに温度、湿度、気圧を読み取ってLCD画面に表示できます。</p>
                 <p><img src="./images/ENVprogram.jpg" width="100%" class="img-responsive center-block" alt="ENV IIプログラム"></p>
+
+                <h4>Arduino IDE</h4>
+                <p>原稿執筆時点の最新版M5Stackライブラリ（0.3.0）のスケッチ例には、ENV IIの例はまだ含まれていませんが、Githubにはサンプル・プログラムが公開されています。</p>
+                <p><a href="https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII">https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/ENVII/Arduino/ENVII</a></p>
+                <p>このURLにある <code>ENVII.ino</code> 、 <code>Adafruit_Sensor.h</code> 、 <code>SHT3X.cpp</code> 、 <code>SHT3X.h</code> の4つのファイルをダウンロードして、Arduino IDEで <code>ENVII.ino</code> を開くと、サンプルプログラムが見られます。</p>
 
             </div>
 
@@ -207,6 +188,10 @@ void loop() {
                 <div style="float: left; margin-right: 10px;">
                     <img src="../images/master.jpg" width="50px;" class="center-block">
                 </div>
+                <div class="col-lg-8 col-sm-9 hidden-xs">
+                    <p class="text-right">執筆日：2020年7月21日</p>
+                </div>
+
                 <div style="overflow: hidden;">
                     <p>書いた人:下島健彦。IoTデータ可視化サービス<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
                 </div>
