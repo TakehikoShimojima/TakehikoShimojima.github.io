@@ -1,0 +1,241 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="description" content="ATOM - M5cafe">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATOMシリーズのプログラミング環境</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+    body {
+        /* padding-top: 20px;
+        padding-bottom: 20px; */
+    }
+    .navbar {
+        margin-bottom: 60px;
+        height: 140px;
+    }
+    .navbar-brand img {
+        padding: 40px 0;
+    }
+    .footer {
+        margin-top: 60px;
+        background: #F7F7F7;
+    }
+    .footer ul {
+        padding-top: 35px;
+        padding-left: 0px;
+        margin-left: 0px;
+    }
+    .footer li {
+        line-height: 25px;
+        padding-left: 0px;
+        margin-left: 0px;
+        list-style: none;
+    }
+    .footer a {
+        color: #999;
+        font-weight: bold;
+    }
+    .footer #copyright {
+        clear: left;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        margin-top: 70px;
+        background-image: none !important;
+    }
+    h2 {
+        margin-top: 40px;
+    }
+    .submenu li {
+        margin-bottom: 6px;
+    }
+    .img-responsive {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.switch-science.com/">
+                    <img alt="switch-science" src="../../top-logo.gif">
+                </a>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-sm-9 hidden-xs" style="margin-bottom: 20px;">
+                <h1>M5Stackカフェ</h1>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <p class="text-right">2020年8月1日</p>
+            </div>
+            <div class="col-lg-8 col-sm-9 hidden-xs">
+                <h1><a href="https://www.switch-science.com/catalog/6208/">小型ロボットBugC</a>をもう1台のM5StickCでコントロールする</h1>
+            </div>
+
+            <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
+
+
+                <h2 id="atomシリーズのプログラミング環境">ATOMシリーズのプログラミング環境</h2>
+                <p>2020年6月のATOM Echoの発売で<a href="https://www.switch-science.com/catalog/6260/">Matrix</a>、<a href="https://www.switch-science.com/catalog/6262/">Lite</a>、<a href="https://www.switch-science.com/catalog/6347/">Echo</a>の3タイプに増えた超小型の開発モジュール「ATOMシリーズ」のプログラミング環境（UI Flow/BlocklyとArduino IDE）についてまとめます。</p>
+
+                <h2 id="atomシリーズ">ATOMシリーズ</h2>
+                <p><img src="./images/atomseries.jpg" alt="ATOMシリーズ"></p>
+                <p>ATOMシリーズは原稿執筆時点で<a href="https://www.switch-science.com/catalog/6260/">Matrix</a>、<a href="https://www.switch-science.com/catalog/6262/">Lite</a>、<a href="https://www.switch-science.com/catalog/6347/">Echo</a>の3タイプがあります。縦横の大きさは3タイプ共通で24mm x 24mm、高さはMatrix: 14mm、Lite: 10mm、Echo: 17mmです。それぞれのスペックは次のようになっています。</p>
+                <p><img src="./images/atomspec.jpg" alt="ATOMシリーズスペック"></p>
+                <p>3タイプともMPUはESP32-PICO-D4を搭載していて、Wi−Fi、Bluetoothで通信できます。Matrixには5 x 5 のRGBマトリックスLEDと6軸加速度・ジャイロセンサが搭載され、Liteは1個のRGB LEDが、Echoには1個のRGB LEDとスピーカー、マイクが搭載されているのがそれぞれの特徴です。</p>
+                <p>ATOMシリーズも他のM5Stack、M5StickC製品と同様に、UI FlowのBlocklyとMicroPython、Arduino IDEでプログラムが作れます。</p>
+                <h2 id="ui-flowblockly">UI Flow/Blockly</h2>
+                <p>UI FlowはM5Stack用のプログラミング環境です。ブロックプログラミングのBlocklyとMicroPythonでプログラミングできます。</p>
+                <p>UI Flowを使うには、まずM5BurnerというツールでファームウェアをATOMに書き込みます。M5StackのWebサイトの<a href="https://m5stack.com/pages/download">ソフトウェアダウンロード</a>ページにいき、お使いのパソコン用の「M5Burner」をダウンロードしてインストールします。</p>
+                <p><img src="./images/m5burner.jpg" alt="M5Burner"></p>
+                <p>M5Burnerを立ち上げて、左側のメニューのATOMをクリックすると、ダウンロード可能なファームウェアとしてUIFlowとEchoSTTが表示されます。UIFlowがUI Flow用、EchoSTTがATOM Echoの音声認識（Speech to Text）用のファームウェアです。</p>
+                <p>UI Flowはパネル右上のプルダウンメニューにダウンロード可能なバージョンが表示され、原稿執筆時点の最新版はMatrix用、Lite用ともにv1.6.1です。公式にはUI FlowではATOM Echoはサポートされておらず、Echo用は表示されません。</p>
+                <p>ATOM MatrixやLiteをUSBケーブルでパソコンに接続し、M5Burner左上の「COM」欄でATOMを接続したUSBのCOM番号（MacOSならデバイス名）を選びます。M5BurnerでSSIDとパスワードを設定できるので、ATOMをWi-Fiに接続するなら、それぞれの欄に値を設定します。上の図のようにUIFlowのパネルの右下が「Download」になっていたら、クリックしてファームウェアをクラウドからパソコンにダウンロードします。ダウンロードが完成すると、ボタンが「Remove」と「Burn」に変わるので、「Burn」をクリックしてファームウェアをATOMに書き込みます。</p>
+                <p>UI FlowでプログラミングするにはデバイスのApi Keyが必要になります。M5StackやM5StickCにはLCDがあり、ファームウェアを書き込むとLCDにApi Keyが表示されます。ATOMシリーズにはLCDがないので、M5Burnerで「COM Monitor」をクリックして、ATOMをリセットすると、次の図のようにApi Keyが表示されます。</p>
+                <p><img src="./images/apikey.jpg" alt="Api Key"></p>
+                <p>ブラウザで<a href="https://flow.m5stack.com/">UI Flow</a>にアクセスし、右上のSettingメニューからApi Keyを入力し、DeviceとしてAtom-MatrixかAtom-Liteを選択します。ここでもATOM Echoは表示されません。</p>
+                <p>Settingを終えると、左側のUI画面にはATOMが表示され、「ハードウェア」メニューにはRGBカラーと加速度＆ジャイロが現れます。RGBカラーを見ると、5 x 5 のマトリックスLEDを制御するためのブロックが表示されます。</p>
+                <p><img src="./images/uiflow1.jpg" alt="UI Flow画面"></p>
+                <p>あとは好きなブロックを選んで組み合わせることで、ATOMを動かすことができます。例えば次のプログラムはATOM MatrixのボタンをクリックするごとにLEDの色が赤→緑→青と変化するプログラムです。</p>
+                <p><img src="./images/RGB.jpg" alt="プログラム例"></p>
+                <p>ATOM Echoの音声認識ファームウェアEchoSTTの使い方は「M5Stackマンスリーアップデート 2020年6月【号外】」の「<a href="http://pages.switch-science.com/m5monthlyupdate/202006extra/#atom-echo%E3%81%A7%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">ATOM Echoで音声認識してみる</a>をご覧ください。</p>
+                <h2 id="arduino-ide">Arduino IDE</h2>
+                <p>次は、Arduinoでプログラミングする方法を見てみましょう。</p>
+                <p>まず、Arduino IDEを立ち上げて、「ツール」メニューから「ライブラリを管理…」を選んで、ライブラリマネージャを立ち上げます。検索窓に「atom」と入力して、「M5Atom」ライブラリをインストールします。原稿執筆時点での最新版は0.0.1です。</p>
+                <p><img src="./images/M5ATOMlib.jpg" alt="ATOMライブラリ"></p>
+                <p>また、「M5Atom」ライブラリについてくるサンプルプログラムが、「FastLED」というライブラリを使っているので、これもライブラリマネージャでインストールしておきます。</p>
+                <p>「M5Atom」ライブラリをインストールすると、「ファイル」メニューの「スケッチ例」に「M5Atom」が追加されます。その中の「Buttom」と書かれたスケッチを選んでみます（Buttonのスペルミスだと思います）。</p>
+                <p>ビルドするには、最初にボードを選択しますが、原稿執筆時点では「M5ATOM」はありません。代わりに「M5StickC」を選びます。シリアルポートを選択して、ビルドボタンをクリックすると、サンプルプログラムが動き出します。ATOMのマトリックスLEDがスイッチになっていて、これを押すと、押すたびにLEDの色が赤、緑、青と変化します。</p>
+                <p>Arduinoのスケッチの書き方はM5StackやM5StickCとほぼ同じです。スケッチの先頭にM5Stackでは <code>#include &lt;M5Stack.h&gt;</code> 、M5StickCでは <code>#include &lt;M5StickC.h&gt;</code> と書きますが、ATOMでは <code>#include &lt;M5Atom.h&gt;</code> と書きます。</p>
+                <p>スケッチ例には「Button」の他に「LEDDisplay」「LEDSet」「MPU6886」があります。<br>
+                「LEDSet」はマトリックスの左上のLEDだけの色を変えるサンプル、「MPU6886」は加速度とジャイロセンサの値をシリアルに出力するサンプル、「LEDDisplay」はマトリックスLEDに「ATOM」という文字をスクロールさせながら表示するサンプルです。</p>
+                <p>原稿執筆時点でM5ATOMライブラリにはバグがあり、そのままでは「LEDDisplay」は動きません。ArduinoのライブラリはArduino IDEの「環境設定」の「スケッチブックの保存場所」で指定しているフォルダの libraries にあり、バグのあった LED_DisPlay.cpp は以下の場所にあります。</p>
+                <pre><code>/スケッチブックの保存場所/libraries/M5Atom/src/utility/LED_DisPlay.cpp
+                </code></pre>
+                <p>このファイルの103行目を次のように修正すると、バグが修正できます。</p>
+                <p>修正前</p>
+                <pre><code>    xSemaphoreTake(_xSemaphore, portMAX_DELAY);
+                </code></pre>
+                <p>修正後</p>
+                <pre><code>    xSemaphoreTake(_xSemaphore, 100);
+                </code></pre>
+                <h2 id="easyloader">EasyLoader</h2>
+                <p>プログラムを作るためのツールではないのですが、M5Stackの各製品には EasyLoader というツールが提供されています。これは各製品のサンプルプログラムを書き込むツールで、簡単に動作確認ができます。</p>
+                <p>ATOM用の EasyLoader はそれぞれの製品ページからダウンロードできます。</p>
+                <ul>
+                <li><a href="https://docs.m5stack.com/#/en/core/atom_matrix">Matarix用</a>  Windows  ATOMという文字がスクロール表示される</li>
+                <li><a href="https://docs.m5stack.com/#/en/core/atom_lite">Lite用</a>  Windows  ボタンをクリックするたびにLEDの色が変わる</li>
+                <li><a href="https://docs.m5stack.com/#/en/atom/atomecho">Echo用</a>  Windows/MacOS  ATOM Echoをブルートゥーススピーカーにする</li>
+                </ul>
+                <p>Matrix用のEasyLoaderをダウンロードして、起動すると、次のような画面が表示されます。</p>
+                <p><img src="./images/EasyLoaderMatrix.jpg" alt="EasyLoader"></p>
+                <p>MatrixをUSBケーブルでパソコンにつなぎ、USBポートのCOM番号を選択して「Burn」ボタンをクリックすると、サンプルプログラムがMatrixに書き込まれます。書き込みが終了すると「Ready」が「Successfully」に変わり、プログラムが動き始めます。</p>
+                <p>単機能ですが、製品の動作確認がしたい時などに使えるツールです。</p>
+
+
+            </div>
+
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs" style="margin-bottom: 40px;">
+                <div style="float: left; margin-right: 10px;">
+                    <img src="../images/master.jpg" width="50px;" class="center-block">
+                </div>
+                <div style="overflow: hidden;">
+                    <p>書いた人:下島健彦。<a href="https://ambidata.io" target="_blank">Ambient</a>開発者。アンビエントデーター代表取締役。</p>
+                </div>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="open"><a href="index.html">7.小型ロボットBugCをもう1台のM5StickCでコントロールする</a></li>
+                    <ul class="list-unstyled">
+                        <li><a href="#本足の小型ロボットbugc">4本足の小型ロボットBugC</a></li>
+                        <li><a href="#BugCが動く仕組み">BugCが動く仕組み</a></li>
+                        <li><a href="#bugcのプログラミング">BugCのプログラミング</a></li>
+                        <li><a href="#まっすぐ進まない">まっすぐ進まない</a></li>
+                        <li><a href="#スマホでコントロールする">スマホでコントロールする</a></li>
+                        <li><a href="#もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</a></li>
+                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" id="backnumber">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h5>免責事項</h5>
+                <p style="font-size:0.8em;">記事は実際に実験をおこなった上で書いていますが、動作を保証するものではありません。また本記事を利用したことにより生じる損害についてスイッチサイエンスおよびアンビエントデーターは一切の責任を負いません。</p>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copyright">
+            &copy; 2018 Switch Scinece, inc. &copy; 2018 AmbientData, Inc.
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#backnumber').load('../backnumber.html');
+    });
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4499733-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4499733-1');
+</script>
+
+</body>
+</html>
