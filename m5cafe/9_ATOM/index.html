@@ -90,40 +90,40 @@
                 <p class="text-right">2020年8月1日</p>
             </div>
             <div class="col-lg-8 col-sm-9 hidden-xs">
-                <h1><a href="https://www.switch-science.com/catalog/6208/">小型ロボットBugC</a>をもう1台のM5StickCでコントロールする</h1>
+                <h1>ATOMシリーズのプログラミング環境</h1>
             </div>
 
             <div class="col-sm-9 col-lg-8" style="font-size: 16px;">
 
 
-                <h2 id="atomシリーズのプログラミング環境">ATOMシリーズのプログラミング環境</h2>
                 <p>2020年6月のATOM Echoの発売で<a href="https://www.switch-science.com/catalog/6260/">Matrix</a>、<a href="https://www.switch-science.com/catalog/6262/">Lite</a>、<a href="https://www.switch-science.com/catalog/6347/">Echo</a>の3タイプに増えた超小型の開発モジュール「ATOMシリーズ」のプログラミング環境（UI Flow/BlocklyとArduino IDE）についてまとめます。</p>
 
                 <h2 id="atomシリーズ">ATOMシリーズ</h2>
-                <p><img src="./images/atomseries.jpg" alt="ATOMシリーズ"></p>
+                <p><img src="./images/atomseries.jpg" width="85%" class="img-responsive center-block" alt="ATOMシリーズ"></p>
                 <p>ATOMシリーズは原稿執筆時点で<a href="https://www.switch-science.com/catalog/6260/">Matrix</a>、<a href="https://www.switch-science.com/catalog/6262/">Lite</a>、<a href="https://www.switch-science.com/catalog/6347/">Echo</a>の3タイプがあります。縦横の大きさは3タイプ共通で24mm x 24mm、高さはMatrix: 14mm、Lite: 10mm、Echo: 17mmです。それぞれのスペックは次のようになっています。</p>
-                <p><img src="./images/atomspec.jpg" alt="ATOMシリーズスペック"></p>
+                <p><img src="./images/atomspec.jpg" width="85%" class="img-responsive center-block" alt="ATOMシリーズスペック"></p>
                 <p>3タイプともMPUはESP32-PICO-D4を搭載していて、Wi−Fi、Bluetoothで通信できます。Matrixには5 x 5 のRGBマトリックスLEDと6軸加速度・ジャイロセンサが搭載され、Liteは1個のRGB LEDが、Echoには1個のRGB LEDとスピーカー、マイクが搭載されているのがそれぞれの特徴です。</p>
                 <p>ATOMシリーズも他のM5Stack、M5StickC製品と同様に、UI FlowのBlocklyとMicroPython、Arduino IDEでプログラムが作れます。</p>
+
                 <h2 id="ui-flowblockly">UI Flow/Blockly</h2>
                 <p>UI FlowはM5Stack用のプログラミング環境です。ブロックプログラミングのBlocklyとMicroPythonでプログラミングできます。</p>
                 <p>UI Flowを使うには、まずM5BurnerというツールでファームウェアをATOMに書き込みます。M5StackのWebサイトの<a href="https://m5stack.com/pages/download">ソフトウェアダウンロード</a>ページにいき、お使いのパソコン用の「M5Burner」をダウンロードしてインストールします。</p>
-                <p><img src="./images/m5burner.jpg" alt="M5Burner"></p>
+                <p><img src="./images/m5burner.jpg" width="85%" class="img-responsive center-block" alt="M5Burner"></p>
                 <p>M5Burnerを立ち上げて、左側のメニューのATOMをクリックすると、ダウンロード可能なファームウェアとしてUIFlowとEchoSTTが表示されます。UIFlowがUI Flow用、EchoSTTがATOM Echoの音声認識（Speech to Text）用のファームウェアです。</p>
                 <p>UI Flowはパネル右上のプルダウンメニューにダウンロード可能なバージョンが表示され、原稿執筆時点の最新版はMatrix用、Lite用ともにv1.6.1です。公式にはUI FlowではATOM Echoはサポートされておらず、Echo用は表示されません。</p>
                 <p>ATOM MatrixやLiteをUSBケーブルでパソコンに接続し、M5Burner左上の「COM」欄でATOMを接続したUSBのCOM番号（MacOSならデバイス名）を選びます。M5BurnerでSSIDとパスワードを設定できるので、ATOMをWi-Fiに接続するなら、それぞれの欄に値を設定します。上の図のようにUIFlowのパネルの右下が「Download」になっていたら、クリックしてファームウェアをクラウドからパソコンにダウンロードします。ダウンロードが完成すると、ボタンが「Remove」と「Burn」に変わるので、「Burn」をクリックしてファームウェアをATOMに書き込みます。</p>
                 <p>UI FlowでプログラミングするにはデバイスのApi Keyが必要になります。M5StackやM5StickCにはLCDがあり、ファームウェアを書き込むとLCDにApi Keyが表示されます。ATOMシリーズにはLCDがないので、M5Burnerで「COM Monitor」をクリックして、ATOMをリセットすると、次の図のようにApi Keyが表示されます。</p>
-                <p><img src="./images/apikey.jpg" alt="Api Key"></p>
+                <p><img src="./images/apikey.jpg" width="85%" class="img-responsive center-block" alt="Api Key"></p>
                 <p>ブラウザで<a href="https://flow.m5stack.com/">UI Flow</a>にアクセスし、右上のSettingメニューからApi Keyを入力し、DeviceとしてAtom-MatrixかAtom-Liteを選択します。ここでもATOM Echoは表示されません。</p>
                 <p>Settingを終えると、左側のUI画面にはATOMが表示され、「ハードウェア」メニューにはRGBカラーと加速度＆ジャイロが現れます。RGBカラーを見ると、5 x 5 のマトリックスLEDを制御するためのブロックが表示されます。</p>
-                <p><img src="./images/uiflow1.jpg" alt="UI Flow画面"></p>
+                <p><img src="./images/uiflow1.jpg" width="85%" class="img-responsive center-block" alt="UI Flow画面"></p>
                 <p>あとは好きなブロックを選んで組み合わせることで、ATOMを動かすことができます。例えば次のプログラムはATOM MatrixのボタンをクリックするごとにLEDの色が赤→緑→青と変化するプログラムです。</p>
-                <p><img src="./images/RGB.jpg" alt="プログラム例"></p>
+                <p><img src="./images/RGB.jpg" width="85%" class="img-responsive center-block" alt="プログラム例"></p>
                 <p>ATOM Echoの音声認識ファームウェアEchoSTTの使い方は「M5Stackマンスリーアップデート 2020年6月【号外】」の「<a href="http://pages.switch-science.com/m5monthlyupdate/202006extra/#atom-echo%E3%81%A7%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">ATOM Echoで音声認識してみる</a>をご覧ください。</p>
                 <h2 id="arduino-ide">Arduino IDE</h2>
                 <p>次は、Arduinoでプログラミングする方法を見てみましょう。</p>
                 <p>まず、Arduino IDEを立ち上げて、「ツール」メニューから「ライブラリを管理…」を選んで、ライブラリマネージャを立ち上げます。検索窓に「atom」と入力して、「M5Atom」ライブラリをインストールします。原稿執筆時点での最新版は0.0.1です。</p>
-                <p><img src="./images/M5ATOMlib.jpg" alt="ATOMライブラリ"></p>
+                <p><img src="./images/M5ATOMlib.jpg" width="85%" class="img-responsive center-block" alt="ATOMライブラリ"></p>
                 <p>また、「M5Atom」ライブラリについてくるサンプルプログラムが、「FastLED」というライブラリを使っているので、これもライブラリマネージャでインストールしておきます。</p>
                 <p>「M5Atom」ライブラリをインストールすると、「ファイル」メニューの「スケッチ例」に「M5Atom」が追加されます。その中の「Buttom」と書かれたスケッチを選んでみます（Buttonのスペルミスだと思います）。</p>
                 <p>ビルドするには、最初にボードを選択しますが、原稿執筆時点では「M5ATOM」はありません。代わりに「M5StickC」を選びます。シリアルポートを選択して、ビルドボタンをクリックすると、サンプルプログラムが動き出します。ATOMのマトリックスLEDがスイッチになっていて、これを押すと、押すたびにLEDの色が赤、緑、青と変化します。</p>
@@ -149,7 +149,7 @@
                 <li><a href="https://docs.m5stack.com/#/en/atom/atomecho">Echo用</a>  Windows/MacOS  ATOM Echoをブルートゥーススピーカーにする</li>
                 </ul>
                 <p>Matrix用のEasyLoaderをダウンロードして、起動すると、次のような画面が表示されます。</p>
-                <p><img src="./images/EasyLoaderMatrix.jpg" alt="EasyLoader"></p>
+                <p><img src="./images/EasyLoaderMatrix.jpg" width="85%" class="img-responsive center-block" alt="EasyLoader"></p>
                 <p>MatrixをUSBケーブルでパソコンにつなぎ、USBポートのCOM番号を選択して「Burn」ボタンをクリックすると、サンプルプログラムがMatrixに書き込まれます。書き込みが終了すると「Ready」が「Successfully」に変わり、プログラムが動き始めます。</p>
                 <p>単機能ですが、製品の動作確認がしたい時などに使えるツールです。</p>
 
@@ -166,15 +166,12 @@
             </div>
             <div class="col-lg-push-1 col-sm-3 col-lg-3 hidden-xs submenu" style="margin-bottom: 40px;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="open"><a href="index.html">7.小型ロボットBugCをもう1台のM5StickCでコントロールする</a></li>
+                    <li class="open"><a href="index.html">9.ATOMシリーズのプログラミング環境</a></li>
                     <ul class="list-unstyled">
-                        <li><a href="#本足の小型ロボットbugc">4本足の小型ロボットBugC</a></li>
-                        <li><a href="#BugCが動く仕組み">BugCが動く仕組み</a></li>
-                        <li><a href="#bugcのプログラミング">BugCのプログラミング</a></li>
-                        <li><a href="#まっすぐ進まない">まっすぐ進まない</a></li>
-                        <li><a href="#スマホでコントロールする">スマホでコントロールする</a></li>
-                        <li><a href="#もう1台のm5stickcでコントロールする">もう1台のM5StickCでコントロールする</a></li>
-                        <li><a href="#マスターの一言">マスターの一言</a></li>
+                        <li><a href="#atomシリーズ">ATOMシリーズ</a></li>
+                        <li><a href="#ui-flowblockly">UI Flow/Blockly</a></li>
+                        <li><a href="#arduino-ide">Arduino IDE</a></li>
+                        <li><a href="#easyloader">EasyLoader</a></li>
                     </ul>
                 </ul>
             </div>
