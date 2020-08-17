@@ -238,7 +238,7 @@
                 <p>M5StickC（以下、StickC）のLCDが0.96インチ、80×160 ピクセルなのに対して、M5StickC Plus（以下、Plus）は1.14 インチ、135x 240 ピクセルに拡大されています。バッテリー容量もStickCが80または95 mAhなのに対して、Plusが120 mAhと強化されていて、より実戦的なスペックになっています。</p>
                 <p>電子工作などで、センサ値の変化などを音で伝えたいことがあります。StickCは本体にスピーカーやブザーがなく、スピーカーHATで貴重な拡張端子を使ってしまうと、他のセンサHATが使えなくなりましたが、Plusはブザーが内蔵されたので、音を出しつつ、拡張端子をセンサHATに使えるようになりました。これも実用的な仕様拡張です。</p>
                 <p>プログラムはM5StickCと同様に UI Flow、Arduino IDE、MicroPython で開発できます。UI Flowは原稿執筆時点の最新版の V1.4.5 ではまだPlusはサポートされていませんが、バージョンを「Beta」に切り換えると、「設定」メニューでDeviceに「Stick-C-Plus」が選べるようになります。</p>
-                <p><img src="./images/UIFlowM5CPlus.jpg" alt="UIFlow_Plus"></p>
+                <p><img src="./images/UIFlowM5CPlus.jpg" class="img-responsive center-block" alt="UIFlow_Plus"></p>
                 <h3 id="m5stickc（本体のみ）">M5StickC（本体のみ）</h3>
                 <p>M5StickC（本体のみ）は、M5StickCに同梱されていた腕時計マウンタ、ネジ固定用マウンタ、LEGO互換マウンタが含まれず、本体とType-C USBケーブルのみの製品です。IoT端末などでM5StickCを何台も設置したいときにありがたい製品です。</p>
                 <p>このように、7月のM5StickC 2製品は、今まで以上に実戦的な使用を想定した製品といえるでしょう。</p>
@@ -246,18 +246,18 @@
                 <p>7月にはATOMシリーズの拡張モジュールとして「TailBAT」と「Tail485」という2製品が発売されました。</p>
                 <h3 id="atom-tailbat">ATOM TailBAT</h3>
                 <p>TailBATは190mAhの外付けバッテリで、写真のようにM5ATOMに直接つないで給電できます。サイズはM5StickCと同じで、高さ、幅はATOM Matrixとも同じになっています。</p>
-                <p><img src="./images/tailbat.jpg" alt="TailBat"></p>
+                <p><img src="./images/tailbat.jpg" width="80%" class="img-responsive center-block" alt="TailBat"></p>
                 <p>ATOMと接続する面と逆側にはUSB Type-CとGroveインターフェースがあり、パソコンやGroveセンが接続できます。TailBATの上面のスイッチを1回クリックすると電源がONになり、ダブルクリックするとOFFになります。</p>
                 <h3 id="atom-tail485">ATOM Tail485</h3>
                 <p>Tail485はATOM用のRS485コンバータです。RS485は、産業用途でよく使われるシリアル通信規格です。複数の機器を接続するマルチポイント接続ができ、工場内の機器制御（PLC）などで使われます。</p>
                 <p>Tail485にはRS485の12V電圧を5Vに変換するDC/DC電圧レギュレータが内蔵されていて、ATOMに給電するので、別途バッテリーを用意する必要がありません。</p>
                 <h2 id="°90°-赤外線反射ユニット（itr9606）">180°/90° 赤外線反射ユニット（ITR9606）</h2>
                 <p>今月、もう一つ紹介したい商品は「180°/90° 赤外線反射ユニット（ITR9606）」です。ユニットに付いている黒い凹字型の部品が対向する赤外線の送受信部（赤外線反射ユニット）で、その間を物が遮ることを検出します。</p>
-                <p><img src="./images/op180.jpg" alt="OP180"></p>
+                <p><img src="./images/op180.jpg" class="img-responsive center-block" alt="OP180"></p>
                 <p>出力はデジタルで、物に遮られていない時「0」、遮られている時「1」がGroveのSCLピンに出力されます。M5StickCではSCLピンはGPIO33につながっているので、GPIO33を <code>digitalRead</code> すると値が読めます。</p>
 
                 <p>180° 赤外線反射ユニットを使って、ドアの開閉センサを作ってみました。ドアに小さな板を取り付け、ドア枠にM5StickCと赤外線反射ユニットを付けます。ドアが閉まると板がユニットを遮り、開くとユニットを遮らないように設置すると、赤外線反射ユニットでドアの開閉を検知できるようになります。</p>
-                <p><img src="./images/doorsensor.jpg" alt="doorsensor"></p>
+                <p><img src="./images/doorsensor.jpg" class="img-responsive center-block" alt="doorsensor"></p>
                 <p>M5Stack社の製品はホビー用途や教育分野でよく使われていますが、もともと利用領域を限定しない汎用のマイコンシリーズとして開発されています。今回のATOM Tail485やBase26 産業用プロト基板モジュールのように産業分野向けの製品も用意されています。</p>
 
 
